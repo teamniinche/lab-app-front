@@ -11,7 +11,7 @@ export function Flex(dir,jC,aI){
     alignItems:aI,
   }
 }
-
+export function IsEmptyObject(objet){const keys=Object.keys(object);return keys.length===0;}
 export const Flexion=((dir,jC,aI,gap)=>{ return {flexDirection:dir,justifyContent:jC,alignItems:aI,gap:gap}})();
 
 export const centrer=(()=>{return {flexDirection:'row',justifyContent:'center',alignItems:'center'}})();

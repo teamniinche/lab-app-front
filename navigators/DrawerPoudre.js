@@ -26,7 +26,7 @@ import { ViewOrImgBgPowderWrapper } from '../components/wrappers/viewOrImgWrappe
 import { ScrollView } from 'react-native-gesture-handler';
 import { Comment } from '../components/tables/chat-for-table';
 import { AdjentDayInMs} from '../components/periode';
-import { isFormule,allowTo,isAlreadyAnalysed,Chariots} from '../assets/functions';
+import { isFormule,allowTo,isAlreadyAnalysed,Chariots,IsEmptyObject} from '../assets/functions';
 import Colors from '../assets/colors';
 const {aujourdhui,demain}=Periodes();
 const {full}=routesAndHeadersPowder;
@@ -845,16 +845,12 @@ const PoudreWorkSpace=() => {
                     })
                     .then(response=>response.json())
                     .then(data=>{
-                        console.log(data)
                         const {code,message,analyse,analyses}=data;
 
                         if(code!=='red'){
                             try{
-                                const {lansas,formules}=analyses;
+                                const {lansas,formules}=!IsEmptyObject(analyses || {})?analyses:{lansas:[],formules:[]};
                                 const ANALYSES=[...lansas,...formules];
-
-                                alert(JSON.stringify(ANALYSES));
-
                                 setRegistred(ANALYSES);
                                 dispatch(setPowderAnalysed(ANALYSES));
                                 setPop({show:true,message:"Analyse ajoutée avec succes.",code:code});
@@ -908,7 +904,7 @@ const PoudreWorkSpace=() => {
 
                         if(code!=='red'){
                             try{
-                                const {lansas,formules}=analyses;
+                                const {lansas,formules}=!IsEmptyObject(analyses || {})?analyses:{lansas:[],formules:[]};
                                 const ANALYSES=[...lansas,...formules];
                                 setRegistred(ANALYSES.sort((firstItem, secondItem) => Number(firstItem.nChar) - Number(secondItem.nChar)));
                                 dispatch(setPowderAnalysed(ANALYSES.sort((firstItem, secondItem) => Number(firstItem.nChar)- Number(secondItem.nChar))));

@@ -29,7 +29,7 @@ import { AddPoudreComment } from '../components/buttons/save';
 import { ViewOrImgBgPowderWrapper } from '../components/wrappers/viewOrImgWrapper';
 import { Comment } from '../components/tables/chat-for-table';
 import { AdjentDayInMs} from '../components/periode';
-import { isFormule,powdersAndCountsFormat,allowTo} from '../assets/functions';
+import { isFormule,powdersAndCountsFormat,allowTo,IsEmptyObject} from '../assets/functions';
 import Colors from '../assets/colors';
 const {aujourdhui,demain}=Periodes();
 const {full}=routesAndHeadersPowder;
@@ -397,7 +397,7 @@ const keyOk=noErrors && missingLength===0 && toCreate;
                         const {code,message,analyses}=data;
 
                         try{
-                            const {lansas,formules}=analyses;
+                            const {lansas,formules}=!IsEmptyObject(analyses || {})?analyses:{lansas:[],formules:[]};
                             const ANALYSES=[...lansas,...formules];
                             // alert(JSON.stringify(ANALYSES));
                             setRegistred(ANALYSES);
@@ -442,7 +442,7 @@ const keyOk=noErrors && missingLength===0 && toCreate;
                     .then(data=>{
                         
                         try{
-                            const {lansas,formules}=analyses;
+                            const {lansas,formules}=!IsEmptyObject(analyses || {})?analyses:{lansas:[],formules:[]};
                             const ANALYSES=[...lansas,...formules];
                             setRegistred(ANALYSES.sort((firstItem, secondItem) => Number(firstItem.nChar) - Number(secondItem.nChar)));
                             dispatch(setPowderAnalysed(ANALYSES.sort((firstItem, secondItem) => Number(firstItem.nChar)- Number(secondItem.nChar))));
