@@ -19,7 +19,8 @@ import { isAcceptable,Flex } from '../../assets/functions';
 import styleRange from '../../assets/styles.js/styleRange';
 import useConformite from '../../hooks/useConformite';
 import nombers from '../../hooks/littleBiblio';
-import socket from '../../assets/socket.IO-client';
+// import socket from '../../assets/socket.IO-client';
+import  socket from '../../assets/socketService.js'
 import { CheckBoxes, useCheckBoxes, useMesure } from '../wrappers/contexts';
 import { clooner } from '../accueil';
 

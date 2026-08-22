@@ -10,7 +10,8 @@ import { useMonoProducts,usePopup} from "../wrappers/contexts";
 import { AddComment } from "../buttons/save";
 import { commentsFromObjectToArray, ReduceDateTime,Time } from "../../hooks/littleBiblio";
 import Colors from "../../assets/colors";
-import socket from "../../assets/socket.IO-client";
+// import socket from "../../assets/socket.IO-client";
+import  socket from '../../assets/socketService.js'
 import {requete,nameFromText,allowTo} from "../../assets/functions";
 import WinDim from "../../assets/operatingData";
 const {isWeb}=WinDim;
