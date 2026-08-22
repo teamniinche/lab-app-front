@@ -155,7 +155,7 @@ const PickerMultiple=({label,machinesLength,machines,toggleItem,render,selected}
                 style={styles.chip}
                 onClose={()=>toggleItem({type:label,value:value})}
                 >{value}</Chip>)}
-           {items.length===0 && <Button style={{maxWidth:300,maxHeight:20,margin:0,padding:0}} onPress={()=>currentUserId?render():setPop{show:true,message:"⚠️ Identifiez-vous d'abord ❗",code:"#880000"}}>{label}</Button>}
+           {items.length===0 && <Button style={{maxWidth:300,maxHeight:20,margin:0,padding:0}} onPress={()=>currentUserId?render():setPop({show:true,message:"⚠️ Identifiez-vous d'abord ❗",code:"#880000"})}>{label}</Button>}
         </View>
 }
 
