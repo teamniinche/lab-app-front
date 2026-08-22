@@ -14,7 +14,7 @@ COPY . .
 # ... (votre code Dockerfile précédent jusqu'à COPY . .)
 
 # --- AJOUTEZ CETTE LIGNE ICI ---
-RUN npx expo install react-native-web react-dom @expo/metro-runtime -- --legacy-peer-deps
+# RUN npx expo install react-native-web react-dom @expo/metro-runtime -- --legacy-peer-deps
 
 # Commande officielle Expo pour exporter le projet en fichiers statiques Web
 RUN npx expo export --platform web

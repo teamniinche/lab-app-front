@@ -959,7 +959,7 @@ const PoudreWorkSpace=() => {
                             }}
                 onPress={handleEnregistrerPress}
             >
-                <Text style={{color:"white",fontWeight:"bold",textAlign:"center",width:"center"}}>{"Enregistrer"+(!toCreate?" les modificstions":"")}</Text>
+                <Text style={{color:"white",fontWeight:"bold",textAlign:"center",width:"center"}}>{"Enregistrer"+(!toCreate?" les modifications":"")}</Text>
             </TouchableOpacity>}
         </View>}
         {/* <Pop/> */} 
