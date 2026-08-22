@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react'
 import {Text,TouchableOpacity,ActivityIndicator} from 'react-native'
 import { useSelector,useDispatch } from 'react-redux';
-import {usePopup} from './wrappers/contexts';
+import {usePopup} from '../wrappers/contexts';
 import socket from '../../assets/socketService';
 import { dbBaseRoot } from '../../assets/constantes';
 import { allowTo } from '../../assets/functions';
