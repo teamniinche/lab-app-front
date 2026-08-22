@@ -18,7 +18,7 @@ function Message(msg){
                     .replace('❌','')
                     .replace('✅','')
                     .replace('COMPTABILITE','COMPTABILITé')
-                    .replace('⚠️'.'')
+                    .replace('⚠️','')
                     .replace('❗','')
                     .replace('*','')
                     // .replace('Vous vous etes deconnecté','dissconnectéd')
