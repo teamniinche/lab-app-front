@@ -5,7 +5,7 @@ import { primaryColor } from "../assets/constantes";
 import { Checkbox,Divider,Button, Dialog,Chip, Portal, Switch,Badge,PaperProvider, TextInput, TouchableRipple} from 'react-native-paper';
 import { clooner } from "./accueil";
 import nombers from "../hooks/littleBiblio";
-import { useMonoProducts,useReservs } from "./wrappers/contexts";
+import { useMonoProducts,useReservs,usePopup} from "./wrappers/contexts";
 import { Bouton } from "./buttons/save";
 // import { tanks } from "../assets/constantes";
 import DensiteRange from "./ranges/densiteRanges";
@@ -25,7 +25,6 @@ const AnalysisRow=({product,index})=>{
     const currentUserId=currentUser?.id;
     const {deleteItem}=useMonoProducts();
     const {reservs}=useReservs();
-    // alert(JSON.stringify(product))
     const {title,results,machines,reservoirs,color,variance}=product;
     const machinesLength=machines?.length;// pour preselectionner l unique si length egal 1:operationaliser dans PickerMultiple
     const {identification,grandeurs}=results;
@@ -135,7 +134,6 @@ const CustomSwitch = ({label,render}) => {
         setIsSwitchOn(!isSwitchOn);
         render(!isSwitchOn);
     };
-
 return <View style={{width:"auto",minHeight:40,backgroundColor:"rgb(233, 233, 237)",borderRadius:10,flexDirection:"column",gap:0,zIndex:-1,paddingHorizontal:0,minWidth:80,marginHorizontal:5,maxHeight:40,borderWidth:1,borderColor:"grey",flex:1/4,justifyContent:"center",alignItems:"center",}}>
         <Text>{label}</Text>
         <Switch value={isSwitchOn} color={primaryColor} onValueChange={onToggleSwitch} />
@@ -143,6 +141,7 @@ return <View style={{width:"auto",minHeight:40,backgroundColor:"rgb(233, 233, 23
 }
 
 const PickerMultiple=({label,machinesLength,machines,toggleItem,render,selected})=>{
+    const {setPop}=usePopup();
     const isOneMachine=(label==="Machine" && machinesLength && machinesLength===1);
     const items=isOneMachine?machines:selected;// selectionner l unique machine sil yen a qu une !
     const currentUser= useSelector((state) => state.user.currentUser);
@@ -156,7 +155,7 @@ const PickerMultiple=({label,machinesLength,machines,toggleItem,render,selected}
                 style={styles.chip}
                 onClose={()=>toggleItem({type:label,value:value})}
                 >{value}</Chip>)}
-           {items.length===0 && <Button style={{maxWidth:300,maxHeight:20,margin:0,padding:0}} onPress={()=>currentUserId?render():alert("⚠️ Identifiez-vous d'abord ❗")}>{label}</Button>}
+           {items.length===0 && <Button style={{maxWidth:300,maxHeight:20,margin:0,padding:0}} onPress={()=>currentUserId?render():setPop{show:true,message:"⚠️ Identifiez-vous d'abord ❗",code:"#880000"}}>{label}</Button>}
         </View>
 }
 

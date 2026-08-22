@@ -121,7 +121,7 @@ export default function DrawerTour(){
                 dispatch(setPowderAnalysed(analyses));
             })
             .catch(function(error){
-                alert(error.message)
+                setPop({show:true,message:error.message,code:"#880000"})
             })
         },[]);
   return (<CurrentProductedProvider>
@@ -395,11 +395,15 @@ const keyOk=noErrors && missingLength===0 && toCreate;
                     .then(data=>{
                         // console.log(data)
                         const {code,message,analyses}=data;
-                        const {lansas,formules}=analyses;
-                        const ANALYSES=[...lansas,...formules];
-                        // alert(JSON.stringify(ANALYSES));
-                        setRegistred(ANALYSES);
-                        dispatch(setPowderAnalysed(ANALYSES));
+
+                        try{
+                            const {lansas,formules}=analyses;
+                            const ANALYSES=[...lansas,...formules];
+                            // alert(JSON.stringify(ANALYSES));
+                            setRegistred(ANALYSES);
+                            dispatch(setPowderAnalysed(ANALYSES));
+                        }catch(error){throw new Error("L'analyse n'a pas pu etre ajoutée: "+error.message);}
+
                         return lansas;
                         // const toPop=code==='green'?
                         //         {show:true,message:"Analyse enregistrée avec succes.",code:code}
@@ -436,11 +440,14 @@ const keyOk=noErrors && missingLength===0 && toCreate;
                         })
                     .then(response=>response.json())
                     .then(data=>{
-                        const {code,message,analyses}=data;
-                        const {lansas,formules}=analyses;
-                        const ANALYSES=[...lansas,...formules];
-                        setRegistred(ANALYSES.sort((firstItem, secondItem) => Number(firstItem.nChar) - Number(secondItem.nChar)));
-                        dispatch(setPowderAnalysed(ANALYSES.sort((firstItem, secondItem) => Number(firstItem.nChar)- Number(secondItem.nChar))));
+                        
+                        try{
+                            const {lansas,formules}=analyses;
+                            const ANALYSES=[...lansas,...formules];
+                            setRegistred(ANALYSES.sort((firstItem, secondItem) => Number(firstItem.nChar) - Number(secondItem.nChar)));
+                            dispatch(setPowderAnalysed(ANALYSES.sort((firstItem, secondItem) => Number(firstItem.nChar)- Number(secondItem.nChar))));
+                        }catch(error){throw new Error("L'analyse n'a pas pu etre modifiée: "+error.message);}
+
                         // const toPop=code==='green'?
                         //         {show:true,message:"Analyse modifiée avec succes.",code:code}
                         //         :

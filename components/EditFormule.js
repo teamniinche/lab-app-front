@@ -53,7 +53,7 @@ const FormuleEdit=()=>{
             console.error("Erreur enregistrement:", error);
         });
                                 
-                            }else{alert("Veuillez entrer tous les champs requis !");}
+                            }else{setPop{show:true,message:"Veuillez entrer tous les champs requis !",code:"#880000"};}
                         }
     
             return <View style={{minHeight:650,paddingVertical:30,paddingTop:10,paddingBottom:0,width:"100%",flexDirection:"column",alignItems:"flex-start"}}>

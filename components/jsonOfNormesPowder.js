@@ -106,7 +106,7 @@ const NormesPowder=()=>{
 };
 function saveNormes(){
     if(!allowTo("modifier une norme",targetUser?.privileges)){
-        alert("Vous n'êtes pas habileté à modifier les normes.");
+        setPop({show:true,message:"Vous n'êtes pas habileté à modifier les normes.",code:"#880000"});
         return;
     }
     const {name,nom,parfum}=donnees;

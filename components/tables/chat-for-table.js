@@ -6,7 +6,7 @@ import Collapsible from 'react-native-collapsible';
 import { useNavigation } from "@react-navigation/native";
 import { useSelector,useDispatch} from 'react-redux';
 import { useResult } from "../resultProvider";
-import { useMonoProducts} from "../wrappers/contexts";
+import { useMonoProducts,usePopup} from "../wrappers/contexts";
 import { AddComment } from "../buttons/save";
 import { commentsFromObjectToArray, ReduceDateTime,Time } from "../../hooks/littleBiblio";
 import Colors from "../../assets/colors";
@@ -69,6 +69,7 @@ export const ClickableRow=(
   const targetPseudo=targetUser?.pseudo; //targetUser && 
   const scrollViewRef=useRef([]);
   const inputRef=useRef([]);
+  const {setPop}=usePopup();
   const {id,createdAt,updatedAt,parfum,color,observations,commentaires,validation,categorie,Utilisateur,...rest}=item;
   const {name}=item;
   const validateur=validation?.Utilisateur.pseudo; validation //validation && 
@@ -91,7 +92,7 @@ export const ClickableRow=(
     //   return () => socket.disconnect();
     // }, []);
    const handleAddComment=()=>{
-      if(!allowToComment){ alert("Vous n'êtes pas autorisé à commenter une analyse.");return;}
+      if(!allowToComment){ setPop({show:true,message:"Vous n'êtes pas autorisé à commenter une analyse.",code:"#880000"});return;}
       if(comment){
         if(targetUser){
           const targetUserId=targetUser.id;
@@ -245,6 +246,7 @@ const Comments=({targetPseudo,itemColor})=>{
 //==================================================================
 const Decision=({data,/*validation,decidor,*/ render})=>{
   {/* {id,ok,validation,UtilisateurId,AnalyseId} */}
+  const {setPop}=usePopup();
   const {validation,decidor,AnalyseId,observations}=data;
   const [d,setD]=useState(
     {
@@ -278,7 +280,7 @@ const Decision=({data,/*validation,decidor,*/ render})=>{
   const handleDecide=(decision) =>{
     const allowToDecide=allowTo("valider une valeur incorrecte",decidor?.privileges);
     if(!allowToDecide){
-      alert("Vous n'êtes pas habileté à prendre cette décision.\nVeuillez contacter votre chef de quart \nou votre responsable de departement !");
+      setPop({show:true,message:"Vous n'êtes pas habileté à prendre cette décision.\nVeuillez contacter votre chef de quart \nou votre responsable de departement !",code:"#880000"});
       return;
     }
       if(decidor){
@@ -320,6 +322,7 @@ const Actions=({machine,reservoir,id,user,name,items,render})=>{
   const deleteAllowed=allowToDelete?'allowed':'notAllowed';
 
   const {result}=useResult();// from ResultProvider
+  const {setPop}=usePopup();
   const dispatch=useDispatch();
   const navigation=useNavigation();
   const handleDelete=async ()=>{
@@ -336,13 +339,13 @@ const Actions=({machine,reservoir,id,user,name,items,render})=>{
             await dispatch(postAnalyses([]));
             await render(itms);
         }catch(error){
-          alert(error.message);
+          setPop({show:true,message:error.message,code:"#880000"});
         }
       }
       
   const confirmDelete=()=>{
     if(!allowToDelete){
-      alert("Vous n'êtes pas habilté à supprimer une analyse.");
+      setPop({show:true,message:"Vous n'êtes pas habilté à supprimer une analyse.",code:"#880000"});
       return;
     }
     isWeb?
@@ -367,7 +370,7 @@ const Actions=({machine,reservoir,id,user,name,items,render})=>{
 
   const handleUpdate=async ()=>{
     if(!allowToUpdate){
-      alert("Vous n'êtes pas habilté à modifier une analyse.");
+      setPop({show:true,message:"Vous n'êtes pas habilté à modifier une analyse.",code:"#880000"});
       return;
     }
     var nom=nameFromText(name);

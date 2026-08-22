@@ -5,14 +5,24 @@ import {Snackbar } from 'react-native-paper';
 import { usePopup } from './wrappers/contexts';
 import * as Speech from 'expo-speech';
 function Message(msg){
-      const msgSplit=msg?.split('🏢');
-      const msgSplitndJoined=msgSplit[0]+(msgSplit[1]?" "+msgSplit[1]:"");
       const isAboutAnalyse=msg.includes('nalyse');
-      const msgWithAttention=!isAboutAnalyse?msgSplitndJoined:"Votre attention s'il vous plait ! "+msgSplitndJoined;
+      const msgWithAttention=!isAboutAnalyse?msg:"Votre attention s'il vous plait ! "+msg;
       const MESSAGE=msgWithAttention
+                    .replace('Vous etes connecté avec succes','connectéde')
+                    .replace('🏢 avec succes','')
+                    .replace('succes','succés')
+                    .replace('🏢','')
                     .replace('Even-driver',"Le gestionnaire d'évenement")
                     .replace('connected',"connecté")
                     .replace('disconnected',"s'est déconnecté")
+                    .replace('❌','')
+                    .replace('✅','')
+                    .replace('COMPTABILITE','COMPTABILITé')
+                    .replace('⚠️'.'')
+                    .replace('❗','')
+                    .replace('*','')
+                    // .replace('Vous vous etes deconnecté','dissconnectéd')
+                    
       return MESSAGE;
     }
 const Pop = () => {

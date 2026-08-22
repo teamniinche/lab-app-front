@@ -77,7 +77,7 @@ async _init(){try{//{API_URL,startedAt,endedAt,product}
     // //     // this.mois_date_dep_engine()                       //ok
     // );
     // return this._analyses;
-    }catch(error){alert(error.message);}
+    }catch(error){setPop({show:true,message:error.message,code:"#880000"});}
 }
 
 // periode -> departement -> Machine

@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react'
 import {Text,TouchableOpacity,ActivityIndicator} from 'react-native'
 import { useSelector,useDispatch } from 'react-redux';
+import {usePopup} from './wrappers/contexts';
 import socket from '../../assets/socketService';
 import { dbBaseRoot } from '../../assets/constantes';
 import { allowTo } from '../../assets/functions';
@@ -20,6 +21,7 @@ const updateRoot=analysesRoot+'update/';
  */
 export const Bouton=({reqBody,registrable,buttonParams,render})=>{
     // const {targetUser} = useSelector(state => state.user);
+    const {setPop}=usePopup();
     const {targetUser,targetId,postedAnalyses,product} = useSelector((state) => {
         const {targetId,product}=state.id.targetId;
         const {postedAnalyses}=state.data;
@@ -48,7 +50,7 @@ export const Bouton=({reqBody,registrable,buttonParams,render})=>{
 
     const handleAddPress=async () => {
             if(!allowTo("enregistrer analyse",targetUser?.privileges)){
-            alert("Vous n'êtes pas sensé enregistrer une analyse.");
+            setPop({show:true,message:"Vous n'êtes pas habileté à enregistrer une analyse.",code:"#880000"});
             return;
             }
             setLoading(true);
@@ -81,7 +83,7 @@ export const Bouton=({reqBody,registrable,buttonParams,render})=>{
 
     const handleUpdatePress=async () => {
         if(!allowTo("modifier analyse",targetUser?.privileges)){
-            alert("Vous n'êtes pas sensé modifier une analyse.");
+            setPop({show:true,message:"Vous n'êtes pas habileté modifier une analyse.",code:"#880000"});
             return;
         }
         setLoading(true);
@@ -90,7 +92,6 @@ export const Bouton=({reqBody,registrable,buttonParams,render})=>{
         const others=postedAnalyses.filter(el=>el.id!==id);
         const itemToUpdate=postedAnalyses.find(el=>el.id===id) || {};
         const updatedItem={...itemToUpdate,[KEY]:reqBody[KEY]};// on met à jour la mesure en question
-        alert(targetUser.token)
         // ============================================================================================
         var code;
         fetch(updateRoot+id, {

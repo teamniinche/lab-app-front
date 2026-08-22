@@ -73,32 +73,11 @@ export default function App() {
 }
 
 function AppRoot() {
-  
-  //   const [isOnline, setIsOnline] = useState(null);
-  // const [isChecking, setIsChecking] = useState(true);
-
-  // useEffect(() => {
-  //   // Vérification de la connexion au lancement
-  //   NetInfo.fetch().then(state => {
-  //     // isConnected vérifie si l'appareil est connecté au réseau
-  //     // isInternetReachable vérifie si le réseau a réellement accès à internet
-  //     setIsOnline(state.isConnected && state.isInternetReachable);
-  //     setIsChecking(false);
-  //   });
-
-  //   // Écouteur pour détecter les changements d'état en temps réel
-  //   const unsubscribe = NetInfo.addEventListener(state => {
-  //     setIsOnline(state.isConnected && state.isInternetReachable);
-  //   });
-
-  //   return () => unsubscribe();
-  // }, [isOnline]);
 
   return ( <Provider store={store}>
     <PaperProvider><CurrentProductedProvider>
       <PopupProvider><MonoProductsProvider><EveragesPowderProvider><EveragesProvider><ReservoirsProvider><CurrentJavelProductedProvider><JavelFormulesProvider>
       <PersistGate loading={null} persistor={persistor}>
-        {/* <Pop/> */}
         <MainNavigator />
       </PersistGate>
       </JavelFormulesProvider></CurrentJavelProductedProvider></ReservoirsProvider></EveragesProvider></EveragesPowderProvider></MonoProductsProvider></PopupProvider>
@@ -124,7 +103,6 @@ const MainNavigator=()=>{// Pour rester dans le context du store
   }, [targetUser]);
   const [routeName,setRouteName]=useState('comptabilite');
     var name='';
-    // alert(JSON.stringify(Lansas))
     const styleInline=isLarge?{
       accueil:{
         size:20,

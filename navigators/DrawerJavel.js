@@ -20,7 +20,8 @@ import {
     useCurrentJavelProducted,
     useJavelFormules,
     ItemJavelToSaveProvider,
-    useItemJavelToSave 
+    useItemJavelToSave,
+    usePopup 
 } from '../components/wrappers/contexts';
 import { setJavelFocusedProduct } from '../components/store/reducers/javelFocusedProduct';
 import { storeFocusedListe } from '../components/store/reducers/currentJavelProducted';
@@ -467,6 +468,7 @@ const Chariot=({oldCh})=>{
 
 const Actions=({item})=>{
     const dispatch=useDispatch();
+    const {setPop}=usePopup();
     const {setFocusedPro,UpdateFocusedProdByName,setRegistred,setFocusedList,ListOfFocusedAndLastNumber,setAction,focusedPro}=useCurrentProducted();
     const {powderNormes,powderAnalysed,focusedListe,token}=useSelector(state=>{
         const powderNormes=state.powderNormes.powderNormes;
@@ -502,7 +504,7 @@ const Actions=({item})=>{
             // dispatch(postAnalyses(null));
             // render(itms);
         }catch(error){
-            alert("Analyse "+item.id+" n a pu etre supprimee !"+error);
+            setPop({show:true,message:"Analyse "+item.id+" n a pu etre supprimee !"+error,code:"#880000"});
         }
     }
     const confirmDelete=()=>{isWeb?

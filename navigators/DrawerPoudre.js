@@ -96,6 +96,7 @@ export const UpdateLansa = ({visible,item}) => {
 }
 
 export default function DrawerPoudre(){
+    const {setPop}=usePopup();
     const dispatch=useDispatch();
     useLayoutEffect(()=>{
             fetch(dbBaseRoot+"poudre/analyses/lansasAndformules")
@@ -106,7 +107,7 @@ export default function DrawerPoudre(){
                 dispatch(setPowderAnalysed(analyses));
             })
             .catch(function(error){
-                alert(error.message)
+                setPop({show:true,message:error.message,code:"#880000"})
             })
         },[]);
   return (<CurrentProductedProvider>
@@ -844,25 +845,24 @@ const PoudreWorkSpace=() => {
                     })
                     .then(response=>response.json())
                     .then(data=>{
-                        // console.log(data)
+                        console.log(data)
                         const {code,message,analyse,analyses}=data;
-                        if(code!=='red'){
-                            const {lansas,formules}=analyses;
-                            const ANALYSES=[...lansas,...formules];
-                            // alert(JSON.stringify(ANALYSES));
-                            setRegistred(ANALYSES);
-                            dispatch(setPowderAnalysed(ANALYSES));
-                            setPop({show:true,message:"Analyse ajoutée avec succes.",code:code});
 
-                        // }
-                        // const toPop=code==='green'?
-                        //         {show:true,message:"Analyse enregistrée avec succes.",code:code}
-                        //         :
-                        //         {show:true,message:"L'analyse n'a pas pu etre enregistrée :"+ message,code:'#880000'}
-                        // setPop(toPop);
+                        if(code!=='red'){
+                            try{
+                                const {lansas,formules}=analyses;
+                                const ANALYSES=[...lansas,...formules];
+
+                                alert(JSON.stringify(ANALYSES));
+
+                                setRegistred(ANALYSES);
+                                dispatch(setPowderAnalysed(ANALYSES));
+                                setPop({show:true,message:"Analyse ajoutée avec succes.",code:code});
+                            }catch(error){throw new Error("L'analyse n'a pas pu etre ajoutée: "+error.message);}
                         }else{
                             throw new Error("L'analyse n'a pas pu etre ajoutée: "+message);
                         }
+
                         return analyse;
                     })
                     .then((analyse)=>{
@@ -905,18 +905,23 @@ const PoudreWorkSpace=() => {
                     .then(response=>response.json())
                     .then(data=>{
                         const {code,message,analyses}=data;
+
                         if(code!=='red'){
-                        const {lansas,formules}=analyses;
-                        const ANALYSES=[...lansas,...formules];
-                        setRegistred(ANALYSES.sort((firstItem, secondItem) => Number(firstItem.nChar) - Number(secondItem.nChar)));
-                        dispatch(setPowderAnalysed(ANALYSES.sort((firstItem, secondItem) => Number(firstItem.nChar)- Number(secondItem.nChar))));
-                        setPop({show:true,message:"Analyse modifiée avec succes.",code:code});
-                        // const toPop=code==='green'?
-                        //         {show:true,message:"Analyse modifiée avec succes.",code:code}
-                        //         :{show:true,message:"L'analyse n'a pas pu etre modifiée: "+message,code:'#880000'}
+                            try{
+                                const {lansas,formules}=analyses;
+                                const ANALYSES=[...lansas,...formules];
+                                setRegistred(ANALYSES.sort((firstItem, secondItem) => Number(firstItem.nChar) - Number(secondItem.nChar)));
+                                dispatch(setPowderAnalysed(ANALYSES.sort((firstItem, secondItem) => Number(firstItem.nChar)- Number(secondItem.nChar))));
+                                setPop({show:true,message:"Analyse modifiée avec succes.",code:code});
+                                // const toPop=code==='green'?
+                                //         {show:true,message:"Analyse modifiée avec succes.",code:code}
+                                //         :{show:true,message:"L'analyse n'a pas pu etre modifiée: "+message,code:'#880000'}
+                            }catch(error){throw new Error("L'analyse n'a pas pu etre modifiée: "+error.message);}
+
                         }else{
                             throw new Error("L'analyse n'a pas pu etre modifiée: "+message);
                         }
+
                     })
                     .then(()=>{
                         const ID=builtItem?.id;
