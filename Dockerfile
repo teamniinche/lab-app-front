@@ -16,8 +16,12 @@ COPY . .
 # --- AJOUTEZ CETTE LIGNE ICI ---
 # RUN npx expo install react-native-web react-dom @expo/metro-runtime -- --legacy-peer-deps
 
-# Commande officielle Expo pour exporter le projet en fichiers statiques Web
-RUN npx expo export --platform web
+# Commande officielle Expo pour exporter le projet en fichiers statiques Web   # avant optimisation par changer de prod à dev
+# RUN npx expo export --platform web 
+
+# Force l'export en mode développement pour sauter les optimisations lourdes #optimisation par changer de prod à dev en se debrassant de tout le baratin d'optimisation pour le mode de production
+RUN NODE_ENV=development npx expo export --platform web
+
 
 # --- ÉTAPE 2 : Serveur de production Nginx ---
 FROM nginx:alpine
