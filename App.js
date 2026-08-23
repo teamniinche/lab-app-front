@@ -284,7 +284,7 @@ export const ToggleTheme=()=>{
     const storage=Platform.OS===('web' || 'window' || 'macos')?localStorage:AsyncStorage;
     // const themesCouple=['light','dark'];
     const thm=storage.getItem('theme')||'light';
-    const [theme.setTheme]=useState(thm);
+    const [theme,setTheme]=useState(thm);
     const THEME=themes[theme];
     const handleThemeChange=() => {
         const emeht=theme==='light'?'dark':'light';
