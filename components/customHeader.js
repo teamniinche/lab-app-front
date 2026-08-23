@@ -36,14 +36,14 @@ const Entete=({thisEntete,donnees,render})=>{
   // 4. Composant pour afficher l'icône de la flèche de manière dynamique
   const RendreFleche = ({ cleColonne }) => {
     if (entete !== cleColonne) return null; // Pas de flèche si ce n'est pas la colonne active
-    return (
-      <MaterialCommunityIcons 
-        name={directionTri === 'asc' ? 'arrow-up' : 'arrow-down'} 
-        size={16} 
-        color="#222222" 
-        style={styles.icone}
-      />
-    );
+    return <View style={{padding:3,alignContent:'center',borderRadius:8,flexDirection:'row',alignItems:'center',justifyContent:'center',backgroundColor:primaryColor,height:45,width:30,marginLeft:4}}>
+        <MaterialCommunityIcons 
+          name={directionTri === 'asc' ? 'arrow-up' : 'arrow-down'} 
+          size={16} 
+          color="#ffffff" 
+          style={styles.icone}
+        />
+    </View>;
   };
 
   return  <TouchableOpacity style={styles.enTeteCell} onPress={() => gererTri(thisEntete)}>
@@ -55,7 +55,7 @@ const Entete=({thisEntete,donnees,render})=>{
 const styles = StyleSheet.create({
     enTeteCell: { flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start' },
     enTeteTexte: { fontWeight: 'bold', fontSize: 12 },
-    icone: { marginLeft: 4 },
+    icone: { margin:'auto'},
 });
 
 export default Entete;

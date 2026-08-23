@@ -28,8 +28,9 @@ const Colors = {
 
   export const themes={
     light:{
-      icone:'moon-o',
-      iconeColor:'black',
+      icone:'sun-o',
+      iconeColor:'white',
+      backgroundClr:'black',
       mainColor:'rgba(255,255,255,0.9)',
       transparent:'transparent',
       mainTextColor:'black',
@@ -38,14 +39,15 @@ const Colors = {
       mediumTextColor:'grey'
     },
     dark:{
-      icone:'sun-o',
-      iconeColor:'white',
-      mainColor:'rgba(255,255,255,0.9)',
+      icone:'moon-o',
+      iconeColor:'black',
+      backgroundClr:'white',
+      mainColor:'rgba(0,0,0,0.9)',
       transparent:'transparent',
-      mainTextColor:'black',
-      lessTextColor:'rgba(0,0,0,0.8)',
-      worstTextColor:'rgba(0,0,0,0.1)',
-      mediumTextColor:'grey'
+      mainTextColor:'white',
+      lessTextColor:'rgba(255,255,255,0.8)',
+      worstTextColor:'rgba(250,250,250,0.4)',
+      mediumTextColor:'rgba(250,250,250,0.6)''
     }
   }
 
