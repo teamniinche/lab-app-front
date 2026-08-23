@@ -152,7 +152,7 @@ export const FormulesProvider=({children})=>{// Formules ===lansas doit provenir
 export const useFormules=()=>useContext(FormulesContext);
 // ================================================ JAVEL ================================================================
 export const JavelFormulesProvider=({children})=>{
-    const JavelFormules=Object.keys(typesJavel);
+    const JavelFormules=Object?.keys(typesJavel);
     const [javelFocused,setJavelFocused]=useState(null);
     const [wrapperShow,setWrapperShow]=useState(false);
     const [fWrapperShow,setFWrapperShow]=useState(false);
