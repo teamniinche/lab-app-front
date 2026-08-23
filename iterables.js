@@ -13,7 +13,7 @@ const analyses = [
     {
       identifiant: {
         /* caracteristiques physiques*/
-          // constants
+          //// constants
             forme: "Liquide",
             nom: "Produit A",
           // à controler

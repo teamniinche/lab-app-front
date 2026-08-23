@@ -144,7 +144,7 @@ const MainNavigator=()=>{// Pour rester dans le context du store
       };
     }, []);
 
-    // function onAnalysePoudreAdded(data){
+    //// function onAnalysePoudreAdded(data){
     //       setNewAna({show:true,id:data?.id||101,code:data?.code || 'green'});
     //   }
     useEffect(() => {
