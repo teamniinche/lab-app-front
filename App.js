@@ -283,7 +283,7 @@ export const ToggleTheme=()=>{
 
     const storage=Platform.OS===('web' || 'window' || 'macos')?localStorage:AsyncStorage;
     const themesCouple=['light','dark'];
-    const theme=(storage.getItem('theme') && themesCouple.includes(storage.getItem('theme'))) || 'light';
+    const theme=themesCouple.includes(storage.getItem('theme'))?storage.getItem('theme'):'light';
     const THEME=themes[theme];
     const handleThemeChange=() => {
         const emeht=theme==='light'?'dark':'light';
