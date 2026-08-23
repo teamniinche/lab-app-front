@@ -4,7 +4,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import {useCurrentProducted} from './wrappers/contexts';
 
 
-const Entete=({thisEntete,donnees})=>{
+const Entete=({thisEntete,donnees,render})=>{
   // 1. États pour stocker la colonne active et le sens du tri
   const {entete,setEntete,directionTri, setDirectionTri}=useCurrentProducted();
 
