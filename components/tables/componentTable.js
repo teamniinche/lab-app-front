@@ -14,6 +14,7 @@ import { ClickableRow } from "./chat-for-table";
 import Connect from "../connexion/connect";
 import { Periodes } from "../periode";
 // UTILS
+import Entete from '../customHeader.js';
 import { primaryColor,departements} from "../../assets/constantes";
 import { colorFromName,centrer } from "../../assets/functions";
 import {pA,currentElemnts } from "../../hooks/littleBiblio";
@@ -206,7 +207,8 @@ return (<HideStatusBarOnFocus>
       <View style={styles.row}>
         {headers.map((header, index) => (
           <Text  key={index} style={[styles.cell,styles.header,{minWidth:index===2 && 160,backgroundColor:'none',color:'rgba(0,0,0,0.8)',}]}>
-            {header.toUpperCase()}
+            {/* {header.toUpperCase()} */}
+            <Entete donnees={analyses} thisEntete={header.toUpperCase()} render={(anlyss)=>setAnalyses(anlyss)}/>
           </Text>
         ))}
       </View>

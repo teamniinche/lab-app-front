@@ -584,6 +584,9 @@ export const CurrentProductedProvider=({children})=>{
     const [toCreate,setToCreate]=useState(true);// Switcheur entre mode creteating || mode updating
     const [id2Update,setId2Update]=useState(null);
 
+    const [entete,setEntete]=useSate('');
+    const [directionTri, setDirectionTri]=useState('asc');
+
     function UpdateFocusedProdByName(item){
         const {name,nom}=item;
         const {estFormule}=isFormule(item);
@@ -683,7 +686,7 @@ export const CurrentProductedProvider=({children})=>{
     },[focusedProduct]);
     // const currentProductedLen=Object.keys(currentProductedPro).length;
 
-    return <CurrentProductedContext.Provider value={{id2Update,setId2Update,UpdateFocusedProdByName,Everages,setAction,toCreate,focusedList,setFocusedList,ListOfFocusedAndLastNumberTour,ListOfFocusedAndLastNumber,currentProductedLen,focusedPro,setFocusedPro,currentProductedPro,setCurrentProductedPro,keysAndRequirements,registred,setRegistred}}>
+    return <CurrentProductedContext.Provider value={{id2Update,setId2Update,entete,setEntete,directionTri, setDirectionTri,UpdateFocusedProdByName,Everages,setAction,toCreate,focusedList,setFocusedList,ListOfFocusedAndLastNumberTour,ListOfFocusedAndLastNumber,currentProductedLen,focusedPro,setFocusedPro,currentProductedPro,setCurrentProductedPro,keysAndRequirements,registred,setRegistred}}>
        {children}
     </CurrentProductedContext.Provider>
 }
