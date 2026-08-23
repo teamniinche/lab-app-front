@@ -295,7 +295,7 @@ export const ToggleTheme=()=>{
 
 return <TouchableOpacity style={{position:'absolute',right:25,top:10,backgroundColor:'transparent',padding:8,paddingHorizontal:24,borderRadius:8,}}  onPress={handleThemeChange}>
           <Text style={{color:'transparent',}}>
-            <FontAwesome name={THEME[icone]} size={15} color={THEME[iconeColor]}/>
+            <FontAwesome name={THEME['icone']} size={15} color={THEME['iconeColor']}/>
           </Text>
     </TouchableOpacity>
 }
