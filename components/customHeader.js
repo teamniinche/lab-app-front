@@ -38,7 +38,7 @@ const Entete=({thisEntete,donnees,headers,render})=>{
   // 4. Composant pour afficher l'icône de la flèche de manière dynamique
   const RendreFleche = ({ cleColonne }) => {
     if (entete !== cleColonne) return null; // Pas de flèche si ce n'est pas la colonne active
-    return <View style={{padding:2,alignContent:'center',borderRadius:8,flexDirection:'row',alignItems:'center',justifyContent:'center',backgroundColor:'#6200ee',height:25,width:20,marginLeft:4}}>
+    return <View style={{alignContent:'center',borderRadius:8,flexDirection:'row',alignItems:'center',justifyContent:'center',backgroundColor:'#6200ee',height:20,width:15,marginLeft:4}}>
         <MaterialCommunityIcons 
           name={directionTri === 'asc' ? 'arrow-up' : 'arrow-down'} 
           size={16} 

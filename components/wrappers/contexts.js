@@ -584,7 +584,7 @@ export const CurrentProductedProvider=({children})=>{
     const [toCreate,setToCreate]=useState(true);// Switcheur entre mode creteating || mode updating
     const [id2Update,setId2Update]=useState(null);
 
-    const [entete,setEntete]=useState('');
+    const [entete,setEntete]=useState('heure');
     const [directionTri, setDirectionTri]=useState('asc');
 
     function UpdateFocusedProdByName(item){
