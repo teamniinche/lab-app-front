@@ -73,7 +73,7 @@ export const Bouton=({reqBody,registrable,buttonParams,render})=>{
                     setPop({show:true,message:message,code:code});
 
                   }else{
-                    setPop({show:true,message:message,code:'#880000'});
+                    setPop({show:true,message:message+ ' cici',code:'#880000'});
                   }
                 })
             .finally(()=>{
