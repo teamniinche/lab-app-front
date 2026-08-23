@@ -4,7 +4,8 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import {useCurrentProducted} from './wrappers/contexts';
 
 
-const Entete=({thisEntete,donnees,render})=>{
+const Entete=({thisEntete,donnees,headers,render})=>{
+  const {observations,chimiste,actions,...rest}=headers;
   // 1. États pour stocker la colonne active et le sens du tri
   const {entete,setEntete,directionTri, setDirectionTri}=useCurrentProducted();
 
@@ -23,9 +24,10 @@ const Entete=({thisEntete,donnees,render})=>{
   // 3. Tri des données en temps réel (optimisé avec useMemo)
   const donneesTriees = useMemo(() => {
     const copieDonnees = [...donnees];
+    const entte=entete==='heure'?'createdAt':entete;
     return copieDonnees.sort((a, b) => {
-      if (a[entete] < b[entete]) return directionTri === 'asc' ? -1 : 1;
-      if (a[entete] > b[entete]) return directionTri === 'asc' ? 1 : -1;
+      if (a[entte] < b[entte]) return directionTri === 'asc' ? -1 : 1;
+      if (a[entte] > b[entte]) return directionTri === 'asc' ? 1 : -1;
       return 0;
     });
   }, [entete, directionTri]);
@@ -47,7 +49,7 @@ const Entete=({thisEntete,donnees,render})=>{
   };
 
   return  <TouchableOpacity style={styles.enTeteCell} onPress={() => gererTri(thisEntete)}>
-          <Text style={styles.enTeteTexte}>{thisEntete}</Text>
+          <Text style={styles.enTeteTexte}>{thisEntete.toUpperCase()}</Text>
           <RendreFleche cleColonne={thisEntete} />
         </TouchableOpacity>
 }
