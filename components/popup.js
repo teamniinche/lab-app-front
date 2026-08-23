@@ -17,11 +17,10 @@ function Message(msg){
                     .replace('disconnected',"s'est déconnecté")
                     .replace('❌','')
                     .replace('✅','')
-                    .replace('COMPTABILITE','COMPTABILITé')
+                    .replace('COMPTABILITE','comptabilité')
                     .replace('⚠️','')
                     .replace('❗','')
                     .replace('*','')
-                    // .replace('Vous vous etes deconnecté','dissconnectéd')
                     
       return MESSAGE;
     }
