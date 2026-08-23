@@ -37,6 +37,7 @@ const Colors = {
       worstTextColor:'rgba(0,0,0,0.1)',
       mediumTextColor:'grey'
     },
+    
     dark:{
       icone:'sun-o',
       iconeColor:'white',
