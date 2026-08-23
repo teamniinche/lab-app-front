@@ -4,7 +4,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import {useCurrentProducted} from './wrappers/contexts';
 
 
-export default const Entete=({thisEntete,donnees})=>{
+const Entete=({thisEntete,donnees})=>{
   // 1. États pour stocker la colonne active et le sens du tri
   const {entete,setEntete,directionTri, setDirectionTri}=useCurrentProducted();
 
@@ -57,3 +57,5 @@ const styles = StyleSheet.create({
     enTeteTexte: { fontWeight: 'bold', fontSize: 14 },
     icone: { marginLeft: 4 },
 });
+
+export default Entete;
