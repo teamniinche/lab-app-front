@@ -1,6 +1,10 @@
 // CALLED PACKAGES
+// element.style {
+//     background-color: rgb(242, 242, 242);
+//     display: flex;
+// }
 import {View,Text,Easing,StyleSheet,TextInput,ActivityIndicator,
-  TouchableOpacity, ImageBackground} from 'react-native';
+  TouchableOpacity,Platform,ImageBackground} from 'react-native';
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import {useState,useMemo,useEffect,useRef,useLayoutEffect} from "react";
 import { NavigationContainer,getPathFromState} from "@react-navigation/native";
@@ -8,16 +12,18 @@ import { Provider as PaperProvider,Portal} from 'react-native-paper';
 import { PersistGate } from 'redux-persist/integration/react';
 import socket from './assets/socketService.js';
 import NetInfo from '@react-native-community/netinfo';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ErrorBoundary } from 'react-error-boundary';
 import Slider from "@react-native-community/slider";
 import { useSelector,useDispatch,Provider } from 'react-redux';
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons,FontAwesome} from '@expo/vector-icons';
 import { Image } from 'expo-image';
 // DATA STATEMENTS
 import { EveragesProvider,PopupProvider,EveragesPowderProvider,
   ReservoirsProvider, MonoProductsProvider,JavelFormulesProvider,
   CurrentJavelProductedProvider,usePopup,useCurrentProducted,CurrentProductedProvider} from './components/wrappers/contexts.js';
 import { store, persistor } from './components/store/store.js';
+import {themes} from './assets/colors.js';
 // NAVIGATORS & COMPONENTS
 import LiquidesNavigator from "./navigators/liquidesNavigator.js";
 // import PoudreNavigator from "./navigators/poudreNavigator.js";
@@ -180,6 +186,7 @@ const MainNavigator=()=>{// Pour rester dans le context du store
       <View style={styles.mere}>        
         <NavigationContainer
           ref={navigationRef}
+          style={{backgroundColor:'black'}}
           onStateChange={() => {
             const state = navigationRef.current.getRootState();
             const currentUrlPath = getPathFromState(state);
@@ -265,11 +272,32 @@ const MainNavigator=()=>{// Pour rester dans le context du store
             
           </Tab.Navigator>
         </NavigationContainer>
-          
+        <ToggleTheme/>
         </View>
         <Pop/>
         <NewAnalysed/>
         </View>
+}
+
+export const ToggleTheme=()=>{
+
+    const storage=Platform.OS===('web' || 'window' || 'macos')?localStorage:AsyncStorage;
+    const themesCouple=['light','dark'];
+    const theme=(storage.getItem('theme') && themesCouple.includes(storage.getItem('theme'))) || 'light';
+    const THEME=themes[theme];
+    const handleThemeChange=() => {
+        const emeht=theme==='light'?'dark':'light';
+        if(Platform.OS===('web' || 'window' || 'macos')){
+            storage.setItem('theme',emeht);
+        }
+    }
+
+
+return <TouchableOpacity style={{position:'absolute',right:25,top:10,backgroundColor:'transparent',padding:8,paddingHorizontal:24,borderRadius:8,}}  onPress={handleThemeChange}>
+          <Text style={{color:'transparent',}}>
+            <FontAwesome name={THEME[icone]} size={15} color={THEME[iconeColor]}/>
+          </Text>
+    </TouchableOpacity>
 }
 
 const Viscosimetre=()=>{

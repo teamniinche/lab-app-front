@@ -26,4 +26,27 @@ const Colors = {
     rootColor:'#6200ee',
   };
 
+  export const themes={
+    light:{
+      icone:'moon-o',
+      iconeColor:'black',
+      mainColor:'rgba(255,255,255,0.9)',
+      transparent:'transparent',
+      mainTextColor:'black',
+      lessTextColor:'rgba(0,0,0,0.8)',
+      worstTextColor:'rgba(0,0,0,0.1)',
+      mediumTextColor:'grey'
+    },
+    dark:{
+      icone:'sun-o',
+      iconeColor:'white',
+      mainColor:'rgba(255,255,255,0.9)',
+      transparent:'transparent',
+      mainTextColor:'black',
+      lessTextColor:'rgba(0,0,0,0.8)',
+      worstTextColor:'rgba(0,0,0,0.1)',
+      mediumTextColor:'grey'
+    }
+  }
+
   export default Colors;
