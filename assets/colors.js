@@ -47,7 +47,7 @@ const Colors = {
       mainTextColor:'white',
       lessTextColor:'rgba(255,255,255,0.8)',
       worstTextColor:'rgba(250,250,250,0.4)',
-      mediumTextColor:'rgba(250,250,250,0.6)''
+      mediumTextColor:'rgba(250,250,250,0.6)'
     }
   }
 
