@@ -39,7 +39,7 @@ const Entete=({thisEntete,donnees,render})=>{
     return (
       <MaterialCommunityIcons 
         name={directionTri === 'asc' ? 'arrow-up' : 'arrow-down'} 
-        size={14} 
+        size={16} 
         color="#222222" 
         style={styles.icone}
       />
@@ -54,7 +54,7 @@ const Entete=({thisEntete,donnees,render})=>{
 
 const styles = StyleSheet.create({
     enTeteCell: { flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start' },
-    enTeteTexte: { fontWeight: 'bold', fontSize: 10 },
+    enTeteTexte: { fontWeight: 'bold', fontSize: 12 },
     icone: { marginLeft: 4 },
 });
 
