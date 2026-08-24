@@ -232,7 +232,7 @@ return (<HideStatusBarOnFocus>
                   if(interDate.minDate===""){
                     // ()=>setInterDate({...interDate,minDate:ReduceDateTime(createdAt)}); // A VOIR A REVOIR  A VOIR A REVOIR
                   }
-                return !nteteIsIn(realKeyFromEntete(entete,item))?<EnteteRow ntte={realKeyFromEntete(entete,item)}/>:
+                return !enteteIsIn(realKeyFromEntete(entete,item))?<EnteteRow ntte={realKeyFromEntete(entete,item)}/>:
                       <ClickableRow
                           key={index}
                           num={index+1}
