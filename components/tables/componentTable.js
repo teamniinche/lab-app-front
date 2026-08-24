@@ -178,11 +178,10 @@ async function paginatePostedAnalyses(analys){
     }
   };
   const EnteteRow=({ntte})=>{
-    c
+    
     return <Text style={{width:'100%',height:25,paddingVertical:5,backgroundColor:'rgba(0,0,0,0.6)',color:'white',fontSize:13,fontWeight:'bold',textAlign:'left',paddingLeft:100,}}>
       {ntte+' : '}
       <Text style={{backgroundColor:'white',width:'auto',maxWidth:25,height:20,padding:2,borderRdius:10,textAlign:'center',fontWeight:'bold',fontSize:'14'}}>
-      
         {totalOccurrences(ntte)}
       </Text>
     </Text>
