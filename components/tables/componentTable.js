@@ -175,7 +175,7 @@ async function paginatePostedAnalyses(analys){
     }else{return true;}
   };
   const EnteteRow=({ntte})=>{
-    return <Text style={{width:'100%',height:50,paddingVertical:10,backgroundColor:'rgba(0,0,0,0.7)',color:'white',fontSize:13,fontWeight:'bold',textAlign:'left',paddingLeft:100,}}>
+    return <Text style={{width:'100%',height:25,paddingVertical:5,backgroundColor:'rgba(0,0,0,0.5)',color:'white',fontSize:13,fontWeight:'bold',textAlign:'left',paddingLeft:100,}}>
       {ntte}
     </Text>
   }
