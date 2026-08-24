@@ -181,7 +181,8 @@ async function paginatePostedAnalyses(analys){
   }
 
   function totalOccurrences(valeurRecherchee){
-    return analyses.map(analyse=>analyse[entete]).filter(valeur =>valeur === valeurRecherchee).length;
+    alert(entete);
+    return analyses.map(analyse=>entete==='Utilisateur'?analyse[entete]['pseudo']:analyse[entete]).filter(valeur =>valeur === valeurRecherchee).length;
   };
 
   const currentStyle={justifyContent: "flex-start",gap:"6%",};
