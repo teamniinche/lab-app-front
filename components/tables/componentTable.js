@@ -167,8 +167,13 @@ async function paginatePostedAnalyses(analys){
     setDialogShow(false);
   }
 
-  const entetesAlreadyIn=[];
-  const enteteIsIn=(ent)=>entetesAlreadyIn.includes(ent);
+  var entetesAlreadyIn=[];
+  function enteteIsIn(ent){
+    if(!entetesAlreadyIn.includes(ent)){
+        entetesAlreadyIn.push(ent);
+        return false;
+    }else{return true;}
+  };
   const EnteteRow=({ntte})=>{
     return <Text style={{width:'100%',height:50,paddingVertical:10,backgroundColor:'rgba(0,0,0,0.7)',color:'white',fontSize:13,fontWeight:'bold',textAlign:'left',paddingLeft:100,}}>
       {ntte}
