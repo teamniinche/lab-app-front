@@ -70,8 +70,8 @@ export function numericDateTime() {
 export function realKeyFromEntete(entete,item){
     var toReturn;
    switch(entete) {
-    case 'utilisateur':
-      toReturn=item['utilisateur']['pseudo']
+    case 'Utilisateur':
+      toReturn=item['Utilisateur']['pseudo']
       break;
     case 'createdAt':
       toReturn=item['createdAt'].split('T')[0]

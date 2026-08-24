@@ -6,12 +6,13 @@ import {useCurrentProducted} from './wrappers/contexts';
 
 const Entete=({thisEntete,donnees,headers,render})=>{
   const [observations,actions,...rest]=headers;
+  const HEADERS=['heure','name','machine','chimiste'];
   // 1. États pour stocker la colonne active et le sens du tri
   const {entete,setEntete,directionTri, setDirectionTri}=useCurrentProducted();
 
   // 2. Fonction déclenchée au clic sur une en-tête
   const gererTri = (cleColonne) => {
-    const entte=cleColonne==='heure'?'createdAt':(cleColonne==='chimiste'?'utilisateur':cleColonne);
+    const entte=cleColonne==='heure'?'createdAt':(cleColonne==='chimiste'?'Utilisateur':cleColonne);
     if (entete === entte) {
       // Si on reclique sur la même colonne, on inverse le sens
       setDirectionTri(directionTri === 'asc' ? 'desc' : 'asc');
@@ -25,7 +26,7 @@ const Entete=({thisEntete,donnees,headers,render})=>{
   // 3. Tri des données en temps réel (optimisé avec useMemo)
   const donneesTriees = useMemo(() => {
     const copieDonnees = [...donnees];
-    const entte=entete==='heure'?'createdAt':(entete==='chimiste'?'utilisateur':entete);
+    const entte=entete==='heure'?'createdAt':(entete==='chimiste'?'Utilisateur':entete);
     return copieDonnees.sort((a, b) => {
       if(entte==='utilisateur'){
         if (a[entte]['pseudo'] < b[entte]['pseudo']) return directionTri === 'asc' ? -1 : 1;
@@ -53,11 +54,12 @@ const Entete=({thisEntete,donnees,headers,render})=>{
         />
     </View>;
   };
-
-  return <TouchableOpacity style={styles.enTeteCell} onPress={() => gererTri(thisEntete)}>
+const isCliquable=HEADERS.includes(thisEntete);
+  return isCliquable?<TouchableOpacity style={styles.enTeteCell} onPress={() => gererTri(thisEntete)}>
           <Text style={styles.enTeteTexte}>{thisEntete.toUpperCase()}</Text>
           <RendreFleche cleColonne={thisEntete} />
         </TouchableOpacity>
+        :<Text style={styles.enTeteTexte}>{thisEntete.toUpperCase()}</Text>
 }
 
 const styles = StyleSheet.create({
