@@ -188,8 +188,8 @@ async function paginatePostedAnalyses(analys){
   }
 
   function totalOccurrences(valeurRecherchee){
-    const count=entetesAlreadyIn.filter(valeur =>valeur === valeurRecherchee).length;
-    return count;
+    const count=entetesAlreadyIn.filter(valeur =>valeur === valeurRecherchee);
+    return count.length;
   };
 
   const currentStyle={justifyContent: "flex-start",gap:"6%",};
