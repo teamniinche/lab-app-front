@@ -169,13 +169,10 @@ async function paginatePostedAnalyses(analys){
 
   var entetesAlreadyIn=[];
   function enteteIsIn(ent){
-    if(!entetesAlreadyIn.includes(ent)){
-        entetesAlreadyIn.push(ent);
-        return false;
-    }else{
-      entetesAlreadyIn.push(ent);
-      return true;
-    }
+    var bool=false;
+    if(!entetesAlreadyIn.includes(ent)){bool=false;}else{bool=true;}
+    entetesAlreadyIn.push(ent);
+    return bool;
   };
   const EnteteRow=({ntte})=>{
     
