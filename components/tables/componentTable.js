@@ -167,13 +167,14 @@ async function paginatePostedAnalyses(analys){
     setDialogShow(false);
   }
 
-  var entetesAlreadyIn=[];
+  const entetesAlreadyIn=[];
   function enteteIsIn(ent){
     var bool=false;
     if(!entetesAlreadyIn.includes(ent)){bool=false;}else{bool=true;}
     entetesAlreadyIn.push(ent);
     return bool;
   };
+  
   const EnteteRow=({ntte})=>{
     
     return <Text style={{width:'100%',height:25,paddingVertical:5,backgroundColor:'rgba(0,0,0,0.6)',color:'white',fontSize:13,fontWeight:'bold',textAlign:'left',paddingLeft:100,}}>
