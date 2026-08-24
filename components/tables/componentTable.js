@@ -172,13 +172,25 @@ async function paginatePostedAnalyses(analys){
     if(!entetesAlreadyIn.includes(ent)){
         entetesAlreadyIn.push(ent);
         return false;
-    }else{return true;}
+    }else{
+      entetesAlreadyIn.push(ent);
+      return true;
+    }
   };
   const EnteteRow=({ntte})=>{
-    return <Text style={{width:'100%',height:25,paddingVertical:5,backgroundColor:'rgba(0,0,0,0.5)',color:'white',fontSize:13,fontWeight:'bold',textAlign:'left',paddingLeft:100,}}>
-      {ntte}
+    c
+    return <Text style={{width:'100%',height:25,paddingVertical:5,backgroundColor:'rgba(0,0,0,0.6)',color:'white',fontSize:13,fontWeight:'bold',textAlign:'left',paddingLeft:100,}}>
+      {ntte+' : '}
+      <Text style={{backgroundColor:'white',width:'auto',maxWidth:25,height:20,padding:2,borderRdius:10,textAlign:'center',fontWeight:'bold',fontSize:'14'}}>
+      
+        {totalOccurrences(ntte)}
+      </Text>
     </Text>
   }
+
+  const totalOccurrences =(valeurRecherchee)=>entetesAlreadyIn.reduce((compteur, valeur) => {
+    return valeur === valeurRecherchee ? compteur + 1 : compteur;
+}, 0);
 
   const currentStyle={justifyContent: "flex-start",gap:"6%",};
 return (<HideStatusBarOnFocus>
