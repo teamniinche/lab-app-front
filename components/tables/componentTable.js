@@ -168,26 +168,20 @@ async function paginatePostedAnalyses(analys){
   }
 
   const entetesAlreadyIn=[];
-  function enteteIsIn(ent){
-    var bool=false;
-    if(!entetesAlreadyIn.includes(ent)){bool=false;}else{bool=true;}
-    entetesAlreadyIn.push(ent);
-    return bool;
-  };
+  function enteteIsIn(ent){if(!entetesAlreadyIn.includes(ent)){entetesAlreadyIn.push(ent);return false;}else{return true;}};
   
   const EnteteRow=({ntte})=>{
     
     return <Text style={{width:'100%',height:25,paddingVertical:5,backgroundColor:'rgba(0,0,0,0.6)',color:'white',fontSize:13,fontWeight:'bold',textAlign:'left',paddingLeft:100,}}>
       {ntte+' : '}
-      <Text style={{backgroundColor:'white',width:'auto',maxWidth:25,height:18,padding:2,borderRadius:10,textAlign:'center',fontWeight:'bold',fontSize:'14',color:'black'}}>
+      <Text style={{backgroundColor:'white',width:'auto',maxWidth:25,height:18,minWidth:15,padding:2,borderRadius:10,textAlign:'center',fontWeight:'bold',fontSize:'14',color:'black'}}>
         {totalOccurrences(ntte)}
       </Text>
     </Text>
   }
 
   function totalOccurrences(valeurRecherchee){
-    const count=entetesAlreadyIn.filter(valeur =>valeur === valeurRecherchee);
-    return count.length;
+    return Object.values(analyses).filter(valeur =>valeur === valeurRecherchee).length;
   };
 
   const currentStyle={justifyContent: "flex-start",gap:"6%",};
