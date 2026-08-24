@@ -47,7 +47,7 @@ export default PoudreFull=({navigation/*,route,routeNheaders*/})=>{
     // const genratePDF = async () => {
     //     const months=['Janvier','Fèvrier','Mars','Avril','Mai','Juin','Juillet','Aout','Septembre','Octobre','Novembre','Décembre']
     //     try {
-
+    
     //         const {count,delth,items}=toPrint;
     //         var titre=product?("Mélanges de "+ `<span style="font-size:18px;font-weight:bold;text-decoration:underline;color:${Colors[colorFromName(product)]};">${product.toUpperCase()}</span>`+" sur cette période choisie"):"Tous sur cette période choisie";
     //         const html = `
@@ -234,12 +234,107 @@ export default PoudreFull=({navigation/*,route,routeNheaders*/})=>{
     //     };
 
     // console.log(Analytics)
+     const genratePDF = async () => {
+        const months=['Janvier','Fèvrier','Mars','Avril','Mai','Juin','Juillet','Aout','Septembre','Octobre','Novembre','Décembre']
+        // try {
+
+        //     const {count,delth,items}=toPrint;
+        //     var titre=product?("Mélanges de "+ `<span style="font-size:18px;font-weight:bold;text-decoration:underline;color:${Colors[colorFromName(product)]};">${product.toUpperCase()}</span>`+" sur cette période choisie"):"Tous sur cette période choisie";
+        //     const html = `
+        //         <style>
+        //             html{margin:0px;padding:0px;}
+        //             body { font-family: Arial, sans-serif; font-size: 14px;padding:15px; }
+        //             h1 { margin:5px;margin-top: 15px; color: #07108fff; }
+        //             h2 { margin-top: 20px; color: #2c3e50; }
+        //             ul { list-style-type: none; padding-left: 0; }
+        //             li { margin: 4px 15px; padding: 6px; border-bottom: 1px solid #ddd; }
+        //             .header{font-size:8px;color:rgba(0,0,0,0.5);margin:8px;}
+        //             h4 { margin-top: 20px; color: #2c3e50; }
+        //             .key1{font-size:16px;color:rgba(0,0,0,0.8);margin: 4px 15px;margin-left:2px;padding: 6px; border-bottom: 1px solid #444; }
+        //             .key2{font-size:14px;color:rgba(0,0,0,0.5);margin:8px;margin-left:6px;}
+        //             .key3{font-size:14px;color:rgba(0,0,0,0.2);margin:8px;margin-left:10px;}
+        //         </style>
+        //         <html>
+        //         <body>
+        //             <h1>Du ${startedAt} au ${endedAt}</h1>
+        //             ${`<li>Nombre d'analyses enregistrées : ${count}</li>`}
+        //             <ul>
+        //                 ${headers.map((header, index) => (index<=10?
+        //                     `<span class="header"  key=${index}>
+        //                     ${header.toUpperCase()}
+        //                     </span>`:""
+        //                 )).join("")}
+        //             </ul>)
+        //             <div style="font-size:14px;">
+        //                 ${items.map(object1 => {
+        //                     return `<div >${Object.entries(object1).map(([key2,object2]) => {
+        //                         const count2=Object.values(object2).length;
+        //                         return `<h3 class="key1">${key2+'  '+count2}</h3>
+        //                         <div>
+        //                             ${object2.map(object3 => {
+        //                                 return `<div>
+        //                                     ${Object.entries(object3).map(([key4,object4]) => {
+        //                                         const count4=Object.values(object4).length;
+        //                                         return `<h3 class="key2">${key4}<h3>
+        //                                         <div>
+        //                                             ${Object.entries(object4).map(([key5,object5]) => {
+        //                                                 const count5=Object.values(object5).length;
+        //                                                 return `<h3 class="key3">${key5+'  '+count5}<h3>
+        //                                                     </div>
+        //                                                         ${object5.map(item => {
+        //                                                             const {id,updatedAt,parfum,color,observations,commentaires,categorie,
+        //                                                                     createdAt,validation,Utilisateur,
+        //                                                                     ...rest} = item;
+        //                                                             const validateur = validation?.Utilisateur?.pseudo || "";
+        //                                                             const chemist = Utilisateur?.pseudo || "";
+        //                                                             const valeurs=['ph','matiere_active','viscosite','densite','silicate','caustique','durete'];
+        //                                                             const vallues = VALEURS(rest,valeurs);
+        //                                                             return `<p style="margin-left:5px;color:${Colors[colorFromName(item.name)]};font-size:${Platform.OS!=='web'?'14px':'15px'};letter-spacing:0.7px;border-bottom:${Platform.OS==='web' && `1px solid ${Colors[colorFromName(item.name)]}`};">
+        //                                                                         ${Time(createdAt)}${vallues} -- ${chemist}${
+        //                                                                         validation?" -- ✔ ":""}${validation?' -- '+validateur:""}
+        //                                                                     </p>`;
+        //                                                             }).join("")}
+        //                                                     </div>`
+        //                                             }).join("")}
+        //                                         </div>`
+        //                                     }).join("")}
+        //                                 </div>`
+        //                             }).join("")}
+        //                         <div>`
+        //                     }).join("")}
+        //                     <div>`
+        //                 }).join("")}
+        //             </div>
+        //             ${Platform.OS==='web' && `<script>
+        //                 window.onload=function(){
+        //                     window.print();
+        //                     window.close();
+        //                 }
+        //             </script>`}
+        //         </body>
+        //     </html> `;
+        //         if(Platform.OS!=='web'){
+        //             const { uri } = await Print.printToFileAsync({ html });
+        //             if(await Sharing.isAvailableAsync()){await Sharing.shareAsync(uri);}
+        //             return uri;
+        //         }else{
+        //             const newWindow=window.open("","_blank");
+        //             newWindow.document.write(html);
+        //             newWindow.document.close();
+        //         }
+        //     } catch (error) {
+        //         alert("Erreur de chargement : "+error.message);
+        //     }
+        };
+
     const bottomSheetRef = useRef(null);
+    const handleOpenPress = () => { bottomSheetRef.current?.snapToPosition('100%')}//snapToIndex(2);}//.snapToPosition('50%'):bloque le handle;// || '25%' || '50%' || '75%'
+    
     return <BottomSheet ref={bottomSheetRef}>
 {/* <KeyboardAvoidingView  behavior={Platform.OS==='ios'?'padding':'height'}> */}
 
     <ScrollView
-        ref={viewRef}
+        ref={viewRef} 
         horizontal={false} 
         style={styles.container}
         refreshControl={<RefreshControl  refreshing={refreshing} onRefresh={refresh}/>}
@@ -281,6 +376,20 @@ export default PoudreFull=({navigation/*,route,routeNheaders*/})=>{
             </SafeAreaProvider>
         </ScrollView>
     </ScrollView>
+
+    <TouchableOpacity  onPress={handleOpenPress} style={{position:'absolute',right:20,top:0.61*screenHeight,height:65,borderWidth:1,borderColor:'whitesmoke',paddingHorizontal:8,paddingVertical:8,borderRadius:10,backgroundColor:"rgba(155, 0, 0, 0.7)",}} >
+                <Text style={{fontWeight:800,letterSpacing:-2,fontSize:16,color:"whitesmoke",paddingVertical:6,paddingHorizontal:2,borderBottomWidth:4,borderTopWidth:4,borderRadius:16,borderColor:'whitesmoke'}}>MOY</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+            style={{position:'absolute',right:20,top:0.71*screenHeight,backgroundColor:'rgba(155,0,0,0.7)',padding:8,borderRadius:10,}}
+            onPress={async () => {setTimeout(async () => {
+                                await generatePDF();
+                            }, 500);
+                        }}
+            >
+                <Text ><FontAwesome5 name="file-pdf" size={50} color="white"/></Text>
+            </TouchableOpacity>
+
     </BottomSheet>
 }
 
