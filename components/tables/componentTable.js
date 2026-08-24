@@ -218,7 +218,7 @@ return (<HideStatusBarOnFocus>
         {headers.map((header, index) => (
           <Text  key={index} style={[styles.cell,styles.header,{minWidth:index===2 && 160,backgroundColor:'none',color:'rgba(0,0,0,0.8)',}]}>
             {/* {header.toUpperCase()} */}
-            <Entete donnees={analyses} thisEntete={header.toLowerCase()} render={(anlyss)=>setAnalyses(anlyss)}/>
+            <Entete donnees={analyses} headers={headers} thisEntete={header.toLowerCase()} render={(anlyss)=>setAnalyses(anlyss)}/>
           </Text>
         ))}
       </View>
