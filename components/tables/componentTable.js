@@ -181,14 +181,14 @@ async function paginatePostedAnalyses(analys){
     
     return <Text style={{width:'100%',height:25,paddingVertical:5,backgroundColor:'rgba(0,0,0,0.6)',color:'white',fontSize:13,fontWeight:'bold',textAlign:'left',paddingLeft:100,}}>
       {ntte+' : '}
-      <Text style={{backgroundColor:'white',width:'auto',maxWidth:25,height:18,padding:2,borderRadius:10,textAlign:'center',fontWeight:'bold',fontSize:'14'}}>
+      <Text style={{backgroundColor:'white',width:'auto',maxWidth:25,height:18,padding:2,borderRadius:10,textAlign:'center',fontWeight:'bold',fontSize:'14',color:'black'}}>
         {totalOccurrences(ntte)}
       </Text>
     </Text>
   }
 
-  const totalOccurrences =(valeurRecherchee)=>{
-    const count=entetesAlreadyIn.reduce((compteur, valeur) => {return valeur === valeurRecherchee ? compteur + 1 : compteur}, 0);
+  function totalOccurrences(valeurRecherchee){
+    const count=entetesAlreadyIn.filter(valeur =>valeur === valeurRecherchee).length;
     return count;
   };
 
@@ -249,8 +249,9 @@ return (<HideStatusBarOnFocus>
                   if(interDate.minDate===""){
                     // ()=>setInterDate({...interDate,minDate:ReduceDateTime(createdAt)}); // A VOIR A REVOIR  A VOIR A REVOIR
                   }
+                  const realKey=realKeyFromEntete(entete,item);
                 return <>
-                      {!enteteIsIn(realKeyFromEntete(entete,item)) && <EnteteRow ntte={realKeyFromEntete(entete,item)}/>}
+                      {realKey!==undefined && !enteteIsIn(realKey) && <EnteteRow ntte={realKey}/>}
                       <ClickableRow
                           key={index}
                           num={index+1}
