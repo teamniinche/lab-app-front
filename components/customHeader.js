@@ -29,11 +29,11 @@ const Entete=({thisEntete,donnees,headers,render})=>{
     const entte=entete==='heure'?'createdAt':(entete==='chimiste'?'Utilisateur':entete);
     return copieDonnees.sort((a, b) => {
       if(entte==='utilisateur'){
-        if (a[entte]['pseudo'] < b[entte]['pseudo']) return directionTri === 'asc' ?()=>{setDirectionTri('desc');return -1}:()=>{setDirectionTri('asc');return 1};
-        if (a[entte]['pseudo'] > b[entte]['pseudo']) return directionTri === 'asc' ?()=>{setDirectionTri('desc');return 1}:()=>{setDirectionTri('asc');return -1};
+        if (a[entte]['pseudo'] < b[entte]['pseudo']) return directionTri === 'asc' ? -1 : 1;
+        if (a[entte]['pseudo'] > b[entte]['pseudo']) return directionTri === 'asc' ? 1 : -1;
       }else{
-        if (a[entte] < b[entte]) return directionTri === 'asc' ?()=>{setDirectionTri('desc');return -1}:()=>{setDirectionTri('asc');return 1};
-        if (a[entte] > b[entte]) return directionTri === 'asc' ?()=>{setDirectionTri('desc');return 1}:()=>{setDirectionTri('asc');return -1};
+        if (a[entte] < b[entte]) return directionTri === 'asc' ? -1 : 1;
+        if (a[entte] > b[entte]) return directionTri === 'asc' ? 1 : -1;
       }
       return 0;
     });
