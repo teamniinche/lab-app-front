@@ -14,7 +14,7 @@ function Message(msg){
                     .replace('🏢','')
                     .replace('Even-driver',"Le gestionnaire d'évenement")
                     .replace('connected',"connecté")
-                    .replace('disconnected',"s'est déconnecté")
+                    .replace('disconnected',"déconnecté")
                     .replace('❌','')
                     .replace('✅','')
                     .replace('COMPTABILITE','comptabilité')
@@ -27,7 +27,7 @@ function Message(msg){
 const Pop = () => {
     const {pop,setPop}=usePopup();
     const {show,status,message,code}=pop;
-    const durations={low:5000,middle:10000,high:1800000}
+    const durations={low:5000,middle:10000,high:1800000};
     useEffect(() => {
     // ================================= QUALITE DE LA VOIX ========================================================
     async function getPremiumFrenchVoice() {

@@ -5,18 +5,19 @@ import {useCurrentProducted} from './wrappers/contexts';
 
 
 const Entete=({thisEntete,donnees,headers,render})=>{
-  const {observations,chimiste,actions,...rest}=headers;
+  const {observations,actions,...rest}=headers;
   // 1. États pour stocker la colonne active et le sens du tri
   const {entete,setEntete,directionTri, setDirectionTri}=useCurrentProducted();
 
   // 2. Fonction déclenchée au clic sur une en-tête
   const gererTri = (cleColonne) => {
-    if (entete === cleColonne) {
+    const entte=cleColonne==='heure'?'createdAt':(cleColonne==='chimiste'?'utilisateur':cleColonne);
+    if (entete === entte) {
       // Si on reclique sur la même colonne, on inverse le sens
       setDirectionTri(directionTri === 'asc' ? 'desc' : 'asc');
     } else {
       // Si on clique sur une nouvelle colonne, on trie en 'asc' par défaut
-      setEntete(cleColonne);
+      setEntete(entte);
       setDirectionTri('asc');
     }
   };
@@ -24,10 +25,15 @@ const Entete=({thisEntete,donnees,headers,render})=>{
   // 3. Tri des données en temps réel (optimisé avec useMemo)
   const donneesTriees = useMemo(() => {
     const copieDonnees = [...donnees];
-    const entte=entete==='heure'?'createdAt':entete;
+    const entte=entete==='heure'?'createdAt':(entete==='chimiste'?'utilisateur':entete);
     return copieDonnees.sort((a, b) => {
-      if (a[entte] < b[entte]) return directionTri === 'asc' ? -1 : 1;
-      if (a[entte] > b[entte]) return directionTri === 'asc' ? 1 : -1;
+      if(entte==='utilisateur'){
+        if (a[entte]['pseudo'] < b[entte]['pseudo']) return directionTri === 'asc' ? -1 : 1;
+        if (a[entte]['pseudo'] > b[entte]['pseudo']) return directionTri === 'asc' ? 1 : -1;
+      }else{
+        if (a[entte] < b[entte]) return directionTri === 'asc' ? -1 : 1;
+        if (a[entte] > b[entte]) return directionTri === 'asc' ? 1 : -1;
+      }
       return 0;
     });
   }, [entete, directionTri]);
@@ -48,10 +54,10 @@ const Entete=({thisEntete,donnees,headers,render})=>{
     </View>;
   };
 
-  return  <TouchableOpacity style={styles.enTeteCell} onPress={() => gererTri(thisEntete)}>
+  return !Object.keys(rest).inludes(thisEntete)?<TouchableOpacity style={styles.enTeteCell} onPress={() => gererTri(thisEntete)}>
           <Text style={styles.enTeteTexte}>{thisEntete.toUpperCase()}</Text>
           <RendreFleche cleColonne={thisEntete} />
-        </TouchableOpacity>
+        </TouchableOpacity>:null
 }
 
 const styles = StyleSheet.create({

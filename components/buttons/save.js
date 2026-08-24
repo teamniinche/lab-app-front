@@ -66,11 +66,11 @@ export const Bouton=({reqBody,registrable,buttonParams,render})=>{
               .then(data=>{
                 const {code,message,id}=data;
                   if(code!=='red'){
+                    setPop({show:true,message:message,code:code});
                     render({color:'#c5c5ef',text:'✔✔',able:false,});
                     product && dispatchId(data.id);// pour les autres gr  ndeurs de mera s'updatent au lieu d'efectuer un nouveau enregistrement
                     dispatch(postAnalyses([])); //IMPORTANT:c'etait pour forcer le prochain fetch des data de la bdd à se faire et pas de se baser sur les data du store qui ne sont pas encore mis à jour, mais comme on a une mise à jour du store dans le reducer qui traite la reponse de l'ajout, on n'en a plus besoin
                     setReponse(data);
-                    setPop({show:true,message:message,code:code});
 
                   }else{
                     setPop({show:true,message:message,code:'#880000'});

@@ -4,7 +4,7 @@ import { Badge, Dialog, PaperProvider,Portal, Searchbar } from "react-native-pap
 import { useState, useEffect,useContext,useMemo } from "react";
 import { useSelector,useDispatch } from "react-redux";
 // DATA STATEMENTS
-import { CurrentProductsContext,useMonoProducts,usePopup} from "../wrappers/contexts";
+import { CurrentProductsContext,useMonoProducts,useCurrentProducted,usePopup} from "../wrappers/contexts";
 import { postAnalyses } from "../store/reducers/dataReducer";
 import { ResultProvider} from "../resultProvider";
 import Pop from "../popup";
@@ -16,27 +16,29 @@ import { Periodes } from "../periode";
 // UTILS
 import Entete from '../customHeader.js';
 import { primaryColor,departements} from "../../assets/constantes";
-import { colorFromName,centrer } from "../../assets/functions";
+import { colorFromName,centrer,realKeyFromEntete } from "../../assets/functions";
 import {pA,currentElemnts } from "../../hooks/littleBiblio";
 import WinDim from '../../assets/operatingData'
 import Colors from "../../assets/colors";
 
 const {isWeb}=WinDim;
 const Table = ({current,rend,product,API_URL, headers }) => {
-    const {startedAt,endedAt,postedAnalyses}=useSelector(state=>{
-            const {startedAt,endedAt}=state.period.targetPeriod;
-            const postedAnalyses=state.data.postedAnalyses;
-            return {startedAt:startedAt,endedAt:endedAt,postedAnalyses:postedAnalyses};
-        });
-    const postedAnalysesToString = JSON.stringify(
-      postedAnalyses.map(item => ({ id: item.id, item: item}))
-    );
-    const dispatch=useDispatch();
-    const {setPop}=usePopup();
-    const {aujourdhui,demain}=Periodes();
-    const [analyses, setAnalyses] = useState([]);
-    const [loading, setLoading] = useState(false);
-    const {buildCurrentProducts}=useContext(CurrentProductsContext);
+  const {startedAt,endedAt,postedAnalyses}=useSelector(state=>{
+    const {startedAt,endedAt}=state.period.targetPeriod;
+    const postedAnalyses=state.data.postedAnalyses;
+    return {startedAt:startedAt,endedAt:endedAt,postedAnalyses:postedAnalyses};
+  });
+  const postedAnalysesToString = JSON.stringify(
+    postedAnalyses.map(item => ({ id: item.id, item: item}))
+  );
+  const dispatch=useDispatch();
+  const {setPop}=usePopup();
+  const {aujourdhui,demain}=Periodes();
+  const [analyses, setAnalyses] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const {buildCurrentProducts}=useContext(CurrentProductsContext);
+  const {entete}=useCurrentProducted();
+  const titleHeaders=['heure','name','machine','chimiste'];
 // ================ POUR LA PAGINATION ===================================
     const [totalPages, setTotalPages] = useState(1);
     const [totalAnalyses, setTotalAnalyses] = useState(1);
@@ -148,7 +150,6 @@ async function paginatePostedAnalyses(analys){
 // ===============================================================================================
   const colorIfProduct=product && '#dfdfdf';
   const [searchQuery, setSearchQuery] = useState('');
-
   const handleSearchQueryChange= async (query)=>{
       const deps=Object.keys(departements);
       setSearchQuery(query);
@@ -165,6 +166,15 @@ async function paginatePostedAnalyses(analys){
     handleSearchQueryChange(it);
     setDialogShow(false);
   }
+
+  const entetesAlreadyIn=[];
+  const enteteIsIn=(ent)=>entetesAlreadyIn.includes(ent);
+  const EnteteRow=({ntte})=>{
+    return <Text style={{width:'100%',height:50,paddingVertical:10,backgroundColor:'rgba(0,0,0,0.7)',color:'white',fontSize:13,fontWeight:'bold',textAlign:'left',paddingLeft:100,}}>
+      {ntte}
+    </Text>
+  }
+
   const currentStyle={justifyContent: "flex-start",gap:"6%",};
 return (<HideStatusBarOnFocus>
     <PaperProvider><View style={styles.container}>
@@ -222,7 +232,9 @@ return (<HideStatusBarOnFocus>
                   if(interDate.minDate===""){
                     // ()=>setInterDate({...interDate,minDate:ReduceDateTime(createdAt)}); // A VOIR A REVOIR  A VOIR A REVOIR
                   }
-                return <ClickableRow
+                return <>
+                      {enteteIsIn(realKeyFromEntete(entete,item)) && <EnteteRow ntte={realKeyFromEntete(entete,item)}/>}
+                      <ClickableRow
                           key={index}
                           num={index+1}
                           search={searchQuery}
@@ -236,6 +248,7 @@ return (<HideStatusBarOnFocus>
                           setK={(idx)=>setK(idx)}
 
                         />
+                      </>
                 }
                 }
               />
