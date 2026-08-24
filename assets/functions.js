@@ -17,7 +17,7 @@ export const Flexion=((dir,jC,aI,gap)=>{ return {flexDirection:dir,justifyConten
 export const centrer=(()=>{return {flexDirection:'row',justifyContent:'center',alignItems:'center'}})();
 
 const isConforme=(range,ma) => {
-    const {min,max}=range; 
+    const {min,max}=range;
     if(ma>=min && ma<=max){
       return true
     }else{
@@ -69,7 +69,7 @@ export function numericDateTime() {
 
 export function realKeyFromEntete(entete,item){
     var toReturn;
-   (entete) {
+   switch(entete) {
     case 'utilisateur':
       toReturn=item['utilisateur']['pseudo']
       break;
@@ -82,13 +82,12 @@ export function realKeyFromEntete(entete,item){
   return toReturn;
 }
 
-
 export const colorFromName=(text)=>{
   const textSplit=text.split(' ');
   const leng=textSplit.length;
   const txt=textSplit[leng-1];
   var couleur;
-   (text) {
+  switch (text) {
     case 'Lave vitre Madar':
       couleur='Bleu'
       break;
