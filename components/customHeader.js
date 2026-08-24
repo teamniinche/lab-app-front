@@ -54,7 +54,7 @@ const Entete=({thisEntete,donnees,headers,render})=>{
     </View>;
   };
 
-  return rest.inludes(thisEntete)?<TouchableOpacity style={styles.enTeteCell} onPress={() => gererTri(thisEntete)}>
+  return rest.includes(thisEntete)?<TouchableOpacity style={styles.enTeteCell} onPress={() => gererTri(thisEntete)}>
           <Text style={styles.enTeteTexte}>{thisEntete.toUpperCase()}</Text>
           <RendreFleche cleColonne={thisEntete} />
         </TouchableOpacity>:null
