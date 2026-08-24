@@ -5,7 +5,7 @@ import {useCurrentProducted} from './wrappers/contexts';
 
 
 const Entete=({thisEntete,donnees,headers,render})=>{
-  const {observations,actions,...rest}=headers;
+  const [observations,actions,...rest]=headers;
   // 1. États pour stocker la colonne active et le sens du tri
   const {entete,setEntete,directionTri, setDirectionTri}=useCurrentProducted();
 
