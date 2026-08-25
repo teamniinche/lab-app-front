@@ -75,13 +75,13 @@ async _init(){try{//{API_URL,startedAt,endedAt,product}
 // ====================== FILTRES FINAUX ====================================================dep_engine_mois_date
 isValidated_mois_date_product(elements){// b) dep_isValidated_mois_date
     // const elements=this.analyses;
-    console.log(this._formatElements(this.findNotConformes(elements)));
+    console.error(this._formatElements(this.findNotConformes(elements)));
     const count=this._formatElements(elements).length;
-        const combinatedResult = {count:count,items:this._formatElements(this.findNotConformes(elements)).map(([key,value])=>{
+        const combinatedResult = {count:count,items:this._formatElements(this.findNotConformes(elements)).map(value=>{
                 const count=this._formatElements(value).length;
                 return {
                     count:count,
-                    [key]:this._formatElements(this.groupedByMonth(value)).map(([k,val])=>{
+                    [value.name.replace(' ','_').toLowerCase()]:this._formatElements(this.groupedByMonth(value)).map(([k,val])=>{
                         const count=this._formatElements(value).length;
                         return {count:count,[k]:this._formatElements(this.filterByDate(val)).map(([N,nal])=>{
                             const count=this._formatElements(value).length;
