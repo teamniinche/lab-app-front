@@ -239,7 +239,7 @@ export function moy(tab,key){
         return Array.isArray(elements)?elements:Object.values(elements);
     }
   const n=(d)=>!isNaN(Number(d))?Number(d):0;
-  const validItems=formatTab(tab).filter(item=>!isNaN(Number(item[key])))
+  var validItems=formatTab(tab).filter(item=>item[key]!==null && item[key]!==undefined && !isNaN(Number(item[key])))
   return (validItems.reduce((acc, b) => acc + n(b[key]),0) / validItems.length).toFixed(2);
 }
 export function Chariots(items){
