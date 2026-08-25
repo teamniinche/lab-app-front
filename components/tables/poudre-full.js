@@ -97,7 +97,7 @@ export default PoudreFull=({navigation/*,route*/,routeNheaders})=>{
                         ${Object.entries(object).map(([k,item]) => {
                             var it=item || item[0];
                             const {id,updatedAt, createdAt,...rest} = it;
-                            return `<p style="margin-left:5px;color:${clr};font-size:${Platform.OS!=='web'?'14px':'15px'};letter-spacing:0.7px;border-bottom:${Platform.OS==='web' && `1px solid grey`};">
+                            return `<p style="margin-left:5px;color:'grey';font-size:${Platform.OS!=='web'?'14px':'15px'};letter-spacing:0.7px;border-bottom:${Platform.OS==='web' && `1px solid grey`};">
                                         ${Time(createdAt)}
                                     </p>`;
                             }).join("")}
