@@ -195,7 +195,7 @@ product_mois_date(elements){
  }
 
  export default Filters;
-/** 
+/* 
     {
         product_mois_date,
         mois_date_product,

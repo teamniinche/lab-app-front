@@ -247,7 +247,7 @@ export default PoudreFull=({navigation/*,route,routeNheaders*/})=>{
             style={{position:'absolute',right:20,top:0.71*screenHeight,backgroundColor:'rgba(155,0,0,0.7)',padding:8,borderRadius:10,}}
             onPress={async () => {setTimeout(async () => {
                                 await generatePDF();
-                            }, 500);
+                            },500);
                         }}
             >
                 <Text ><FontAwesome5 name="file-pdf" size={50} color="white"/></Text>
