@@ -75,23 +75,17 @@ async _init(){try{//{API_URL,startedAt,endedAt,product}
 // ====================== FILTRES FINAUX ====================================================dep_engine_mois_date
 isValidated_mois_date_product(elements){// b) dep_isValidated_mois_date
     // const elements=this.analyses;
-    console.error(this._formatElements(this.findNotConformes(elements)));
-    const count=this._formatElements(elements).length;
-        const combinatedResult = {count:count,items:this._formatElements(this.findNotConformes(elements)).map(value=>{
-                const count=this._formatElements(value).length;
-                return {
-                    count:count,
-                    [value.name.replace(' ','_').toLowerCase()]:this._formatElements(this.groupedByMonth(value)).map(([k,val])=>{
-                        const count=this._formatElements(value).length;
+    // console.error(this._formatElements(this.findNotConformes(elements)));
+    const count=this._formatElements(this.findNotConformes(elements)).length;
+        const combinatedResult = {count:count,items:this.groupedByMonth(this._formatElements(this.findNotConformes(elements))).map(([k,val])=>{
+                        const count=this._formatElements(val).length;
                         return {count:count,[k]:this._formatElements(this.filterByDate(val)).map(([N,nal])=>{
-                            const count=this._formatElements(value).length;
+                            const count=this._formatElements(nal).length;
                             return {count:count,[N]:this.filterByName(nal)}
                         })}
-
-                        // return {count:count,[k]:this.filterByDate(val)}
                     })
                 }
-    })}
+    
     return combinatedResult;
 }
 mois_date_product(elements){
@@ -168,7 +162,7 @@ product_mois_date(elements){
         return groupedItems;
     }
     findNotConformes(elements){
-        const notConformes=this._formatElements(elements).filter(item=>(item[0] || item).validation!==null);
+        const notConformes=this._formatElements(elements).filter(item=>item.validation!==null);
         return notConformes;
     }
     groupedByMonth(elements){
