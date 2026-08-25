@@ -74,8 +74,6 @@ async _init(){try{//{API_URL,startedAt,endedAt,product}
 // periode -> departement -> Machine
 // ====================== FILTRES FINAUX ====================================================dep_engine_mois_date
 isValidated_mois_date_product(elements){// b) dep_isValidated_mois_date
-    // const elements=this.analyses;
-    // console.error(this._formatElements(this.findNotConformes(elements)));
     const count=this._formatElements(this.findNotConformes(elements)).length;
         const combinatedResult = {count:count,items:this._formatElements(this.groupedByMonth(this._formatElements(this.findNotConformes(elements)))).map(([k,val])=>{
                         const count=this._formatElements(val).length;
@@ -85,7 +83,7 @@ isValidated_mois_date_product(elements){// b) dep_isValidated_mois_date
                         })}
                     })
                 }
-    
+    console.log(combinatedResult);
     return combinatedResult;
 }
 mois_date_product(elements){
@@ -100,6 +98,7 @@ mois_date_product(elements){
                     })
                 }
     })}
+    console.log(combinatedResult);
     return combinatedResult;
 }
 
@@ -115,6 +114,7 @@ product_mois_date(elements){
             })
         }
     })}
+    console.log(combinatedResult);
     return combinatedResult;
 }
 

@@ -72,7 +72,7 @@ export default PoudreFull=({navigation/*,route*/,routeNheaders})=>{
                 const toPrintAnal=filter.mois_date_product(toPrintAnalyses);
                 setToDisplayPrint(toPrintAnal);////(toPrintAnal);
                 setToPrint(toPrintAnalyses);
-            }catch(error){console.error(error);throw new Error(error.message);}
+            }catch(error){throw new Error(error.message);}
     
     })
     .catch(function(error){setPop({show:true,message:"Erreur de chargement : "+error.message,code:'#880000'})})
