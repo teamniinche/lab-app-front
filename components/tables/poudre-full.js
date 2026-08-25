@@ -96,10 +96,11 @@ export default PoudreFull=({navigation/*,route*/,routeNheaders})=>{
                 const valeurs=['nChar','humidite','matiere_active','alcanite','gg','silicate','sel','densite'];
                 const [premier,...rest]=valeurs;
                 const count=Object.values(object).length;
-                return `<h3 class="key3">${key.toUpperCase()}${'moyennes '+rest.map(r=>{
-                    return `<span style="margin:15px;">${keyReduce(r)+': ' +moy(Object.values(object),r)}</span>`
-                })}<span style="display:inline-block;background-color:blue;font-weight:bold;font-size:14px;border-radius:50%;width:auto;height:auto;padding:4px;margin-left:5px;margin-right:5px;color:white;border:1px solid grey">${count}</span><h3>
-                    </div>
+                return `<h3 class="key3">${key.toUpperCase()}<span style="display:inline-block;background-color:blue;font-weight:bold;font-size:14px;border-radius:50%;width:auto;height:auto;padding:4px;margin-left:5px;margin-right:5px;color:white;border:1px solid grey">${count}</span><h3>
+                    
+                    <h3 class="key3">${' Moyennes '+rest.map(r=>{
+                    return `<span style="margin:15px;">${keyReduce(r)+': ' +moy(Object.values(object),r)}</span>`})}<h3>
+                    <div>
                         ${Object.entries(object).map(([k,item]) => {
                             var it= item[0] || item;
                             const {id,updatedAt,createdAt,identifier,type,categorie,taches,...rest} = it;
