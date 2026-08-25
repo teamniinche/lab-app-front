@@ -102,8 +102,7 @@ export default PoudreFull=({navigation/*,route*/,routeNheaders})=>{
                             const valeurs=['nChar','humidite','matiere_active','alcanite','gg','silicate','sel','densite'];
                             const vallues = VALEURSPOUDRE(rest,valeurs);
                             return `<p style="margin-left:5px;color:'grey';font-size:${Platform.OS!=='web'?'14px':'15px'};letter-spacing:0.7px;border-bottom:${Platform.OS==='web' && `1px solid grey`};">
-                                        ${Time(createdAt)}${vallues} 
-                                        // rest.validation?" -- ✔ ":""
+                                        ${Time(createdAt)}${vallues}
                                     </p>`;
                             }).join("")}
                     </div>`};

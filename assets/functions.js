@@ -227,7 +227,8 @@ export function VALEURSPOUDRE(obj,valeurs){
                                             " -- " +(valeurs.includes(key)?(key+" = "):"")
                                             :
                                             v !== null?
-                                                      (index===0?"   ":" -- ")+(valeurs.includes(key)?(keyReduce(key)+" = "):"")+v:""
+                                                    (index===0?"   "+(valeurs.includes(key)?(keyReduce(key)+" = "):"")+v:" -- "+(valeurs.includes(key)?(keyReduce(key)+" = "):"")+v)
+                                                    :""
                 )
                 .join("");
   return vals
