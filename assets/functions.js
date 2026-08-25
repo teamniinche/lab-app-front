@@ -216,12 +216,17 @@ export function VALEURS(obj,valeurs){
   return vals
 }
 export function VALEURSPOUDRE(obj,valeurs){
+  const keyReduce=k=>k
+                        .replace('matiere_active','ma')
+                        .replace('alcanite','alca')
+                        .replace('humidite','hum')
+                        .replace('silicate','sil');
   const vals = Object.entries(obj).map(([key,v],index) =>
                   v && typeof v === "object"?
                                             " -- " +(valeurs.includes(key)?(key+" = "):"")
                                             :
                                             v !== null?
-                                                      (index===0?"   ":" -- ")+(valeurs.includes(key)?(key+" = "):"")+v:""
+                                                      (index===0?"   ":" -- ")+(valeurs.includes(key)?(keyReduce(key)+" = "):"")+v:""
                 )
                 .join("");
   return vals
