@@ -138,8 +138,8 @@ product_mois_date(elements){
         var KEYS=[];
         var  groupedItems={};
 
-        this._formatElements(elements).map(([key,item])=>{
-            const {createdAt}=item;
+        this._formatElements(elements).map(item=>{
+            const {createdAt}=item[0] || item;
             const dat=this._DateString(createdAt);
             if(KEYS.includes(dat)){
                 groupedItems[dat]=[...groupedItems[dat],item];
@@ -167,7 +167,7 @@ product_mois_date(elements){
         return groupedItems;
     }
     findNotConformes(elements){
-        const notConformes=this._formatElements(elements).filter(([key,item])=>item.validation!==null);
+        const notConformes=this._formatElements(elements).filter(item=>(item[0] || item).validation!==null);
         return notConformes;
     }
     groupedByMonth(elements){
