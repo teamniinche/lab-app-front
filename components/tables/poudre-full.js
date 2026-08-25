@@ -12,7 +12,7 @@ import { AnalysedListe } from '../../navigators/DrawerPoudre';
 import WinDim from '../../assets/operatingData';
 import { MyChipp,Filter } from '../chip';
 import Filters from '../../kernel/classes/formatTablesAnalysesPoudre';
-import { productsAndCountsFormat,Flex,VALEURSPOUDRE,isFormule,moy } from '../../assets/functions';
+import { productsAndCountsFormat,Flex,VALEURSPOUDRE,isFormule,moy,keyReduce } from '../../assets/functions';
 import { FontAwesome5 } from '@expo/vector-icons';
 import BottomSheet from '../modaux.js/bottomSheet';
 import {Time } from '../../hooks/littleBiblio';
