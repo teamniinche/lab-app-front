@@ -77,7 +77,7 @@ isValidated_mois_date_product(elements){// b) dep_isValidated_mois_date
     // const elements=this.analyses;
     // console.error(this._formatElements(this.findNotConformes(elements)));
     const count=this._formatElements(this.findNotConformes(elements)).length;
-        const combinatedResult = {count:count,items:this.groupedByMonth(this._formatElements(this.findNotConformes(elements))).map(([k,val])=>{
+        const combinatedResult = {count:count,items:this._formatElements(this.groupedByMonth(this._formatElements(this.findNotConformes(elements)))).map(([k,val])=>{
                         const count=this._formatElements(val).length;
                         return {count:count,[k]:this._formatElements(this.filterByDate(val)).map(([N,nal])=>{
                             const count=this._formatElements(nal).length;
