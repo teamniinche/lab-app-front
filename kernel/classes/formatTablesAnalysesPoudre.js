@@ -75,6 +75,7 @@ async _init(){try{//{API_URL,startedAt,endedAt,product}
 // ====================== FILTRES FINAUX ====================================================dep_engine_mois_date
 isValidated_mois_date_product(elements){// b) dep_isValidated_mois_date
     // const elements=this.analyses;
+    console.log(this._formatElements(this.findNotConformes(elements)));
     const count=this._formatElements(elements).length;
         const combinatedResult = {count:count,items:this._formatElements(this.findNotConformes(elements)).map(([key,value])=>{
                 const count=this._formatElements(value).length;
