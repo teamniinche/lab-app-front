@@ -7,7 +7,7 @@ import * as Print from 'expo-print';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import { DrawerActions} from '@react-navigation/native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import {CurrentProductsProvider,ChipProvider,CurrentProductedProvider,ItemToSaveProvider,useEverages,usePowderEverages} from '../wrappers/contexts';
+import {CurrentProductsProvider,ChipProvider,CurrentProductedProvider,ItemToSaveProvider,usePopup,useEverages,usePowderEverages} from '../wrappers/contexts';
 import { AnalysedListe } from '../../navigators/DrawerPoudre';
 import WinDim from '../../assets/operatingData';
 import { MyChipp,Filter } from '../chip';
@@ -42,6 +42,7 @@ export default PoudreFull=({navigation/*,route*/,routeNheaders})=>{
     const [titre,setTitre]=useState('');
     const [refreshing,setRefreshing]=useState(false);
     const [isDrop,setIsDrop]=useState(false);
+    const {setPop}=usePopup();
     // {product_mois_date,mois_date_product,isValidated_mois_date_product}
     const filter=new Filters();
     const dataFilters=[
@@ -63,10 +64,8 @@ export default PoudreFull=({navigation/*,route*/,routeNheaders})=>{
         fetch(`${api_url}?page=1&limit=10000&startedAt=${startedAt}&endedAt=${endedAt}`)
         .then(response=>response.json())
         .then(data=>{
-            console.log(data);
             try{
-                const {lansas}=data.analyses;
-                const toPrintAnalyses=product?lansas.filter(item=>item.name.includes(product)):lansas;
+                const toPrintAnalyses=product?data.analyses.filter(item=>item.name.includes(product)):data.analyses;
                 buildAnalytics(postedAnalyses);buildPowderAnalytics(toPrintAnalyses);
                 // const toPrintAnal=JSON.stringify(filter.dep_date_engine(toPrintAnalyses));
                 const toPrintAnal=filter.mois_date_product(toPrintAnalyses);
