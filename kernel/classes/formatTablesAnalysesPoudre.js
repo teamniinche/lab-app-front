@@ -126,9 +126,7 @@ product_mois_date(elements){
 // ====================== FONCTIONS UTILITAIRES ==============================================
     _formatElements(elements){
         if (!elements){alert('null or undefined'); return []};
-        if(Array.isArray(elements)){alert('true')};
-        const ELEMENTS=Array.isArray(elements)?elements:Object.entries(elements);
-        return ELEMENTS;
+        return Array.isArray(elements)?elements:Object.entries(elements);
     }
     _DateString=(dateTimeString)=>{
         const dateSplit=dateTimeString.split('T');
@@ -175,7 +173,7 @@ product_mois_date(elements){
     groupedByMonth(elements){
         var MOIS=[];
         var  groupedByMonth={};
-
+        console.log(this._formatElements(elements));
         this._formatElements(elements).filter(([key,item])=>{
             var it=item || item[0];
             const {createdAt}=it;
