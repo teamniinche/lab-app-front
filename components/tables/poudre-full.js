@@ -28,7 +28,7 @@ export default PoudreFull=({navigation/*,route*/,routeNheaders})=>{
     // const [modalShow,setModalShow]=useState(false);
     const {startedAt,endedAt,postedAnalyses,clooned}= useSelector(state => {
         const {startedAt,endedAt}=state.period.targetPeriod;
-        const posetAnalyses=state.data.postedAnalyses;
+        const postedAnalyses=state.data.postedAnalyses;
         const clooned=state.actived.clooned;
         return {startedAt,endedAt,postedAnalyses,clooned};});
     
