@@ -35,6 +35,7 @@ export default PoudreFull=({navigation/*,route,routeNheaders*/})=>{
     const [product,setProduct]=useState(null);
     const [toPrint,setToPrint]=useState({});
     const [toDisplayPrint, setToDisplayPrint] = useState([]);
+    const [titre,setTitre]=useState('');
     const [refreshing,setRefreshing]=useState(false);
     const [isDrop,setIsDrop]=useState(false);
     // {product_mois_date,mois_date_product,isValidated_mois_date_product}
@@ -211,6 +212,11 @@ export default PoudreFull=({navigation/*,route,routeNheaders*/})=>{
                         <Text style={{...styles.periodText,paddingVertical:8,borderTopRightRadius:4,borderBottomRightRadius:4,}}>{'au  '+ endedAt.toUpperCase()}</Text>
                     </Pressable>
                     <MyChipp product={null} clooned={clooned} render={()=>setProduct(null)} />
+                    
+                    {dataFilters.map((o,index)=>{
+                        const {name,data,active}=o;
+                        return <Filter key={index} active={active} title={name} text={titre} render={(txt)=>{setToDisplayPrint(data);setTitre(txt)}} />
+                    })}
                     
                 </View>
                 
