@@ -215,6 +215,17 @@ export function VALEURS(obj,valeurs){
                 .join("");
   return vals
 }
+export function VALEURSPOUDRE(obj,valeurs){
+  const vals = Object.entries(obj).map(([key,v],index) =>
+                  v && typeof v === "object"?
+                                            " -- " +(valeurs.includes(key)?(key+" = "):"")
+                                            :
+                                            v !== null?
+                                                      (index===0?"   ":" -- ")+(valeurs.includes(key)?(key+" = "):"")+v:""
+                )
+                .join("");
+  return vals
+}
 
 export function Chariots(items){
   const isArray=items[0]?.id || false;

@@ -12,7 +12,7 @@ import { AnalysedListe } from '../../navigators/DrawerPoudre';
 import WinDim from '../../assets/operatingData';
 import { MyChipp,Filter } from '../chip';
 import Filters from '../../kernel/classes/formatTablesAnalysesPoudre';
-import { productsAndCountsFormat,Flex, isFormule } from '../../assets/functions';
+import { productsAndCountsFormat,Flex,VALEURSPOUDRE,isFormule } from '../../assets/functions';
 import { FontAwesome5 } from '@expo/vector-icons';
 import BottomSheet from '../modaux.js/bottomSheet';
 import {Time } from '../../hooks/littleBiblio';
@@ -97,10 +97,13 @@ export default PoudreFull=({navigation/*,route*/,routeNheaders})=>{
                 return `<h3 class="key3">${key}<span style="display:inline-block;background-color:blue;font-weight:bold;font-size:14px;border-radius:50%;width:auto;height:auto;padding:4px;margin-left:5px;margin-right:5px;color:white;border:1px solid grey">${count}</span><h3>
                     </div>
                         ${Object.entries(object).map(([k,item]) => {
-                            var it=item || item[0];
-                            const {id,updatedAt, createdAt,...rest} = it;
+                            var it= item[0] || item;
+                            const {id,updatedAt,createdAt...rest} = it;
+                            const valeurs=['humidite','matiere_active','alcanite','gg','silicate','sel','densite'];
+                            const vallues = VALEURSPOUDRE(rest,valeurs);
                             return `<p style="margin-left:5px;color:'grey';font-size:${Platform.OS!=='web'?'14px':'15px'};letter-spacing:0.7px;border-bottom:${Platform.OS==='web' && `1px solid grey`};">
-                                        ${Time(createdAt)}
+                                        ${Time(createdAt)}${vallues} ${
+                                        rest.validation?" -- ✔ ":""}
                                     </p>`;
                             }).join("")}
                     </div>`};
