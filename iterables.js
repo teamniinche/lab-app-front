@@ -148,9 +148,14 @@ export const routesAndHeaders={
 
 export const routesAndHeadersPowder={
     full:{
-      api_url:`${dbBaseRoot}powerAnalyses`,
+      api_url:`${dbBaseRoot}poudre/analyses`,
       headers:["N° Ch.","name","gg","humidite","matiere_active","alcanite","silicate","sel"]//"couleur","taches",
-    }}
+    },
+    poudreFull:{// je repete la meme structure du hessus par prudence p. Peut il est utilisé ailleurs qui m'échappe encore
+      api_url:`${dbBaseRoot}poudre/analyses`,
+      headers:["N° Ch.","name","gg","humidite","matiere_active","alcanite","silicate","sel"]//"couleur","taches",
+    }
+  }
 
 // from  results  color(inclu dans results) urlImage
 export default dentifricesObject=async ()=>{

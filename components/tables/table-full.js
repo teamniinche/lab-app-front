@@ -36,13 +36,13 @@ export default TableFull=({navigation/*,route*/,routeNheaders})=>{
     const viewRef=useRef();
     const safeAreaRef=useRef();
     const {setPop}=usePopup();
-    const {buildAnalytics}=useEverages();
     const {api_url,headers}=routeNheaders;
     const {startedAt,endedAt,powderAnalysed,clooned}= useSelector(state => {
         const {startedAt,endedAt}=state.period.targetPeriod;
         const powderAnalysed=state.powderAnalysed.powderAnalysed;
         const clooned=state.actived.clooned;
         return {startedAt,endedAt,powderAnalysed,clooned};});
+    const {buildAnalytics}=useEverages();
     const {buildPowderAnalytics}=usePowderEverages();
     const [modalShow,setModalShow]=useState(false);
     const [productsAndCounts,setProductsAndCounts]=useState(null);

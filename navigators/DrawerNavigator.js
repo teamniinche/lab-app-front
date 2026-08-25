@@ -7,7 +7,7 @@ import { ULNavigator } from '../components/tables/table-full';
 import { UPNavigator } from '../components/tables/poudre-full';
 import Normes from '../components/jsonOfNormes';
 import CustomDrawerContent from '../components/CustomDrawerContent';
-import { routesAndHeaders } from '../iterables';
+import { routesAndHeaders,routesAndHeadersPowder } from '../iterables';
 import {UsersNav} from '../components/modaux.js/users/users';
 import WinDim from '../assets/operatingData';
 import { primaryColor } from '../assets/constantes';
@@ -16,6 +16,7 @@ const Drawer = createDrawerNavigator();
 
 export default function DrawerNavigator(){
 const {full,cosmetiques,multiusages,eaux,pates,causilicate}=routesAndHeaders;
+const {poudreFull}=routesAndHeadersPowder;
   return (
       <Drawer.Navigator initialRouteName="Accueil"
       screenOptions={{
@@ -45,7 +46,7 @@ const {full,cosmetiques,multiusages,eaux,pates,causilicate}=routesAndHeaders;
         <Drawer.Screen name="Caustique & Silicate" children={({navigation,route}) => <ULNavigator navigation={navigation} route={route}  routeNheaders={causilicate}/>}/>
         <Drawer.Screen name="Eaux" children={({navigation,route}) => <ULNavigator navigation={navigation} route={route}  routeNheaders={eaux}/>}/>
         <Drawer.Screen name="Utilisateurs" children={() => <UsersNav/>}/>
-        <Drawer.Screen name="Poudres" children={() => <UPNavigator />}/>
+        <Drawer.Screen name="Poudres" children={() => <UPNavigator routeNheaders={poudreFull} />}/>
         <Drawer.Screen name="Normes physico-chimiques" children={({/*navigation,route*/}) =><Normes/>}/>
         {/* <Drawer.Screen name="updateLiquides" children={({navigation,route}) => <UpdateLiquidesNavigator navigation={navigation} route={route}/>}/> */}
         {/* <Drawer.Screen name="test" children={({navigation,route}) =><Tests/>}/> */}

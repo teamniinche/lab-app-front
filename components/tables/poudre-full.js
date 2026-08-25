@@ -7,7 +7,7 @@ import * as Print from 'expo-print';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import { DrawerActions} from '@react-navigation/native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import {CurrentProductsProvider,ChipProvider,CurrentProductedProvider,ItemToSaveProvider} from '../wrappers/contexts';
+import {CurrentProductsProvider,ChipProvider,CurrentProductedProvider,ItemToSaveProvider,useEverages,usePowderEverages} from '../wrappers/contexts';
 import { AnalysedListe } from '../../navigators/DrawerPoudre';
 import WinDim from '../../assets/operatingData';
 import { MyChipp,Filter } from '../chip';
@@ -20,16 +20,20 @@ import { dbBaseRoot } from '../../assets/constantes';
 const Stack=createNativeStackNavigator();
 const {isLarge,screenHeight}=WinDim;
 
-export default PoudreFull=({navigation/*,route,routeNheaders*/})=>{
+export default PoudreFull=({navigation/*,route*/,routeNheaders})=>{
     const viewRef=useRef();
     const safeAreaRef=useRef();
     // const {buildAnalytics}=useEverages();
-    // const {api_url,headers}=routeNheaders;
+    const {api_url,headers}=routeNheaders;
     // const [modalShow,setModalShow]=useState(false);
-    const {startedAt,endedAt,clooned}= useSelector(state => {
+    const {startedAt,endedAt,postedAnalyses,clooned}= useSelector(state => {
         const {startedAt,endedAt}=state.period.targetPeriod;
+        const posetAnalyses=state.data.postedAnalyses;
         const clooned=state.actived.clooned;
-        return {startedAt,endedAt,clooned};});
+        return {startedAt,endedAt,postedAnalyses,clooned};});
+    
+    const {buildAnalytics}=useEverages();
+    const {buildPowderAnalytics}=usePowderEverages();
     const [productsAndCounts,setProductsAndCounts]=useState(null);
     // const [analysesCount,setAnalysesCount]=useState(null)
     const [product,setProduct]=useState(null);
@@ -53,6 +57,27 @@ export default PoudreFull=({navigation/*,route,routeNheaders*/})=>{
         // {name:'P.F.',data:filter.dep_mois_date_product(toPrint),active:true},//melanges avec name filtrer/longue periode
         // {name:'Op.',data:filter.chemist_mois_date(toPrint),active:false}//suivant Operateur
     ];
+
+        // ============== POUR L'IMPRESSION SEULEMENT ============
+    useLayoutEffect(()=>{
+        fetch(`${api_url}?page=1&limit=10000&startedAt=${startedAt}&endedAt=${endedAt}`)
+        .then(response=>response.json())
+        .then(data=>{
+            console.log(data);
+            try{
+                const {lansas}=data.analyses;
+                const toPrintAnalyses=product?lansas.filter(item=>item.name.includes(product)):lansas;
+                buildAnalytics(postedAnalyses);buildPowderAnalytics(toPrintAnalyses);
+                // const toPrintAnal=JSON.stringify(filter.dep_date_engine(toPrintAnalyses));
+                const toPrintAnal=filter.mois_date_product(toPrintAnalyses);
+                setToDisplayPrint(toPrintAnal);////(toPrintAnal);
+                setToPrint(toPrintAnalyses);
+            }catch(error){throw new Error(error.message);}
+    
+    })
+    .catch(function(error){setPop({show:true,message:"Erreur de chargement : "+error.message,code:'#880000'})})
+    },[product,api_url,startedAt,endedAt]);
+    // =======================================================
 
     const refresh=()=>{// Pour raffraichir le screen d'accueil
         // setRefreshing(true); // je trouve la similation moche
@@ -263,11 +288,11 @@ export default PoudreFull=({navigation/*,route,routeNheaders*/})=>{
 }
 
 
-export const UPNavigator=()=>{
+export const UPNavigator=({routeNheaders})=>{
     return (<CurrentProductedProvider>
             <ItemToSaveProvider>
                     <Stack.Navigator screenOptions={{headerShown: false,}}>
-                        <Stack.Screen name="Accueil" children={() => <PoudreFull/>}/>
+                        <Stack.Screen name="Accueil" children={() => <PoudreFull routeNheaders={routeNheaders}/>}/>
                         <Stack.Screen name="analyses/poudres/updatePoudres" children={({navigation,route}) => <Text>test</Text>} options={{presentation:'transparentModal'}}/>
                     </Stack.Navigator>
             </ItemToSaveProvider>
