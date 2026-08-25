@@ -126,7 +126,7 @@ product_mois_date(elements){
 // ====================== FONCTIONS UTILITAIRES ==============================================
     _formatElements(elements){
         if (!elements) return [];
-        return Array.isArray(elements)?elements:this._formatElements(elements);
+        return Array.isArray(elements)?elements:Object.entries(elements);
     }
     _DateString=(dateTimeString)=>{
         const dateSplit=dateTimeString.split('T');
