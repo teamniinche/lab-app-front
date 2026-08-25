@@ -223,10 +223,10 @@ export function VALEURSPOUDRE(obj,valeurs){
                       .replace('silicate','sil')
                       .replace('densite','d');
   const vals = Object.entries(obj).map(([key,v],index) =>
-                  (v && valeurs.includes(key)) && typeof v === "object"?
+                  v && typeof v === "object"?
                                             " -- " +(valeurs.includes(key)?(key+" = "):"")
                                             :
-                                            v?
+                                            v!==null?
                                                     (index===0?"   "+(valeurs.includes(key)?(keyReduce(key)+" = "):"")+v:" -- "+(valeurs.includes(key)?(keyReduce(key)+" = "):"")+v)
                                                     :""
                 )
@@ -240,7 +240,7 @@ export function moy(tab,key){
     }
   const n=(d)=>!isNaN(Number(d))?Number(d):0;
   const validItems=formatTab(tab).filter(item=>!isNaN(Number(item[key])))
-  return (validItems.reduce((acc, b) => acc + n(b[key])) / validItems.length).toFixed(2);
+  return (validItems.reduce((acc, b) => acc + n(b[key]),0) / validItems.length).toFixed(2);
 }
 export function Chariots(items){
   const isArray=items[0]?.id || false;
