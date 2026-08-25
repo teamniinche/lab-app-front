@@ -113,6 +113,7 @@ export default PoudreFull=({navigation/*,route*/,routeNheaders})=>{
         try {
             // //(toDisplayPrint)
             const {count,delth,items}=toDisplayPrint;
+            console.error(items);
             // var titre=product?("Mélanges de "+ `<span style="font-size:18px;font-weight:bold;text-decoration:underline;color:${Colors[colorFromName(product)]};">${product.toUpperCase()}</span>`+" sur cette période choisie"):"Tous sur cette période choisie";
             const html =`
                 <style>
@@ -135,7 +136,61 @@ export default PoudreFull=({navigation/*,route*/,routeNheaders})=>{
                     <h1>Rapport d'analyses du ${dateFr(startedAt)} au ${dateFr(endedAt)}</h1>
                     ${`<li>Nombre d'analyses enregistrées <span class="counts">${count}</span></li>`}
                     <div style="font-size:14px;">
-                        
+                        ${items.map(object1 => {
+                            const {count,...rest1}=object1;
+                            const firstCount=count;
+                            return `<div >${Object.entries(rest1).map(([key2,object2]) => {
+                                const {count,...rest}=object2;
+                                return `<h3 class="key1">👉 ${key2} <span class="counts" style="border:3px solid grey">${firstCount}</span></h3>
+                                <div>
+                                    ${Object.entries(rest).map(([key3,object3]) => {
+                                        const {count,...rest3}=object3;
+                                        return `<div>
+                                            ${Object.entries(rest3).map(([key4,object4]) => {
+                                                const {count,...rest4}=object4;
+                                                const item4=Object.values(rest4)[0].name;
+                                                // }
+                                                var bool4=(item4!==null && item4!==undefined);
+                                                return bool4?terminate({key:key4,object:rest4}):`<h3 class="key2">${key4}<h3>
+                                                <div>
+                                                    ${Object.entries(rest4).map(([key5,object5]) => {
+                                                        const {count,...rest5}=object5;
+                                                        const item5=Object.values(rest5)[0]?.name;
+                                                        var bool5=(item5!==null && item5!==undefined);
+                                                        return bool5?terminate({key:key5,object:rest5}):`<h3 class="key3">${key5}<span class="counts" style="border:1px solid grey">${count}</span><h3>
+                                                            </div>
+                                                                ${Object.entries(rest5).map(([key6,object6]) => {
+                                                                    const {count,...rest6}=object6;
+                                                                    const item6=Object.values(rest6)[0].name;
+                                                                    var bool6=(item6!==null && item6!==undefined);
+                                                                    return bool6?terminate({key:key6,object:rest6}):`<h3 class="key3">${key6}<span class="counts" style="border:1px solid grey">${count}</span><h3>
+                                                                        </div>
+                                                                            ${Object.entries(rest6).map(([key7,object7]) => {
+                                                                                const {count,...rest7}=object7;
+                                                                                const item7=Object.values(rest7)[0].name;//alert(item7);
+                                                                                var bool7=(item7!==null && item7!==undefined);
+                                                                                return bool7?terminate({key:key7,object:rest7}):`<h3 class="key3">${key7}<span class="counts" style="border:1px solid grey">${count}</span><h3>
+                                                                                    </div>
+                                                                                        ${Object.entries(rest7).map(([key8,object8]) => {
+                                                                                            const {count,...rest8}=object8;
+                                                                                            const item8=Object.values(rest8)[0].name;//alert(item7);
+                                                                                            var bool8=(item8!==null && item8!==undefined);
+                                                                                            return bool7?terminate({key:key8,object:rest8}):`<h3 class="key3">${key8+'  '+count}<h3>`
+                                                                                        }).join("")}
+                                                                                    </div>`
+                                                                            }).join("")}
+                                                                        </div>`
+                                                                }).join("")}
+                                                            </div>`
+                                                    }).join("")}
+                                                </div>`
+                                            }).join("")}
+                                        </div>`
+                                    }).join("")}
+                                <div>`
+                            }).join("")}
+                            <div>`
+                        }).join("")}
                     </div>
                     ${Platform.OS==='web' && `<script>
                         window.onload=function(){
@@ -155,7 +210,7 @@ export default PoudreFull=({navigation/*,route*/,routeNheaders})=>{
                     newWindow.document.close();
                 }
             } catch (error) {
-                // alert("Erreur de chargement : "+error.message);
+                setPop({show:true,message:error.message,code:'#880000'});
                 //(error);
             }
         };
