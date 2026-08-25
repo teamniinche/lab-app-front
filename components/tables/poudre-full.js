@@ -64,6 +64,7 @@ export default PoudreFull=({navigation/*,route*/,routeNheaders})=>{
         fetch(`${api_url}?page=1&limit=10000&startedAt=${startedAt}&endedAt=${endedAt}`)
         .then(response=>response.json())
         .then(data=>{
+            console.log(data);
             try{
                 const toPrintAnalyses=product?data.analyses.filter(item=>item.name.includes(product)):data.analyses;
                 buildAnalytics(postedAnalyses);buildPowderAnalytics(toPrintAnalyses);
@@ -71,7 +72,7 @@ export default PoudreFull=({navigation/*,route*/,routeNheaders})=>{
                 const toPrintAnal=filter.mois_date_product(toPrintAnalyses);
                 setToDisplayPrint(toPrintAnal);////(toPrintAnal);
                 setToPrint(toPrintAnalyses);
-            }catch(error){throw new Error(error.message);}
+            }catch(error){throw new Error(error.message+' c ici');}
     
     })
     .catch(function(error){setPop({show:true,message:"Erreur de chargement : "+error.message,code:'#880000'})})
