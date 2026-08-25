@@ -83,7 +83,7 @@ isValidated_mois_date_product(elements){// b) dep_isValidated_mois_date
                         })}
                     })
                 }
-    console.log(combinatedResult);
+    console.log('isValidated_mois_date_product',combinatedResult);
     return combinatedResult;
 }
 mois_date_product(elements){
@@ -98,7 +98,7 @@ mois_date_product(elements){
                     })
                 }
     })}
-    console.log(combinatedResult);
+    console.log('mois_date_product',combinatedResult);
     return combinatedResult;
 }
 
@@ -114,7 +114,7 @@ product_mois_date(elements){
             })
         }
     })}
-    console.log(combinatedResult);
+    console.log('product_mois_date',combinatedResult);
     return combinatedResult;
 }
 
