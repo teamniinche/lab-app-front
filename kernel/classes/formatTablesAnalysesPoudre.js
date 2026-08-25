@@ -125,7 +125,7 @@ product_mois_date(elements){
 
 // ====================== FONCTIONS UTILITAIRES ==============================================
     _formatElements(elements){
-        if (!elements) return [];
+        if (!elements){alert('null or undefined'); return []};
         return Array.isArray(elements)?elements:Object.entries(elements);
     }
     _DateString=(dateTimeString)=>{
