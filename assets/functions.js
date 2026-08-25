@@ -223,17 +223,25 @@ export function VALEURSPOUDRE(obj,valeurs){
                       .replace('silicate','sil')
                       .replace('densite','d');
   const vals = Object.entries(obj).map(([key,v],index) =>
-                  v && typeof v === "object"?
+                  v && valeurs.includes(v) && (typeof v === "object"?
                                             " -- " +(valeurs.includes(key)?(key+" = "):"")
                                             :
-                                            v !== null?
+                                            v?
                                                     (index===0?"   "+(valeurs.includes(key)?(keyReduce(key)+" = "):"")+v:" -- "+(valeurs.includes(key)?(keyReduce(key)+" = "):"")+v)
-                                                    :""
+                                                    :"")
                 )
                 .join("");
   return vals
 }
-
+export function moy(tab,key){
+  const formatTab=(elements)=>{
+        if (!elements)return [];
+        return Array.isArray(elements)?elements:Object.values(elements);
+    }
+  const n=(d)=>!isNaN(Number(d))?Number(d):0;
+  const validItems=formatTab(tab).filter(item=>!isNaN(Number(item[key])))
+  return (validItems.reduce((a, b) => n(a[key]) + n(b[key])) / validItems.length).toFixed(2);
+}
 export function Chariots(items){
   const isArray=items[0]?.id || false;
   const ITEMS=isArray?items:Object.values(items);

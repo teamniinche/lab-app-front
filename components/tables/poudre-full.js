@@ -12,7 +12,7 @@ import { AnalysedListe } from '../../navigators/DrawerPoudre';
 import WinDim from '../../assets/operatingData';
 import { MyChipp,Filter } from '../chip';
 import Filters from '../../kernel/classes/formatTablesAnalysesPoudre';
-import { productsAndCountsFormat,Flex,VALEURSPOUDRE,isFormule } from '../../assets/functions';
+import { productsAndCountsFormat,Flex,VALEURSPOUDRE,isFormule,moy } from '../../assets/functions';
 import { FontAwesome5 } from '@expo/vector-icons';
 import BottomSheet from '../modaux.js/bottomSheet';
 import {Time } from '../../hooks/littleBiblio';
@@ -93,13 +93,16 @@ export default PoudreFull=({navigation/*,route*/,routeNheaders})=>{
     }
     
     const terminate=({key,object}) => {
+                const valeurs=['nChar','humidite','matiere_active','alcanite','gg','silicate','sel','densite'];
+                const ['nChar',...rest]=valeurs;
                 const count=Object.values(object).length;
-                return `<h3 class="key3">${key}<span style="display:inline-block;background-color:blue;font-weight:bold;font-size:14px;border-radius:50%;width:auto;height:auto;padding:4px;margin-left:5px;margin-right:5px;color:white;border:1px solid grey">${count}</span><h3>
+                return `<h3 class="key3">${key}${rest.map(r=>{
+                    return `<span style="margin:10px;">${r +' moy.: ' +moy(Object.values(object),r)}</span>`
+                })}<span style="display:inline-block;background-color:blue;font-weight:bold;font-size:14px;border-radius:50%;width:auto;height:auto;padding:4px;margin-left:5px;margin-right:5px;color:white;border:1px solid grey">${count}</span><h3>
                     </div>
                         ${Object.entries(object).map(([k,item]) => {
                             var it= item[0] || item;
                             const {id,updatedAt,createdAt,identifier,type,categorie,taches,...rest} = it;
-                            const valeurs=['nChar','humidite','matiere_active','alcanite','gg','silicate','sel','densite'];
                             const vallues = VALEURSPOUDRE(rest,valeurs);
                             return `<p style="margin-left:5px;color:'grey';font-size:${Platform.OS!=='web'?'12px':'15px'};text-wrap:nowrap;text-overflow: ellipsis;letter-spacing:0.7px;border-bottom:${Platform.OS==='web' && `1px solid grey`};">
                                         ${Time(createdAt)}${vallues}
@@ -117,7 +120,6 @@ export default PoudreFull=({navigation/*,route*/,routeNheaders})=>{
         try {
             // //(toDisplayPrint)
             const {count,delth,items}=toDisplayPrint;
-            console.error(items);
             // var titre=product?("Mélanges de "+ `<span style="font-size:18px;font-weight:bold;text-decoration:underline;color:${Colors[colorFromName(product)]};">${product.toUpperCase()}</span>`+" sur cette période choisie"):"Tous sur cette période choisie";
             const html =`
                 <style>
