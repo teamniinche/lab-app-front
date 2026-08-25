@@ -93,10 +93,10 @@ export default PoudreFull=({navigation/*,route*/,routeNheaders})=>{
     }
     
     const terminate=({key,object}) => {
-                var valeurs=['nChar','humidite','matiere_active','alcanite','gg','silicate','sel','densite'];
+                const valeurs=['nChar','humidite','matiere_active','alcanite','gg','silicate','sel','densite'];
+                const [premier,...rest]=valeurs;
                 const count=Object.values(object).length;
-                const valeursIter=valeurs.shift();
-                return `<h3 class="key3">${key}${valeursIter.map(r=>{
+                return `<h3 class="key3">${key}${rest.map(r=>{
                     return `<span style="margin:10px;">${r +' moy.: ' +moy(Object.values(object),r)}</span>`
                 })}<span style="display:inline-block;background-color:blue;font-weight:bold;font-size:14px;border-radius:50%;width:auto;height:auto;padding:4px;margin-left:5px;margin-right:5px;color:white;border:1px solid grey">${count}</span><h3>
                     </div>
