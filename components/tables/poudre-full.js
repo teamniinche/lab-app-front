@@ -1,7 +1,9 @@
 
 import {useRef,useLayoutEffect,useEffect,useState} from 'react';
-import {View,Text,useWindowDimensions,ScrollView,Pressable,RefreshControl,TouchableOpacity,KeyboardAvoidingView /*,findNodeHandle*/,Platform,Button,StyleSheet} from 'react-native';
+import {View,Text,useWindowDimensions,ScrollView,Pressable,RefreshControl,TouchableOpacity,KeyboardAvoidingView,Platform,Button,StyleSheet} from 'react-native';
 import { useSelector,useDispatch} from 'react-redux';
+import * as Sharing from 'expo-sharing';
+import * as Print from 'expo-print';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import { DrawerActions} from '@react-navigation/native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
@@ -9,6 +11,7 @@ import {CurrentProductsProvider,ChipProvider,CurrentProductedProvider,ItemToSave
 import { AnalysedListe } from '../../navigators/DrawerPoudre';
 import WinDim from '../../assets/operatingData';
 import { MyChipp,Filter } from '../chip';
+import Filters from '../../kernel/classes/formatTablesAnalysesPoudre';
 import { productsAndCountsFormat,Flex, isFormule } from '../../assets/functions';
 import { FontAwesome5 } from '@expo/vector-icons';
 import BottomSheet from '../modaux.js/bottomSheet';
@@ -29,9 +32,26 @@ export default PoudreFull=({navigation/*,route,routeNheaders*/})=>{
         return {startedAt,endedAt,clooned};});
     const [productsAndCounts,setProductsAndCounts]=useState(null);
     // const [analysesCount,setAnalysesCount]=useState(null)
-    const [product,setProduct]=useState(null)
+    const [product,setProduct]=useState(null);
+    const [toPrint,setToPrint]=useState({});
+    const [toDisplayPrint, setToDisplayPrint] = useState([]);
     const [refreshing,setRefreshing]=useState(false);
     const [isDrop,setIsDrop]=useState(false);
+    // {product_mois_date,mois_date_product,isValidated_mois_date_product}
+    const filter=new Filters();
+    const dataFilters=[
+        {name:'NoC',data:filter.isValidated_mois_date_product(toPrint),active:true},//suivant Non conforme par produit
+        {name:'Per',data:filter.mois_date_product(toPrint),active:true},// sur une periode donnée
+        {name:'Pro',data:filter.product_mois_date(toPrint),active:true},//suivant produit
+
+        // {name:'/Mois',data:filter.date_dep_engine(toPrint),active:true},//suivant melanges par date/mois
+        // {name:'Dep.',data:filter.dep_date_engine(toPrint),active:true},// suivant departement
+        // {name:'DANC',data:filter.dep_isValidated_mois_date(toPrint),active:false},//suivant Non conforme par departement
+        // {name:'Mel./L',data:filter.mois_date_dep_engine(toPrint),active:true},//suivant melangeurs/longue periode
+        // {name:'Mel.',data:filter.dep_engine_mois_date_isValidated(toPrint),active:true},// melanges non conformes par melangeur/longue periode
+        // {name:'P.F.',data:filter.dep_mois_date_product(toPrint),active:true},//melanges avec name filtrer/longue periode
+        // {name:'Op.',data:filter.chemist_mois_date(toPrint),active:false}//suivant Operateur
+    ];
 
     const refresh=()=>{// Pour raffraichir le screen d'accueil
         // setRefreshing(true); // je trouve la similation moche
@@ -43,289 +63,132 @@ export default PoudreFull=({navigation/*,route,routeNheaders*/})=>{
             },500)
         },500);
     }
-
-    // const genratePDF = async () => {
-    //     const months=['Janvier','Fèvrier','Mars','Avril','Mai','Juin','Juillet','Aout','Septembre','Octobre','Novembre','Décembre']
-    //     try {
     
-    //         const {count,delth,items}=toPrint;
-    //         var titre=product?("Mélanges de "+ `<span style="font-size:18px;font-weight:bold;text-decoration:underline;color:${Colors[colorFromName(product)]};">${product.toUpperCase()}</span>`+" sur cette période choisie"):"Tous sur cette période choisie";
-    //         const html = `
-    //             <style>
-    //                 html{margin:0px;padding:0px;}
-    //                 body { font-family: Arial, sans-serif; font-size: 14px;padding:15px; }
-    //                 h1 { margin:5px;margin-top: 15px; color: #07108fff; }
-    //                 h2 { margin-top: 20px; color: #2c3e50; }
-    //                 ul { list-style-type: none; padding-left: 0; }
-    //                 li { margin: 4px 15px; padding: 6px; border-bottom: 1px solid #ddd; }
-    //                 .header{font-size:8px;color:rgba(0,0,0,0.5);margin:8px;}
-    //                 h4 { margin-top: 20px; color: #2c3e50; }
-    //                 .key1{font-size:16px;color:rgba(0,0,0,0.8);margin: 4px 15px;margin-left:2px;padding: 6px; border-bottom: 1px solid #444; }
-    //                 .key2{font-size:14px;color:rgba(0,0,0,0.5);margin:8px;margin-left:6px;}
-    //                 .key3{font-size:14px;color:rgba(0,0,0,0.2);margin:8px;margin-left:10px;}
-    //             </style>
-    //             <html>
-    //             <body>
-    //                 <h1>Du ${startedAt} au ${endedAt}</h1>
-    //                 ${`<li>Nombre d'analyses enregistrées : ${count}</li>`}
-    //                 <ul>
-    //                     ${headers.map((header, index) => (index<=10?
-    //                         `<span class="header"  key=${index}>
-    //                         ${header.toUpperCase()}
-    //                         </span>`:""
-    //                     )).join("")}
-    //                 </ul>)
-    //                 <div style="font-size:14px;">
-    //                     ${items.map(object1 => {
-    //                         return `<div >${Object.entries(object1).map(([key2,object2]) => {
-    //                             const count2=Object.values(object2).length;
-    //                             return `<h3 class="key1">${key2+'  '+count2}</h3>
-    //                             <div>
-    //                                 ${object2.map(object3 => {
-    //                                     return `<div>
-    //                                         ${Object.entries(object3).map(([key4,object4]) => {
-    //                                             const count4=Object.values(object4).length;
-    //                                             return `<h3 class="key2">${key4}<h3>
-    //                                             <div>
-    //                                                 ${Object.entries(object4).map(([key5,object5]) => {
-    //                                                     const count5=Object.values(object5).length;
-    //                                                     return `<h3 class="key3">${key5+'  '+count5}<h3>
-    //                                                         </div>
-    //                                                             ${object5.map(item => {
-    //                                                                 const {id,updatedAt,parfum,color,observations,commentaires,categorie,
-    //                                                                         createdAt,validation,Utilisateur,
-    //                                                                         ...rest} = item;
-    //                                                                 const validateur = validation?.Utilisateur?.pseudo || "";
-    //                                                                 const chemist = Utilisateur?.pseudo || "";
-    //                                                                 const valeurs=['ph','matiere_active','viscosite','densite','silicate','caustique','durete'];
-    //                                                                 const vallues = VALEURS(rest,valeurs);
-    //                                                                 return `<p style="margin-left:5px;color:${Colors[colorFromName(item.name)]};font-size:${Platform.OS!=='web'?'14px':'15px'};letter-spacing:0.7px;border-bottom:${Platform.OS==='web' && `1px solid ${Colors[colorFromName(item.name)]}`};">
-    //                                                                             ${Time(createdAt)}${vallues} -- ${chemist}${
-    //                                                                             validation?" -- ✔ ":""}${validation?' -- '+validateur:""}
-    //                                                                         </p>`;
-    //                                                                 }).join("")}
-    //                                                         </div>`
-    //                                                 }).join("")}
-    //                                             </div>`
-    //                                         }).join("")}
-    //                                     </div>`
-    //                                 }).join("")}
-    //                             <div>`
-    //                         }).join("")}
-    //                         <div>`
-    //                     }).join("")}
-    //                 </div>
-    //                 ${Platform.OS==='web' && `<script>
-    //                     window.onload=function(){
-    //                         window.print();
-    //                         window.close();
-    //                     }
-    //                 </script>`}
-    //             </body>
-    //         </html> `;
-    //             if(Platform.OS!=='web'){
-    //                 const { uri } = await Print.printToFileAsync({ html });
-    //                 if(await Sharing.isAvailableAsync()){await Sharing.shareAsync(uri);}
-    //                 return uri;
-    //             }else{
-    //                 const newWindow=window.open("","_blank");
-    //                 newWindow.document.write(html);
-    //                 newWindow.document.close();
-    //             }
-    //         } catch (error) {
-    //             alert("Erreur de chargement : "+error.message);
-    //         }
-    //     };
-
-    // const gneratePDF = async () => {
-    //     const months=['Janvier','Fèvrier','Mars','Avril','Mai','Juin','Juillet','Aout','Septembre','Octobre','Novembre','Décembre']
-    //     try {
-
-    //         const response = await fetch(`${api_url}?page=1&limit=10000&startedAt=${startedAt}&endedAt=${endedAt}`);
-    //         const data = await response.json();
-    //         const ANALYSES=product?data.analyses.filter(item=>item.name.includes(product)):data.analyses;
-    //         const grpedItems=GroupItems(ANALYSES);//ICI va correspondre avec les filtres
-    //         var monthCurrent=[];
-    //         var titre=product?("Mélanges de "+ `<span style="font-size:18px;font-weight:bold;text-decoration:underline;color:${Colors[colorFromName(product)]};">${product.toUpperCase()}</span>`+" sur cette période choisie"):"Tous sur cette période choisie";
-    //         const html = `
-    //             <style>
-    //                 html{margin:0px;padding:0px;}
-    //                 body { font-family: Arial, sans-serif; font-size: 14px;padding:15px; }
-    //                 h1 { margin:5px;margin-top: 15px; color: #07108fff; }
-    //                 h2 { margin-top: 20px; color: #2c3e50; }
-    //                 ul { list-style-type: none; padding-left: 0; }
-    //                 li { margin: 4px 15px; padding: 6px; border-bottom: 1px solid #ddd; }
-    //                 .header{font-size:8px;color:rgba(0,0,0,0.5);margin:8px;}
-    //             </style>
-    //             <html>
-    //             <body>
-    //                 <h1>Du ${startedAt} au ${endedAt}</h1>
-    //                 ${`<li>Nombre d'analyses enregistrées : ${data.totalAnalyses}</li>`}
-    //                 <ul style="list-style-type: none;padding:20px;">
-    //                     ${productsAndCounts.map(item => (
-    //                         `<h2 style="color:${Colors[colorFromName(item.name)]};padding:2px;margin:0px;
-    //                         ">
-    //                         ${item.name} : ${item.count}
-    //                         </h2>`))
-    //                     .join("")}
-    //                 </ul>
-    //                 <h2 style="color:rgba(0,0,0,0.7);letter-spacing:1px;margin-bottom:40px;">${titre}</h2>
-    //                 <ul>
-    //                     ${headers.map((header, index) => (index<=10?
-    //                         `<span class="header"  key=${index}>
-    //                         ${header.toUpperCase()}
-    //                         </span>`:""
-    //                     )).join("")}
-    //                 </ul>
-    //                 <ul>
-    //                     ${Object.entries(grpedItems).map(([key,value]) => {
-    //                         const dateArray=key.split('-');const annee=dateArray[0];
-    //                         var month=dateArray[1];//grpedItems
-    //                         const monthYear=(months[month-1]+' '+annee);
-
-    //                         function toDisplay(){if(!monthCurrent.includes(month)){
-    //                             monthCurrent.push(month);
-    //                             return `<h2>${monthYear}</h2>
-    //                             <p style="font-size:14px;letter-spacing:1px;color:rgba(0,0,0,0.8);margin:14px 8px;">${key}</p>
-    //                             `
-    //                         }else{
-    //                             return `<p style="font-size:16px;letter-spacing:1px;color:rgba(0,0,0,0.8);margin:14px 8px;">${key}</p>`
-    //                         }}
-
-    //                         return `
-    //                             ${toDisplay()}
-    //                             ${value.sort((a, b) =>a.name.localeCompare(b.name)).map(item => {
-    //                                 const {id,updatedAt,parfum,color,observations,commentaires,categorie,
-    //                                         createdAt,validation,Utilisateur,
-    //                                         ...rest} = item;
-    //                                 const validateur = validation?.Utilisateur?.pseudo || "";
-    //                                 const chemist = Utilisateur?.pseudo || "";
-    //                                 const valeurs=['ph','matiere_active','viscosite','densite','silicate','caustique','durete'];
-    //                                 const vallues = VALEURS(rest,valeurs);
-    //                                 return `<p style="margin-left:5px;color:${Colors[colorFromName(item.name)]};font-size:${Platform.OS!=='web'?'14px':'15px'};letter-spacing:0.7px;border-bottom:${Platform.OS==='web' && `1px solid ${Colors[colorFromName(item.name)]}`};">
-    //                                             ${Time(updatedAt)}${vallues} -- ${chemist}${
-    //                                             validation?" -- ✔ ":""}${validation?' -- '+validateur:""}
-    //                                         </p>`;
-    //                                 })
-    //                         .join("")}`;
-    //                     })
-    //                     .join("")}
-    //                 </ul>
-    //                 ${Platform.OS==='web' && `<script>
-    //                     window.onload=function(){
-    //                         window.print();
-    //                         window.close();
-    //                     }
-    //                 </script>`}
-    //             </body>
-    //         </html> `;
-    //             if(Platform.OS!=='web'){
-    //                 const { uri } = await Print.printToFileAsync({ html });
-    //                 if(await Sharing.isAvailableAsync()){await Sharing.shareAsync(uri);}
-    //                 return uri;
-    //             }else{
-    //                 const newWindow=window.open("","_blank");
-    //                 newWindow.document.write(html);
-    //                 newWindow.document.close();
-    //             }
-    //         } catch (error) {
-    //             alert("Erreur de chargement : "+error.message);
-    //         }
-    //     };
-
-    // console.log(Analytics)
-     const genratePDF = async () => {
-        const months=['Janvier','Fèvrier','Mars','Avril','Mai','Juin','Juillet','Aout','Septembre','Octobre','Novembre','Décembre']
-        // try {
-
-        //     const {count,delth,items}=toPrint;
-        //     var titre=product?("Mélanges de "+ `<span style="font-size:18px;font-weight:bold;text-decoration:underline;color:${Colors[colorFromName(product)]};">${product.toUpperCase()}</span>`+" sur cette période choisie"):"Tous sur cette période choisie";
-        //     const html = `
-        //         <style>
-        //             html{margin:0px;padding:0px;}
-        //             body { font-family: Arial, sans-serif; font-size: 14px;padding:15px; }
-        //             h1 { margin:5px;margin-top: 15px; color: #07108fff; }
-        //             h2 { margin-top: 20px; color: #2c3e50; }
-        //             ul { list-style-type: none; padding-left: 0; }
-        //             li { margin: 4px 15px; padding: 6px; border-bottom: 1px solid #ddd; }
-        //             .header{font-size:8px;color:rgba(0,0,0,0.5);margin:8px;}
-        //             h4 { margin-top: 20px; color: #2c3e50; }
-        //             .key1{font-size:16px;color:rgba(0,0,0,0.8);margin: 4px 15px;margin-left:2px;padding: 6px; border-bottom: 1px solid #444; }
-        //             .key2{font-size:14px;color:rgba(0,0,0,0.5);margin:8px;margin-left:6px;}
-        //             .key3{font-size:14px;color:rgba(0,0,0,0.2);margin:8px;margin-left:10px;}
-        //         </style>
-        //         <html>
-        //         <body>
-        //             <h1>Du ${startedAt} au ${endedAt}</h1>
-        //             ${`<li>Nombre d'analyses enregistrées : ${count}</li>`}
-        //             <ul>
-        //                 ${headers.map((header, index) => (index<=10?
-        //                     `<span class="header"  key=${index}>
-        //                     ${header.toUpperCase()}
-        //                     </span>`:""
-        //                 )).join("")}
-        //             </ul>)
-        //             <div style="font-size:14px;">
-        //                 ${items.map(object1 => {
-        //                     return `<div >${Object.entries(object1).map(([key2,object2]) => {
-        //                         const count2=Object.values(object2).length;
-        //                         return `<h3 class="key1">${key2+'  '+count2}</h3>
-        //                         <div>
-        //                             ${object2.map(object3 => {
-        //                                 return `<div>
-        //                                     ${Object.entries(object3).map(([key4,object4]) => {
-        //                                         const count4=Object.values(object4).length;
-        //                                         return `<h3 class="key2">${key4}<h3>
-        //                                         <div>
-        //                                             ${Object.entries(object4).map(([key5,object5]) => {
-        //                                                 const count5=Object.values(object5).length;
-        //                                                 return `<h3 class="key3">${key5+'  '+count5}<h3>
-        //                                                     </div>
-        //                                                         ${object5.map(item => {
-        //                                                             const {id,updatedAt,parfum,color,observations,commentaires,categorie,
-        //                                                                     createdAt,validation,Utilisateur,
-        //                                                                     ...rest} = item;
-        //                                                             const validateur = validation?.Utilisateur?.pseudo || "";
-        //                                                             const chemist = Utilisateur?.pseudo || "";
-        //                                                             const valeurs=['ph','matiere_active','viscosite','densite','silicate','caustique','durete'];
-        //                                                             const vallues = VALEURS(rest,valeurs);
-        //                                                             return `<p style="margin-left:5px;color:${Colors[colorFromName(item.name)]};font-size:${Platform.OS!=='web'?'14px':'15px'};letter-spacing:0.7px;border-bottom:${Platform.OS==='web' && `1px solid ${Colors[colorFromName(item.name)]}`};">
-        //                                                                         ${Time(createdAt)}${vallues} -- ${chemist}${
-        //                                                                         validation?" -- ✔ ":""}${validation?' -- '+validateur:""}
-        //                                                                     </p>`;
-        //                                                             }).join("")}
-        //                                                     </div>`
-        //                                             }).join("")}
-        //                                         </div>`
-        //                                     }).join("")}
-        //                                 </div>`
-        //                             }).join("")}
-        //                         <div>`
-        //                     }).join("")}
-        //                     <div>`
-        //                 }).join("")}
-        //             </div>
-        //             ${Platform.OS==='web' && `<script>
-        //                 window.onload=function(){
-        //                     window.print();
-        //                     window.close();
-        //                 }
-        //             </script>`}
-        //         </body>
-        //     </html> `;
-        //         if(Platform.OS!=='web'){
-        //             const { uri } = await Print.printToFileAsync({ html });
-        //             if(await Sharing.isAvailableAsync()){await Sharing.shareAsync(uri);}
-        //             return uri;
-        //         }else{
-        //             const newWindow=window.open("","_blank");
-        //             newWindow.document.write(html);
-        //             newWindow.document.close();
-        //         }
-        //     } catch (error) {
-        //         alert("Erreur de chargement : "+error.message);
-        //     }
+    const terminate=({key,object}) => {
+                const count=Object.values(object).length;
+                return `<h3 class="key3">${key}<span style="display:inline-block;background-color:blue;font-weight:bold;font-size:14px;border-radius:50%;width:auto;height:auto;padding:4px;margin-left:5px;margin-right:5px;color:white;border:1px solid grey">${count}</span><h3>
+                    </div>
+                        ${Object.entries(object).map(([k,item]) => {
+                            var it=item || item[0];
+                            const {id,updatedAt, createdAt,...rest} = it;
+                            return `<p style="margin-left:5px;color:${clr};font-size:${Platform.OS!=='web'?'14px':'15px'};letter-spacing:0.7px;border-bottom:${Platform.OS==='web' && `1px solid grey`};">
+                                        ${Time(createdAt)}
+                                    </p>`;
+                            }).join("")}
+                    </div>`};
+    const dateFr=(date)=>{
+            const months={Jan:"Janvier",Fev:"Fèvrier",Mar:"Mars",Apr:"Avril",May:"Mai",Jun:"Juin",Jul:"Juillet",Aug:"Aout",Sep:"Septembre",Oct:"Octobre",Nov:"Novembre",Dec:"Décembre"};
+            const splitDate=date.toString().split(" ");
+            const frDate=splitDate[2]+" "+months[splitDate[1]]+" "+splitDate[3];
+            return `<span style="font-size:18px;border:1px dotted blue;border-radius:5px;padding:5px;padding-left:15px;padding-right:15px;color:grey;font-weight:bold;">${frDate}</span>`;
         };
+    const generatePDF = async () => {
+        // const months=['Janvier','Fèvrier','Mars','Avril','Mai','Juin','Juillet','Aout','Septembre','Octobre','Novembre','Décembre']
+        try {
+            // //(toDisplayPrint)
+            const {count,delth,items}=toDisplayPrint;
+            // var titre=product?("Mélanges de "+ `<span style="font-size:18px;font-weight:bold;text-decoration:underline;color:${Colors[colorFromName(product)]};">${product.toUpperCase()}</span>`+" sur cette période choisie"):"Tous sur cette période choisie";
+            const html =`
+                <style>
+                    html{margin:0px;padding:0px;}
+                    body { font-family: Arial, sans-serif; font-size: 14px;padding:15px; }
+                    h1 {text-align:center;margin:5px;margin-top: 15px; color: #07108fff;font-size:14; }
+                    h2 { margin-top: 20px; color: #2c3e50; }
+                    ul { width:100%;list-style-type: none; padding-left: 0; }
+                    li {text-align:center; margin: 4px 15px; padding: 6px; border-bottom: 1px solid #ddd; }
+                    .header{display:inline-block;width:6.5%;text-align:center;font-size:8px;color:rgba(0,0,0,0.5);margin:8px;}
+                    h4 { margin-top: 20px; color: #2c3e50; }
+                    .key1{font-size:16px;color:rgba(0,0,0,0.8);margin: 4px 15px;margin-left:2px;padding: 6px;border-bottom: 1px solid #444; }
+                    .key2{font-size:14px;color:rgba(0,0,0,0.5);margin:8px;margin-left:6px;}
+                    .key3{font-size:14px;color:rgba(0,0,0,0.2);margin:8px;margin-left:10px;}
+                    .counts{display:inline-block;background-color:blue;font-weight:bold;font-size:14px;border-radius:50%;border:2px solid blue;width:auto;height:auto;padding:4px;margin-left:5px;margin-right:5px;color:white;}
+                    .pCounts{color:rgba(0,0,0,0.4);padding-left:100px;}
+                </style>
+                <html>
+                <body>
+                    <h1>Rapport d'analyses du ${dateFr(startedAt)} au ${dateFr(endedAt)}</h1>
+                    ${`<li>Nombre d'analyses enregistrées <span class="counts">${count}</span></li>`}
+                    <div style="font-size:14px;">
+                        ${items.map(object1 => {
+                            const {count,...rest1}=object1;
+                            const firstCount=count;
+                            return `<div >${Object.entries(rest1).map(([key2,object2]) => {
+                                const {count,...rest}=object2;
+                                return `<h3 class="key1">👉 ${key2} <span class="counts" style="border:3px solid grey">${firstCount}</span></h3>
+                                <div>
+                                    ${Object.entries(rest).map(([key3,object3]) => {
+                                        const {count,...rest3}=object3;
+                                        return `<div>
+                                            ${Object.entries(rest3).map(([key4,object4]) => {
+                                                const {count,...rest4}=object4;
+                                                const item4=Object.values(rest4)[0].name;
+                                                // }
+                                                var bool4=(item4!==null && item4!==undefined);
+                                                return bool4?terminate({key:key4,object:rest4}):`<h3 class="key2">${key4}<h3>
+                                                <div>
+                                                    ${Object.entries(rest4).map(([key5,object5]) => {
+                                                        const {count,...rest5}=object5;
+                                                        const item5=Object.values(rest5)[0]?.name;
+                                                        var bool5=(item5!==null && item5!==undefined);
+                                                        return bool5?terminate({key:key5,object:rest5}):`<h3 class="key3">${key5}<span class="counts" style="border:1px solid grey">${count}</span><h3>
+                                                            </div>
+                                                                ${Object.entries(rest5).map(([key6,object6]) => {
+                                                                    const {count,...rest6}=object6;
+                                                                    const item6=Object.values(rest6)[0].name;
+                                                                    var bool6=(item6!==null && item6!==undefined);
+                                                                    return bool6?terminate({key:key6,object:rest6}):`<h3 class="key3">${key6}<span class="counts" style="border:1px solid grey">${count}</span><h3>
+                                                                        </div>
+                                                                            ${Object.entries(rest6).map(([key7,object7]) => {
+                                                                                const {count,...rest7}=object7;
+                                                                                const item7=Object.values(rest7)[0].name;//alert(item7);
+                                                                                var bool7=(item7!==null && item7!==undefined);
+                                                                                return bool7?terminate({key:key7,object:rest7}):`<h3 class="key3">${key7}<span class="counts" style="border:1px solid grey">${count}</span><h3>
+                                                                                    </div>
+                                                                                        ${Object.entries(rest7).map(([key8,object8]) => {
+                                                                                            const {count,...rest8}=object8;
+                                                                                            const item8=Object.values(rest8)[0].name;//alert(item7);
+                                                                                            var bool8=(item8!==null && item8!==undefined);
+                                                                                            return bool7?terminate({key:key8,object:rest8}):`<h3 class="key3">${key8+'  '+count}<h3>`
+                                                                                        }).join("")}
+                                                                                    </div>`
+                                                                            }).join("")}
+                                                                        </div>`
+                                                                }).join("")}
+                                                            </div>`
+                                                    }).join("")}
+                                                </div>`
+                                            }).join("")}
+                                        </div>`
+                                    }).join("")}
+                                <div>`
+                            }).join("")}
+                            <div>`
+                        }).join("")}
+                    </div>
+                    ${Platform.OS==='web' && `<script>
+                        window.onload=function(){
+                            window.print();
+                            window.close();
+                        }
+                    </script>`}
+                </body>
+            </html>`;
+                if(Platform.OS!=='web'){
+                    const { uri } = await Print.printToFileAsync({ html });
+                    if(await Sharing.isAvailableAsync()){await Sharing.shareAsync(uri);}
+                    return uri;
+                }else{
+                    const newWindow=window.open("","_blank");
+                    newWindow.document.write(html);
+                    newWindow.document.close();
+                }
+            } catch (error) {
+                // alert("Erreur de chargement : "+error.message);
+                //(error);
+            }
+        };
+
+   
 
     const bottomSheetRef = useRef(null);
     const handleOpenPress = () => { bottomSheetRef.current?.snapToPosition('100%')}//snapToIndex(2);}//.snapToPosition('50%'):bloque le handle;// || '25%' || '50%' || '75%'
