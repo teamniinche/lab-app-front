@@ -66,13 +66,13 @@ export default PoudreFull=({navigation/*,route*/,routeNheaders})=>{
         .then(data=>{
             try{
                 const toPrintAnalyses=product?data.analyses.filter(item=>item.name.includes(product)):data.analyses;
-                // buildAnalytics(postedAnalyses);
+                buildAnalytics(postedAnalyses);
                 // buildPowderAnalytics(toPrintAnalyses);
                 // const toPrintAnal=JSON.stringify(filter.dep_date_engine(toPrintAnalyses));
-                // const toPrintAnal=filter.mois_date_product(toPrintAnalyses);
+                const toPrintAnal=filter.mois_date_product(toPrintAnalyses);
                 setToDisplayPrint(toPrintAnal);////(toPrintAnal);
                 setToPrint(toPrintAnalyses);
-            }catch(error){throw new Error(error.message);}
+            }catch(error){console.error(error);throw new Error(error.message);}
     
     })
     .catch(function(error){setPop({show:true,message:"Erreur de chargement : "+error.message,code:'#880000'})})
