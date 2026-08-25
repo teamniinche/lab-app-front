@@ -173,9 +173,8 @@ product_mois_date(elements){
     groupedByMonth(elements){
         var MOIS=[];
         var  groupedByMonth={};
-        console.log(this._formatElements(elements));
-        this._formatElements(elements).filter(([key,item])=>{
-            var it=item || item[0];
+        this._formatElements(elements).filter(item=>{
+            var it=item[0] || item;
             const {createdAt}=it;
             const dateArray=createdAt.split('-');//const annee=dateArray[0];
             var month=dateArray[1];
