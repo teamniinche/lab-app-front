@@ -360,7 +360,7 @@ export const AnalysedListe=({product,rend}) => {// Pour Poudre-full
                         {totalOccurrences(ntte)}
                     </Text>
                 </Text>
-                {entete==='name' && <View style={{width:'auto',height:'100%',marginHorizontal:5,flexDirection:'row',justifyContent:'center',alignItems:'center'}}>{rest.map(r=>{return <Text style={{margin:15,color:"white",fontSize:12,fontWeight:'bold'}}>{keyReduce(r)+': ' +moy(Object.values(object),r)}</Text>})}</View>}
+                {entete==='name' && <View style={{width:'auto',height:'100%',marginHorizontal:5,flexDirection:'row',justifyContent:'center',alignItems:'center'}}>{rest.map(r=>{return <Text style={{margin:15,color:"white",fontSize:12,fontWeight:'bold'}}>{keyReduce(r)+': ' +moy(analysed,r)}</Text>})}</View>}
             </View>
         }
 
