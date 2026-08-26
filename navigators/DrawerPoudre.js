@@ -351,16 +351,16 @@ export const AnalysedListe=({product,rend}) => {// Pour Poudre-full
          const entetesAlreadyIn=[];
         function enteteIsIn(ent){if(!entetesAlreadyIn.includes(ent)){entetesAlreadyIn.push(ent);return false;}else{return true;}};
         
-        const EnteteRow=({ntte})=>{
-            const rest=['humidite','matiere_active','alcanite','gg','silicate','sel','densite'];
-            return <View style={{width:'100%',height:25,paddingVertical:5,backgroundColor:'rgba(0,0,0,0.6)',flexDirection:'row',justifyContent:'center',alignItems:'center',paddingLeft:10}}>
+        const EnteteRow=({ntte,prodName})=>{
+            const rest=['gg','humidite','matiere_active','alcanite','silicate','sel','densite'];
+            return <View style={{width:'100%',height:25,paddingVertical:5,backgroundColor:'rgba(0,0,0,0.6)',flexDirection:'row',justifyContent:'flex-start',alignItems:'center',paddingLeft:10}}>
                 <Text style={{width:'auto',height:'100%',color:'white',fontSize:13,fontWeight:'bold',textAlign:'left'}}>
                     {ntte+' : '}
                     <Text style={{backgroundColor:'rgba(255,255,255,0.5)',width:'auto',maxWidth:27,height:18,minWidth:17,padding:3,borderRadius:10,textAlign:'center',fontWeight:'bold',fontSize:'14',color:'black'}}>
                         {totalOccurrences(ntte)}
                     </Text>
                 </Text>
-                {entete==='name' && <View style={{width:'auto',height:'100%',marginHorizontal:5,flexDirection:'row',justifyContent:'center',alignItems:'center'}}>{rest.map(r=>{return <Text style={{margin:15,color:"white",fontSize:12,fontWeight:'bold'}}>{keyReduce(r)+': ' +moy(analysed,r)}</Text>})}</View>}
+                {entete==='name' && <View style={{width:'auto',height:'100%',marginHorizontal:5,flexDirection:'row',justifyContent:'center',alignItems:'center'}}>{rest.map(r=>{return <Text style={{margin:15,color:"white",fontSize:12,fontWeight:'bold'}}>{keyReduce(r)+': ' +moy(analysed.filter(a=>a.name===prodName),r)}</Text>})}</View>}
             </View>
         }
 
@@ -381,7 +381,7 @@ export const AnalysedListe=({product,rend}) => {// Pour Poudre-full
                                         renderItem={({ item },index) =>{
                                             const realKey=realKeyFromEntete(entete,item);
                                             return <>
-                                                {realKey!==undefined && !enteteIsIn(realKey) && <EnteteRow ntte={realKey}/>}
+                                                {realKey!==undefined && !enteteIsIn(realKey) && <EnteteRow ntte={realKey} prodName={item.name}/>}
                                                 <PowderRow
                                                     key={index}
                                                     K={K}
