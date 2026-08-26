@@ -26,7 +26,7 @@ import { ViewOrImgBgPowderWrapper } from '../components/wrappers/viewOrImgWrappe
 import { ScrollView } from 'react-native-gesture-handler';
 import { Comment } from '../components/tables/chat-for-table';
 import { AdjentDayInMs} from '../components/periode';
-import { isFormule,allowTo,isAlreadyAnalysed,Chariots,IsEmptyObject,realKeyFromEntete} from '../assets/functions';
+import { isFormule,allowTo,isAlreadyAnalysed,Chariots,IsEmptyObject,moy,keyReduce,realKeyFromEntete} from '../assets/functions';
 import Colors from '../assets/colors';
 const {aujourdhui,demain}=Periodes();
 const {full}=routesAndHeadersPowder;
@@ -352,13 +352,16 @@ export const AnalysedListe=({product,rend}) => {// Pour Poudre-full
         function enteteIsIn(ent){if(!entetesAlreadyIn.includes(ent)){entetesAlreadyIn.push(ent);return false;}else{return true;}};
         
         const EnteteRow=({ntte})=>{
-            
-            return <Text style={{width:'100%',height:25,paddingVertical:5,backgroundColor:'rgba(0,0,0,0.6)',color:'white',fontSize:13,fontWeight:'bold',textAlign:'left',paddingLeft:100,}}>
-            {ntte+' : '}
-            <Text style={{backgroundColor:'rgba(255,255,255,0.5)',width:'auto',maxWidth:27,height:18,minWidth:17,padding:3,borderRadius:10,textAlign:'center',fontWeight:'bold',fontSize:'14',color:'black'}}>
-                {totalOccurrences(ntte)}
-            </Text>
-            </Text>
+            const rest=['humidite','matiere_active','alcanite','gg','silicate','sel','densite'];
+            return <View style={{width:'100%',height:25,paddingVertical:5,backgroundColor:'rgba(0,0,0,0.6)',flexDirection:'row',justifyContent:'center',alignItems:'center',paddingLeft:10}}>
+                <Text style={{width:'auto',height:'100%',color:'white',fontSize:13,fontWeight:'bold',textAlign:'left'}}>
+                    {ntte+' : '}
+                    <Text style={{backgroundColor:'rgba(255,255,255,0.5)',width:'auto',maxWidth:27,height:18,minWidth:17,padding:3,borderRadius:10,textAlign:'center',fontWeight:'bold',fontSize:'14',color:'black'}}>
+                        {totalOccurrences(ntte)}
+                    </Text>
+                </Text>
+                {entete==='name' && <View style={{width:'auto',height:'100%',marginHorizontal:5,flexDirection:'row',justifyContent:'center',alignItems:'center'}}>{rest.map(r=>{return <Text style={{margin:15,color:"white",fontSize:12,fontWeight:'bold'}}>{keyReduce(r)+': ' +moy(Object.values(object),r)}</Text>})}</View>}
+            </View>
         }
 
         function totalOccurrences(valeurRecherchee){
