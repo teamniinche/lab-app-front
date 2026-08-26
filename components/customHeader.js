@@ -6,7 +6,7 @@ import {useCurrentProducted} from './wrappers/contexts';
 
 const Entete=({thisEntete,donnees,headers,render})=>{
   const [observations,actions,...rest]=headers;
-  const HEADERS=['heure','name','machine','reservoir','chimiste'];
+  const HEADERS=[/* --> liquide */'heure','name','machine','reservoir','chimiste',/* --> poudre */'gg','matiere_active','alcanite','humidite'];
   // 1. États pour stocker la colonne active et le sens du tri
   const {entete,setEntete,directionTri, setDirectionTri}=useCurrentProducted();
 

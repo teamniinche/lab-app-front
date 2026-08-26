@@ -304,14 +304,16 @@ const Dialogue = ({handleNamePress,dialogShow,render,analyses}) => {
           </Dialog>
         </Portal>
 }
-export const PowderHeaders=({headers})=>{
+export const PowderHeaders=({donnees,headers,render})=>{
     const firstHeadStyle={borderTopWidth:2,borderLeftWidth:2,borderColor:"green",borderTopLeftRadius:5};
     const lastHeadStyle={borderTopWidth:2,borderRightWidth:2,borderColor:"green",borderTopRightRadius:5};
     const headersLen=headers.length;
   return <View style={[styles.row,{width:"100%"}]}>
         {headers.map((header, index) => (
               <Text  key={index} style={[styles.cell,{fontWeight: "bold",minWidth:index===1 && 100,fontSize:8,backgroundColor:'none',color:'rgba(0,0,0,0.4)',maxWidth:index===0 && 30,width:index===0 && 20},index===0 && firstHeadStyle,index===headersLen-1 && lastHeadStyle]}>
-                {header.toUpperCase()}
+                {/* {header.toUpperCase()} */}
+                <Entete donnees={donnees} headers={headers} thisEntete={header.toLowerCase()} render={(anlyss)=>render(anlyss)}/>
+
               </Text>
             ))
         }

@@ -26,7 +26,7 @@ import { ViewOrImgBgPowderWrapper } from '../components/wrappers/viewOrImgWrappe
 import { ScrollView } from 'react-native-gesture-handler';
 import { Comment } from '../components/tables/chat-for-table';
 import { AdjentDayInMs} from '../components/periode';
-import { isFormule,allowTo,isAlreadyAnalysed,Chariots,IsEmptyObject} from '../assets/functions';
+import { isFormule,allowTo,isAlreadyAnalysed,Chariots,IsEmptyObject,realKeyFromEntete} from '../assets/functions';
 import Colors from '../assets/colors';
 const {aujourdhui,demain}=Periodes();
 const {full}=routesAndHeadersPowder;
@@ -320,7 +320,7 @@ export const AnalysedListe=({product,rend}) => {// Pour Poudre-full
             return {powderFiltred,powderAnalysed,powderType,focusedListe};
         })
         const [analysed,setAnalysed]=useState([]);
-        const {Everages}=useCurrentProducted();
+        const {Everages,entete}=useCurrentProducted();
         // function handleResearchChange(txt){
         //     const matchedAnalysed=registred.filter(it=>(it.name.toLowerCase().includes(txt.toLowerCase()) || it.nChar.toString().includes(txt)));// registred a la place powderAnalysed
         //     setAnalysed(matchedAnalysed);
@@ -346,9 +346,29 @@ export const AnalysedListe=({product,rend}) => {// Pour Poudre-full
 
         const AnalysedLen=analysed.length;
         const {GG,HUMIDITE,MATIERE_ACTIVE,ALCANITE}=Everages(analysed);
+
+        // =========================================== POUR  EnteteRow seulement ==============================================
+         const entetesAlreadyIn=[];
+        function enteteIsIn(ent){if(!entetesAlreadyIn.includes(ent)){entetesAlreadyIn.push(ent);return false;}else{return true;}};
+        
+        const EnteteRow=({ntte})=>{
+            
+            return <Text style={{width:'100%',height:25,paddingVertical:5,backgroundColor:'rgba(0,0,0,0.6)',color:'white',fontSize:13,fontWeight:'bold',textAlign:'left',paddingLeft:100,}}>
+            {ntte+' : '}
+            <Text style={{backgroundColor:'rgba(255,255,255,0.5)',width:'auto',maxWidth:27,height:18,minWidth:17,padding:3,borderRadius:10,textAlign:'center',fontWeight:'bold',fontSize:'14',color:'black'}}>
+                {totalOccurrences(ntte)}
+            </Text>
+            </Text>
+        }
+
+        function totalOccurrences(valeurRecherchee){
+            return analysed.map(analyse=>entete==='Utilisateur'?analyse[entete]['pseudo']:analyse[entete]).filter(valeur =>valeur === valeurRecherchee).length;
+        };
+        // ===============================================================================================
+
     return <View style={{flex:1,width:"100%",height:"auto",padding:50,paddingTop:20,backgroundColor:'white',flexDirection:'column',justifyContent:'flex-start',alignItems:'center',marginLeft:2}}>
             <View style={{width:"100%",height:"auto",height:"auto",maxHeight:740,paddingHorizontal:10,paddingVertical:0}}>
-                <PowderHeaders headers={headers}/>
+                <PowderHeaders donnees={analysed} headers={headers} render={(anlyss)=>setAnalysed(anlyss)}/>
                 {/* {loading ? (<ActivityIndicator size="large" color="#0000ff" />
                         ) : ( */}
                     <View style={{width:"100%",height:"auto",maxHeight:740,marginBottom:70,overflowY:"scroll",}}>
@@ -356,7 +376,10 @@ export const AnalysedListe=({product,rend}) => {// Pour Poudre-full
                                         data={analysed}
                                         keyExtractor={(item,i) =>(item.nChar?.toString()+i.toString())}
                                         renderItem={({ item },index) =>{
-                                        return <PowderRow
+                                            const realKey=realKeyFromEntete(entete,item);
+                                            return <>
+                                                {realKey!==undefined && !enteteIsIn(realKey) && <EnteteRow ntte={realKey}/>}
+                                                <PowderRow
                                                     key={index}
                                                     K={K}
                                                     setK={setK}
@@ -364,6 +387,7 @@ export const AnalysedListe=({product,rend}) => {// Pour Poudre-full
                                                     items={analysed}
                                                     ac={true}
                                                 />
+                                            </>
                                             }
                                         }
                           />

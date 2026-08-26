@@ -1,4 +1,3 @@
-
 import {useRef,useLayoutEffect,useEffect,useState} from 'react';
 import {View,Text,useWindowDimensions,ScrollView,Pressable,RefreshControl,TouchableOpacity,KeyboardAvoidingView,Platform,Button,StyleSheet} from 'react-native';
 import { useSelector,useDispatch} from 'react-redux';
@@ -17,17 +16,14 @@ import { FontAwesome5 } from '@expo/vector-icons';
 import BottomSheet from '../modaux.js/bottomSheet';
 import {Time } from '../../hooks/littleBiblio';
 import Colors from '../../assets/colors';
-// import getNormesLansas from '../../hooks/fetchNormes/normesLansas';
 import { dbBaseRoot } from '../../assets/constantes';
 const Stack=createNativeStackNavigator();
 const {isLarge,screenHeight}=WinDim;
 
-export default PoudreFull=({navigation/*,route*/,routeNheaders})=>{
+export default PoudreFull=({navigation,routeNheaders})=>{
     const viewRef=useRef();
     const safeAreaRef=useRef();
-    // const {buildAnalytics}=useEverages();
     const {api_url,headers}=routeNheaders;
-    // const [modalShow,setModalShow]=useState(false);
     const {startedAt,endedAt,postedAnalyses,clooned}= useSelector(state => {
         const {startedAt,endedAt}=state.period.targetPeriod;
         const postedAnalyses=state.data.postedAnalyses;
@@ -37,7 +33,6 @@ export default PoudreFull=({navigation/*,route*/,routeNheaders})=>{
     const {buildAnalytics}=useEverages();
     const {buildPowderAnalytics}=usePowderEverages();
     const [productsAndCounts,setProductsAndCounts]=useState(null);
-    // const [analysesCount,setAnalysesCount]=useState(null)
     const [product,setProduct]=useState(null);
     const [toPrint,setToPrint]=useState({});
     const [toDisplayPrint, setToDisplayPrint] = useState([]);
@@ -45,20 +40,11 @@ export default PoudreFull=({navigation/*,route*/,routeNheaders})=>{
     const [refreshing,setRefreshing]=useState(false);
     const [isDrop,setIsDrop]=useState(false);
     const {setPop}=usePopup();
-    // {product_mois_date,mois_date_product,isValidated_mois_date_product}
     const filter=new Filters();
     const dataFilters=[
         {name:'NoC',data:filter.isValidated_mois_date_product(toPrint),active:true},//suivant Non conforme par produit
         {name:'Per',data:filter.mois_date_product(toPrint),active:true},// sur une periode donnée
         {name:'Pro',data:filter.product_mois_date(toPrint),active:true},//suivant produit
-
-        // {name:'/Mois',data:filter.date_dep_engine(toPrint),active:true},//suivant melanges par date/mois
-        // {name:'Dep.',data:filter.dep_date_engine(toPrint),active:true},// suivant departement
-        // {name:'DANC',data:filter.dep_isValidated_mois_date(toPrint),active:false},//suivant Non conforme par departement
-        // {name:'Mel./L',data:filter.mois_date_dep_engine(toPrint),active:true},//suivant melangeurs/longue periode
-        // {name:'Mel.',data:filter.dep_engine_mois_date_isValidated(toPrint),active:true},// melanges non conformes par melangeur/longue periode
-        // {name:'P.F.',data:filter.dep_mois_date_product(toPrint),active:true},//melanges avec name filtrer/longue periode
-        // {name:'Op.',data:filter.chemist_mois_date(toPrint),active:false}//suivant Operateur
     ];
 
         // ============== POUR L'IMPRESSION SEULEMENT ============
@@ -110,19 +96,17 @@ export default PoudreFull=({navigation/*,route*/,routeNheaders})=>{
                                     </p>`;
                             }).join("")}
                     </div>`};
+
     const dateFr=(date)=>{
             const months={Jan:"Janvier",Fev:"Fèvrier",Mar:"Mars",Apr:"Avril",May:"Mai",Jun:"Juin",Jul:"Juillet",Aug:"Aout",Sep:"Septembre",Oct:"Octobre",Nov:"Novembre",Dec:"Décembre"};
             const splitDate=date.toString().split(" ");
             const frDate=splitDate[2]+" "+months[splitDate[1]]+" "+splitDate[3];
             return `<span style="font-size:18px;border:1px dotted blue;border-radius:5px;padding:5px;padding-left:15px;padding-right:15px;color:grey;font-weight:bold;">${frDate}</span>`;
         };
+    
     const generatePDF = async () => {
-        // const months=['Janvier','Fèvrier','Mars','Avril','Mai','Juin','Juillet','Aout','Septembre','Octobre','Novembre','Décembre']
-        try {
-            // //(toDisplayPrint)
-            const {count,delth,items}=toDisplayPrint;
-            // var titre=product?("Mélanges de "+ `<span style="font-size:18px;font-weight:bold;text-decoration:underline;color:${Colors[colorFromName(product)]};">${product.toUpperCase()}</span>`+" sur cette période choisie"):"Tous sur cette période choisie";
-            const html =`
+         try {
+            const {count,delth,items}=toDisplayPrint;const html =`
                 <style>
                     html{margin:0px;padding:0px;}
                     body { font-family: Arial, sans-serif; font-size: 14px;padding:15px; }
@@ -224,11 +208,11 @@ export default PoudreFull=({navigation/*,route*/,routeNheaders})=>{
 
    
 
-    const bottomSheetRef = useRef(null);
+    
+        const bottomSheetRef = useRef(null);
     const handleOpenPress = () => { bottomSheetRef.current?.snapToPosition('100%')}//snapToIndex(2);}//.snapToPosition('50%'):bloque le handle;// || '25%' || '50%' || '75%'
     
     return <BottomSheet ref={bottomSheetRef}>
-{/* <KeyboardAvoidingView  behavior={Platform.OS==='ios'?'padding':'height'}> */}
 
     <ScrollView
         ref={viewRef} 
@@ -307,20 +291,16 @@ export const UPNavigator=({routeNheaders})=>{
         </CurrentProductedProvider>
     )}
 
+
 const styles=StyleSheet.create({
     container: {
         paddingHorizontal:5,
-        // flex:1,
-        // maxHeight:screenHeight*0.8, //0.6
-
-        // ...Flex('column','flex-start','flex-start'),
       },
       everageColumn:{flex:1/5,color:'black',paddingLeft:20,fontWeight:'bold',fontSize:11,color:"black",borderRightColor:'black',borderRightWidth:1},
       period:{
         flexDirection:'row',
         justifyContent:'flex-start',
         alignItems:'center',
-        // gap:-8,
         marginRight:6,
         padding:2,
         borderWidth:0.5,
@@ -328,7 +308,6 @@ const styles=StyleSheet.create({
         borderRadius:6,
       },
     chips: {
-        // ...Flex(1/5,'flex-start','flex-start'),
         display:'flex',flexDirection:'row',justifyContent:'flex-start',alignItems:'center',
         gap:5,
         flexWrap:'wrap',
@@ -339,21 +318,11 @@ const styles=StyleSheet.create({
         borderRadius:5,
       },
     table: {
-        // overflow:'scroll',
-        // maxHeight:'78vh',
-        // minHeight:'70vh',
-        // maxWidth:865,//a remplacé =//maxWidth:'100%',
         maxWidth:'100%',
         width:'100%',
-        // height:'100%',
-        // maxHeight: screenHeight * 0.78,
-        // minHeight: screenHeight * 0.70,
       },
     safeAreaView:{
         width:'100%',
-        // minWidth:1000, //a)
-        // minWidth:865, //a remplacé a)
-        // maxWidth:865,//added
       },
     periodText:{
         fontSize:12,
@@ -363,24 +332,3 @@ const styles=StyleSheet.create({
         fontWeight:'bold',
     }
 })
-
-
-            // <Button
-            //       icon="file-pdf"
-            //       mode="contained"
-            //     //   onPress={() => {
-            //     //             if (Platform.OS !== 'web' && viewRef.current) {
-            //     //                 const nodeHandle = findNodeHandle(viewRef.current);
-            //     //                 generatePDF(nodeHandle);
-            //     //             }
-            //     //             }}
-            //     onPress={async () => {
-            //         if (Platform.OS === 'web') {
-            //             setTimeout(async () => {
-            //             const uri = await generateWebPDF();
-            //             }, 500);
-            //         }
-            //         }}
-            //       style={{marginTop:50,fontWeight:'bold',}}
-            //       title='PDF Rows'
-            // />
