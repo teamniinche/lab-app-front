@@ -242,8 +242,10 @@ export function moy(tab,key){
     }
   const n=(d)=>!isNaN(Number(d))?Number(d):0;
   var validItems=formatTab(tab).filter(item=>item[key]!==null && item[key]!==undefined && !isNaN(Number(item[key])))
-  return (validItems.reduce((acc, b) => acc + n(b[key]),0) / validItems.length).toFixed(2);
+  const moyenne=(validItems.reduce((acc, b) => acc + n(b[key]),0) / validItems.length).toFixed(2);
+  return !isNaN(moyenne)?moyenne:"";
 }
+
 export function Chariots(items){
   const isArray=items[0]?.id || false;
   const ITEMS=isArray?items:Object.values(items);
