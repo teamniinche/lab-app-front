@@ -17,9 +17,9 @@ const EnteteRow=({ntte,prodName,analysed})=>{
                 const clooned=state.actived.clooned;
                 return {startedAt,endedAt,clooned};});
             const {entete /*,toDisplayPrint,setToDisplayPrint,toPrint,setToPrint*/}=useCurrentProducted();
-            const dataByName=filter.product_mois_date(toPrint);//suivant produit
             const analysedR=analysed.filter(a=>a.name===prodName);
             const [toPrint,setToPrint]=useState(analysedR);
+            const dataByName=filter.product_mois_date(toPrint);//suivant produit
             const [toDisplayPrint,setToDisplayPrint]=useState(dataByName);
             function totalOccurrences(valeurRecherchee){
                 return analysed.map(analyse=>entete==='Utilisateur'?analyse[entete]['pseudo']:analyse[entete]).filter(valeur =>valeur === valeurRecherchee).length;
