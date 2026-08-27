@@ -34,7 +34,7 @@ const EnteteRow=({ntte,prodName,analysed})=>{
                     
                     <h3 class="key3">${' Moyennes '+rest.map(r=>{
                     const moyR=moy(analysedR,r);
-                    return `<span style="margin:15px;">${moyR!==""?(keyReduce(r)+': ' +moyR/*moy(Object.values(object),r)*/):""}</span>`})}<h3>
+                    return moyR!==""?`<span style="margin:15px;">${keyReduce(r)+': ' +moyR/*moy(Object.values(object),r)*/}</span>`:null})}<h3>
                     <div>
                         ${Object.entries(object).map(([k,item]) => {
                             var it= item[0] || item;
