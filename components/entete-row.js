@@ -23,7 +23,7 @@ const EnteteRow=({ntte,prodName,analysed})=>{
                     <View style={styles.second}>
                         {
                             rest.map(r=>{return <Text style={styles.second_text}>
-                                <Text style={{color:"rgba(0,0,0,0.4)"}}>{keyReduce(r)+': '}</Text>
+                                <Text style={{color:"rgba(255,255,255,0.7)"}}>{keyReduce(r)+': '}</Text>
                                 <Text style={{color:"white"}}>{moy(analysed.filter(a=>a.name===prodName),r)}</Text>
                             </Text>})
                         }
@@ -43,6 +43,8 @@ export default EnteteRow;
 
 const styles=StyleSheet.create({
     icons:{
+        position:'absolute',
+        right:15,
         width:'auto',
         height:'100%',
         backgroundColor:'transparent',
