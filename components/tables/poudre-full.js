@@ -1,19 +1,19 @@
 import {useRef,useLayoutEffect,useEffect,useState} from 'react';
 import {View,Text,useWindowDimensions,ScrollView,Pressable,RefreshControl,TouchableOpacity,KeyboardAvoidingView,Platform,Button,StyleSheet} from 'react-native';
 import { useSelector,useDispatch} from 'react-redux';
-import * as Sharing from 'expo-sharing';
-import * as Print from 'expo-print';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import { DrawerActions} from '@react-navigation/native';
+import * as Sharing from 'expo-sharing';
+import * as Print from 'expo-print';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import {CurrentProductsProvider,ChipProvider,CurrentProductedProvider,useCurrentProducted,ItemToSaveProvider,usePopup,useEverages,usePowderEverages} from '../wrappers/contexts';
 import { AnalysedListe } from '../../navigators/DrawerPoudre';
-import WinDim from '../../assets/operatingData';
 import { MyChipp,Filter } from '../chip';
 import Filters from '../../kernel/classes/formatTablesAnalysesPoudre';
 import { productsAndCountsFormat,Flex,VALEURSPOUDRE,isFormule,moy,keyReduce } from '../../assets/functions';
 import { FontAwesome5 } from '@expo/vector-icons';
 import BottomSheet from '../modaux.js/bottomSheet';
+import WinDim from '../../assets/operatingData';
 import {Time } from '../../hooks/littleBiblio';
 import Colors from '../../assets/colors';
 import { dbBaseRoot } from '../../assets/constantes';
@@ -105,7 +105,8 @@ export default PoudreFull=({navigation,routeNheaders})=>{
             return `<span style="font-size:18px;border:1px dotted blue;border-radius:5px;padding:5px;padding-left:15px;padding-right:15px;color:grey;font-weight:bold;">${frDate}</span>`;
         };
     
-    export const generatePDF = async () => {
+    
+        const generatePDF = async () => {
          try {
             const {count,delth,items}=toDisplayPrint;const html =`
                 <style>
@@ -210,7 +211,9 @@ export default PoudreFull=({navigation,routeNheaders})=>{
    
 
     
-        const bottomSheetRef = useRef(null);
+    
+
+    const bottomSheetRef = useRef(null);
     const handleOpenPress = () => { bottomSheetRef.current?.snapToPosition('100%')}//snapToIndex(2);}//.snapToPosition('50%'):bloque le handle;// || '25%' || '50%' || '75%'
     
     return <BottomSheet ref={bottomSheetRef}>
