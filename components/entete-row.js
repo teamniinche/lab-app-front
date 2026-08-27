@@ -4,6 +4,7 @@ import {useCurrentProducted} from './wrappers/contexts.js';
 import {keyReduce,moy} from '../assets/functions.js';
 const EnteteRow=({ntte,prodName,analysed})=>{
             const {entete}=useCurrentProducted();
+            const analysedR=analysed.filter(a=>a.name===prodName);
             function totalOccurrences(valeurRecherchee){
                 return analysed.map(analyse=>entete==='Utilisateur'?analyse[entete]['pseudo']:analyse[entete]).filter(valeur =>valeur === valeurRecherchee).length;
             };
@@ -22,9 +23,14 @@ const EnteteRow=({ntte,prodName,analysed})=>{
                 {entete==='name' && 
                     <View style={styles.second}>
                         {
-                            rest.map(r=>{return <Text style={styles.second_text}>
-                                <Text style={{color:"rgba(255,255,255,0.5)"}}>{keyReduce(r)+': '}</Text>
-                                <Text style={{color:"white"}}>{moy(analysed.filter(a=>a.name===prodName),r)}</Text>
+                            rest.map(r=>{
+                                const moyR=moy(analysedR,r);
+                                return <Text style={styles.second_text}>
+                                {moyR!=="" && (
+                                        <Text style={{color:"rgba(255,255,255,0.5)"}}>{keyReduce(r)+': '}</Text>
+                                        <Text style={{color:"white"}}>{moyR}</Text>
+                                    )
+                                }
                             </Text>})
                         }
                     </View>
