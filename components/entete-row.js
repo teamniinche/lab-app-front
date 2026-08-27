@@ -1,4 +1,5 @@
-import { View, Text, StyleSheet,useState,useLayoutEffect,Pressable,Platform} from 'react-native';
+import {useState,useLayoutEffect} from 'react';
+import { View, Text, StyleSheet,Pressable,Platform} from 'react-native';
 import { useSelector} from 'react-redux';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import * as Sharing from 'expo-sharing';
