@@ -25,6 +25,7 @@ const EnteteRow=({ntte,prodName,analysed})=>{
             };
             const rest=['gg','humidite','matiere_active','alcanite','silicate','sel','densite'];
 
+
             const terminate=({key,object}) => {
                 const valeurs=['nChar','humidite','matiere_active','alcanite','gg','silicate','sel','densite'];
                 const [premier,...rest]=valeurs;
@@ -32,7 +33,8 @@ const EnteteRow=({ntte,prodName,analysed})=>{
                 return `<h3 class="key3">${key.toUpperCase()}<span style="display:inline-block;background-color:blue;font-weight:bold;font-size:14px;border-radius:50%;width:auto;height:auto;padding:4px;margin-left:5px;margin-right:5px;color:white;border:1px solid grey">${count}</span><h3>
                     
                     <h3 class="key3">${' Moyennes '+rest.map(r=>{
-                    return `<span style="margin:15px;">${keyReduce(r)+': ' +moy(Object.values(object),r)}</span>`})}<h3>
+                    const moyR=moy(analysedR,r);
+                    return `<span style="margin:15px;">${moyR!==""?(keyReduce(r)+': ' +moyR/*moy(Object.values(object),r)*/):""}</span>`})}<h3>
                     <div>
                         ${Object.entries(object).map(([k,item]) => {
                             var it= item[0] || item;
