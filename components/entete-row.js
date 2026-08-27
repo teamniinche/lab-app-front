@@ -14,14 +14,14 @@ const EnteteRow=({ntte,prodName,analysed})=>{
             return <View style={styles.main}>
                 <Text style={styles.main_text}>
                     {ntte+' : '}
-                    <Text style={main_text_text}>
+                    <Text style={styles.main_text_text}>
                         {totalOccurrences(ntte)}
                     </Text>
                 </Text>
                 {entete==='name' && 
                     <View style={styles.second}>
                         {
-                            rest.map(r=>{return <Text style={second_text}>
+                            rest.map(r=>{return <Text style={styles.second_text}>
                                 <Text style={{color:"rgba(0,0,0,0.4)"}}>{keyReduce(r)+': '}</Text>
                                 <Text style={{color:"white"}}>{moy(analysed.filter(a=>a.name===prodName),r)}</Text>
                             </Text>})
