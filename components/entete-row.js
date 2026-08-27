@@ -26,7 +26,7 @@ const EnteteRow=({ntte,prodName,analysed})=>{
 
             const handlePrint=()=>{
                 setToDisplayPrint(dataByName);
-                setPrint(analysedR);
+                setToPrint(analysedR);
                 (async () => {setTimeout(async () => {
                                 await generatePDF();
                             },500);
