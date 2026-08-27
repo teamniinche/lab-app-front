@@ -106,7 +106,7 @@ export default PoudreFull=({navigation,routeNheaders})=>{
         };
     
     
-        const generatePDF = async () => {
+    const generatePDF = async () => {
          try {
             const {count,delth,items}=toDisplayPrint;const html =`
                 <style>
