@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet,Pressable,Platform} from 'react-native';
+import { View, Text, StyleSheet,useState,useLayoutEffect,Pressable,Platform} from 'react-native';
 import { useSelector} from 'react-redux';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import * as Sharing from 'expo-sharing';
@@ -15,7 +15,9 @@ const EnteteRow=({ntte,prodName,analysed})=>{
                 const {startedAt,endedAt}=state.period.targetPeriod;
                 const clooned=state.actived.clooned;
                 return {startedAt,endedAt,clooned};});
-            const {entete,toDisplayPrint,setToDisplayPrint,toPrint,setToPrint}=useCurrentProducted();
+            const {entete /*,toDisplayPrint,setToDisplayPrint,toPrint,setToPrint*/}=useCurrentProducted();
+            const [toPrint,setToPrint]=useState([]);
+            const [toDisplayPrint,setToDisplayPrint]=useState([]);
             const dataByName=filter.product_mois_date(toPrint);//suivant produit
             // const meanDataIfProduct=analysed.filter(item=>item.name.includes(prodName)); // (1)
             const analysedR=analysed.filter(a=>a.name===prodName); // meme que (1)
@@ -23,11 +25,14 @@ const EnteteRow=({ntte,prodName,analysed})=>{
                 return analysed.map(analyse=>entete==='Utilisateur'?analyse[entete]['pseudo']:analyse[entete]).filter(valeur =>valeur === valeurRecherchee).length;
             };
             const rest=['gg','humidite','matiere_active','alcanite','silicate','sel','densite'];
-
+            useLayoutEffect(()=>{
+                setToDisplayPrint(dataByName);
+                setToPrint(analysedR);
+            },[])
             const handlePrint=async ()=>{
-                await setToDisplayPrint(dataByName);
-                await setToPrint(analysedR);
-                await (async () => {setTimeout(async () => {
+                // await setToDisplayPrint(dataByName);
+                // await setToPrint(analysedR);
+                (async () => {setTimeout(async () => {
                                 await generatePDF();
                             },500);
                         })();
