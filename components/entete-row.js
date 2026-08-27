@@ -24,10 +24,10 @@ const EnteteRow=({ntte,prodName,analysed})=>{
             };
             const rest=['gg','humidite','matiere_active','alcanite','silicate','sel','densite'];
 
-            const handlePrint=()=>{
-                setToDisplayPrint(dataByName);
-                setToPrint(analysedR);
-                (async () => {setTimeout(async () => {
+            const handlePrint=async ()=>{
+                await setToDisplayPrint(dataByName);
+                await setToPrint(analysedR);
+                await (async () => {setTimeout(async () => {
                                 await generatePDF();
                             },500);
                         })();
