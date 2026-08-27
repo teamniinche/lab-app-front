@@ -1,4 +1,4 @@
-import {useState,useLayoutEffect} from 'react';
+import {useLayoutEffect} from 'react';
 import { View, Text, StyleSheet,Pressable,Platform} from 'react-native';
 import { useSelector} from 'react-redux';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -7,33 +7,24 @@ import * as Print from 'expo-print';
 import WinDim from '../assets/operatingData';
 import {Time } from '../hooks/littleBiblio';
 import Filters from '../kernel/classes/formatTablesAnalysesPoudre';
-import {useCurrentProducted} from './wrappers/contexts.js';
+import {useCurrentProducted,usePopup} from './wrappers/contexts.js';
 import {keyReduce,VALEURSPOUDRE,moy} from '../assets/functions.js';
 const filter=new Filters();
 
 const EnteteRow=({ntte,prodName,analysed})=>{
+            const {setPop}=usePopup();
             const {startedAt,endedAt,clooned}= useSelector(state => {
                 const {startedAt,endedAt}=state.period.targetPeriod;
                 const clooned=state.actived.clooned;
                 return {startedAt,endedAt,clooned};});
-            const {entete /*,toDisplayPrint,setToDisplayPrint,toPrint,setToPrint*/}=useCurrentProducted();
+            const {entete}=useCurrentProducted();
             const analysedR=analysed.filter(a=>a.name===prodName);
-            const [toPrint,setToPrint]=useState(analysedR);
-            const dataByName=filter.product_mois_date(toPrint);//suivant produit
-            const [toDisplayPrint,setToDisplayPrint]=useState(dataByName);
+            const dataByName=filter.product_mois_date(analysedR);//suivant produit
             function totalOccurrences(valeurRecherchee){
                 return analysed.map(analyse=>entete==='Utilisateur'?analyse[entete]['pseudo']:analyse[entete]).filter(valeur =>valeur === valeurRecherchee).length;
             };
             const rest=['gg','humidite','matiere_active','alcanite','silicate','sel','densite'];
 
-            const handlePrint=async ()=>{
-                // await setToDisplayPrint(dataByName);
-                // await setToPrint(analysedR);
-                (async () => {setTimeout(async () => {
-                                await generatePDF();
-                            },500);
-                        })();
-            }
             const terminate=({key,object}) => {
                 const valeurs=['nChar','humidite','matiere_active','alcanite','gg','silicate','sel','densite'];
                 const [premier,...rest]=valeurs;
@@ -61,7 +52,7 @@ const EnteteRow=({ntte,prodName,analysed})=>{
                 };
     const generatePDF = async () => {
          try {
-            const {count,delth,items}=toDisplayPrint;
+            const {count,delth,items}=dataByName;
             const html =`
                 <style>
                     html{margin:0px;padding:0px;}
@@ -186,7 +177,7 @@ const EnteteRow=({ntte,prodName,analysed})=>{
                     </View>
                 }
                 <View style={styles.icons}>
-                    <Pressable style={styles.icon} onPress={handlePrint}>
+                    <Pressable style={styles.icon} onPress={async () => {setTimeout(async () => {await generatePDF();},500);}}>
                         <Icon size={14} name="print" color='white'/>
                     </Pressable>
                 </View>
