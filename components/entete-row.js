@@ -17,19 +17,15 @@ const EnteteRow=({ntte,prodName,analysed})=>{
                 const clooned=state.actived.clooned;
                 return {startedAt,endedAt,clooned};});
             const {entete /*,toDisplayPrint,setToDisplayPrint,toPrint,setToPrint*/}=useCurrentProducted();
-            const [toPrint,setToPrint]=useState([]);
-            const [toDisplayPrint,setToDisplayPrint]=useState([]);
             const dataByName=filter.product_mois_date(toPrint);//suivant produit
-            // const meanDataIfProduct=analysed.filter(item=>item.name.includes(prodName)); // (1)
-            const analysedR=analysed.filter(a=>a.name===prodName); // meme que (1)
+            const analysedR=analysed.filter(a=>a.name===prodName);
+            const [toPrint,setToPrint]=useState(analysedR);
+            const [toDisplayPrint,setToDisplayPrint]=useState(dataByName);
             function totalOccurrences(valeurRecherchee){
                 return analysed.map(analyse=>entete==='Utilisateur'?analyse[entete]['pseudo']:analyse[entete]).filter(valeur =>valeur === valeurRecherchee).length;
             };
             const rest=['gg','humidite','matiere_active','alcanite','silicate','sel','densite'];
-            useLayoutEffect(()=>{
-                setToDisplayPrint(dataByName);
-                setToPrint(analysedR);
-            },[dataByName,analysedR])
+
             const handlePrint=async ()=>{
                 // await setToDisplayPrint(dataByName);
                 // await setToPrint(analysedR);
