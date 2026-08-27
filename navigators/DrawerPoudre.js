@@ -23,6 +23,7 @@ import WinDim from '../assets/operatingData';
 import { Lansas,routesAndHeadersPowder,headersTour } from '../iterables';
 import { styles } from '../components/tables/componentTable';
 import { ViewOrImgBgPowderWrapper } from '../components/wrappers/viewOrImgWrapper';
+import EnteteRow from '../components/entete-row.js';
 import { ScrollView } from 'react-native-gesture-handler';
 import { Comment } from '../components/tables/chat-for-table';
 import { AdjentDayInMs} from '../components/periode';
@@ -321,11 +322,7 @@ export const AnalysedListe=({product,rend}) => {// Pour Poudre-full
         })
         const [analysed,setAnalysed]=useState([]);
         const {Everages,entete}=useCurrentProducted();
-        // function handleResearchChange(txt){
-        //     const matchedAnalysed=registred.filter(it=>(it.name.toLowerCase().includes(txt.toLowerCase()) || it.nChar.toString().includes(txt)));// registred a la place powderAnalysed
-        //     setAnalysed(matchedAnalysed);
-        //     // .sort((firstItem, secondItem) => firstItem.nChar - secondItem.nChar)
-        // }
+
         useLayoutEffect(()=>{
             fetch(`${dbBaseRoot}poudre/analyses?startedAt=${startedAt}&endedAt=${endedAt}`) 
             .then(response=>response.json())
@@ -333,11 +330,9 @@ export const AnalysedListe=({product,rend}) => {// Pour Poudre-full
             .catch(function(error){ 
                 setPop({show:true,message:error.message,code:"#880000"})
             })
-            // setAnalysed(powderFiltred); 
         },[]);
-        //  useMemo(()=>{
-        //     const products=product===null?analysed:analysed.filter((itm)=>isFormule(itm).estFormule?(isFormule(itm).nameToDisplay===product):itm.name===product);
-        //     setAnalysed(products)},[product]);// product pour gerer le cas du clic sur un decompte-item
+
+        setAnalysed(products)},[product]);// product pour gerer le cas du clic sur un decompte-item
 
         useEffect/*useMemo*/(()=>{
             setAnalysed(powderType); // filtrer suivant le type (extra,local,finies,get,diam,...)
@@ -348,26 +343,9 @@ export const AnalysedListe=({product,rend}) => {// Pour Poudre-full
         const {GG,HUMIDITE,MATIERE_ACTIVE,ALCANITE}=Everages(analysed);
 
         // =========================================== POUR  EnteteRow seulement ==============================================
-         const entetesAlreadyIn=[];
+        const entetesAlreadyIn=[];
         function enteteIsIn(ent){if(!entetesAlreadyIn.includes(ent)){entetesAlreadyIn.push(ent);return false;}else{return true;}};
         
-        const EnteteRow=({ntte,prodName})=>{
-            const rest=['gg','humidite','matiere_active','alcanite','silicate','sel','densite'];
-            return <View style={{width:'100%',height:25,paddingVertical:5,backgroundColor:'rgba(0,0,0,0.6)',flexDirection:'row',justifyContent:'flex-start',alignItems:'center',paddingLeft:10}}>
-                <Text style={{width:'auto',height:'100%',color:'white',fontSize:13,fontWeight:'bold',textAlign:'left'}}>
-                    {ntte+' : '}
-                    <Text style={{backgroundColor:'rgba(255,255,255,0.5)',width:'auto',maxWidth:27,height:18,minWidth:17,padding:3,borderRadius:10,textAlign:'center',fontWeight:'bold',fontSize:'14',color:'black'}}>
-                        {totalOccurrences(ntte)}
-                    </Text>
-                </Text>
-                {entete==='name' && <View style={{width:'auto',height:'100%',marginHorizontal:5,flexDirection:'row',justifyContent:'center',alignItems:'center'}}>{rest.map(r=>{return <Text style={{margin:15,color:"white",fontSize:12,fontWeight:'bold'}}>{keyReduce(r)+': ' +moy(analysed.filter(a=>a.name===prodName),r)}</Text>})}</View>}
-            </View>
-        }
-
-        function totalOccurrences(valeurRecherchee){
-            return analysed.map(analyse=>entete==='Utilisateur'?analyse[entete]['pseudo']:analyse[entete]).filter(valeur =>valeur === valeurRecherchee).length;
-        };
-        // ===============================================================================================
 
     return <View style={{flex:1,width:"100%",height:"auto",padding:50,paddingTop:20,backgroundColor:'white',flexDirection:'column',justifyContent:'flex-start',alignItems:'center',marginLeft:2}}>
             <View style={{width:"100%",height:"auto",height:"auto",maxHeight:740,paddingHorizontal:10,paddingVertical:0}}>
@@ -381,7 +359,7 @@ export const AnalysedListe=({product,rend}) => {// Pour Poudre-full
                                         renderItem={({ item },index) =>{
                                             const realKey=realKeyFromEntete(entete,item);
                                             return <>
-                                                {realKey!==undefined && !enteteIsIn(realKey) && <EnteteRow ntte={realKey} prodName={item.name}/>}
+                                                {realKey!==undefined && !enteteIsIn(realKey) && <EnteteRow analysed={analysed} ntte={realKey} prodName={item.name}/>}
                                                 <PowderRow
                                                     key={index}
                                                     K={K}

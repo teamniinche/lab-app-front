@@ -248,7 +248,6 @@ export default PoudreFull=({navigation,routeNheaders})=>{
                         onPress={() => setIsDrop(!isDrop)}
                       >
                         <Text style={{color:isDrop?'grey':'white',textAlign:'center',fontSize:14,fontWeight:'bold',letterSpacing:-1,}}>{isDrop ? <FontAwesome5 name="eye-slash" size={20} color="white"/> : <FontAwesome5 name="eye" size={20} color ="white"/>}{' décomptes'}</Text>
-                        {/* // <Indix Type="toOpen" clr="white"/> : <Indix Type="toClose" clr="white"/> */}
                 </TouchableOpacity>
             </View>
         </ChipProvider>
@@ -257,7 +256,6 @@ export default PoudreFull=({navigation,routeNheaders})=>{
             <SafeAreaProvider ref={safeAreaRef} style={{...styles.safeAreaView,maxWidth:'80%',marginHorizontal:"10%",marginVertical:10,minWidth:isLarge?1000:1000,}}>
                 <CurrentProductsProvider>
                     <AnalysedListe product={product} rend={(data)=>{refresh();setProductsAndCounts(productsAndCountsFormat(data))}}/>
-                    {/* <Table current={false} product={product} navigation={navigation} rend={(data)=>{refresh();setProductsAndCounts(productsAndCountsFormat(data))}} render={()=>setModalShow(true)} API_URL={api_url} headers={headers}/> */}
                 </CurrentProductsProvider>
             </SafeAreaProvider>
         </ScrollView>
