@@ -26,10 +26,10 @@ const EnteteRow=({ntte,prodName,analysed})=>{
                             rest.map(r=>{
                                 const moyR=moy(analysedR,r);
                                 return <Text style={styles.second_text}>
-                                {moyR!=="" && (
+                                {moyR!=="" && <>
                                         <Text style={{color:"rgba(255,255,255,0.5)"}}>{keyReduce(r)+': '}</Text>
                                         <Text style={{color:"white"}}>{moyR}</Text>
-                                    )
+                                    </>
                                 }
                             </Text>})
                         }
