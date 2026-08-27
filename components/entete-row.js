@@ -29,7 +29,7 @@ const EnteteRow=({ntte,prodName,analysed})=>{
             useLayoutEffect(()=>{
                 setToDisplayPrint(dataByName);
                 setToPrint(analysedR);
-            },[])
+            },[dataByName,analysedR])
             const handlePrint=async ()=>{
                 // await setToDisplayPrint(dataByName);
                 // await setToPrint(analysedR);
