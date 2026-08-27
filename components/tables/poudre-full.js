@@ -6,7 +6,7 @@ import * as Print from 'expo-print';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import { DrawerActions} from '@react-navigation/native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import {CurrentProductsProvider,ChipProvider,CurrentProductedProvider,ItemToSaveProvider,usePopup,useEverages,usePowderEverages} from '../wrappers/contexts';
+import {CurrentProductsProvider,ChipProvider,CurrentProductedProvider,useCurrentProducted,ItemToSaveProvider,usePopup,useEverages,usePowderEverages} from '../wrappers/contexts';
 import { AnalysedListe } from '../../navigators/DrawerPoudre';
 import WinDim from '../../assets/operatingData';
 import { MyChipp,Filter } from '../chip';
@@ -32,10 +32,11 @@ export default PoudreFull=({navigation,routeNheaders})=>{
     
     const {buildAnalytics}=useEverages();
     const {buildPowderAnalytics}=usePowderEverages();
+    const {toDisplayPrint, setToDisplayPrint,toPrint,setToPrint}=useCurrentProducted();
     const [productsAndCounts,setProductsAndCounts]=useState(null);
     const [product,setProduct]=useState(null);
-    const [toPrint,setToPrint]=useState({});
-    const [toDisplayPrint, setToDisplayPrint] = useState([]);
+    // const [toPrint,setToPrint]=useState({});
+    // const [toDisplayPrint, setToDisplayPrint] = useState([]);
     const [titre,setTitre]=useState('');
     const [refreshing,setRefreshing]=useState(false);
     const [isDrop,setIsDrop]=useState(false);
@@ -104,7 +105,7 @@ export default PoudreFull=({navigation,routeNheaders})=>{
             return `<span style="font-size:18px;border:1px dotted blue;border-radius:5px;padding:5px;padding-left:15px;padding-right:15px;color:grey;font-weight:bold;">${frDate}</span>`;
         };
     
-    const generatePDF = async () => {
+    export const generatePDF = async () => {
          try {
             const {count,delth,items}=toDisplayPrint;const html =`
                 <style>

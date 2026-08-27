@@ -1,17 +1,27 @@
 import { View, Text, StyleSheet,Pressable} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import Filters from '../kernel/classes/formatTablesAnalysesPoudre';
+import {generate} from '../tables/poudre-full.js';
 import {useCurrentProducted} from './wrappers/contexts.js';
 import {keyReduce,moy} from '../assets/functions.js';
+const filter=new Filters();
 const EnteteRow=({ntte,prodName,analysed})=>{
-            const {entete}=useCurrentProducted();
-            const analysedR=analysed.filter(a=>a.name===prodName);
+            const {entete,toDisplayPrint,setToDisplayPrint,toPrint,setToPrint}=useCurrentProducted();
+            const dataByName=filter.product_mois_date(toPrint);//suivant produit
+            // const meanDataIfProduct=analysed.filter(item=>item.name.includes(prodName)); // (1)
+            const analysedR=analysed.filter(a=>a.name===prodName); // meme que (1)
             function totalOccurrences(valeurRecherchee){
                 return analysed.map(analyse=>entete==='Utilisateur'?analyse[entete]['pseudo']:analyse[entete]).filter(valeur =>valeur === valeurRecherchee).length;
             };
             const rest=['gg','humidite','matiere_active','alcanite','silicate','sel','densite'];
 
             const handlePrint=()=>{
-                alert(entete);
+                setToDisplayPrint(dataByName);
+                setPrint(analysedR);
+                (async () => {setTimeout(async () => {
+                                await generatePDF();
+                            },500);
+                        })();
             }
             return <View style={styles.main}>
                 <Text style={styles.main_text}>
