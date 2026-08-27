@@ -29,7 +29,7 @@ const EnteteRow=({ntte,prodName,analysed})=>{
                         }
                     </View>
                 }
-                <View style={icons}>
+                <View style={styles.icons}>
                     <Pressable style={styles.icon} onPress={handlePrint}>
                         <Icon size={14} name="print" color='white'/>
                     </Pressable>
