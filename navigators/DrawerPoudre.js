@@ -332,8 +332,6 @@ export const AnalysedListe=({product,rend}) => {// Pour Poudre-full
             })
         },[]);
 
-        setAnalysed(products)},[product]);// product pour gerer le cas du clic sur un decompte-item
-
         useEffect/*useMemo*/(()=>{
             setAnalysed(powderType); // filtrer suivant le type (extra,local,finies,get,diam,...)
             ///** Essayons -le */ rend(powderAnalysed); // construit les chipps: doit rester constatn que owderAnalysed n'a pas changé: Pouvait se faire dans le useLayoutEffect si aucune mise a jour des powderAnalysed n'est envisagée
