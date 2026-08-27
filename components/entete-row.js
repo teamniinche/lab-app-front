@@ -1,6 +1,7 @@
 import { View, Text, StyleSheet,Pressable} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {useCurrentProducted} from './wrappers/contexts.js';
+import {keyReduce} from '../assets/functions.js';
 const EnteteRow=({ntte,prodName,analysed})=>{
             const {entete}=useCurrentProducted();
             function totalOccurrences(valeurRecherchee){
