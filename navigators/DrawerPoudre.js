@@ -1,6 +1,6 @@
 import { useMemo,useEffect,useLayoutEffect,useState,useRef } from 'react';
 import { createDrawerNavigator } from '@react-navigation/drawer';
-import { useNavigation ,useRoute} from '@react-navigation/native';
+import { useNavigation ,useNavigationState} from '@react-navigation/native';
 import { Picker } from '@react-native-picker/picker';
 import { View, Text, StyleSheet,TouchableWithoutFeedback,Pressable,ActivityIndicator,Platform,FlatList, TouchableOpacity } from 'react-native';
 // import { FontAwesome5 } from '@expo/vector-icons';
@@ -310,8 +310,11 @@ export const AnalysedListTour=() => {
 
 export const AnalysedListe=({product,rend}) => {// Pour Poudre-full
         // const [loading,setLoading]=useState(false);
-        const route=useRoute();
-        const navigation=useNavigation();
+        // const route=useRoute();
+        const tabNavigation=useNavigation();
+        // 2. Remonte d'un niveau pour cibler le Drawer Navigator parent
+        const drawerNavigation = tabNavigation.getParent(); 
+
         const dispatch=useDispatch();
         const {startedAt,endedAt}=useSelector(state=>state.period.targetPeriod);
         const [K,setK]=useState(null);
@@ -335,15 +338,28 @@ export const AnalysedListe=({product,rend}) => {// Pour Poudre-full
                 setPop({show:true,message:error.message,code:"#880000"})
             })
         },[]);
+
+
+
         useMemo(()=>{
             // const products=product===null?analysed:analysed.filter((itm)=>isFormule(itm).estFormule?(isFormule(itm).nameToDisplay===product):itm.name===product);
             // setAnalysed(products)
-            navigation.setOptions({
-            title: `${route.name}${suffixe}`, // Affiche visuellement : "Boutique/favoris"
+            
+            // 1. Récupérer PRÉCISEMENT le nom de la route active du Drawer enfant
+            const drawerRouteName = useNavigationState((state) => {
+                // On cherche l'état de la route actuellement affichée
+                const route = state.routes[state.index];
+                // Si cette route contient elle-même un état imbriqué (le Drawer)
+                if (route.state) {return route.state.routes[route.state.index].name;}
+                // Valeur de secours si l'état n'est pas encore initialisé
+
+                return route.name;
             });
+            if (drawerNavigation) {drawerNavigation.setOptions({title: `${drawerRouteName}${product}`, /*Affiche visuellement : "Boutique/favoris"*/});};
             setAnalysed(powderFiltred);
-            console.log(route)
-        },[product,route.name, navigation]);// product pour gerer le cas du clic sur un decompte-item
+        },[product, drawerRouteName, drawerNavigation]);// product pour gerer le cas du clic sur un decompte-item
+
+
 
         useEffect/*useMemo*/(()=>{
             setAnalysed(powderType); // filtrer suivant le type (extra,local,finies,get,diam,...)
