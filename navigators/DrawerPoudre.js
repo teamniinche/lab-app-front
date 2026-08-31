@@ -1,6 +1,6 @@
 import { useMemo,useEffect,useLayoutEffect,useState,useRef } from 'react';
 import { createDrawerNavigator } from '@react-navigation/drawer';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation ,useRoute} from '@react-navigation/native';
 import { Picker } from '@react-native-picker/picker';
 import { View, Text, StyleSheet,TouchableWithoutFeedback,Pressable,ActivityIndicator,Platform,FlatList, TouchableOpacity } from 'react-native';
 // import { FontAwesome5 } from '@expo/vector-icons';
@@ -310,6 +310,7 @@ export const AnalysedListTour=() => {
 
 export const AnalysedListe=({product,rend}) => {// Pour Poudre-full
         // const [loading,setLoading]=useState(false);
+        const route=useRoute();
         const navigation=useNavigation();
         const dispatch=useDispatch();
         const {startedAt,endedAt}=useSelector(state=>state.period.targetPeriod);
@@ -323,6 +324,7 @@ export const AnalysedListe=({product,rend}) => {// Pour Poudre-full
             return {powderFiltred,powderAnalysed,powderType,focusedListe};
         })
         const [analysed,setAnalysed]=useState([]);
+        const suffixe = product ? `/${product}` : '';
         const {entete}=useCurrentProducted();
 
         useLayoutEffect(()=>{
@@ -332,13 +334,16 @@ export const AnalysedListe=({product,rend}) => {// Pour Poudre-full
             .catch(function(error){ 
                 setPop({show:true,message:error.message,code:"#880000"})
             })
-            console.log(navigation)
         },[]);
         useMemo(()=>{
             // const products=product===null?analysed:analysed.filter((itm)=>isFormule(itm).estFormule?(isFormule(itm).nameToDisplay===product):itm.name===product);
             // setAnalysed(products)
+            navigation.setOptions({
+            title: `${route.name}${suffixe}`, // Affiche visuellement : "Boutique/favoris"
+            });
             setAnalysed(powderFiltred);
-        },[product]);// product pour gerer le cas du clic sur un decompte-item
+            console.log(route)
+        },[product,route.name, navigation]);// product pour gerer le cas du clic sur un decompte-item
 
         useEffect/*useMemo*/(()=>{
             setAnalysed(powderType); // filtrer suivant le type (extra,local,finies,get,diam,...)
