@@ -341,7 +341,7 @@ export const AnalysedListe=({product,rend}) => {// Pour Poudre-full
 
         // ========================================= AFFICHAGE DE LA ROUTE =======================================
         const suffixe = product ? `/ ${product}` : '';
-        const TYPE=type?type:'*';
+        const TYPE=type?`/ ${type}` : '/*';
         const NTT=entete?` #${entete}`:'';
         // 1. Récupérer PRÉCISEMENT le nom de la route active du Drawer enfant
         const drawerRouteName = useNavigationState((state) => {
@@ -353,7 +353,7 @@ export const AnalysedListe=({product,rend}) => {// Pour Poudre-full
 
                 return route.name;
             });
-        useEffect(()=>{if (drawerNavigation) {drawerNavigation.setOptions({title: `${drawerRouteName} / ${TYPE}`})}},[type])
+        useEffect(()=>{if (drawerNavigation) {drawerNavigation.setOptions({title: `${drawerRouteName} / POUDRES ${TYPE}`})}},[type])
         useMemo(()=>{
             if (drawerNavigation) {drawerNavigation.setOptions({title: `${drawerRouteName} / ${TYPE}${suffixe}${NTT}`, /*Affiche visuellement : "Boutique/favoris"*/});};
         // ==========================================================================================================
