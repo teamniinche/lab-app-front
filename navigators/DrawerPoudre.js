@@ -358,7 +358,7 @@ export const AnalysedListe=({product,rend}) => {// Pour Poudre-full
             if (drawerNavigation) {drawerNavigation.setOptions({title: `${drawerRouteName} / ${TYPE}${suffixe}${NTT}`, /*Affiche visuellement : "Boutique/favoris"*/});};
         // ==========================================================================================================
             setAnalysed(powderFiltred);
-        },[product, drawerRouteName, drawerNavigation]);// product pour gerer le cas du clic sur un decompte-item
+        },[product, drawerRouteName, drawerNavigation,entete]);// product pour gerer le cas du clic sur un decompte-item
 
 
 
