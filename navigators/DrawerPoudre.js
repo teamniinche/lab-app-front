@@ -355,7 +355,7 @@ export const AnalysedListe=({product,rend}) => {// Pour Poudre-full
             });
         useEffect(()=>{if (drawerNavigation) {drawerNavigation.setOptions({title: `${drawerRouteName} / poudres ${TYPE}`})}},[type])
         useMemo(()=>{
-            if (drawerNavigation) {drawerNavigation.setOptions({title: `${drawerRouteName} / poudres ${TYPE}${suffixe}${NTT}`, /*Affiche visuellement : "Boutique/favoris"*/});};
+            if (drawerNavigation) {drawerNavigation.setOptions({title: `${drawerRouteName.replace('Accueil','Comptabilité')} / poudres ${TYPE}${suffixe}${NTT}`, /*Affiche visuellement : "Boutique/favoris"*/});};
         // ==========================================================================================================
             setAnalysed(powderFiltred);
         },[product, drawerRouteName, drawerNavigation,entete]);// product pour gerer le cas du clic sur un decompte-item
