@@ -327,8 +327,6 @@ export const AnalysedListe=({product,rend}) => {// Pour Poudre-full
             return {powderFiltred,powderAnalysed,powderType,type,focusedListe};
         })
         const [analysed,setAnalysed]=useState([]);
-        const suffixe = product ? `/${product}` : '';
-        const TYPE=type?type:'*';
         const {entete}=useCurrentProducted();
 
 
@@ -341,8 +339,12 @@ export const AnalysedListe=({product,rend}) => {// Pour Poudre-full
             })
         },[]);
 
+        // ========================================= AFFICHAGE DE LA ROUTE =======================================
+        const suffixe = product ? `/ ${product}` : '';
+        const TYPE=type?type:'*';
+        const NTT=entete?` #${entete}`:'';
         // 1. Récupérer PRÉCISEMENT le nom de la route active du Drawer enfant
-            const drawerRouteName = useNavigationState((state) => {
+        const drawerRouteName = useNavigationState((state) => {
                 // On cherche l'état de la route actuellement affichée
                 const route = state.routes[state.index];
                 // Si cette route contient elle-même un état imbriqué (le Drawer)
@@ -351,15 +353,12 @@ export const AnalysedListe=({product,rend}) => {// Pour Poudre-full
 
                 return route.name;
             });
-
+        useEffect(()=>{if (drawerNavigation) {drawerNavigation.setOptions({title: `${drawerRouteName} / ${TYPE}`})}},[type])
         useMemo(()=>{
-            // const products=product===null?analysed:analysed.filter((itm)=>isFormule(itm).estFormule?(isFormule(itm).nameToDisplay===product):itm.name===product);
-            // setAnalysed(products)
-            
-            if (drawerNavigation) {
-                drawerNavigation.setOptions({title: `${drawerRouteName} / ${TYPE} / ${suffixe}`, /*Affiche visuellement : "Boutique/favoris"*/});};
+            if (drawerNavigation) {drawerNavigation.setOptions({title: `${drawerRouteName} / ${TYPE}${suffixe}${NTT}`, /*Affiche visuellement : "Boutique/favoris"*/});};
+        // ==========================================================================================================
             setAnalysed(powderFiltred);
-        },[product, drawerRouteName, drawerNavigation,type]);// product pour gerer le cas du clic sur un decompte-item
+        },[product, drawerRouteName, drawerNavigation]);// product pour gerer le cas du clic sur un decompte-item
 
 
 
