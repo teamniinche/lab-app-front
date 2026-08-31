@@ -319,16 +319,18 @@ export const AnalysedListe=({product,rend}) => {// Pour Poudre-full
         const {startedAt,endedAt}=useSelector(state=>state.period.targetPeriod);
         const [K,setK]=useState(null);
         const {setPop}=usePopup();
-        const {powderFiltred,powderAnalysed,powderType,focusedListe}=useSelector(state=>{
+        const {powderFiltred,powderAnalysed,powderType,type,focusedListe}=useSelector(state=>{
             const powderFiltred=state.powderAnalysed.powderFiltred;
             const powderAnalysed=state.powderAnalysed.powderAnalysed;
-            const powderType=state.powderAnalysed.powderType;
+            const {powderType,type}=state.powderAnalysed;
             const focusedListe=state.currentProducted.focusedListe;
-            return {powderFiltred,powderAnalysed,powderType,focusedListe};
+            return {powderFiltred,powderAnalysed,powderType,type,focusedListe};
         })
         const [analysed,setAnalysed]=useState([]);
         const suffixe = product ? `/${product}` : '';
+        const TYPE=type?type:'*';
         const {entete}=useCurrentProducted();
+
 
         useLayoutEffect(()=>{
             fetch(`${dbBaseRoot}poudre/analyses?startedAt=${startedAt}&endedAt=${endedAt}`) 
@@ -354,9 +356,10 @@ export const AnalysedListe=({product,rend}) => {// Pour Poudre-full
             // const products=product===null?analysed:analysed.filter((itm)=>isFormule(itm).estFormule?(isFormule(itm).nameToDisplay===product):itm.name===product);
             // setAnalysed(products)
             
-            if (drawerNavigation) {drawerNavigation.setOptions({title: `${drawerRouteName}${product}`, /*Affiche visuellement : "Boutique/favoris"*/});};
+            if (drawerNavigation) {
+                drawerNavigation.setOptions({title: `${drawerRouteName} / ${TYPE} / ${suffixe}`, /*Affiche visuellement : "Boutique/favoris"*/});};
             setAnalysed(powderFiltred);
-        },[product, drawerRouteName, drawerNavigation]);// product pour gerer le cas du clic sur un decompte-item
+        },[product, drawerRouteName, drawerNavigation,type]);// product pour gerer le cas du clic sur un decompte-item
 
 
 
