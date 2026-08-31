@@ -653,19 +653,19 @@ export const CurrentProductedProvider=({children})=>{
         return {list,freeChariot};
     }
 
-    function Everages(items){
-        var GG=0;var HUMIDITE=0;var MATIERE_ACTIVE=0;var ALCANITE=0;
-        items.map(item=>{
-            const {gg,humidite,matiere_active,alcanite}=item;
-            GG+=gg!==undefined?Number(gg):0;
-            HUMIDITE+=humidite!==undefined?Number(humidite):0;
-            MATIERE_ACTIVE+=matiere_active!==undefined?Number(matiere_active):0;
-            ALCANITE+=alcanite!==undefined?Number(alcanite):0;
+    // function Everages(items){
+    //     var GG=0;var HUMIDITE=0;var MATIERE_ACTIVE=0;var ALCANITE=0;
+    //     items.map(item=>{
+    //         const {gg,humidite,matiere_active,alcanite}=item;
+    //         GG+=gg!==undefined?Number(gg):0;
+    //         HUMIDITE+=humidite!==undefined?Number(humidite):0;
+    //         MATIERE_ACTIVE+=matiere_active!==undefined?Number(matiere_active):0;
+    //         ALCANITE+=alcanite!==undefined?Number(alcanite):0;
 
-        })
+    //     })
 
-        return {GG,HUMIDITE,MATIERE_ACTIVE,ALCANITE};
-    }
+    //     return {GG,HUMIDITE,MATIERE_ACTIVE,ALCANITE};
+    // }
 
     function keysAndRequirements(){
         const {name,couleur,taches,densite,...rest}=focusedPro;
@@ -688,7 +688,7 @@ export const CurrentProductedProvider=({children})=>{
     },[focusedProduct]);
     // const currentProductedLen=Object.keys(currentProductedPro).length;
 
-    return <CurrentProductedContext.Provider value={{id2Update,setId2Update,entete,setEntete,directionTri,toPrint,setToPrint,toDisplayPrint, setToDisplayPrint, setDirectionTri,UpdateFocusedProdByName,Everages,setAction,toCreate,focusedList,setFocusedList,ListOfFocusedAndLastNumberTour,ListOfFocusedAndLastNumber,currentProductedLen,focusedPro,setFocusedPro,currentProductedPro,setCurrentProductedPro,keysAndRequirements,registred,setRegistred}}>
+    return <CurrentProductedContext.Provider value={{id2Update,setId2Update,entete,setEntete,directionTri,toPrint,setToPrint,toDisplayPrint, setToDisplayPrint, setDirectionTri,UpdateFocusedProdByName,setAction,toCreate,focusedList,setFocusedList,ListOfFocusedAndLastNumberTour,ListOfFocusedAndLastNumber,currentProductedLen,focusedPro,setFocusedPro,currentProductedPro,setCurrentProductedPro,keysAndRequirements,registred,setRegistred}}>
        {children}
     </CurrentProductedContext.Provider>
 }

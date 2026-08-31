@@ -182,7 +182,7 @@ const AnalysedList=() => {
             return {powderAnalysed,focusedListe};
         })
         const [analysed,setAnalysed]=useState([]);
-        const {registred,Everages}=useCurrentProducted();
+        const {registred}=useCurrentProducted();
         function handleResearchChange(txt){
             // alert(JSON.stringify(registred))
             const matchedAnalysed=powderAnalysed.filter(it=>(it.name.toLowerCase().includes(txt.toLowerCase()) || it.nChar.toString().includes(txt)));// registred a la place powderAnalysed
@@ -192,8 +192,8 @@ const AnalysedList=() => {
         useMemo(()=>{setAnalysed(focusedListe.filter(item=>isAlreadyAnalysed(item)))},[focusedListe]);// focusedListe du store etait import pour cette partie
         const {name,nom}=focusedListe[0]||{};
         const {nameToDisplay}=isFormule(focusedListe[0]||{})
-        const AnalysedLen=analysed.length;
-        const {GG,HUMIDITE,MATIERE_ACTIVE,ALCANITE}=Everages(analysed);
+        // const AnalysedLen=analysed.length;
+        // const {GG,HUMIDITE,MATIERE_ACTIVE,ALCANITE}=Everages(analysed);
     return <View style={{flex:1,width:"55%",minHeight:700,backgroundColor:'white',flexDirection:'column',justifyContent:'flex-start',alignItems:'center',marginLeft:2}}>
             <View style={{width:"100%",height:75,backgroundColor:"#ddd",flexDirection:'row-reverse',justifyContent:'space-between',alignItems:'center',borderBottomWidth:2,borderColor:"black",paddingHorizontal:20,paddingRight:10,marginBottom:10}}>
                 <View style={{width:"65%",flexDirection:"row-reverse",justifyContent:"flex-start",alignItems:"center",gap:0}}>
@@ -227,7 +227,7 @@ const AnalysedList=() => {
                                         }
                           />
                     </View>
-                <View 
+                {/* <View 
                 style={{
                         flex:1,
                         maxHeight:60,
@@ -249,7 +249,7 @@ const AnalysedList=() => {
                     <Text style={{fontWeight:"bold",fontSize:18,textAlign:"center",width:"auto",color:"white"}}>{"HUM. "+(HUMIDITE/AnalysedLen).toFixed(2)}</Text>
                     <Text style={{fontWeight:"bold",fontSize:18,textAlign:"center",width:"auto",color:"white"}}>{"MA "+(MATIERE_ACTIVE/AnalysedLen).toFixed(2)}</Text>
                     <Text style={{fontWeight:"bold",fontSize:18,textAlign:"center",width:"auto",color:"white"}}>{"ALCA. "+(ALCANITE/AnalysedLen).toFixed(2)}</Text>
-                </View>
+                </View> */}
             </View>
                         {/* )
                   } */}
@@ -321,7 +321,7 @@ export const AnalysedListe=({product,rend}) => {// Pour Poudre-full
             return {powderFiltred,powderAnalysed,powderType,focusedListe};
         })
         const [analysed,setAnalysed]=useState([]);
-        const {Everages,entete}=useCurrentProducted();
+        const {entete}=useCurrentProducted();
 
         useLayoutEffect(()=>{
             fetch(`${dbBaseRoot}poudre/analyses?startedAt=${startedAt}&endedAt=${endedAt}`) 
@@ -331,14 +331,19 @@ export const AnalysedListe=({product,rend}) => {// Pour Poudre-full
                 setPop({show:true,message:error.message,code:"#880000"})
             })
         },[]);
+        useMemo(()=>{
+            // const products=product===null?analysed:analysed.filter((itm)=>isFormule(itm).estFormule?(isFormule(itm).nameToDisplay===product):itm.name===product);
+            // setAnalysed(products)
+            setAnalysed(powderFiltred);
+        },[product]);// product pour gerer le cas du clic sur un decompte-item
 
         useEffect/*useMemo*/(()=>{
             setAnalysed(powderType); // filtrer suivant le type (extra,local,finies,get,diam,...)
             ///** Essayons -le */ rend(powderAnalysed); // construit les chipps: doit rester constatn que owderAnalysed n'a pas changé: Pouvait se faire dans le useLayoutEffect si aucune mise a jour des powderAnalysed n'est envisagée
         },[powderAnalysed,powderType]);// focusedListe du store etait import pour cette partie
 
-        const AnalysedLen=analysed.length;
-        const {GG,HUMIDITE,MATIERE_ACTIVE,ALCANITE}=Everages(analysed);
+        // const AnalysedLen=analysed.length;
+        // const {GG,HUMIDITE,MATIERE_ACTIVE,ALCANITE}=Everages(analysed);
 
         // =========================================== POUR  EnteteRow seulement ==============================================
         const entetesAlreadyIn=[];
@@ -371,7 +376,7 @@ export const AnalysedListe=({product,rend}) => {// Pour Poudre-full
                                         }
                           />
                     </View>
-                {product!==null && <View 
+                {/* {product!==null && <View 
                 style={{
                         flex:1,
                         maxHeight:60,
@@ -393,7 +398,7 @@ export const AnalysedListe=({product,rend}) => {// Pour Poudre-full
                     <Text style={{fontWeight:"bold",fontSize:18,textAlign:"center",width:"auto",color:"white"}}>{"HUM. "+(HUMIDITE/AnalysedLen).toFixed(2)}</Text>
                     <Text style={{fontWeight:"bold",fontSize:18,textAlign:"center",width:"auto",color:"white"}}>{"MA "+(MATIERE_ACTIVE/AnalysedLen).toFixed(2)}</Text>
                     <Text style={{fontWeight:"bold",fontSize:18,textAlign:"center",width:"auto",color:"white"}}>{"ALCA. "+(ALCANITE/AnalysedLen).toFixed(2)}</Text>
-                </View>}
+                </View>} */}
             </View>
                         {/* )
                   } */}
