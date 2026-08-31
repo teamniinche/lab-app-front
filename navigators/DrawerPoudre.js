@@ -342,7 +342,7 @@ export const AnalysedListe=({product,rend}) => {// Pour Poudre-full
         // ========================================= AFFICHAGE DE LA ROUTE =======================================
         const suffixe = product ? `/ ${product}` : '';
         const TYPE=type?`/ ${type}` : '/*';
-        const NTT=entete?` #${entete}`:'';
+        const NTT=(entete && entete!=='heure')?` #${entete}`:'';
         // 1. Récupérer PRÉCISEMENT le nom de la route active du Drawer enfant
         const drawerRouteName = useNavigationState((state) => {
                 // On cherche l'état de la route actuellement affichée
@@ -353,9 +353,9 @@ export const AnalysedListe=({product,rend}) => {// Pour Poudre-full
 
                 return route.name;
             });
-        useEffect(()=>{if (drawerNavigation) {drawerNavigation.setOptions({title: `${drawerRouteName} / POUDRES ${TYPE}`})}},[type])
+        useEffect(()=>{if (drawerNavigation) {drawerNavigation.setOptions({title: `${drawerRouteName} / poudres ${TYPE}`})}},[type])
         useMemo(()=>{
-            if (drawerNavigation) {drawerNavigation.setOptions({title: `${drawerRouteName} / ${TYPE}${suffixe}${NTT}`, /*Affiche visuellement : "Boutique/favoris"*/});};
+            if (drawerNavigation) {drawerNavigation.setOptions({title: `${drawerRouteName} ${TYPE}${suffixe}${NTT}`, /*Affiche visuellement : "Boutique/favoris"*/});};
         // ==========================================================================================================
             setAnalysed(powderFiltred);
         },[product, drawerRouteName, drawerNavigation,entete]);// product pour gerer le cas du clic sur un decompte-item
