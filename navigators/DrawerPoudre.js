@@ -309,6 +309,7 @@ export const AnalysedListTour=() => {
 
 export const AnalysedListe=({product,rend}) => {// Pour Poudre-full
         // const [loading,setLoading]=useState(false);
+        const navigation=useNavigation();
         const dispatch=useDispatch();
         const {startedAt,endedAt}=useSelector(state=>state.period.targetPeriod);
         const [K,setK]=useState(null);
@@ -330,6 +331,7 @@ export const AnalysedListe=({product,rend}) => {// Pour Poudre-full
             .catch(function(error){ 
                 setPop({show:true,message:error.message,code:"#880000"})
             })
+            console.log(navigation)
         },[]);
         useMemo(()=>{
             // const products=product===null?analysed:analysed.filter((itm)=>isFormule(itm).estFormule?(isFormule(itm).nameToDisplay===product):itm.name===product);
