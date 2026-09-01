@@ -143,32 +143,32 @@ export default PoudreFull=({navigation,routeNheaders})=>{
                                                 const {count,...rest4}=object4;
                                                 const item4=Object.values(rest4)[0].name;
                                                 // }
-                                                var bool4=(item4!==null && item4!==undefined);
-                                                return bool4?terminate({key:key4,object:rest4}):`<h3 class="key2">${key4}<h3>
+                                                // var bool4=(item4!==null && item4!==undefined);
+                                                return item4?terminate({key:key4,object:rest4}):`<h3 class="key2">${key4}<h3>
                                                 <div>
                                                     ${Object.entries(rest4).map(([key5,object5]) => {
                                                         const {count,...rest5}=object5;
                                                         const item5=Object.values(rest5)[0]?.name;
-                                                        var bool5=(item5!==null && item5!==undefined);
-                                                        return bool5?terminate({key:key5,object:rest5}):`<h3 class="key3">${key5}<span class="counts" style="border:1px solid grey">${count}</span><h3>
+                                                        // var bool5=(item5!==null && item5!==undefined);
+                                                        return item5?terminate({key:key5,object:rest5}):`<h3 class="key3">${key5}<span class="counts" style="border:1px solid grey">${count}</span><h3>
                                                             </div>
                                                                 ${Object.entries(rest5).map(([key6,object6]) => {
                                                                     const {count,...rest6}=object6;
                                                                     const item6=Object.values(rest6)[0].name;
-                                                                    var bool6=(item6!==null && item6!==undefined);
-                                                                    return bool6?terminate({key:key6,object:rest6}):`<h3 class="key3">${key6}<span class="counts" style="border:1px solid grey">${count}</span><h3>
+                                                                    // var bool6=(item6!==null && item6!==undefined);
+                                                                    return item6?terminate({key:key6,object:rest6}):`<h3 class="key3">${key6}<span class="counts" style="border:1px solid grey">${count}</span><h3>
                                                                         </div>
                                                                             ${Object.entries(rest6).map(([key7,object7]) => {
                                                                                 const {count,...rest7}=object7;
                                                                                 const item7=Object.values(rest7)[0].name;//alert(item7);
-                                                                                var bool7=(item7!==null && item7!==undefined);
-                                                                                return bool7?terminate({key:key7,object:rest7}):`<h3 class="key3">${key7}<span class="counts" style="border:1px solid grey">${count}</span><h3>
+                                                                                // var bool7=(item7!==null && item7!==undefined);
+                                                                                return item7?terminate({key:key7,object:rest7}):`<h3 class="key3">${key7}<span class="counts" style="border:1px solid grey">${count}</span><h3>
                                                                                     </div>
                                                                                         ${Object.entries(rest7).map(([key8,object8]) => {
                                                                                             const {count,...rest8}=object8;
                                                                                             const item8=Object.values(rest8)[0].name;//alert(item7);
-                                                                                            var bool8=(item8!==null && item8!==undefined);
-                                                                                            return bool7?terminate({key:key8,object:rest8}):`<h3 class="key3">${key8+'  '+count}<h3>`
+                                                                                            // var bool8=(item8!==null && item8!==undefined);
+                                                                                            return item8?terminate({key:key8,object:rest8}):`<h3 class="key3">${key8+'  '+count}<h3>`
                                                                                         }).join("")}
                                                                                     </div>`
                                                                             }).join("")}
