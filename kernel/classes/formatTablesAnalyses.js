@@ -380,7 +380,7 @@ product_isValidated(elements){//chemist_mois_date
                 grouped[validateur]=[item];
                 CHEMIST.push(validateur);
             }
-        }
+        };
 
     })
     return grouped;

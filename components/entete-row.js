@@ -196,7 +196,7 @@ export const EnteteRow=({item,ntte,prodName,analysed})=>{
             const {startedAt,endedAt,clooned}= useSelector(state => {
                 const {startedAt,endedAt}=state.period.targetPeriod;
                 const clooned=state.actived.clooned;
-                return {startedAt,endedAt,clooned};});
+            return {startedAt,endedAt,clooned};});
             const {entete}=useCurrentProducted();
             const analysedR=analysed.filter(a=>a.name===prodName);
             const analysedM=analysed.filter(a=>a.machine===item.machine);
