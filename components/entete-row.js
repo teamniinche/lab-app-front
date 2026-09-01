@@ -10,6 +10,8 @@ import FiltersP from '../kernel/classes/formatTablesAnalysesPoudre';
 import Filters from '../kernel/classes/formatTablesAnalyses';
 import {useCurrentProducted,usePopup} from './wrappers/contexts.js';
 import {keyReduce,VALEURSPOUDRE,VALEURS,colorFromName,moy} from '../assets/functions.js';
+import Colors from '../assets/colors';
+
 const filterP=new FiltersP();
 const filter=new Filters();
 
