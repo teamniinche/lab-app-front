@@ -201,7 +201,7 @@ export const EnteteRow=({ntte,prodName,analysed})=>{
             function totalOccurrences(valeurRecherchee){
                 return analysed.map(analyse=>entete==='Utilisateur'?analyse[entete]['pseudo']:analyse[entete]).filter(valeur =>valeur === valeurRecherchee).length;
             };
-            // const rest=['ph','matiere_active','viscosite','densite'];
+            const rest=['ph','matiere_active','viscosite','densite'];
 
 
             const terminate=({key,object}) => {
