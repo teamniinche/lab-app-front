@@ -203,9 +203,9 @@ export const EnteteRow=({item,ntte,prodName,analysed})=>{
             const analysedU=analysed.filter(a=>a.Utilisateur?.pseudo===item.Utilisateur?.pseudo);
             const dataByName=filter.product_mois_date(analysedR);//suivant produit
             const dataFilters={
-                        machine:filter.dep_date_engine(analysed),// suivant departement
+                        machine:filter.dep_date_engine(analysedM),// suivant departement
                         name:filter.product_mois_date(analysedR),//suivant produit/longue periode
-                        Utilisateur:filter.chemist_mois_date(analysed)//suivant Operateur
+                        Utilisateur:filter.chemist_mois_date(analysedU)//suivant Operateur
                     };
             function totalOccurrences(valeurRecherchee){
                 return analysed.map(analyse=>entete==='Utilisateur'?analyse[entete]['pseudo']:analyse[entete]).filter(valeur =>valeur === valeurRecherchee).length;
