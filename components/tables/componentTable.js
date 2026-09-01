@@ -40,7 +40,7 @@ const Table = ({current,rend,product,API_URL, headers }) => {
   const {entete}=useCurrentProducted();
   const titleHeaders=['heure','name','machine','chimiste'];
 // ================ POUR LA PAGINATION ===================================
-  const [totalPages, setTotalPages] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
     const [totalAnalyses, setTotalAnalyses] = useState(1);
     const [visible, setVisible] = useState(false);
     const [k,setK]=useState(null);
