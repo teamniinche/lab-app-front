@@ -246,6 +246,7 @@ export const EnteteRow=({item,ntte,prodName,analysed})=>{
     const generatePDF = async () => {
          try {
             const {count,delth,items}=dataFilters[entete] || dataByName;
+            console.log(items)
             const html =`
                 <style>
                     html{margin:0px;padding:0px;}
