@@ -1,4 +1,4 @@
-class Filters{
+class FiltersP{
 
     /*const {id,updatedAt,parfum,color,observations,commentaires,categorie,
                 createdAt,validation,Utilisateur,
@@ -188,7 +188,7 @@ product_mois_date(elements){
 
  }
 
- export default Filters;
+ export default FiltersP;
 /* 
     {
         product_mois_date,

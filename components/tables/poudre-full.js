@@ -9,7 +9,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import {CurrentProductsProvider,ChipProvider,CurrentProductedProvider,useCurrentProducted,ItemToSaveProvider,usePopup,useEverages,usePowderEverages} from '../wrappers/contexts';
 import { AnalysedListe } from '../../navigators/DrawerPoudre';
 import { MyChipp,Filter } from '../chip';
-import Filters from '../../kernel/classes/formatTablesAnalysesPoudre';
+import FiltersP from '../../kernel/classes/formatTablesAnalysesPoudre';
 import { productsAndCountsFormat,Flex,VALEURSPOUDRE,isFormule,moy,keyReduce } from '../../assets/functions';
 import { FontAwesome5 } from '@expo/vector-icons';
 import BottomSheet from '../modaux.js/bottomSheet';
@@ -41,7 +41,7 @@ export default PoudreFull=({navigation,routeNheaders})=>{
     const [refreshing,setRefreshing]=useState(false);
     const [isDrop,setIsDrop]=useState(false);
     const {setPop}=usePopup();
-    const filter=new Filters();
+    const filter=new FiltersP();
     const dataFilters=[
         {name:'NoC',data:filter.isValidated_mois_date_product(toPrint),active:true},//suivant Non conforme par produit
         {name:'Per',data:filter.mois_date_product(toPrint),active:true},// sur une periode donnée

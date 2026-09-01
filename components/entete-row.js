@@ -6,7 +6,7 @@ import * as Sharing from 'expo-sharing';
 import * as Print from 'expo-print';
 import WinDim from '../assets/operatingData';
 import {Time } from '../hooks/littleBiblio';
-import Filters as FiltersP from '../kernel/classes/formatTablesAnalysesPoudre';
+import FiltersP from '../kernel/classes/formatTablesAnalysesPoudre';
 import Filters from '../kernel/classes/formatTablesAnalyses';
 import {useCurrentProducted,usePopup} from './wrappers/contexts.js';
 import {keyReduce,VALEURSPOUDRE,VALEURS,colorFromName,moy} from '../assets/functions.js';
