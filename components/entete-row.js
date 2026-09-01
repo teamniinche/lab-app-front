@@ -199,7 +199,12 @@ export const EnteteRow=({ntte,prodName,analysed})=>{
                 return {startedAt,endedAt,clooned};});
             const {entete}=useCurrentProducted();
             const analysedR=analysed.filter(a=>a.name===prodName);
-            const dataByName=filter.product_mois_date(analysedR);//suivant produit
+            // const dataByName=filter.product_mois_date(analysedR);//suivant produit
+            const dataFilters={
+                        machine:filter.dep_date_engine(analysedR),// suivant departement
+                        name:filter.product_mois_date(analysedR),//suivant produit/longue periode
+                        chimiste:filter.chemist_mois_date(analysedR)//suivant Operateur
+                    };
             function totalOccurrences(valeurRecherchee){
                 return analysed.map(analyse=>entete==='Utilisateur'?analyse[entete]['pseudo']:analyse[entete]).filter(valeur =>valeur === valeurRecherchee).length;
             };
@@ -237,7 +242,8 @@ export const EnteteRow=({ntte,prodName,analysed})=>{
     
     const generatePDF = async () => {
          try {
-            const {count,delth,items}=dataByName;
+            alert(entete);
+            const {count,delth,items}=dataFilters[entete];
             const html =`
                 <style>
                     html{margin:0px;padding:0px;}
