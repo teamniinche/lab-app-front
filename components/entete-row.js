@@ -25,7 +25,7 @@ export const EnteteRowPoudre=({ntte,prodName,analysed})=>{
             const analysedR=analysed.filter(a=>a.name===prodName);
             const dataByName=filterP.product_mois_date(analysedR);//suivant produit
             function totalOccurrences(valeurRecherchee){
-                return analysed.map(analyse=>entete==='Utilisateur'?analyse[entete]['pseudo']:analyse[entete]).filter(valeur =>valeur === valeurRecherchee).length;
+                return analysed.map(analyse=>entete==='Utilisateur'?analyse[entete]['pseudo']:analyse[entete]).filter(valeur =>valeur === valeurRecherchee || valeur.includes(valeurRecherchee)).length;
             };
             const rest=['gg','humidite','matiere_active','alcanite','silicate','sel','densite'];
 
@@ -208,7 +208,7 @@ export const EnteteRow=({item,ntte,prodName,analysed})=>{
                         Utilisateur:filter.chemist_mois_date(analysedU)//suivant Operateur
                     };
             function totalOccurrences(valeurRecherchee){
-                return analysed.map(analyse=>entete==='Utilisateur'?analyse[entete]['pseudo']:analyse[entete]).filter(valeur =>valeur === valeurRecherchee).length;
+                return analysed.map(analyse=>entete==='Utilisateur'?analyse[entete]['pseudo']:analyse[entete]).filter(valeur =>(valeur === valeurRecherchee || valeur.includes(valeurRecherchee))).length;
             };
             const rest=['ph','matiere_active','viscosite','densite'];
 
