@@ -251,7 +251,7 @@ export const EnteteRow=({ntte,prodName,analysed})=>{
                     h1 {text-align:center;margin:5px;margin-top: 15px; color: #07108fff;font-size:14; }
                     h2 { margin-top: 20px; color: #2c3e50; }
                     ul { width:100%;list-style-type: none; padding-left: 0; }
-                    li {text-align:center; margin: 4px 15px; padding: 6px; border-bottom: 1px solid #ddd; }
+                    li {text-align:center; margin: 4px 15px; padding: 6px; border-bottom: 1px solid #ddd;}
                     .header{display:inline-block;width:6.5%;text-align:center;font-size:8px;color:rgba(0,0,0,0.5);margin:8px;}
                     h4 { margin-top: 20px; color: #2c3e50; }
                     .key1{font-size:16px;color:rgba(0,0,0,0.8);margin: 4px 15px;margin-left:2px;padding: 6px;border-bottom: 1px solid #444; }
