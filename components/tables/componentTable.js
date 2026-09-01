@@ -11,6 +11,7 @@ import Pop from "../popup";
 // COMPONENTS
 import HideStatusBarOnFocus from "../wrappers/wrapperHideStatusBar";
 import { ClickableRow } from "./chat-for-table";
+import {EnteteRow} from '../entete-row.js';
 import Connect from "../connexion/connect";
 import { Periodes } from "../periode";
 // UTILS
