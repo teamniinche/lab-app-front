@@ -201,9 +201,9 @@ export const EnteteRow=({ntte,prodName,analysed})=>{
             const analysedR=analysed.filter(a=>a.name===prodName);
             const dataByName=filter.product_mois_date(analysedR);//suivant produit
             const dataFilters={
-                        machine:filter.dep_date_engine(analysedR),// suivant departement
+                        machine:filter.dep_date_engine(analysed),// suivant departement
                         name:filter.product_mois_date(analysedR),//suivant produit/longue periode
-                        Utilisateur:filter.chemist_mois_date(analysedR)//suivant Operateur
+                        Utilisateur:filter.chemist_mois_date(analysed)//suivant Operateur
                     };
             function totalOccurrences(valeurRecherchee){
                 return analysed.map(analyse=>entete==='Utilisateur'?analyse[entete]['pseudo']:analyse[entete]).filter(valeur =>valeur === valeurRecherchee).length;
@@ -231,7 +231,7 @@ export const EnteteRow=({ntte,prodName,analysed})=>{
                                     </p>`;
                             }).join("")}
                     </div>`};
-                    
+
 
             const dateFr=(date)=>{
                     const months={Jan:"Janvier",Fev:"Fèvrier",Mar:"Mars",Apr:"Avril",May:"Mai",Jun:"Juin",Jul:"Juillet",Aug:"Aout",Sep:"Septembre",Oct:"Octobre",Nov:"Novembre",Dec:"Décembre"};
