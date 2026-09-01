@@ -191,7 +191,7 @@ export const EnteteRowPoudre=({ntte,prodName,analysed})=>{
             </View>
         }
 
-export const EnteteRow=({ntte,prodName,analysed})=>{
+export const EnteteRow=({item,ntte,prodName,analysed})=>{
             const {setPop}=usePopup();
             const {startedAt,endedAt,clooned}= useSelector(state => {
                 const {startedAt,endedAt}=state.period.targetPeriod;
