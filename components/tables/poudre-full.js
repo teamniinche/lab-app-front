@@ -265,16 +265,10 @@ export default PoudreFull=({navigation,routeNheaders})=>{
         </ScrollView>
     </ScrollView>
 
-    <TouchableOpacity  onPress={handleOpenPress} style={{position:'absolute',right:20,top:0.61*screenHeight,height:65,borderWidth:1,borderColor:'whitesmoke',paddingHorizontal:8,paddingVertical:8,borderRadius:10,backgroundColor:"rgba(155, 0, 0, 0.7)",}} >
-                <Text style={{fontWeight:800,letterSpacing:-2,fontSize:16,color:"whitesmoke",paddingVertical:6,paddingHorizontal:2,borderBottomWidth:4,borderTopWidth:4,borderRadius:16,borderColor:'whitesmoke'}}>MOY</Text>
+            <TouchableOpacity  onPress={handleOpenPress} style={styles.moy} >
+                <Text style={styles.moy_text}>MOY</Text>
             </TouchableOpacity>
-            <TouchableOpacity
-            style={{position:'absolute',right:20,top:0.71*screenHeight,backgroundColor:'rgba(155,0,0,0.7)',padding:8,borderRadius:10,}}
-            onPress={async () => {setTimeout(async () => {
-                                await generatePDF();
-                            },500);
-                        }}
-            >
+            <TouchableOpacity style={styles.pdf} onPress={async () => {setTimeout(async () => {await generatePDF();},500);}}>
                 <Text ><FontAwesome5 name="file-pdf" size={50} color="white"/></Text>
             </TouchableOpacity>
 
@@ -295,6 +289,38 @@ export const UPNavigator=({routeNheaders})=>{
 
 
 const styles=StyleSheet.create({
+    moy:{
+        position:'absolute',
+        right:20,
+        top:0.61*screenHeight,
+        height:65,
+        borderWidth:1,
+        borderColor:'whitesmoke',
+        paddingHorizontal:8,
+        paddingVertical:8,
+        borderRadius:10,
+        backgroundColor:"rgba(155, 0, 0, 0.7)",
+    },
+    moy_text:{
+            fontWeight:800,
+            letterSpacing:-2,
+            fontSize:16,
+            color:"whitesmoke",
+            paddingVertical:6,
+            paddingHorizontal:2,
+            borderBottomWidth:4,
+            borderTopWidth:4,
+            borderRadius:16,
+            borderColor:'whitesmoke'
+        },
+    pdf:{
+            position:'absolute',
+            right:20,
+            top:0.71*screenHeight,
+            backgroundColor:'rgba(155,0,0,0.7)',
+            padding:8,
+            borderRadius:10,
+        },
     container: {
         paddingHorizontal:5,
       },

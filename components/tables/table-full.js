@@ -248,8 +248,7 @@ export default TableFull=({navigation/*,route*/,routeNheaders})=>{
                 //(error);
             }
         };
-
-    // const genratePDF = async () => {
+// const genratePDF = async () => {
     //     const months=['Janvier','Fèvrier','Mars','Avril','Mai','Juin','Juillet','Aout','Septembre','Octobre','Novembre','Décembre']
     //     try {
 

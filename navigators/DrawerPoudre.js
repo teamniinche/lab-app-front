@@ -24,7 +24,7 @@ import WinDim from '../assets/operatingData';
 import { Lansas,routesAndHeadersPowder,headersTour } from '../iterables';
 import { styles } from '../components/tables/componentTable';
 import { ViewOrImgBgPowderWrapper } from '../components/wrappers/viewOrImgWrapper';
-import EnteteRow from '../components/entete-row.js';
+import {EnteteRowPoudre} from '../components/entete-row.js';
 import { ScrollView } from 'react-native-gesture-handler';
 import { Comment } from '../components/tables/chat-for-table';
 import { AdjentDayInMs} from '../components/periode';
@@ -376,6 +376,7 @@ export const AnalysedListe=({product,rend}) => {// Pour Poudre-full
         
 
     return <View style={{flex:1,width:"100%",height:"auto",padding:50,paddingTop:20,backgroundColor:'white',flexDirection:'column',justifyContent:'flex-start',alignItems:'center',marginLeft:2}}>
+            
             <View style={{width:"100%",height:"auto",height:"auto",maxHeight:740,paddingHorizontal:10,paddingVertical:0}}>
                 <PowderHeaders donnees={analysed} headers={headers} render={(anlyss)=>setAnalysed(anlyss)}/>
                 {/* {loading ? (<ActivityIndicator size="large" color="#0000ff" />
@@ -387,7 +388,7 @@ export const AnalysedListe=({product,rend}) => {// Pour Poudre-full
                                         renderItem={({ item },index) =>{
                                             const realKey=realKeyFromEntete(entete,item);
                                             return <>
-                                                {realKey!==undefined && !enteteIsIn(realKey) && <EnteteRow analysed={analysed} ntte={realKey} prodName={item.name}/>}
+                                                {realKey!==undefined && !enteteIsIn(realKey) && <EnteteRowPoudre analysed={analysed} ntte={realKey} prodName={item.name}/>}
                                                 <PowderRow
                                                     key={index}
                                                     K={K}
