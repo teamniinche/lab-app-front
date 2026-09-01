@@ -336,7 +336,6 @@ export const EnteteRow=({ntte,prodName,analysed})=>{
             }
         };
 
-
             return <View style={styles.main}>
                 <Text style={styles.main_text}>
                     {ntte+' : '}
@@ -375,11 +374,7 @@ export const EnteteRow=({ntte,prodName,analysed})=>{
         
 
 
-
-
-
-
-        
+      
 const styles=StyleSheet.create({
     icons:{
         position:'absolute',

@@ -240,7 +240,7 @@ export default PoudreFull=({navigation,routeNheaders})=>{
                     })}
                     
                 </View>
-                
+            
                 {isDrop && <View style={{fontSize:10,gap:5,minWidth:'100%',flexDirection:'row',flexWrap:'wrap',paddingHorizontal:10,backgroundColor:'black',marginTop:-5,borderRadius:5,}}>
                 {productsAndCounts && productsAndCounts.map((item,index)=>{
                     const {estFormule,nameToDisplay}=isFormule(item);const produit=estFormule?nameToDisplay:item.name;

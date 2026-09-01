@@ -3,7 +3,7 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 import { useNavigation ,useNavigationState} from '@react-navigation/native';
 import { Picker } from '@react-native-picker/picker';
 import { View, Text, StyleSheet,TouchableWithoutFeedback,Pressable,ActivityIndicator,Platform,FlatList, TouchableOpacity } from 'react-native';
-// import { FontAwesome5 } from '@expo/vector-icons';
+//import { FontAwesome5 } from '@expo/vector-icons';
 import { Searchbar,TextInput,Button, Dialog, Portal, PaperProvider } from 'react-native-paper';
 import Collapsible from 'react-native-collapsible';
 import Icon from 'react-native-vector-icons/FontAwesome';
