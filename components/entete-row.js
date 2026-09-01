@@ -215,8 +215,13 @@ export const EnteteRow=({item,ntte,prodName,analysed})=>{
 
             const terminate=({key,object}) => {
                 const count=Object.values(object).length;
+
                 return `<h3 class="key3">${key}<span style="display:inline-block;background-color:blue;font-weight:bold;font-size:14px;border-radius:50%;width:auto;height:auto;padding:4px;margin-left:5px;margin-right:5px;color:white;border:1px solid grey">${count}</span><h3>
-                    </div>
+                    <h3 class="key3">${' Moyennes '+rest.map(r=>{
+                    const moyR=moy(analysedR,r);
+                    return (moyR!=="" && enetete==='name')?`<span style="margin:15px;">${keyReduce(r)+': ' +moyR/*moy(Object.values(object),r)*/}</span>`:null})}<h3>
+                
+                </div>
                         ${Object.entries(object).map(([k,item]) => {
                             var it=item || item[0];
                             const {id,updatedAt,parfum,color,observations,commentaires,categorie,
