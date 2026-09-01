@@ -231,7 +231,7 @@ return (<HideStatusBarOnFocus>
                   }
                   const realKey=realKeyFromEntete(entete,item);
                 return <>
-                      {realKey!==undefined && !enteteIsIn(realKey) && <EnteteRow ntte={realKey} prodName={item?.name} analysed={analyses}/>}
+                      {realKey!==undefined && !enteteIsIn(realKey) && <EnteteRow item={item} ntte={realKey} prodName={item?.name} analysed={analyses}/>}
                       <ClickableRow
                           key={index}
                           num={index+1}

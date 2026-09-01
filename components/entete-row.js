@@ -199,6 +199,8 @@ export const EnteteRow=({ntte,prodName,analysed})=>{
                 return {startedAt,endedAt,clooned};});
             const {entete}=useCurrentProducted();
             const analysedR=analysed.filter(a=>a.name===prodName);
+            const analysedM=analysed.filter(a=>a.machine===item.machine);
+            const analysedU=analysed.filter(a=>a.Utilisateur?.pseudo===item.Utilisateur?.pseudo);
             const dataByName=filter.product_mois_date(analysedR);//suivant produit
             const dataFilters={
                         machine:filter.dep_date_engine(analysed),// suivant departement
