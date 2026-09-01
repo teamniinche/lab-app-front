@@ -231,6 +231,7 @@ export const EnteteRow=({ntte,prodName,analysed})=>{
                                     </p>`;
                             }).join("")}
                     </div>`};
+                    
 
             const dateFr=(date)=>{
                     const months={Jan:"Janvier",Fev:"Fèvrier",Mar:"Mars",Apr:"Avril",May:"Mai",Jun:"Juin",Jul:"Juillet",Aug:"Aout",Sep:"Septembre",Oct:"Octobre",Nov:"Novembre",Dec:"Décembre"};
