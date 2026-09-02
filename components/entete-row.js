@@ -69,6 +69,9 @@ export const EnteteRowPoudre=({ntte,prodName,analysed})=>{
                     .key2{font-size:14px;color:rgba(0,0,0,0.5);margin:8px;margin-left:6px;}
                     .key3{font-size:14px;color:rgba(0,0,0,0.2);margin:8px;margin-left:10px;}
                     .counts{display:inline-block;background-color:blue;font-weight:bold;font-size:14px;border-radius:50%;border:2px solid blue;width:auto;height:auto;padding:4px;margin-left:5px;margin-right:5px;color:white;}
+                    .counts1{display:inline-block;background-color:grey;font-weight:bold;font-size:14px;border-radius:50%;border:2px solid blue;width:auto;height:auto;padding:4px;margin-left:5px;margin-right:5px;color:blue;}
+                    .counts2{display:inline-block;background-color:rgba(0,0,0,0.3);font-weight:bold;font-size:14px;border-radius:50%;border:2px solid blue;width:auto;height:auto;padding:4px;margin-left:5px;margin-right:5px;color:black;}
+                    .counts3{display:inline-block;background-color:rgba(0,0,0,0.1);font-weight:bold;font-size:14px;border-radius:50%;border:2px solid blue;width:auto;height:auto;padding:4px;margin-left:5px;margin-right:5px;color:black;}
                     .pCounts{color:rgba(0,0,0,0.4);padding-left:100px;}
                 </style>
                 <html>
@@ -84,9 +87,9 @@ export const EnteteRowPoudre=({ntte,prodName,analysed})=>{
                                 return `<h3 class="key1">
                                     👉 ${key2} 
                                     <span class="counts" style="border:3px solid grey">${firstCount}</span>
-                                    <span class="key3">${' Moyennes '+['gg','humidite','matiere_active','alcanite','silicate','sel','densite'].map(r=>{
+                                    <span class="key3">${' Moy : '+['gg','humidite','matiere_active','alcanite','silicate','sel','densite'].map(r=>{
                                         const moyR=moy(analysedR,r);
-                                        return moyR!==""?`<span style="margin:15px;">${keyReduce(r)+': ' +moyR/*moy(Object.values(object),r)*/}</span>`:null})}<span>
+                                        return moyR!==""?`<span style="margin:15px;color:grey;">${keyReduce(r)+': ' +moyR/*moy(Object.values(object),r)*/}</span>`:null})}<span>
                                 </h3>
 
                                 <div>
@@ -104,19 +107,19 @@ export const EnteteRowPoudre=({ntte,prodName,analysed})=>{
                                                         const {count,...rest5}=object5;
                                                         const item5=Object.values(rest5)[0]?.name;
                                                         // var bool5=(item5!==null && item5!==undefined);
-                                                        return item5?terminate({key:key5,object:rest5}):`<h3 class="key3">${key5}<span class="counts" style="border:1px solid grey">${count}</span><h3>
+                                                        return item5?terminate({key:key5,object:rest5}):`<h3 class="key3">${key5}<span class="counts1" style="border:1px solid grey">${count}</span><h3>
                                                             </div>
                                                                 ${Object.entries(rest5).map(([key6,object6]) => {
                                                                     const {count,...rest6}=object6;
                                                                     const item6=Object.values(rest6)[0].name;
                                                                     // var bool6=(item6!==null && item6!==undefined);
-                                                                    return item6?terminate({key:key6,object:rest6}):`<h3 class="key3">${key6}<span class="counts" style="border:1px solid grey">${count}</span><h3>
+                                                                    return item6?terminate({key:key6,object:rest6}):`<h3 class="key3">${key6}<span class="counts2" style="border:1px solid grey">${count}</span><h3>
                                                                         </div>
                                                                             ${Object.entries(rest6).map(([key7,object7]) => {
                                                                                 const {count,...rest7}=object7;
                                                                                 const item7=Object.values(rest7)[0].name;//alert(item7);
                                                                                 // var bool7=(item7!==null && item7!==undefined);
-                                                                                return item7?terminate({key:key7,object:rest7}):`<h3 class="key3">${key7}<span class="counts" style="border:1px solid grey">${count}</span><h3>
+                                                                                return item7?terminate({key:key7,object:rest7}):`<h3 class="key3">${key7}<span class="counts3" style="border:1px solid grey">${count}</span><h3>
                                                                                     </div>
                                                                                         ${Object.entries(rest7).map(([key8,object8]) => {
                                                                                             const {count,...rest8}=object8;
@@ -265,6 +268,9 @@ export const EnteteRow=({item,ntte,prodName,analysed})=>{
                     .key2{font-size:14px;color:rgba(0,0,0,0.5);margin:8px;margin-left:6px;}
                     .key3{font-size:14px;color:rgba(0,0,0,0.2);margin:8px;margin-left:10px;}
                     .counts{display:inline-block;background-color:blue;font-weight:bold;font-size:14px;border-radius:50%;border:2px solid blue;width:auto;height:auto;padding:4px;margin-left:5px;margin-right:5px;color:white;}
+                    .counts1{display:inline-block;background-color:grey;font-weight:bold;font-size:14px;border-radius:50%;border:2px solid blue;width:auto;height:auto;padding:4px;margin-left:5px;margin-right:5px;color:blue;}
+                    .counts2{display:inline-block;background-color:rgba(0,0,0,0.3);font-weight:bold;font-size:14px;border-radius:50%;border:2px solid blue;width:auto;height:auto;padding:4px;margin-left:5px;margin-right:5px;color:black;}
+                    .counts3{display:inline-block;background-color:rgba(0,0,0,0.1);font-weight:bold;font-size:14px;border-radius:50%;border:2px solid blue;width:auto;height:auto;padding:4px;margin-left:5px;margin-right:5px;color:black;}
                     .pCounts{color:rgba(0,0,0,0.4);padding-left:100px;}
                 </style>
                 <html>
@@ -280,9 +286,9 @@ export const EnteteRow=({item,ntte,prodName,analysed})=>{
                                 return `<h3 class="key1">
                                     👉 ${key2} 
                                     <span class="counts" style="border:3px solid grey">${firstCount}</span>
-                                    <span class="key3">${' Moyennes '+['ph','matiere_active','viscosite','densite'].map(r=>{
+                                    <span class="key3">${' Moy : '+['ph','matiere_active','viscosite','densite'].map(r=>{
                                         const moyR=moy(analysedR,r);
-                                        return (moyR!=="" && entete==='name')?`<span style="margin:15px;">${keyReduce(r)+': ' +moyR/*moy(Object.values(object),r)*/}</span>`:null})}<span>
+                                        return (moyR!=="" && entete==='name')?`<span style="margin:15px;color:grey;">${keyReduce(r)+': ' +moyR/*moy(Object.values(object),r)*/}</span>`:null})}<span>
                                 </h3>
                                 
                                 <div>
@@ -300,19 +306,19 @@ export const EnteteRow=({item,ntte,prodName,analysed})=>{
                                                         const {count,...rest5}=object5;
                                                         const item5=Object.values(rest5)[0]?.name;
                                                         // var bool5=(item5!==null && item5!==undefined);
-                                                        return item5?terminate({key:key5,object:rest5}):`<h3 class="key3">${key5}<span class="counts" style="border:1px solid grey">${count}</span><h3>
+                                                        return item5?terminate({key:key5,object:rest5}):`<h3 class="key3">${key5}<span class="counts1" style="border:1px solid grey">${count}</span><h3>
                                                             </div>
                                                                 ${Object.entries(rest5).map(([key6,object6]) => {
                                                                     const {count,...rest6}=object6;
                                                                     const item6=Object.values(rest6)[0].name;
                                                                     // var bool6=(item6!==null && item6!==undefined);
-                                                                    return item6?terminate({key:key6,object:rest6}):`<h3 class="key3">${key6}<span class="counts" style="border:1px solid grey">${count}</span><h3>
+                                                                    return item6?terminate({key:key6,object:rest6}):`<h3 class="key3">${key6}<span class="counts2" style="border:1px solid grey">${count}</span><h3>
                                                                         </div>
                                                                             ${Object.entries(rest6).map(([key7,object7]) => {
                                                                                 const {count,...rest7}=object7;
                                                                                 const item7=Object.values(rest7)[0].name;//alert(item7);
                                                                                 // var bool7=(item7!==null && item7!==undefined);
-                                                                                return item7?terminate({key:key7,object:rest7}):`<h3 class="key3">${key7}<span class="counts" style="border:1px solid grey">${count}</span><h3>
+                                                                                return item7?terminate({key:key7,object:rest7}):`<h3 class="key3">${key7}<span class="counts3" style="border:1px solid grey">${count}</span><h3>
                                                                                     </div>
                                                                                         ${Object.entries(rest7).map(([key8,object8]) => {
                                                                                             const {count,...rest8}=object8;
