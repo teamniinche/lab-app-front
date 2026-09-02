@@ -95,7 +95,7 @@ export default TableFull=({navigation/*,route*/,routeNheaders})=>{
 
     const terminate=({key,object}) => {
                 const count=Object.values(object).length;
-                return `<h3 class="key3">${key}<span style="display:inline-block;background-color:blue;font-weight:bold;font-size:14px;border-radius:50%;width:auto;height:auto;padding:4px;margin-left:5px;margin-right:5px;color:white;border:1px solid grey">${count}</span><h3>
+                return `<h3 class="key3">${key}<span style="display:inline-block;background-color:rgba(0,0,0,0.1);font-weight:bold;font-size:14px;border-radius:50%;width:auto;height:auto;padding:4px;margin-left:5px;margin-right:5px;color:black;border:1px solid grey">${count}</span><h3>
                     </div>
                         ${Object.entries(object).map(([k,item]) => {
                             var it=item || item[0];
