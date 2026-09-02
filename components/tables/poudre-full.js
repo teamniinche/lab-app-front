@@ -255,7 +255,7 @@ return <BottomSheet ref={bottomSheetRef}>
         </ChipProvider>
 
                         <Pressable
-                            disabled={true/*!allowTo("ajouter une norme|user",targetUser?.privileges)*/}
+                            disabled={false/*!allowTo("ajouter une norme|user",targetUser?.privileges)*/}
                                 style={
                                     {
                                         paddingHorizontal:10,
