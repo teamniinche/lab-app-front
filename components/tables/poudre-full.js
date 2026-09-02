@@ -297,7 +297,7 @@ export const UPNavigator=({routeNheaders})=>{
             <ItemToSaveProvider>
                     <Stack.Navigator screenOptions={{headerShown: false,}}>
                         <Stack.Screen name="Accueil" children={({navigation}) => <PoudreFull navigation={navigation} routeNheaders={routeNheaders}/>}/>
-                        <Stack.Screen name="analyses/poudres/graphes" children={({navigation,route}) => <Graphes navigation={navigation}/>} />
+                        <Stack.Screen name="analyses/poudres/graphes" children={({navigation,route}) => <GraphesPoudre navigation={navigation}/>} />
                         {/* <Stack.Screen name="analyses/poudres/updatePoudres" children={({navigation,route}) => <Text>test</Text>} options={{presentation:'transparentModal'}}/> */}
                     </Stack.Navigator>
             </ItemToSaveProvider>
@@ -311,13 +311,21 @@ export const UPNavigator=({routeNheaders})=>{
 //             </Stack.Navigator>
 //     )}
 
-const Graphes = ({navigation}) => {
+const GraphesPoudre = ({navigation}) => {
 
+    useLayoutEffect(()=>{
+        navigation.setOptions({
+            headerLeft:()=>(
+                <TouchableOpacity style={{width:80,margin:0,marginLeft:30,backgroundColor:'transparent',}} onPress={() => navigation.goBack()}>
+                    <FontAwesome5 name='arrow-left' size={20} color='white'/>
+                </TouchableOpacity>
+            )
+        })
+    })
 
     return <View style={styles.graphes}>
                 <ScrollView style={{height:'100%',width:'100%',minWidth:700,}}>
-                    <View 
-                    style={styles.graphes_parent}>
+                    <View style={styles.graphes_parent}>
                     </View>
                 </ScrollView>
         </View>

@@ -754,9 +754,32 @@ export const ULNavigator=({route,routeNheaders})=>{
     return (<Stack.Navigator
         screenOptions={{headerShown: false,}}>
         <Stack.Screen name="Liquides" children={({navigation}) => <TableFull navigation={navigation} route={route} routeNheaders={routeNheaders}/>}/>
+        <Stack.Screen name="analyses/liquides/graphes" children={({navigation}) => <Graphes navigation={navigation}/>} />
         <Stack.Screen name="analyses/liquides/updateLiquides" children={({navigation,route}) => <ModalMesures navigation={navigation} route={route}/>} options={{presentation:'transparentModal'}}/>
     </Stack.Navigator>
     )}
+
+const Graphes = ({navigation}) => {
+
+    useLayoutEffect(()=>{
+        navigation.setOptions({
+            headerLeft:()=>(
+                <TouchableOpacity style={{width:80,margin:0,marginLeft:30,backgroundColor:'transparent',}} onPress={() => navigation.goBack()}>
+                    <FontAwesome5 name='arrow-left' size={20} color='white'/>
+                </TouchableOpacity>
+            )
+        })
+    })
+
+    return <View style={styles.graphes}>
+                <ScrollView style={{height:'100%',width:'100%',minWidth:700,}}>
+                    <View style={styles.graphes_parent}>
+                    </View>
+                </ScrollView>
+        </View>
+};
+
+
 
 export const SimpleTable=()=>{
     const dispatch=useDispatch();
