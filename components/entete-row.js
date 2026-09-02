@@ -86,7 +86,7 @@ export const EnteteRowPoudre=({ntte,prodName,analysed})=>{
                                     <span class="counts" style="border:3px solid grey">${firstCount}</span>
                                     <span class="key3">${' Moyennes '+['gg','humidite','matiere_active','alcanite','silicate','sel','densite'].map(r=>{
                                         const moyR=moy(analysedR,r);
-                                        return moyR?`<span style="margin:15px;">${keyReduce(r)+': ' +moyR/*moy(Object.values(object),r)*/}</span>`:null})}<span>
+                                        return moyR!==""?`<span style="margin:15px;">${keyReduce(r)+': ' +moyR/*moy(Object.values(object),r)*/}</span>`:null})}<span>
                                 </h3>
 
                                 <div>
@@ -282,7 +282,7 @@ export const EnteteRow=({item,ntte,prodName,analysed})=>{
                                     <span class="counts" style="border:3px solid grey">${firstCount}</span>
                                     <span class="key3">${' Moyennes '+['ph','matiere_active','viscosite','densite'].map(r=>{
                                         const moyR=moy(analysedR,r);
-                                        return (moyR && entete==='name')?`<span style="margin:15px;">${keyReduce(r)+': ' +moyR/*moy(Object.values(object),r)*/}</span>`:null})}<span>
+                                        return (moyR!=="" && entete==='name')?`<span style="margin:15px;">${keyReduce(r)+': ' +moyR/*moy(Object.values(object),r)*/}</span>`:null})}<span>
                                 </h3>
                                 
                                 <div>
