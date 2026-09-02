@@ -35,10 +35,6 @@ export const EnteteRowPoudre=({ntte,prodName,analysed})=>{
                 const [premier,...rest]=valeurs;
                 const count=Object.values(object).length;
                 return `<h3 class="key3">${key.toUpperCase()}<span style="display:inline-block;background-color:blue;font-weight:bold;font-size:14px;border-radius:50%;width:auto;height:auto;padding:4px;margin-left:5px;margin-right:5px;color:white;border:1px solid grey">${count}</span><h3>
-                    
-                    <h3 class="key3">${' Moyennes '+rest.map(r=>{
-                    const moyR=moy(analysedR,r);
-                    return moyR!==""?`<span style="margin:15px;">${keyReduce(r)+': ' +moyR/*moy(Object.values(object),r)*/}</span>`:null})}<h3>
                     <div>
                         ${Object.entries(object).map(([k,item]) => {
                             var it= item[0] || item;
@@ -85,7 +81,14 @@ export const EnteteRowPoudre=({ntte,prodName,analysed})=>{
                             const firstCount=count;
                             return `<div >${Object.entries(rest1).map(([key2,object2]) => {
                                 const {count,...rest}=object2;
-                                return `<h3 class="key1">👉 ${key2} <span class="counts" style="border:3px solid grey">${firstCount}</span></h3>
+                                return `<h3 class="key1">
+                                    👉 ${key2} 
+                                    <span class="counts" style="border:3px solid grey">${firstCount}</span>
+                                    <span class="key3">${' Moyennes '+['gg','humidite','matiere_active','alcanite','silicate','sel','densite'].map(r=>{
+                                        const moyR=moy(analysedR,r);
+                                        return moyR?`<span style="margin:15px;">${keyReduce(r)+': ' +moyR/*moy(Object.values(object),r)*/}</span>`:null})}<span>
+                                </h3>
+
                                 <div>
                                     ${Object.entries(rest).map(([key3,object3]) => {
                                         const {count,...rest3}=object3;
@@ -274,12 +277,14 @@ export const EnteteRow=({item,ntte,prodName,analysed})=>{
                             const firstCount=count;
                             return `<div >${Object.entries(rest1).map(([key2,object2]) => {
                                 const {count,...rest}=object2;
-                                return `<h3 class="key1">👉 ${key2} <span class="counts" style="border:3px solid grey">${firstCount}</span></h3>
+                                return `<h3 class="key1">
+                                    👉 ${key2} 
+                                    <span class="counts" style="border:3px solid grey">${firstCount}</span>
+                                    <span class="key3">${' Moyennes '+['ph','matiere_active','viscosite','densite'].map(r=>{
+                                        const moyR=moy(analysedR,r);
+                                        return (moyR && entete==='name')?`<span style="margin:15px;">${keyReduce(r)+': ' +moyR/*moy(Object.values(object),r)*/}</span>`:null})}<span>
+                                </h3>
                                 
-                                <h3 class="key3">${' Moyennes '+['ph','matiere_active','viscosite','densite'].map(r=>{
-                                    const moyR=moy(analysedR,r);
-                                    return (moyR!=="" && entete==='name')?`<span style="margin:15px;">${keyReduce(r)+': ' +moyR/*moy(Object.values(object),r)*/}</span>`:null})}<h3>
-                
                                 <div>
                                     ${Object.entries(rest).map(([key3,object3]) => {
                                         const {count,...rest3}=object3;
