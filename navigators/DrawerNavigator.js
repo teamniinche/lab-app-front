@@ -19,25 +19,25 @@ const {full,cosmetiques,multiusages,eaux,pates,causilicate}=routesAndHeaders;
 const {poudreFull}=routesAndHeadersPowder;
   return (
       <Drawer.Navigator initialRouteName="Accueil"
-      screenOptions={{
-            // drawerStyle: { backgroundColor: '#ddd'},
-            // drawerType: 'slide',
-            drawerType:isLarge?'permanent':'slide',
-            drawerStyle:isLarge?{width:'21%'/*'23%'*/,backgroundColor: '#ddd',}:{backgroundColor: '#ddd'},
-            overlayColor:isLarge && "transparent",
-            headerLeft:isLarge?()=>null:undefined,
-            switeEnabled:!isLarge,
-            headerStyle: { backgroundColor: '#6200ee',height:40 },
-            drawerPosition: 'left',
-            headerShown: true,
-            gestureEnabled:true,
-            gestureDirection:'horizontal',
-            headerTintColor: '#fff',
-            headerTitleAlign: 'left',
-            drawerLabelStyle: { fontSize: 18,letterSpacing:2, },
-            headerRight:() => (<HeaderRight isLarge={isLarge} liq={true}/>)
-        }}
-        drawerContent={(props)=><CustomDrawerContent {...props}/>}
+            screenOptions={{
+                // drawerStyle: { backgroundColor: '#ddd'},
+                // drawerType: 'slide',
+                drawerType:isLarge?'permanent':'slide',
+                drawerStyle:isLarge?{width:'21%'/*'23%'*/,backgroundColor: '#ddd',}:{backgroundColor: '#ddd'},
+                overlayColor:isLarge && "transparent",
+                headerLeft:isLarge?()=>null:undefined,
+                switeEnabled:!isLarge,
+                headerStyle: { backgroundColor: '#6200ee',height:40 },
+                drawerPosition: 'left',
+                headerShown: true,
+                gestureEnabled:true,
+                gestureDirection:'horizontal',
+                headerTintColor: '#fff',
+                headerTitleAlign: 'left',
+                drawerLabelStyle: { fontSize: 18,letterSpacing:2, },
+                headerRight:() => (<HeaderRight isLarge={isLarge} liq={true}/>)
+            }}
+            drawerContent={(props)=><CustomDrawerContent {...props}/>}
         >
         <Drawer.Screen name="Accueil" children={({navigation,route /*pour pouvoir les passer au ModalMesures */}) => <ULNavigator navigation={navigation} route={route} routeNheaders={full}/>}/>
         <Drawer.Screen name="Liquides multiusage" children={({navigation,route}) => <ULNavigator navigation={navigation} route={route}  routeNheaders={multiusages} />} />

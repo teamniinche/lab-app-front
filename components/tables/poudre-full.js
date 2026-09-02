@@ -211,15 +211,10 @@ export default PoudreFull=({navigation,routeNheaders})=>{
             }
         };
 
-   
-
-    
-    
-
     const bottomSheetRef = useRef(null);
     const handleOpenPress = () => { bottomSheetRef.current?.snapToPosition('100%')}//snapToIndex(2);}//.snapToPosition('50%'):bloque le handle;// || '25%' || '50%' || '75%'
     
-    return <BottomSheet ref={bottomSheetRef}>
+return <BottomSheet ref={bottomSheetRef}>
 
     <ScrollView
         ref={viewRef} 
@@ -258,7 +253,25 @@ export default PoudreFull=({navigation,routeNheaders})=>{
                 </TouchableOpacity>
             </View>
         </ChipProvider>
-               
+
+                        <Pressable
+                            disabled={true/*!allowTo("ajouter une norme|user",targetUser?.privileges)*/}
+                                style={
+                                    {
+                                        paddingHorizontal:10,
+                                        paddingVertical:10,
+                                        marginVertical:15,
+                                        marginHorizontal:20,
+                                        borderRadius:10,
+                                        backgroundColor:'rgba(0,0,0,0.2)',
+                                    }
+                                }
+
+                            onPress={()=>navigation.navigate("analyses/poudres/graphes")}
+                        >
+                            <FontAwesome5 size={20} name="chart-bar" color='blue'/>
+                        </Pressable>
+
         <ScrollView horizontal={true} style={styles.table}>
             <SafeAreaProvider ref={safeAreaRef} style={{...styles.safeAreaView,maxWidth:'80%',marginHorizontal:"10%",marginVertical:10,minWidth:isLarge?1000:1000,}}>
                 <CurrentProductsProvider>
@@ -283,15 +296,55 @@ export const UPNavigator=({routeNheaders})=>{
     return (<CurrentProductedProvider>
             <ItemToSaveProvider>
                     <Stack.Navigator screenOptions={{headerShown: false,}}>
-                        <Stack.Screen name="Accueil" children={() => <PoudreFull routeNheaders={routeNheaders}/>}/>
-                        <Stack.Screen name="analyses/poudres/updatePoudres" children={({navigation,route}) => <Text>test</Text>} options={{presentation:'transparentModal'}}/>
+                        <Stack.Screen name="Accueil" children={({navigation}) => <PoudreFull navigation={navigation} routeNheaders={routeNheaders}/>}/>
+                        <Stack.Screen name="analyses/poudres/graphes" children={({navigation,route}) => <Graphes navigation={navigation}/>} />
+                        {/* <Stack.Screen name="analyses/poudres/updatePoudres" children={({navigation,route}) => <Text>test</Text>} options={{presentation:'transparentModal'}}/> */}
                     </Stack.Navigator>
             </ItemToSaveProvider>
         </CurrentProductedProvider>
     )}
 
+// export const UPNav=({routeNheaders})=>{
+//     return (
+//             <Stack.Navigator screenOptions={{headerShown: false,}}>
+//                 <Stack.Screen name="Accueil" children={() => <UPNavigator routeNheaders={routeNheaders}/>}/>
+//             </Stack.Navigator>
+//     )}
+
+const Graphes = ({navigation}) => {
+
+
+    return <View style={styles.graphes}>
+                <ScrollView style={{height:'100%',width:'100%',minWidth:700,}}>
+                    <View 
+                    style={styles.graphes_parent}>
+                    </View>
+                </ScrollView>
+        </View>
+};
+
 
 const styles=StyleSheet.create({
+    graphes:{
+        flex: 1,
+        flexDirection:'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginHorizontal:'auto',
+        minWidth:1000
+    },
+    graphes_parent:{
+                        marginTop:20,
+                        minWidth:'100%',
+                        padding:15,
+                        flexDirection:'column',
+                        alignItems:'flex-start',
+                        justifyContent:'flex-start',
+                        borderWidth:1,
+                        borderColor:'rgba(0,0,0,0.2)',
+                        borderRadius:10,
+                        backgroundColor:'rgba(255,255,255,0.7)',
+    },
     moy:{
         position:'absolute',
         right:20,
