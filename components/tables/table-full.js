@@ -485,6 +485,26 @@ export default TableFull=({navigation/*,route*/,routeNheaders})=>{
             </View>
         </ChipProvider>
                
+        <Pressable
+                            disabled={false/*!allowTo("ajouter une norme|user",targetUser?.privileges)*/}
+                                style={
+                                    {
+                                        width:50,
+                                        paddingHorizontal:10,
+                                        paddingVertical:10,
+                                        marginVertical:15,
+                                        marginHorizontal:20,
+                                        borderRadius:10,
+                                        backgroundColor:'rgba(0,0,0,0.2)',
+                                    }
+                                }
+
+                            onPress={()=>navigation.navigate("analyses/liquides/graphes")}
+                        >
+                            <FontAwesome5 size={20} name="chart-line" color='blue'/>
+                        </Pressable>
+
+
         <ScrollView horizontal={true} style={styles.table}
             // refreshControl={<RefreshControl refreshing={refreshing} onRefresh={refresh}/>}
         >

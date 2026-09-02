@@ -258,6 +258,7 @@ return <BottomSheet ref={bottomSheetRef}>
                             disabled={false/*!allowTo("ajouter une norme|user",targetUser?.privileges)*/}
                                 style={
                                     {
+                                        width:50,
                                         paddingHorizontal:10,
                                         paddingVertical:10,
                                         marginVertical:15,
