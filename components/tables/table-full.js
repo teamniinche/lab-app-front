@@ -499,14 +499,17 @@ export default TableFull=({navigation/*,route*/,routeNheaders})=>{
                 <Text ><FontAwesome5 name="file-pdf" size={50} color="white"/></Text>
             </TouchableOpacity>
 
+            <View style={styles.print_graphes}>
+                <Pressable style={styles.graphes_link} onPress={()=>navigation.navigate("analyses/liquides/graphes")}>
+                    <FontAwesome5 size={20} name="chart-line" color='blue'/>
+                </Pressable>
+                <TouchableOpacity  onPress={handleOpenPress} style={{/*position:'absolute',right:20,top:0.61*screenHeight,*/height:65,borderWidth:1,borderColor:'whitesmoke',paddingHorizontal:8,paddingVertical:8,borderRadius:10,backgroundColor:"rgba(155, 0, 0, 0.7)",}} >
+                    <Text style={{fontWeight:800,letterSpacing:-2,fontSize:16,color:"whitesmoke",paddingVertical:6,paddingHorizontal:2,borderBottomWidth:4,borderTopWidth:4,borderRadius:16,borderColor:'whitesmoke'}}>MOY</Text>
+                </TouchableOpacity>
+            <View/>
+
         </ScrollView>
     </ScrollView>
-    <Pressable style={styles.graphes_link} onPress={()=>navigation.navigate("analyses/liquides/graphes")}>
-            <FontAwesome5 size={20} name="chart-line" color='blue'/>
-        </Pressable>
-        <TouchableOpacity  onPress={handleOpenPress} style={{position:'absolute',right:20,top:0.61*screenHeight,height:65,borderWidth:1,borderColor:'whitesmoke',paddingHorizontal:8,paddingVertical:8,borderRadius:10,backgroundColor:"rgba(155, 0, 0, 0.7)",}} >
-            <Text style={{fontWeight:800,letterSpacing:-2,fontSize:16,color:"whitesmoke",paddingVertical:6,paddingHorizontal:2,borderBottomWidth:4,borderTopWidth:4,borderRadius:16,borderColor:'whitesmoke'}}>MOY</Text>
-        </TouchableOpacity>
         
     </BottomSheet>
 }
@@ -797,7 +800,13 @@ return <ScrollView horizontal={true} style={styles.table}>
 
 
 const styles=StyleSheet.create({
-    graphes_link:{position :'absolute',top:10,right:50,
+    links_graphes:{
+        width:'auto',
+        padding:5,
+        flexDirection: 'row',
+        gap:5
+    },
+    graphes_link:{/*position :'absolute',top:10,right:50,*/
                                         width:50,
                                         paddingHorizontal:10,
                                         paddingVertical:10,
