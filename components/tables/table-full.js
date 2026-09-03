@@ -466,8 +466,8 @@ export default TableFull=({navigation/*,route*/,routeNheaders})=>{
                     <MyChip product={null} clooned={clooned} render={()=>setProduct(null)} />
                     
                     {dataFilters.map((o,index)=>{
-                        const {name,data,active}=o;
-                        return <Filter key={index} active={active} title={name} text={titre} render={(txt)=>{setToDisplayPrint(data);setTitre(txt)}} />
+                        const {name,data,active,info}=o;
+                        return <Filter info={info} key={index} active={active} title={name} text={titre} render={(txt)=>{setToDisplayPrint(data);setTitre(txt)}} />
                     })}
                     
                 </View>

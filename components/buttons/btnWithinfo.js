@@ -19,8 +19,10 @@ export default function Btn({style,textStyle,onPress,onHoverOut,onHoverIn,info,c
     >
       <Pressable 
         onPress={onPress}
-        onHoverIn={() => {setShowTooltip(true);onHoverIn && onHoverIn()}}
-        onHoverOut={() => {setShowTooltip(false);onHoverOut && onHoverOut()}}
+        // onHoverIn={() => {setShowTooltip(true);onHoverIn && onHoverIn()}}
+        onHoverIn={() => setShowTooltip(true)}
+        // onHoverOut={() => {setShowTooltip(false);onHoverOut && onHoverOut()}}
+        onHoverOut={() => setShowTooltip(false)}
         onLongPress={() => setShowTooltip(true)}
         onPressOut={() => setShowTooltip(false)}
         style={style}
