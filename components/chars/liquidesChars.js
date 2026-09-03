@@ -24,51 +24,51 @@ export default function Charts() {
           xAxisLabelTextStyle={{ color: '#7f8c8d' }}
         />
       </View>
-      <View style={styles.card}>
+      {/* <View style={styles.card}>
         <LChart/>
-      </View>
+      </View> */}
     </View>
   );
 }
 
 
-export  function LChart() {
-  // Données du graphique
-  const data = [
-    { value: 15, label: 'Lun' },
-    { value: 30, label: 'Mar' },
-    { value: 26, label: 'Mer' },
-    { value: 40, label: 'Jeu' },
-    { value: 55, label: 'Ven' },
-    { value: 45, label: 'Sam' },
-    { value: 70, label: 'Dim' },
-  ];
+// export  function LChart() {
+//   // Données du graphique
+//   const data = [
+//     { value: 15, label: 'Lun' },
+//     { value: 30, label: 'Mar' },
+//     { value: 26, label: 'Mer' },
+//     { value: 40, label: 'Jeu' },
+//     { value: 55, label: 'Ven' },
+//     { value: 45, label: 'Sam' },
+//     { value: 70, label: 'Dim' },
+//   ];
 
-  return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Statistiques Hebdomadaires</Text>
+//   return (
+//     <View style={styles.container}>
+//       <Text style={styles.title}>Statistiques Hebdomadaires</Text>
       
-      <View style={styles.chartContainer}>
-        <LineChart
-          data={data}
-          height={220}
-          width={300}
-          thickness={3}
-          color="#3498db"
-          noOfSections={4}
-          areaChart // Remplit la zone sous la ligne
-          startFillColor="rgba(52, 152, 219, 0.4)"
-          endFillColor="rgba(52, 152, 219, 0.0)"
-          dataPointsColor="#2c3e50"
-          dataPointsRadius={4}
-          textColor="#7f8c8d"
-          xAxisColor="#bdc3c7"
-          yAxisColor="#bdc3c7"
-        />
-      </View>
-    </View>
-  );
-}
+//       <View style={styles.chartContainer}>
+//         <LineChart
+//           data={data}
+//           height={220}
+//           width={300}
+//           thickness={3}
+//           color="#3498db"
+//           noOfSections={4}
+//           areaChart // Remplit la zone sous la ligne
+//           startFillColor="rgba(52, 152, 219, 0.4)"
+//           endFillColor="rgba(52, 152, 219, 0.0)"
+//           dataPointsColor="#2c3e50"
+//           dataPointsRadius={4}
+//           textColor="#7f8c8d"
+//           xAxisColor="#bdc3c7"
+//           yAxisColor="#bdc3c7"
+//         />
+//       </View>
+//     </View>
+//   );
+// }
 
 const styles = StyleSheet.create({
   container: {
