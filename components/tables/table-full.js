@@ -498,7 +498,7 @@ export default TableFull=({navigation/*,route*/,routeNheaders})=>{
                 <Btn style={styles.graphes_link} textStyle={styles.tooltipText} onPress={()=>navigation.navigate("analyses/liquides/graphes")} info="diagrammes">
                     <FontAwesome5 size={25} name="chart-line" color='blue'/>
                 </Btn>
-                <Btn style={styles.graphes_link} onPress={async () => {setTimeout(async () => {await generatePDF();}, 500);}} info="imprimer table">
+                <Btn style={styles.graphes_link} textStyle={styles.tooltipText}  onPress={async () => {setTimeout(async () => {await generatePDF();}, 500);}} info="imprimer table">
                     <Text ><FontAwesome5 name="file-pdf" size={25} color="blue"/></Text>
                 </Btn>
             </View>
