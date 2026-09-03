@@ -484,6 +484,12 @@ export default TableFull=({navigation/*,route*/,routeNheaders})=>{
                 </TouchableOpacity>
             </View>
         </ChipProvider>
+               
+        <Pressables tyle={styles.graphes_link} onPress={()=>navigation.navigate("analyses/liquides/graphes")}>
+            <FontAwesome5 size={20} name="chart-line" color='blue'/>
+        </Pressable>
+
+
         <ScrollView horizontal={true} style={styles.table}>
             <SafeAreaProvider ref={safeAreaRef} style={{...styles.safeAreaView,maxWidth:'100%',minWidth:isLarge?1190:1000,}}>
                 <CurrentProductsProvider>
@@ -491,14 +497,15 @@ export default TableFull=({navigation/*,route*/,routeNheaders})=>{
                 </CurrentProductsProvider>
             </SafeAreaProvider>
 
-           <View style={styles.print_graphes}>
+            <View style={styles.print_graphes}>
                 <Pressable style={styles.graphes_link} onPress={()=>navigation.navigate("analyses/liquides/graphes")}>
                     <FontAwesome5 size={20} name="chart-line" color='blue'/>
                 </Pressable>
-                <TouchableOpacity  onPress={handleOpenPress} style={{/*position:'absolute',right:20,top:0.61*screenHeight,height:65,*/height:45,borderWidth:1,borderColor:'whitesmoke',paddingHorizontal:8,paddingVertical:8,borderRadius:10,backgroundColor:"rgba(155, 0, 0, 0.7)",}} >
-                    <Text style={{fontWeight:800,letterSpacing:-2,fontSize:16,color:"whitesmoke",paddingVertical:6,paddingHorizontal:2,borderBottomWidth:4,borderTopWidth:4,borderRadius:16,borderColor:'whitesmoke'}}>MOY</Text>
+                <TouchableOpacity style={styles.print} onPress={async () => {setTimeout(async () => {await generatePDF();}, 500);}}>
+                    <Text ><FontAwesome5 name="file-pdf" size={50} color="white"/></Text>
                 </TouchableOpacity>
             </View>
+            
 
         </ScrollView>
     </ScrollView>
@@ -797,36 +804,35 @@ return <ScrollView horizontal={true} style={styles.table}>
 const styles=StyleSheet.create({
     print_graphes:{
         width:'auto',
-        height:'auto',
+        height:50,
         padding:5,
         flexDirection:'row',
         justifyContent:'center',
-        gap:10,
+        alignItems:'center',
+        gap:5,
         position:'absolute',
         top:10,
-        right:10,
+        right:30,
 
         backgroundColor:'transparent',
 
     },
     graphes_link:{/*position :'absolute',top:10,right:50,*/
-                                        width:50,
-                                        paddingHorizontal:10,
-                                        paddingVertical:10,
-                                        marginVertical:15,
-                                        marginHorizontal:20,
-                                        borderRadius:10,
-                                        backgroundColor:'rgba(0,0,0,0.2)',
-                                    },
-    graphes_link:{
-                                        width:50,
-                                        paddingHorizontal:10,
-                                        paddingVertical:10,
-                                        marginVertical:15,
-                                        marginHorizontal:20,
-                                        borderRadius:10,
-                                        backgroundColor:'rgba(0,0,0,0.2)',
-                                    },
+        width:50,
+        height:'90%',
+        paddingHorizontal:10,
+        paddingVertical:10,
+        marginVertical:15,
+        marginHorizontal:20,
+        borderRadius:10,
+        backgroundColor:'rgba(0,0,0,0.2)',
+    },
+    print:{/*position:'absolute',right:20,top:0.71*screenHeight,*/
+        height:'90%',
+        backgroundColor:'rgba(155,0,0,0.7)',
+        padding:8,
+        borderRadius:10
+    },
     container: {
         paddingHorizontal:5,
         // flex:1,
