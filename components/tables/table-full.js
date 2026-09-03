@@ -501,7 +501,7 @@ export default TableFull=({navigation/*,route*/,routeNheaders})=>{
 
         </ScrollView>
     </ScrollView>
-    <Pressables tyle={styles.graphes_link} onPress={()=>navigation.navigate("analyses/liquides/graphes")}>
+    <Pressable style={styles.graphes_link} onPress={()=>navigation.navigate("analyses/liquides/graphes")}>
             <FontAwesome5 size={20} name="chart-line" color='blue'/>
         </Pressable>
         <TouchableOpacity  onPress={handleOpenPress} style={{position:'absolute',right:20,top:0.61*screenHeight,height:65,borderWidth:1,borderColor:'whitesmoke',paddingHorizontal:8,paddingVertical:8,borderRadius:10,backgroundColor:"rgba(155, 0, 0, 0.7)",}} >
