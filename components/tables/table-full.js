@@ -485,11 +485,6 @@ export default TableFull=({navigation/*,route*/,routeNheaders})=>{
             </View>
         </ChipProvider>
                
-        <Pressables tyle={styles.graphes_link} onPress={()=>navigation.navigate("analyses/liquides/graphes")}>
-            <FontAwesome5 size={20} name="chart-line" color='blue'/>
-        </Pressable>
-
-
         <ScrollView horizontal={true} style={styles.table}>
             <SafeAreaProvider ref={safeAreaRef} style={{...styles.safeAreaView,maxWidth:'100%',minWidth:isLarge?1190:1000,}}>
                 <CurrentProductsProvider>
