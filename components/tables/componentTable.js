@@ -211,9 +211,9 @@ return (<HideStatusBarOnFocus>
             onPress={() => setCurrentPage((prev) => Math.min(prev+1, totalPages))}
         />
       </View>
-      <View style={styles.row}>
+      <View style={[styles.row,{/*pour l'infobulle seulement*/alignItems:'center'}]}>
         {headers.map((header, index) => (
-          <Text  key={index} style={[styles.cell,styles.header,{minWidth:index===2 && 160,backgroundColor:'none',color:'rgba(0,0,0,0.8)',}]}>
+          <Text  key={index} style={[styles.cell,styles.header,{minWidth:index===2 && 160,backgroundColor:'none',color:'rgba(0,0,0,0.8)',/*pour infoBulle seuelement*/flexDriection:'row',alignItems:'center'}]}>
             {/* {header.toUpperCase()} */}
             <Entete donnees={analyses} headers={headers} thisEntete={header.toLowerCase()} render={(anlyss)=>setAnalyses(anlyss)}/>
           </Text>
