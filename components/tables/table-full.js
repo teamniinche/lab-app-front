@@ -802,8 +802,8 @@ const styles=StyleSheet.create({
     print_graphes:{
         width:'auto',
         height:45,
-        padding:5,
-        paddingHorizontal:10,
+        padding:10,
+        // paddingHorizontal:10,
         flexDirection:'row',
         justifyContent:'center',
         alignItems:'center',

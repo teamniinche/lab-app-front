@@ -10,7 +10,7 @@ export default function Btn(props) {
     <Tooltip
       isVisible={showTooltip}
       content={<Text style={styles.tooltipText}>{info}</Text>}
-      placement="top"
+      placement="bottom"
       onClose={() => setShowTooltip(false)}
       contentStyle={styles.tooltipContainer}
        // 👇 CES 3 LIGNES ENLÈVENT COMPLÈTEMENT L'OVERLAY
