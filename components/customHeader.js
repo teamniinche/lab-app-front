@@ -1,6 +1,7 @@
 import React, {useEffect, useState, useMemo } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, FlatList } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import Btn from './buttons/btnWithinfo.js';
 import {useCurrentProducted} from './wrappers/contexts';
 
 
@@ -55,17 +56,34 @@ const Entete=({thisEntete,donnees,headers,render})=>{
     </View>;
   };
 const isCliquable=HEADERS.includes(thisEntete);
-  return isCliquable?<TouchableOpacity style={styles.enTeteCell} onPress={() => gererTri(thisEntete)}>
+  return isCliquable?<Btn 
+            textStyle={styles.tooltipText}
+            bcgrndClr={'rgba(0,0,0,0.8)'}
+            style={styles.enTeteCell}
+            onPress={() => gererTri(thisEntete)}
+            info={info}
+        >
           <Text style={styles.enTeteTexte}>{thisEntete.toUpperCase()}</Text>
           <RendreFleche cleColonne={thisEntete} />
-        </TouchableOpacity>
+        </Btn>
         :<Text style={styles.enTeteTexte}>{thisEntete.toUpperCase()}</Text>
 }
 
 const styles = StyleSheet.create({
-    enTeteCell: { flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start' },
+    enTeteCell: { minHeight:40,height:'auto',flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start' },
     enTeteTexte: { fontWeight: 'bold', fontSize: 12 },
     icone: { margin:'auto'},
+    tooltipText: {
+    width:'auto',
+    // backgroundColor:'rgba(0,0,0,0.8)',
+    color:'white',
+    height:20,
+    padding:2,
+    borderRadius:2,
+    textAlign:'center',
+    letterSpacing:1.5,
+    fontSize:12
+  },
 });
 
 export default Entete;
