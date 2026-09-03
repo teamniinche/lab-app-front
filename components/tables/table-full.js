@@ -799,7 +799,7 @@ return <ScrollView horizontal={true} style={styles.table}>
 const styles=StyleSheet.create({
     print_graphes:{
         width:'auto',
-        height:50,
+        height:45,
         padding:5,
         flexDirection:'row',
         justifyContent:'center',
@@ -809,28 +809,31 @@ const styles=StyleSheet.create({
         top:20,
         right:100,
         borderRadius:10,
-        backgroundColor:'rgba(0,0,0,0.2)',
+        backgroundColor:'rgba(0,0,0,0.01)',
 
     },
     graphes_link:{/*position :'absolute',top:10,right:50,*/
         width:'auto',
         height:'90%',
+        flexDirection:'row',
+        alignItems:'center',
         paddingHorizontal:10,
         paddingVertical:10,
-        marginVertical:15,
-        marginHorizontal:20,
+        margin:2,
+        // marginVertical:15,
+        // marginHorizontal:20,
         borderRadius:8,
         borderWidth:1,
         borderColor:'white',
         backgroundColor:'transparent',
 
     },
-    print:{/*position:'absolute',right:20,top:0.71*screenHeight,*/
-        height:'90%',
-        backgroundColor:'rgba(155,0,0,0.7)',
-        padding:8,
-        borderRadius:10
-    },
+    // print:{/*position:'absolute',right:20,top:0.71*screenHeight,*/
+    //     height:'90%',
+    //     backgroundColor:'rgba(155,0,0,0.7)',
+    //     padding:8,
+    //     borderRadius:10
+    // },
     container: {
         paddingHorizontal:5,
         // flex:1,
