@@ -485,68 +485,29 @@ export default TableFull=({navigation/*,route*/,routeNheaders})=>{
             </View>
         </ChipProvider>
                
-        <Pressable
-                            disabled={false/*!allowTo("ajouter une norme|user",targetUser?.privileges)*/}
-                                style={
-                                    {
-                                        width:50,
-                                        paddingHorizontal:10,
-                                        paddingVertical:10,
-                                        marginVertical:15,
-                                        marginHorizontal:20,
-                                        borderRadius:10,
-                                        backgroundColor:'rgba(0,0,0,0.2)',
-                                    }
-                                }
-
-                            onPress={()=>navigation.navigate("analyses/liquides/graphes")}
-                        >
-                            <FontAwesome5 size={20} name="chart-line" color='blue'/>
-                        </Pressable>
-
-
-        <ScrollView horizontal={true} style={styles.table}
-            // refreshControl={<RefreshControl refreshing={refreshing} onRefresh={refresh}/>}
-        >
+        <ScrollView horizontal={true} style={styles.table}>
             <SafeAreaProvider ref={safeAreaRef} style={{...styles.safeAreaView,maxWidth:'100%',minWidth:isLarge?1190:1000,}}>
                 <CurrentProductsProvider>
                     <Table current={false} product={product} navigation={navigation} rend={(data)=>{refresh();setProductsAndCounts(productsAndCountsFormat(data))}} render={()=>setModalShow(true)} API_URL={api_url} headers={headers}/>
                 </CurrentProductsProvider>
             </SafeAreaProvider>
+
+            <TouchableOpacity
+                style={{position:'absolute',right:20,top:0.71*screenHeight,backgroundColor:'rgba(155,0,0,0.7)',padding:8,borderRadius:10,}}
+                onPress={async () => {setTimeout(async () => {await generatePDF();}, 500);}}
+            >
+                <Text ><FontAwesome5 name="file-pdf" size={50} color="white"/></Text>
+            </TouchableOpacity>
+
         </ScrollView>
-
-        {/* <ModalMesures  */}
-        {/* navigation={navigation} route={route}  */}
-        {/* bool={modalShow} render={()=>setModalShow(false)}  */}
-
-        {/* /> */}
     </ScrollView>
+    <Pressables tyle={styles.graphes_link} onPress={()=>navigation.navigate("analyses/liquides/graphes")}>
+            <FontAwesome5 size={20} name="chart-line" color='blue'/>
+        </Pressable>
         <TouchableOpacity  onPress={handleOpenPress} style={{position:'absolute',right:20,top:0.61*screenHeight,height:65,borderWidth:1,borderColor:'whitesmoke',paddingHorizontal:8,paddingVertical:8,borderRadius:10,backgroundColor:"rgba(155, 0, 0, 0.7)",}} >
             <Text style={{fontWeight:800,letterSpacing:-2,fontSize:16,color:"whitesmoke",paddingVertical:6,paddingHorizontal:2,borderBottomWidth:4,borderTopWidth:4,borderRadius:16,borderColor:'whitesmoke'}}>MOY</Text>
         </TouchableOpacity>
-        <TouchableOpacity
-        style={{position:'absolute',right:20,top:0.71*screenHeight,backgroundColor:'rgba(155,0,0,0.7)',padding:8,borderRadius:10,}}
-        onPress={async () => {setTimeout(async () => {
-                            await generatePDF();
-                        }, 500);
-                    }}
-        >
-    
-            {/* <Button
-                icon="file-pdf"
-                mode="contained"
-                onPress={async () => {
-                    // if (Platform.OS !== 'web' && viewRef.current) {
-                        setTimeout(async () => {
-                            await generatePDF();
-                        }, 500);
-                    }}
-                style={{fontWeight:'bold',color:'white',}}
-                  title='générer le PDF'
-            /> */}
-            <Text ><FontAwesome5 name="file-pdf" size={50} color="white"/></Text>
-        </TouchableOpacity>
-        {/* <Pop/> */}
+        
     </BottomSheet>
 }
 
@@ -836,6 +797,15 @@ return <ScrollView horizontal={true} style={styles.table}>
 
 
 const styles=StyleSheet.create({
+    graphes_link:{position :'absolute',top:10,right:50,
+                                        width:50,
+                                        paddingHorizontal:10,
+                                        paddingVertical:10,
+                                        marginVertical:15,
+                                        marginHorizontal:20,
+                                        borderRadius:10,
+                                        backgroundColor:'rgba(0,0,0,0.2)',
+                                    },
     container: {
         paddingHorizontal:5,
         // flex:1,

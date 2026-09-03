@@ -112,6 +112,7 @@ export default function CustomDrawerContent({ navigation }) {
               onMouseEnter={() => setHovered(key)}
               style={[styles.subItem, hovered === key && styles.hoveredStyle, targeted === key && styles.targetedStyle]}
               onPress={() => {
+                navigation.navigate('Poudres');
                 dispatch(setPowderType(key));
                 setTargeted(key);
               }}
