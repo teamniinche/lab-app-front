@@ -19,10 +19,10 @@ export default function Btn({style,textStyle,onPress,onHoverOut,onHoverIn,info,c
     >
       <Pressable 
         onPress={onPress}
-        // onHoverIn={() => {setShowTooltip(true);onHoverIn && onHoverIn()}}
-        onHoverIn={() => setShowTooltip(true)}
-        // onHoverOut={() => {setShowTooltip(false);onHoverOut && onHoverOut()}}
-        onHoverOut={() => setShowTooltip(false)}
+        onHoverIn={() => {setShowTooltip(true);onHoverIn && onHoverIn()}}
+        onHoverOut={() => {setShowTooltip(false);onHoverOut && onHoverOut()}}
+        // onHoverIn={() => setShowTooltip(true)}
+        // onHoverOut={() => setShowTooltip(false)}
         onLongPress={() => setShowTooltip(true)}
         onPressOut={() => setShowTooltip(false)}
         style={style}
@@ -36,7 +36,7 @@ export default function Btn({style,textStyle,onPress,onHoverOut,onHoverIn,info,c
 
 const styles = StyleSheet.create({
   tooltipContainer: {
-    backgroundColor: 'rgba(0, 0, 0, 0.85)',
+    // backgroundColor: 'rgba(0, 0, 0, 0.85)',
     borderRadius: 8,
     padding: 2,
     paddingHorizontal:4,

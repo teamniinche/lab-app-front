@@ -57,7 +57,7 @@ export const Filter=({active,title,text,render,info})=>{
     onPress={()=>active && render(title)} 
     onHoverIn={()=>setStyle({backColor:'rgba(0,0,240,0.2)',textColor:'white'})} 
     onHoverOut={()=>setStyle({backColor:null,textColor:null})}
-    style={{minHeight:45,cursor:active && 'pointer',display:'flex',flexDirection:'row',alignItems:'center',justifyContent:'center',backgroundColor:active?(isMe?'white':style.backColor):desactiveColor,borderWidth:2,borderStyle:'dotted',borderColor:active?(isMe?'white':(style.textColor || 'grey')):desactiveColor,borderRadius:8,paddingVertical:2,paddingHorizontal:4,marginHorizontal:2,}}
+    style={{minHeight:42,cursor:active && 'pointer',display:'flex',flexDirection:'row',alignItems:'center',justifyContent:'center',backgroundColor:active?(isMe?'white':style.backColor):desactiveColor,borderWidth:2,borderStyle:'dotted',borderColor:active?(isMe?'white':(style.textColor || 'grey')):desactiveColor,borderRadius:8,paddingVertical:2,paddingHorizontal:4,marginHorizontal:2,}}
     info={info}>
     {/* <Pressable 
     onPress={()=>active && render(title)} 
