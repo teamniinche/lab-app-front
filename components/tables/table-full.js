@@ -55,16 +55,16 @@ export default TableFull=({navigation/*,route*/,routeNheaders})=>{
     const [titre,setTitre]=useState('');
     const filter=new Filters();
     const dataFilters=[
-        {name:'/Mois',data:filter.date_dep_engine(toPrint),active:true},//suivant melanges par date/mois
-        {name:'Dep.',data:filter.dep_date_engine(toPrint),active:true},// suivant departement
+        {name:'/Mois',info:'filtrer la table suivant le mois',data:filter.date_dep_engine(toPrint),active:true},//suivant melanges par date/mois
+        {name:'Dep.',info:'filtrer la table suivant le département',data:filter.dep_date_engine(toPrint),active:true},// suivant departement
         // {name:'DANC',data:filter.dep_isValidated_mois_date(toPrint),active:false},//suivant Non conforme par departement
-        {name:'Mel./L',data:filter.mois_date_dep_engine(toPrint),active:true},//suivant melangeurs/longue periode
-        {name:'Mel.',data:filter.dep_engine_mois_date_isValidated(toPrint),active:true},// melanges non conformes par melangeur/longue periode
-        {name:'P/D',data:filter.dep_engine_mois_date_product(toPrint),active:false},// suivant Produits par departement
-        {name:'P',data:filter.product_mois_date(toPrint),active:true},//suivant produit/longue periode
-        {name:'P.F.',data:filter.dep_mois_date_product(toPrint),active:true},//melanges avec name filtrer/longue periode
-        {name:'A.NC/P',data:filter.product_isValidated(toPrint),active:false},//suivant Non conforme par produit
-        {name:'Op.',data:filter.chemist_mois_date(toPrint),active:false}//suivant Operateur
+        {name:'Mel./L',info:'filtrer la table suivant le melangeur sur une période excédant un mois',data:filter.mois_date_dep_engine(toPrint),active:true},//suivant melangeurs/longue periode
+        {name:'Mel.',info:'filtrer la table suivant le mélangeur',data:filter.dep_engine_mois_date_isValidated(toPrint),active:true},// melanges non conformes par melangeur/longue periode
+        {name:'P/D',info:'filtrer la table suivant les département,melangeur et produit',data:filter.dep_engine_mois_date_product(toPrint),active:false},// suivant Produits par departement
+        {name:'P',info:'filtrer la table suivant le produit',data:filter.product_mois_date(toPrint),active:true},//suivant produit/longue periode
+        {name:'P.F.',info:'filtrer la table suivant le produit sur une periode excédant un mois',data:filter.dep_mois_date_product(toPrint),active:true},//melanges avec name filtrer/longue periode
+        {name:'A.NC/P',info:'filtrer la table suivant la non conformité par produit',data:filter.product_isValidated(toPrint),active:false},//suivant Non conforme par produit
+        {name:'Op.',info:"filtrer la table suivant l'opérateur",data:filter.chemist_mois_date(toPrint),active:false}//suivant Operateur
     ];
 
     // ============== POUR L'IMPRESSION SEULEMENT ============
@@ -495,7 +495,7 @@ export default TableFull=({navigation/*,route*/,routeNheaders})=>{
 
             <View style={styles.print_graphes}>
                 {/* const {style,onPress,info,children,...restProps}=props; */}
-                <Btn style={styles.graphes_link} onPress={()=>navigation.navigate("analyses/liquides/graphes")} info="diagrammes">
+                <Btn style={styles.graphes_link} textStyle={styles.tooltipText} onPress={()=>navigation.navigate("analyses/liquides/graphes")} info="diagrammes">
                     <FontAwesome5 size={25} name="chart-line" color='blue'/>
                 </Btn>
                 <Btn style={styles.graphes_link} onPress={async () => {setTimeout(async () => {await generatePDF();}, 500);}} info="imprimer table">
@@ -799,6 +799,17 @@ return <ScrollView horizontal={true} style={styles.table}>
 
 
 const styles=StyleSheet.create({
+    tooltipText: {
+    width:'auto',
+    backgroundColor:'rgba(0,0,0,0.8)',
+    color:'white',
+    height:20,
+    padding:2,
+    borderRadius:2,
+    textAlign:'center',
+    letterSpacing:1.5,
+    fontSize:12
+  },
     print_graphes:{
         width:'auto',
         height:45,

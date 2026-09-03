@@ -1,5 +1,5 @@
 import {Badge,Avatar,Chip } from 'react-native-paper';
-import { Pressable,Text } from 'react-native';
+import { Pressable,Text,StyleSheet } from 'react-native';
 import { useDispatch,useSelector} from 'react-redux';
 import { FontAwesome5 } from '@expo/vector-icons';
 import Colors from '../assets/colors';
@@ -7,6 +7,7 @@ import {colorFromName,isFormule } from '../assets/functions';
 import { useChip } from './wrappers/contexts';
 import { useState } from 'react';
 import { clooner } from './accueil';
+import Btn from './buttons/btnWithinfo.js';
 import { setPowderFiltred } from './store/reducers/powderAnalysesReducer';
 export const MyChip=({product,clooned,render})=>{
   const {prdt,setPrdt}=useChip();
@@ -45,13 +46,39 @@ export const MyChipp=({product,clooned,render})=>{
   </Chip>;
 }
 
-export const Filter=({active,title,text,render})=>{
+export const Filter=({active,title,text,render,info})=>{
 
     const [style,setStyle]=useState({backColor:null,textColor:null}) 
     const isMe=text===title;
     const desactiveColor='rgba(200,200,200,0.2)';
-    return <Pressable onPress={()=>active && render(title)} onHoverIn={()=>setStyle({backColor:'rgba(0,0,240,0.2)',textColor:'white'})} onHoverOut={()=>setStyle({backColor:null,textColor:null})}
-              style={{cursor:active && 'pointer',display:'flex',flexDirection:'row',alignItems:'center',justifyContent:'center',backgroundColor:active?(isMe?'white':style.backColor):desactiveColor,borderWidth:2,borderStyle:'dotted',borderColor:active?(isMe?'white':(style.textColor || 'grey')):desactiveColor,borderRadius:8,paddingVertical:2,paddingHorizontal:4,marginHorizontal:2,}}>
+    return  <Btn 
+    // style={styles.graphes_link}
+    textStyle={styles.tooltipText} 
+    onPress={()=>active && render(title)} 
+    onHoverIn={()=>setStyle({backColor:'rgba(0,0,240,0.2)',textColor:'white'})} 
+    onHoverOut={()=>setStyle({backColor:null,textColor:null})}
+    style={{cursor:active && 'pointer',display:'flex',flexDirection:'row',alignItems:'center',justifyContent:'center',backgroundColor:active?(isMe?'white':style.backColor):desactiveColor,borderWidth:2,borderStyle:'dotted',borderColor:active?(isMe?'white':(style.textColor || 'grey')):desactiveColor,borderRadius:8,paddingVertical:2,paddingHorizontal:4,marginHorizontal:2,}}
+    info={info}>
+    {/* <Pressable 
+    onPress={()=>active && render(title)} 
+    onHoverIn={()=>setStyle({backColor:'rgba(0,0,240,0.2)',textColor:'white'})} 
+    onHoverOut={()=>setStyle({backColor:null,textColor:null})}
+    style={{cursor:active && 'pointer',display:'flex',flexDirection:'row',alignItems:'center',justifyContent:'center',backgroundColor:active?(isMe?'white':style.backColor):desactiveColor,borderWidth:2,borderStyle:'dotted',borderColor:active?(isMe?'white':(style.textColor || 'grey')):desactiveColor,borderRadius:8,paddingVertical:2,paddingHorizontal:4,marginHorizontal:2,}}
+    > */}
               <Text style={{textAlign:'center',color:active?(isMe?'black':(style.textColor ||'grey')):desactiveColor,letterSpacing:1,fontWeight:'bold',fontSize:10,}}><FontAwesome5 name="filter" size={12} color={active?(text===title?'black':'white'):desactiveColor}/>{title}</Text>
-          </Pressable>
+          </Btn>
 }
+
+const styles=StyleSheet.create({
+    tooltipText: {
+    width:'auto',
+    backgroundColor:'whitesmoke',
+    color:'grey',
+    height:20,
+    padding:2,
+    borderRadius:2,
+    textAlign:'center',
+    letterSpacing:1.5,
+    fontSize:12
+  }
+)

@@ -2,14 +2,13 @@ import React, { useState } from 'react';
 import { Text, Pressable,StyleSheet } from 'react-native';
 import Tooltip from 'react-native-walkthrough-tooltip';
 
-export default function Btn(props) {
-  const {style,onPress,info,children,...restProps}=props;
+export default function Btn({style,textStyle,onPress,onHoverOut,onHoverIn,info,children,...props}) {
   const [showTooltip, setShowTooltip] = useState(false);
 
   return (
     <Tooltip
       isVisible={showTooltip}
-      content={<Text style={styles.tooltipText}>{info}</Text>}
+      content={<Text style={textStyle}>{info}</Text>}
       placement="bottom"
       onClose={() => setShowTooltip(false)}
       contentStyle={styles.tooltipContainer}
@@ -20,12 +19,12 @@ export default function Btn(props) {
     >
       <Pressable 
         onPress={onPress}
-        onHoverIn={() => setShowTooltip(true)}
-        onHoverOut={() => setShowTooltip(false)}
+        onHoverIn={() => {setShowTooltip(true);onHoverIn && onHoverIn()}}
+        onHoverOut={() => {setShowTooltip(false);onHoverOut && onHoverOut()}}
         onLongPress={() => setShowTooltip(true)}
         onPressOut={() => setShowTooltip(false)}
         style={style}
-        {...restProps}
+        {...props}
       >
         {children}
       </Pressable>
@@ -40,21 +39,5 @@ const styles = StyleSheet.create({
     padding: 2,
     paddingHorizontal:4,
     width:'auto',
-    // elevation: 3, // Ombre sur Android
-    // shadowColor: '#000', // Ombre sur iOS/Web
-    // shadowOffset: { width: 0, height: 2 },
-    // shadowOpacity: 0.25,
-    // shadowRadius: 3.84,
-  },
-  tooltipText: {
-    width:'auto',
-    backgroundColor:'rgba(0,0,0,0.8)',
-    color:'white',
-    height:20,
-    padding:2,
-    borderRadius:2,
-    textAlign:'center',
-    letterSpacing:1.5,
-    fontSize:12
   }
 });
