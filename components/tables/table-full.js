@@ -19,6 +19,7 @@ import { clooner } from '../accueil';
 import Table from './componentTable'
 import Btn from '../buttons/btnWithinfo.js';
 import Pop from '../popup';
+import Charts from '../chars/liquidesChars.js';
 // DATA STATEMENTS && UTILS
 import { ChipProvider,CurrentProductsProvider,useEverages,usePopup,usePowderEverages,useReservs } from '../wrappers/contexts';
 import {colorFromName,VALEURS,productsAndCountsFormat,Flex } from '../../assets/functions' ;
@@ -757,6 +758,7 @@ const Graphes = ({navigation}) => {
     return <View style={styles.graphes}>
                 <ScrollView style={{height:'100%',width:'100%',minWidth:700,}}>
                     <View style={styles.graphes_parent}>
+                        <Charts/>
                     </View>
                 </ScrollView>
         </View>
