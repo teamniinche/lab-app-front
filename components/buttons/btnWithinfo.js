@@ -47,12 +47,14 @@ const styles = StyleSheet.create({
     // shadowRadius: 3.84,
   },
   tooltipText: {
+    width:'auto',
     backgroundColor:'rgba(0,0,0,0.8)',
     color:'white',
     height:20,
     padding:2,
     borderRadius:2,
     textAlign:'center',
-    fontSize:10
+    letterSpacing:1.5,
+    fontSize:12
   }
 });
