@@ -31,8 +31,6 @@ export default function Charts() {
   );
 }
 
-import React from 'react';
-import { StyleSheet, View, Text } from 'react-native';
 
 export  function LChart() {
   // Données du graphique
