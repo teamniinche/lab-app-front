@@ -506,7 +506,7 @@ export default TableFull=({navigation/*,route*/,routeNheaders})=>{
                 <TouchableOpacity  onPress={handleOpenPress} style={{/*position:'absolute',right:20,top:0.61*screenHeight,*/height:65,borderWidth:1,borderColor:'whitesmoke',paddingHorizontal:8,paddingVertical:8,borderRadius:10,backgroundColor:"rgba(155, 0, 0, 0.7)",}} >
                     <Text style={{fontWeight:800,letterSpacing:-2,fontSize:16,color:"whitesmoke",paddingVertical:6,paddingHorizontal:2,borderBottomWidth:4,borderTopWidth:4,borderRadius:16,borderColor:'whitesmoke'}}>MOY</Text>
                 </TouchableOpacity>
-            <View/>
+            </View>
 
         </ScrollView>
     </ScrollView>
