@@ -10,7 +10,7 @@ export default function Btn(props) {
     <Tooltip
       isVisible={showTooltip}
       content={<Text style={styles.tooltipText}>{info}</Text>}
-      placement="top"
+      placement="bottom"
       onClose={() => setShowTooltip(false)}
       contentStyle={styles.tooltipContainer}
        // 👇 CES 3 LIGNES ENLÈVENT COMPLÈTEMENT L'OVERLAY
@@ -37,21 +37,20 @@ const styles = StyleSheet.create({
   tooltipContainer: {
     backgroundColor: 'rgba(0, 0, 0, 0.85)',
     borderRadius: 8,
-    padding: 8,
-    elevation: 3, // Ombre sur Android
-    shadowColor: '#000', // Ombre sur iOS/Web
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
+    padding: 2,
+    // elevation: 3, // Ombre sur Android
+    // shadowColor: '#000', // Ombre sur iOS/Web
+    // shadowOffset: { width: 0, height: 2 },
+    // shadowOpacity: 0.25,
+    // shadowRadius: 3.84,
   },
   tooltipText: {
     backgroundColor:'rgba(0,0,0,0.8)',
     color:'white',
-    height:40,
-    padding:5,
+    height:20,
+    padding:2,
     borderRadius:8,
     textAlign:'center',
-    fontWeight:'bold',
-    fontSize:12
+    fontSize:10
   }
 });
