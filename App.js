@@ -37,6 +37,12 @@ import { isAcceptable,allowTo } from "./assets/functions.js";
 import { primaryColor,possibleRooms } from "./assets/constantes.js";
 import WinDim from './assets/operatingData'
 import { Lansas } from "./iterables.js";
+import { LinearGradient } from 'expo-linear-gradient';
+
+// Force Gifted Charts à trouver le package sur la plateforme Web
+if (!global.LinearGradient) {
+  global.LinearGradient = LinearGradient;
+}
 
 
 const {isLarge,isWeb,isMobile,screenHeight}=WinDim;

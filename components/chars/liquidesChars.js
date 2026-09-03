@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, View, Text } from 'react-native';
-// import { /*LineChart,*/BarChart } from 'react-native-gifted-charts';
+import { /*LineChart,*/BarChart } from 'react-native-gifted-charts';
 
 export default function Charts() {
   const data = [
@@ -14,7 +14,7 @@ export default function Charts() {
     <View style={styles.container}>
       <Text style={styles.title}>Rapport de Performance</Text>
       <View style={styles.card}>
-        {/* <BarChart
+        <BarChart
           data={data}
           barWidth={35}
           capRadius={4}
@@ -22,7 +22,7 @@ export default function Charts() {
           maxValue={100}
           yAxisTextStyle={{ color: '#7f8c8d' }}
           xAxisLabelTextStyle={{ color: '#7f8c8d' }}
-        /> */}
+        />
       </View>
       {/* <View style={styles.card}>
         <LChart/>
