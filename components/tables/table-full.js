@@ -496,8 +496,8 @@ export default TableFull=({navigation/*,route*/,routeNheaders})=>{
                 <Pressable style={styles.graphes_link} onPress={()=>navigation.navigate("analyses/liquides/graphes")}>
                     <FontAwesome5 size={20} name="chart-line" color='blue'/>
                 </Pressable>
-                <TouchableOpacity style={styles.print} onPress={async () => {setTimeout(async () => {await generatePDF();}, 500);}}>
-                    <Text ><FontAwesome5 name="file-pdf" size={50} color="white"/></Text>
+                <TouchableOpacity style={styles.graphes_link} onPress={async () => {setTimeout(async () => {await generatePDF();}, 500);}}>
+                    <Text ><FontAwesome5 name="file-pdf" size={20} color="blue"/></Text>
                 </TouchableOpacity>
             </View>
             
@@ -806,21 +806,24 @@ const styles=StyleSheet.create({
         alignItems:'center',
         gap:5,
         position:'absolute',
-        top:10,
-        right:30,
-
-        backgroundColor:'transparent',
+        top:20,
+        right:100,
+        borderRadius:10,
+        backgroundColor:'rgba(0,0,0,0.2)',
 
     },
     graphes_link:{/*position :'absolute',top:10,right:50,*/
-        width:50,
+        width:'auto',
         height:'90%',
         paddingHorizontal:10,
         paddingVertical:10,
         marginVertical:15,
         marginHorizontal:20,
-        borderRadius:10,
-        backgroundColor:'rgba(0,0,0,0.2)',
+        borderRadius:8,
+        borderWidth:1,
+        borderColor:'white',
+        backgroundColor:'transparent',
+
     },
     print:{/*position:'absolute',right:20,top:0.71*screenHeight,*/
         height:'90%',
