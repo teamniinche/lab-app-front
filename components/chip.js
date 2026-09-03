@@ -52,28 +52,21 @@ export const Filter=({active,title,text,render,info})=>{
     const isMe=text===title;
     const desactiveColor='rgba(200,200,200,0.2)';
     return  <Btn 
-    // style={styles.graphes_link}
-    textStyle={styles.tooltipText} 
-    onPress={()=>active && render(title)} 
-    onHoverIn={()=>setStyle({backColor:'rgba(0,0,240,0.2)',textColor:'white'})} 
-    onHoverOut={()=>setStyle({backColor:null,textColor:null})}
-    style={{minHeight:42,cursor:active && 'pointer',display:'flex',flexDirection:'row',alignItems:'center',justifyContent:'center',backgroundColor:active?(isMe?'white':style.backColor):desactiveColor,borderWidth:2,borderStyle:'dotted',borderColor:active?(isMe?'white':(style.textColor || 'grey')):desactiveColor,borderRadius:8,paddingVertical:2,paddingHorizontal:4,marginHorizontal:2,}}
-    info={info}>
-    {/* <Pressable 
-    onPress={()=>active && render(title)} 
-    onHoverIn={()=>setStyle({backColor:'rgba(0,0,240,0.2)',textColor:'white'})} 
-    onHoverOut={()=>setStyle({backColor:null,textColor:null})}
-    style={{cursor:active && 'pointer',display:'flex',flexDirection:'row',alignItems:'center',justifyContent:'center',backgroundColor:active?(isMe?'white':style.backColor):desactiveColor,borderWidth:2,borderStyle:'dotted',borderColor:active?(isMe?'white':(style.textColor || 'grey')):desactiveColor,borderRadius:8,paddingVertical:2,paddingHorizontal:4,marginHorizontal:2,}}
-    > */}
-              <Text style={{textAlign:'center',color:active?(isMe?'black':(style.textColor ||'grey')):desactiveColor,letterSpacing:1,fontWeight:'bold',fontSize:10,}}><FontAwesome5 name="filter" size={12} color={active?(text===title?'black':'white'):desactiveColor}/>{title}</Text>
-          </Btn>
+        textStyle={styles.tooltipText} 
+        onPress={()=>active && render(title)} 
+        onHoverIn={()=>setStyle({backColor:'rgba(0,0,240,0.2)',textColor:'white'})} 
+        onHoverOut={()=>setStyle({backColor:null,textColor:null})}
+        style={{minHeight:42,cursor:active && 'pointer',display:'flex',flexDirection:'row',alignItems:'center',justifyContent:'center',backgroundColor:active?(isMe?'white':style.backColor):desactiveColor,borderWidth:2,borderStyle:'dotted',borderColor:active?(isMe?'white':(style.textColor || 'grey')):desactiveColor,borderRadius:8,paddingVertical:2,paddingHorizontal:4,marginHorizontal:2,}}
+        info={info}
+    >
+        <Text style={{textAlign:'center',color:active?(isMe?'black':(style.textColor ||'grey')):desactiveColor,letterSpacing:1,fontWeight:'bold',fontSize:10,}}><FontAwesome5 name="filter" size={12} color={active?(text===title?'black':'white'):desactiveColor}/>{title}</Text>
+    </Btn>
 }
 
 const styles=StyleSheet.create({
     tooltipText: {
     width:'auto',
     backgroundColor:'whitesmoke',
-    color:'black',
     height:20,
     padding:2,
     borderRadius:2,
