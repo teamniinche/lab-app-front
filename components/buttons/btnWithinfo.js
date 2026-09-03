@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Text, TouchableOpacity } from 'react-native';
+import { Text, Pressable } from 'react-native';
 import Tooltip from 'react-native-walkthrough-tooltip';
 
 export default function Btn(props) {
@@ -9,11 +9,11 @@ export default function Btn(props) {
   return (
     <Tooltip
       isVisible={showTooltip}
-      content={<Text style={{backgroundColor:'rgba(0,0,0,0.8)',color:'white',height:40,padding:5,borderRadius:8,textAlign:'center',fontWeight:'bold',fontSize:12}}>info</Text>}
+      content={<Text style={{backgroundColor:'rgba(0,0,0,0.8)',color:'white',height:40,padding:5,borderRadius:8,textAlign:'center',fontWeight:'bold',fontSize:12}}>{info}</Text>}
       placement="top"
       onClose={() => setShowTooltip(false)}
     >
-      <TouchableOpacity 
+      <Pressable 
         onPress={onPress}
         {...restProps}
         onHoverIn={() => setShowTooltip(true)}
@@ -21,7 +21,7 @@ export default function Btn(props) {
         style={style}
       >
         {children}
-      </TouchableOpacity>
+      </Pressable>
     </Tooltip>
   );
 }
