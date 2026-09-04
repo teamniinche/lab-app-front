@@ -101,7 +101,7 @@ export default function Charts(){
         <LineChart
           dataSet={chartsDataSets}
           height={300}
-          width:{1000}
+          width={1000}
           noOfSections={4}
           focusTogether={true} 
         />
