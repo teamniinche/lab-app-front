@@ -84,7 +84,7 @@ export default function Charts(){
       const vl=val.analyses.filter(p=>p.name===dp).length;
       return {
         value:vl,
-        // labelComponent:()=>{return <Text style={styles.labelComponent}>{key}</Text>},
+        labelComponent:()=>{return <Text style={styles.labelComponent}>{key}</Text>},
         dataPointText:vl.toString(),
         // textColor:clor,
         textFontSize:12,
