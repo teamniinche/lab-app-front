@@ -87,8 +87,8 @@ export default function Charts(){
     const clr=colorFromName(name);
     return {
       data: LineData,
-      color: clr,
-      dataPointsColor: clr,
+      color: 'green',
+      dataPointsColor: 'green',
       textColor: 'blue',
     }
   })
