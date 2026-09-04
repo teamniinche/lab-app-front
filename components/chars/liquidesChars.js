@@ -79,8 +79,21 @@ export default function Charts(){
     return {startedAt:startedAt,endedAt:endedAt,postedAnalyses:postedAnalyses};
   });
   const {differentProducts,prodsWeeks}=interval.prodsByWeeks(postedAnalyses,startedAt,endedAt);
-  const LinesData=differentProducts.map((dp,index)=>{
-    return {name:dp,LineData:Object.entries(prodsWeeks).map(([key,val])=>{return {value:val.analyses.filter(p=>p.name===dp).length+index}})}
+  const LinesData=differentProducts.map(dp=>{
+      dataPointText:,
+      
+    return {name:dp,LineData:Object.entries(prodsWeeks).map(([key,val])=>{
+      const vl=val.analyses.filter(p=>p.name===dp).length;
+      const clor=Colors[colorFromName(p.name)];
+      return {
+        value:vl,
+        labelComponent:()=>{return <Text style={styles.labelComponent}>{key}</Text>},
+        dataPointText:vl.toString(),
+        textColor:clor,
+        textFontSize:12,
+        spacing:4,
+
+      }})}
   });
 
   const chartsDataSets=LinesData.map(item=>{
@@ -102,6 +115,8 @@ export default function Charts(){
           dataSet={chartsDataSets}
           height={300}
           width={1000}
+          adjustToWidth={true}
+          backgroundColor='black'
           noOfSections={4}
           focusTogether={true} 
         />
@@ -118,6 +133,17 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     padding: 16,
+  },
+  labelComponent:{
+    width:50,
+    padding:4,
+    backgroundColor:'blue',
+    height:50,
+    color:'white',
+    fontWeight:'bold',
+    fontSize:12,
+    borderRadius:'50%'
+
   },
   title: {
     fontSize: 20,
