@@ -45,10 +45,6 @@ export default  function Charts() {
   const prodsByWeeks=interval.prodsByWeeks(postedAnalyses,startedAt,endedAt);
 
   const data = Object.entries(prodsByWeeks).map(([key,val])=>{return { value: val.count, label: key }});
-  console.log('postedAnalyses',postedAnalyses)
-
-  console.log('data',data)
-  console.log('prodsByWeeks',prodsByWeeks)
   // [
   //   { value: 15, label: 'Lun' },
   //   { value: 30, label: 'Mar' },

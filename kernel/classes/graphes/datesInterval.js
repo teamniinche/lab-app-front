@@ -10,7 +10,6 @@ class Interval{
         const semaines = Object.fromEntries(
             Array.from({ length: ns }, (_, i) => [i + startedWeek, { analyses: [], count: 0 }])
         );
-console.log('semaines',semaines);
         return semaines;
     }
 
@@ -20,10 +19,8 @@ console.log('semaines',semaines);
         const formattedAnalyses = this._formatElements(analyses);
         for (const analyse of formattedAnalyses) {
             const weekNum = getISOWeek(analyse.createdAt).toString();
-console.log('weekNum',weekNum);
 
             if (prodsWeeks[weekNum]) {
-                console.log('in');
                 prodsWeeks[weekNum].analyses.push(analyse);
                 prodsWeeks[weekNum].count++;
             }
