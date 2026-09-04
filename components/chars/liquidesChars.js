@@ -100,7 +100,8 @@ export default function Charts(){
       <View style={styles.chartContainer}>
         <LineChart
           dataSet={chartsDataSets}
-          height={250}
+          height={300}
+          width:{1000}
           noOfSections={4}
           focusTogether={true} 
         />
