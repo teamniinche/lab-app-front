@@ -98,6 +98,8 @@ export default function Charts(){
     const clr=Colors[colorFromName(name)];
     return {
       data: LineData,
+      focusEnabled:{true},
+      onFocus:()=>alert(name),
       color: clr,
       dataPointsColor: clr,
       textColor: 'blue',
