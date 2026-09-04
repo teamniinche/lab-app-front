@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, View, Text } from 'react-native';
-import { /*LineChart,*/BarChart } from 'react-native-gifted-charts';
+import { LineChart,BarChart } from 'react-native-gifted-charts';
 
 // export default function Charts() {
 //   const data = [
