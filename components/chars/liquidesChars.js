@@ -80,8 +80,6 @@ export default function Charts(){
   });
   const {differentProducts,prodsWeeks}=interval.prodsByWeeks(postedAnalyses,startedAt,endedAt);
   const LinesData=differentProducts.map(dp=>{
-      dataPointText:,
-      
     return {name:dp,LineData:Object.entries(prodsWeeks).map(([key,val])=>{
       const vl=val.analyses.filter(p=>p.name===dp).length;
       const clor=Colors[colorFromName(p.name)];
