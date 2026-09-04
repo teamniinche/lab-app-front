@@ -111,7 +111,7 @@ export default function Charts(){
         <LineChart
           dataSet={chartsDataSets}
           height={300}
-          width={600}
+          width={1100}
           adjustToWidth={true}
           backgroundColor='grey'
           noOfSections={4}
