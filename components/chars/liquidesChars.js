@@ -4,7 +4,7 @@ import { StyleSheet, View, Text } from 'react-native';
 import { LineChart,BarChart } from 'react-native-gifted-charts';
 import Interval from '../../kernel/classes/graphes/datesInterval.js';
 import {colorFromName} from '../../assets/functions.js';
-import Colors from '../../assets/color.js';
+import Colors from '../../assets/colors.js';
 const interval=new Interval();
 
 // export default function Charts() {
