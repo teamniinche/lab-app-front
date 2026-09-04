@@ -112,8 +112,8 @@ export default function Charts(){
           dataSet={chartsDataSets}
           height={300}
           width={1000}
-          adjustToWidth={true}
-          backgroundColor='black'
+          // adjustToWidth={true}
+          backgroundColor='grey'
           noOfSections={4}
           focusTogether={true} 
         />
@@ -132,13 +132,13 @@ const styles = StyleSheet.create({
     padding: 16,
   },
   labelComponent:{
-    width:50,
-    padding:4,
+    width:30,
+    padding:2,
     backgroundColor:'blue',
-    height:50,
+    height:30,
     color:'white',
     fontWeight:'bold',
-    fontSize:12,
+    fontSize:10,
     borderRadius:'50%'
 
   },
