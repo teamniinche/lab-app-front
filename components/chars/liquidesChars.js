@@ -13,7 +13,7 @@ export default function Charts() {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Rapport de Performance</Text>
-      <View style={styles.card}>
+      {/* <View style={styles.card}>
         <BarChart
           data={data}
           barWidth={35}
@@ -23,7 +23,7 @@ export default function Charts() {
           yAxisTextStyle={{ color: '#7f8c8d' }}
           xAxisLabelTextStyle={{ color: '#7f8c8d' }}
         />
-      </View>
+      </View> */}
       <View style={styles.card}>
         <LChart/>
       </View>
