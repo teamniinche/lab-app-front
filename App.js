@@ -32,7 +32,7 @@ import DrawerPoudre from "./navigators/DrawerPoudre.js";
 import DrawerJavel from "./navigators/DrawerJavel.js";
 import DrawerTour from "./navigators/DrawerTour.js";
 import Pop, { NewAnalysed }  from "./components/popup.js";
-// UTILS
+// UTILS 
 import { isAcceptable,allowTo } from "./assets/functions.js";
 import { primaryColor,possibleRooms } from "./assets/constantes.js";
 import WinDim from './assets/operatingData'
