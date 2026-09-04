@@ -82,12 +82,11 @@ export default function Charts(){
   const LinesData=differentProducts.map(dp=>{
     return {name:dp,LineData:Object.entries(prodsWeeks).map(([key,val])=>{
       const vl=val.analyses.filter(p=>p.name===dp).length;
-      const clor=Colors[colorFromName(p.name)];
       return {
         value:vl,
         labelComponent:()=>{return <Text style={styles.labelComponent}>{key}</Text>},
         dataPointText:vl.toString(),
-        textColor:clor,
+        // textColor:clor,
         textFontSize:12,
         spacing:4,
 
