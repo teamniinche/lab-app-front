@@ -4,6 +4,7 @@ import { StyleSheet, View, Text } from 'react-native';
 import { LineChart,BarChart } from 'react-native-gifted-charts';
 import Interval from '../../kernel/classes/graphes/datesInterval.js';
 import {colorFromName} from '../../assets/functions.js';
+import Colors from '../../assets/color.js';
 const interval=new Interval();
 
 // export default function Charts() {
@@ -78,17 +79,17 @@ export default function Charts(){
     return {startedAt:startedAt,endedAt:endedAt,postedAnalyses:postedAnalyses};
   });
   const {differentProducts,prodsWeeks}=interval.prodsByWeeks(postedAnalyses,startedAt,endedAt);
-  const LinesData=differentProducts.map(dp=>{
-    return {name:dp,LineData:Object.entries(prodsWeeks).map(([key,val])=>{return {value:val.analyses.filter(p=>p.name===dp).length}})}
+  const LinesData=differentProducts.map((dp,index)=>{
+    return {name:dp,LineData:Object.entries(prodsWeeks).map(([key,val])=>{return {value:Y(val.analyses.filter(p=>p.name===dp).length,index)}})}
   });
 
   const chartsDataSets=LinesData.map(item=>{
     const {name,LineData}=item;
-    const clr=colorFromName(name);
+    const clr=Colors[colorFromName(name)];
     return {
       data: LineData,
-      color: 'green',
-      dataPointsColor: 'green',
+      color: clr,
+      dataPointsColor: clr,
       textColor: 'blue',
     }
   })
