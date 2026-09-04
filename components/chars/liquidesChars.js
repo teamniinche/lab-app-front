@@ -79,8 +79,8 @@ export default function Charts(){
     return {startedAt:startedAt,endedAt:endedAt,postedAnalyses:postedAnalyses};
   });
   const {differentProducts,prodsWeeks}=interval.prodsByWeeks(postedAnalyses,startedAt,endedAt);
-  const LinesData=differentProducts.map(dp=>{
-    return {name:dp,LineData:Object.entries(prodsWeeks).map(([key,val])=>{return {value:val.analyses.filter(p=>p.name===dp).length}})}
+  const LinesData=differentProducts.map((dp,index)=>{
+    return {name:dp,LineData:Object.entries(prodsWeeks).map(([key,val])=>{return {value:val.analyses.filter(p=>p.name===dp).length+index}})}
   });
 
   const chartsDataSets=LinesData.map(item=>{
