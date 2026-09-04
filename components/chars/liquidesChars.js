@@ -114,9 +114,7 @@ export default function Charts(){
           height={300}
           width={1100}
           focusEnabled={true}
-          onFocus={(item, index) => {
-            alert(item.value)
-          }}
+          onFocus={() =>alert('ok')}
           adjustToWidth={true}
           backgroundColor='grey'
           noOfSections={4}
