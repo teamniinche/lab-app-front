@@ -98,8 +98,7 @@ export default function Charts(){
     const clr=Colors[colorFromName(name)];
     return {
       data: LineData,
-      focusEnabled:true,
-      onFocus:()=>alert(name),
+      
       color: clr,
       dataPointsColor: clr,
       textColor: 'blue',
@@ -114,6 +113,10 @@ export default function Charts(){
           dataSet={chartsDataSets}
           height={300}
           width={1100}
+          focusEnabled={true}
+          onFocus={(item, index) => {
+            alert(item.value)
+          }}
           adjustToWidth={true}
           backgroundColor='grey'
           noOfSections={4}
