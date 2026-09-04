@@ -1,6 +1,9 @@
 import React from 'react';
+import {useSelector} from 'react-redux';
 import { StyleSheet, View, Text } from 'react-native';
 import { LineChart,BarChart } from 'react-native-gifted-charts';
+import Interval from '../../kernel/classes/graphes/datesInterval.js';
+const interval=new Interval();
 
 // export default function Charts() {
 //   const data = [
@@ -33,16 +36,24 @@ import { LineChart,BarChart } from 'react-native-gifted-charts';
 
 
 export default  function Charts() {
-  // Données du graphique
-  const data = [
-    { value: 15, label: 'Lun' },
-    { value: 30, label: 'Mar' },
-    { value: 26, label: 'Mer' },
-    { value: 40, label: 'Jeu' },
-    { value: 55, label: 'Ven' },
-    { value: 45, label: 'Sam' },
-    { value: 70, label: 'Dim' },
-  ];
+  const {startedAt,endedAt,postedAnalyses}=useSelector(state=>{
+    const {startedAt,endedAt}=state.period.targetPeriod;
+    const postedAnalyses=state.data.postedAnalyses;
+    return {startedAt:startedAt,endedAt:endedAt,postedAnalyses:postedAnalyses};
+  });
+
+  const prodsByWeeks=interval.prodsByWeeks(postedAnalyses,startedAt,endedAt);
+
+  const data = Object.entries(prodsByWeeks).map([key,val]=>{ value: val.count, label: key });
+  // [
+  //   { value: 15, label: 'Lun' },
+  //   { value: 30, label: 'Mar' },
+  //   { value: 26, label: 'Mer' },
+  //   { value: 40, label: 'Jeu' },
+  //   { value: 55, label: 'Ven' },
+  //   { value: 45, label: 'Sam' },
+  //   { value: 70, label: 'Dim' },
+  // ];
 
   return (
     <View style={styles.container}>
