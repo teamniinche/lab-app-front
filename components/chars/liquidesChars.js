@@ -79,7 +79,7 @@ export default function Charts(){
   });
   const {differentProducts,prodsWeeks}=interval.prodsByWeeks(postedAnalyses,startedAt,endedAt);
   const LinesData=differentProducts.map(dp=>{
-    return {name:dp,LineData:Object.entries(prodsWeeks).map(([key,val])=>{return {value:val.filter(p=>p.name===dp).length}})}
+    return {name:dp,LineData:Object.entries(prodsWeeks).map(([key,val])=>{return {value:val.analyses.filter(p=>p.name===dp).length}})}
   });
 
   const chartsDataSets=LinesData.map(item=>{

@@ -28,7 +28,7 @@ class Interval{
             if(!differentProducts.includes(analyse.name)){differentProducts.push(analyse.name);}
         }
 
-        return {differentProducts,prodsWeeks};
+        return {differentProducts:differentProducts,prodsWeeks:prodsWeeks};
     }
 
 
