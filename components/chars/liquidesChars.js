@@ -71,7 +71,7 @@ export function Char() {
   );
 }
 
-export default function MultiLineChart(){
+export default function Charts(){
   const {startedAt,endedAt,postedAnalyses}=useSelector(state=>{
     const {startedAt,endedAt}=state.period.targetPeriod;
     const postedAnalyses=state.data.postedAnalyses;
@@ -79,7 +79,7 @@ export default function MultiLineChart(){
   });
   const {differentProducts,prodsWeeks}=interval.prodsByWeeks(postedAnalyses,startedAt,endedAt);
   const LinesData=differentProducts.map(dp=>{
-    return {name:dp,LineData:Object.entries(prodsByWeeks).map(([key,val])=>{return {value:val.filter(p=>p.name===dp).length}})}
+    return {name:dp,LineData:Object.entries(prodsWeeks).map(([key,val])=>{return {value:val.filter(p=>p.name===dp).length}})}
   });
 
   const chartsDataSets=LinesData.map(item=>{
