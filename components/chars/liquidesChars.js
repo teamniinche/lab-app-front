@@ -132,8 +132,9 @@ const styles = StyleSheet.create({
     padding: 16,
   },
   labelComponent:{
-    width:30,
+    width:20,
     padding:2,
+    textAlign:'center',
     backgroundColor:'blue',
     height:30,
     color:'white',
