@@ -17,6 +17,7 @@ class Interval{
         const { getISOWeek } = require("date-fns");
         const prodsWeeks = this.weeks(startedAt,endedAt);
         const formattedAnalyses = this._formatElements(analyses);
+        const differentProducts=[];
         for (const analyse of formattedAnalyses) {
             const weekNum = getISOWeek(analyse.createdAt).toString();
 
@@ -24,9 +25,10 @@ class Interval{
                 prodsWeeks[weekNum].analyses.push(analyse);
                 prodsWeeks[weekNum].count++;
             }
+            if(!differentProducts.includes(analyse.name)){differentProducts.push(analyse.name);}
         }
 
-        return prodsWeeks;
+        return {differentProducts,prodsWeeks};
     }
 
 

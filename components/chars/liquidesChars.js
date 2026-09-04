@@ -3,6 +3,7 @@ import {useSelector} from 'react-redux';
 import { StyleSheet, View, Text } from 'react-native';
 import { LineChart,BarChart } from 'react-native-gifted-charts';
 import Interval from '../../kernel/classes/graphes/datesInterval.js';
+import {colorFromName} from '../../assets/functions.js';
 const interval=new Interval();
 
 // export default function Charts() {
@@ -33,28 +34,17 @@ const interval=new Interval();
 //     </View>
 //   );
 // }
+function Y(val,index){const y=6+index;return y}
 
-
-export default  function Charts() {
+export function Char() {
   const {startedAt,endedAt,postedAnalyses}=useSelector(state=>{
     const {startedAt,endedAt}=state.period.targetPeriod;
     const postedAnalyses=state.data.postedAnalyses;
     return {startedAt:startedAt,endedAt:endedAt,postedAnalyses:postedAnalyses};
   });
+  const {differentProducts,prodsWeeks}=interval.prodsByWeeks(postedAnalyses,startedAt,endedAt);
 
-  const prodsByWeeks=interval.prodsByWeeks(postedAnalyses,startedAt,endedAt);
-
-  const data = Object.entries(prodsByWeeks).map(([key,val])=>{return { value: val.count, label: key }});
-  // [
-  //   { value: 15, label: 'Lun' },
-  //   { value: 30, label: 'Mar' },
-  //   { value: 26, label: 'Mer' },
-  //   { value: 40, label: 'Jeu' },
-  //   { value: 55, label: 'Ven' },
-  //   { value: 45, label: 'Sam' },
-  //   { value: 70, label: 'Dim' },
-  // ];
-
+  const data = Object.entries(prodsByWeeks).map(([key,val],index)=>{return { value: Y(val.count,index), label: key }});
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Statistiques Hebdomadaires</Text>
@@ -63,8 +53,8 @@ export default  function Charts() {
         <LineChart
           data={data}
           height={300}
-          width={1100}
-          thickness={3}
+          width={1000}
+          thickness={1}
           color="#3498db"
           noOfSections={4}
           areaChart // Remplit la zone sous la ligne
@@ -80,6 +70,44 @@ export default  function Charts() {
     </View>
   );
 }
+
+export default function MultiLineChart(){
+  const {startedAt,endedAt,postedAnalyses}=useSelector(state=>{
+    const {startedAt,endedAt}=state.period.targetPeriod;
+    const postedAnalyses=state.data.postedAnalyses;
+    return {startedAt:startedAt,endedAt:endedAt,postedAnalyses:postedAnalyses};
+  });
+  const {differentProducts,prodsWeeks}=interval.prodsByWeeks(postedAnalyses,startedAt,endedAt);
+  const LinesData=differentProducts.map(dp=>{
+    return {name:dp,LineData:Object.entries(prodsByWeeks).map(([key,val])=>{return {value:val.filter(p=>p.name===dp).length}})}
+  });
+
+  const chartsDataSets=LinesData.map(item=>{
+    const {name,LineData}=item;
+    const clr=colorFromName(name);
+    return {
+      data: LineData,
+      color: clr,
+      dataPointsColor: clr,
+      textColor: 'blue',
+    }
+  })
+
+  return (<View style={styles.container}>
+         <Text style={styles.title}>Statistiques Hebdomadaires</Text>
+      
+      <View style={styles.chartContainer}>
+        <LineChart
+          dataSet={chartsDataSets}
+          height={250}
+          noOfSections={4}
+          focusTogether={true} 
+        />
+    </View>
+    </View>
+  );
+};
+
 
 const styles = StyleSheet.create({
   container: {
