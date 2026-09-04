@@ -62,8 +62,8 @@ export default  function Charts() {
       <View style={styles.chartContainer}>
         <LineChart
           data={data}
-          height={220}
-          width={300}
+          height={300}
+          width={1100}
           thickness={3}
           color="#3498db"
           noOfSections={4}
@@ -96,6 +96,7 @@ const styles = StyleSheet.create({
     color: '#2c3e50',
   },
   chartContainer: {
+    width:'auto',
     backgroundColor: '#ffffff',
     padding: 16,
     borderRadius: 12,
