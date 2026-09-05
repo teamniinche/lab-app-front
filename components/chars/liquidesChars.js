@@ -278,7 +278,7 @@ export default function Charts(){
   const theoreticalStep = maxValue / noOfSections;
   // 3. Arrondi intelligent pour obtenir des graduations "propres" (ex: 23 -> 25, 104 -> 110)
   var dynamicStep = Math.ceil(theoreticalStep);
-  if (dynamicStep > 10) {dynamicStep = Math.ceil(dynamicStep / 5) * 5;/*Arrondit au multiple de 5 supérieur si le pas est grand*/}
+  if (dynamicStep > 10) {dynamicStep = Math.ceil(dynamicStep / 2) * 2;/*Arrondit au multiple de 5 supérieur si le pas est grand*/}
   // 4. Le nouveau maximum du graphique sera un multiple parfait du step
   const dynamicMax = dynamicStep * noOfSections;
   // C'est cet objet que vous passez à votre état (state) yAxisConfig
