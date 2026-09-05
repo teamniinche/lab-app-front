@@ -276,15 +276,35 @@ export default function Charts(){
           const clor=Colors[colorFromName(dp)];
           return {
             value:vl,
+            // innerBarComponent:() => (
+            //   <Text style={{color: 'white', fontSize: 10, alignSelf: 'center',textWrap:'nowrap',overflow:'visible',width:'auto'}}>{dp}</Text>
+            // ),
             innerBarComponent:() => (
-              <Text style={{color: 'white', fontSize: 10, alignSelf: 'center'}}>{dp}</Text>
+              <View style={{
+                position: 'absolute',
+                justifyContent: 'center',
+                alignItems: 'center',
+                width: 200,             // 💡 Donne un espace large virtuel pour éviter l'enroulement
+                left: -100 + (40 / 2),  // 💡 Centre le bloc virtuel (remplacez 40 par votre barWidth)
+              }}>
+                <Text 
+                  numberOfLines={1}     // ❌ Empêche le retour à la ligne
+                  style={{
+                    color: 'white', 
+                    fontSize: 10, 
+                    fontWeight: 'bold',
+                    textAlign: 'center',
+                  }}
+                >
+                  {dp}
+                </Text>
+              </View>
             ),
             color:clor
           }
         })
       }
   });
-  console.log(stackData)
 
 // const stackData = [
 //   {
