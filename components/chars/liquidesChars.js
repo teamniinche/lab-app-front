@@ -358,7 +358,7 @@ export default function Charts(){
         maxValue={yAxisConfig.max}
 
         scrollable={true}
-        width={calculatedWidth}            // ✅ Donne toute la place nécessaire à l'axe X
+        width={1000}            // ✅ Donne toute la place nécessaire à l'axe X
         initialSpacing={initialSpacing}    // Espace de départ à gauche
         endSpacing={endSpacing}            // ✅ Force une zone vide à la fin de la dernière valeur
         spacing={itemWidth}                // Distance entre chaque point de donnée
