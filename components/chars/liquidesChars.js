@@ -348,6 +348,9 @@ export default function Charts(){
         noOfSections={noOfSections}              // Nombre de lignes de grille horizontales
         stepValue={yAxisConfig.step}   // 2. Définit la valeur de chaque palier
         maxValue={yAxisConfig.max}
+        scrollable={true}
+        bounces={true}                     // Ajoute un effet de rebond élastique en fin de course
+        showScrollIndicator={true}
         // 🎨 Personnalisation des axes et labels
         xAxisLabelTextStyle={{ color: 'lightgray', fontSize: 12 }}
         yAxisTextStyle={{ color: 'lightgray' }}
