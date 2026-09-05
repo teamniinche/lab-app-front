@@ -297,19 +297,20 @@ export default function Charts(){
   const stackData=Object.entries(prodsWeeks).map(([key,val])=>{
       return {
         label:key,
+        labelComponent:()=>(<Text style={styles.labelComponent}>{key}</Text>),
         stacks:[...differentProducts.map(dp=>{
           const vl=val.analyses?.filter(p=>p.name===dp)?.length;
           const prctge=val.count!==0?((vl/val.count)*100).toFixed(1).toString()+'%':'0%';
           const clor=Colors[colorFromName(dp)];
           return {
             value:vl,
-            innerBarComponent:()=>{return <BarComponent params={{len:val.count,head:false,dp:dp,vl:vl,prctge:prctge}}/>},
+            innerBarComponent:()=>(<BarComponent params={{len:val.count,head:false,dp:dp,vl:vl,prctge:prctge}}/>),
             color:clor
           }
         }),
         {
           value:2,
-          innerBarComponent:()=>{return <BarComponent params={{len:val.count,head:true,dp:val.count.toString()+' prods',vl:2,prctge:''}}/>},
+          innerBarComponent:()=>(<BarComponent params={{len:val.count,head:true,dp:val.count.toString()+' prods',vl:2,prctge:''}}/>),
           color:'transparent'
         }
       ]
