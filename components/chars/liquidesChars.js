@@ -292,20 +292,22 @@ export default function MultiStagesBarCharts(){
 
   const LateralNav=()=>{
     const [dep,setDep]=useState(null);
+    const [focusedDep,setFocusedDep]=useState(null);
     function handleDepPress(items){
       setAnalyses(items);
     }
     const hoverStyle={backgroundColor:'rgba(0,0,250,0.1)',borderRadius:4}
+    const focusStyle={backgroundColor:'rgba(0,0,250,0.2)',borderRadius:4}
     return <View style={{width:200,minHeigth:500,paddingHorizontal:10,paddingVertical:20,paddingTop:5,marginRight:15,borderRadius:5,borderWidth:1,borderBottomWidth:0,borderColor:'grey',backgroundColor:'whitesmoke'}}>
         <Text style={{color:primaryColor,backgroundColor:'rgba(0,0,0,0.15)',borderRadius:4,paddingVertical:20,textAlign:'center',marginBottom:20,letterSpacing:2,fontSize:14,fontWeight:'bold'}}>Départements</Text>
         {Object.entries(prodsByDep).sort((a,b)=>a[0].localeCompare(b[0])).map(([k,items])=>{
           return <Pressable 
-              style={[{width:'100%',height:50,padding:5},dep===k?hoverStyle:{}]} 
-              onPress={()=>handleDepPress(items)}
+              style={[{width:'100%',height:50,padding:5},dep===k?hoverStyle:{},focusedDep===k?focusStyle:{}]} 
+              onPress={()=>{handleDepPress(items);setFocusedDep(k)}}
               onHoverIn={()=>setDep(k)}
               onHoverOut={()=>setDep(null)}
           >
-            <Text style={{color:'black',letterSpacing:2,fontSize:13,fontWeight:'bold'}}>{k}</Text>
+            <Text style={{color:focusedDep===k?'white':'black',letterSpacing:2,fontSize:13,fontWeight:'bold'}}>{k}</Text>
             </Pressable>
         })}
       </View>
