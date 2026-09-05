@@ -293,8 +293,8 @@ export default function MultiStagesBarCharts(){
     function handleDepPress(items){
       setAnalyses(items);
     }
-    return <View style={{width:120,heigth:400,paddingHorizontal:10,paddingVertical:20,borderRadius:5,borderWidth:1,borderColor:'grey',backgroundColor:'whitesmoke'}}>
-        {Object.entries(prodsByDep).map(([k,items])=>{
+    return <View style={{width:240,minHeigth:500,paddingHorizontal:10,paddingVertical:20,borderRadius:5,borderWidth:1,borderBottomWidth:0,borderColor:'grey',backgroundColor:'whitesmoke'}}>
+        {Object.entries(prodsByDep).sort((a,b)=>a[0].localeCompare(b[0])).map(([k,items])=>{
           return <Pressable style={{width:'100%',height:60,paddingVertical:5}} onPress={()=>handleDepPress(items)}>
             <Text style={{color:'black',letterSpacing:2,fontSize:14,fontWeight:'bold'}}>{k}</Text>
             </Pressable>
