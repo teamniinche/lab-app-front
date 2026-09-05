@@ -289,7 +289,7 @@ export default function MultiStagesBarCharts(){
       }
   });
 
-  const LiteralNav=()=>{
+  const LateralNav=()=>{
     function handleDepPress(items){
       setAnalyses(items);
     }
