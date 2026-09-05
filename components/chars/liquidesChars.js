@@ -349,7 +349,7 @@ export default function Charts(){
 
 
   return (
-    <View style={{ padding: 20, backgroundColor: '#1A1A1A', borderRadius: 10,width:'auto',padding:15 }}>
+    <View style={{ padding: 20, backgroundColor: '#1A1A1A', borderRadius: 10,width:900,padding:15 }}>
       <BarChart
         stackData={stackData}         // ✅ Charge la structure multi-étages
         barWidth={40}                 // Largeur de chaque colonne empilée
