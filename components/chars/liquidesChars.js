@@ -268,6 +268,22 @@ export default function Charts(){
   });
   const [coordonnees,setCoordonnees]=useState({x:0,y:0,item:null});
   const {differentProducts,prodsWeeks}=interval.prodsByWeeks(postedAnalyses,startedAt,endedAt);
+
+  // const maxValue=Object.values(prodsWeeks).reduce((acc,item)=>{return item.count > acc ? item.count : acc;}, 0);
+  // Alternative moderne et très lisible
+  const maxValue = Math.max(...Object.values(prodsWeeks).map(item => item.count), 0)+5;
+  const noOfSections = 4; // Le nombre de lignes horizontales de votre grille
+  // 2. Calcul du pas de base théorique
+  const theoreticalStep = maxRawValue / noOfSections;
+  // 3. Arrondi intelligent pour obtenir des graduations "propres" (ex: 23 -> 25, 104 -> 110)
+  var dynamicStep = Math.ceil(theoreticalStep);
+  if (dynamicStep > 10) {dynamicStep = Math.ceil(dynamicStep / 5) * 5;/*Arrondit au multiple de 5 supérieur si le pas est grand*/}
+  // 4. Le nouveau maximum du graphique sera un multiple parfait du step
+  const dynamicMax = dynamicStep * noOfSections;
+  // C'est cet objet que vous passez à votre état (state) yAxisConfig
+  const yAxisConfig = {max: dynamicMax,step: dynamicStep};
+
+
   const stackData=Object.entries(prodsWeeks).map(([key,val])=>{
       return {
         label:key,
@@ -282,8 +298,8 @@ export default function Charts(){
           }
         }),
         {
-          value:1,
-          innerBarComponent:()=>{return <BarComponent params={{dp:val.count.toString()+' prods',vl:1,prctge:''}}/>},
+          value:2,
+          innerBarComponent:()=>{return <BarComponent params={{dp:val.count.toString()+' prods',vl:2,prctge:''}}/>},
           color:'transparent'
         }
       ]
@@ -327,10 +343,11 @@ export default function Charts(){
       <BarChart
         stackData={stackData}         // ✅ Charge la structure multi-étages
         barWidth={40}                 // Largeur de chaque colonne empilée
-        spacing={50}                  // Espace entre les colonnes
+        spacing={70}                  // Espace entre les colonnes
         height={300}                  // Hauteur globale du graphique
-        noOfSections={4}              // Nombre de lignes de grille horizontales
-        
+        noOfSections={noOfSections}              // Nombre de lignes de grille horizontales
+        stepValue={yAxisConfig.step}   // 2. Définit la valeur de chaque palier
+        maxValue={yAxisConfig.max}
         // 🎨 Personnalisation des axes et labels
         xAxisLabelTextStyle={{ color: 'lightgray', fontSize: 12 }}
         yAxisTextStyle={{ color: 'lightgray' }}
