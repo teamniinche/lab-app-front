@@ -272,6 +272,7 @@ export default function Charts(){
       return {
         label:key,
         stacks:differentProducts.map(dp=>{ 
+          console.log(val);
           const vl=val.analyses.filter(p=>p.name===dp).length;
           const clor=Colors[colorFromName(dp)];
           return {
