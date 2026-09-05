@@ -98,10 +98,72 @@ export default function Charts(){
     const clr=Colors[colorFromName(name)];
     return {
       data: LineData,
-      
+      curved:true,
+      curvature:0.5,
       color: clr,
+      dataPointsShape: 'circular', 
+      dataPointsRadius: 4,
       dataPointsColor: clr,
-      textColor: 'blue',
+      textColor: '#ffffff',
+     // ==========================================
+  // 📉 DONNÉES & PLAGES
+    // ==========================================
+    // data: [
+    //   { value: 20, label: 'Jan' }, 
+    //   { value: 45, label: 'Fév' }, 
+    //   { value: 28, label: 'Mar' }, 
+    //   { value: 80, label: 'Avr' }
+    // ],
+    // startIndex: 0,                  // Débute le tracé au tout premier élément
+    // endIndex: 3,                    // Arrête le tracé au quatrième élément
+
+    // ==========================================
+    // 🎨 STYLE DE LA LIGNE
+    // ==========================================
+    // color: '#2196F3',               // Ligne de couleur bleue
+    // thickness: 4,                   // Épaisseur de la courbe à 4px
+    // zIndex: 10,                     // Force cette ligne à passer au-dessus des autres
+    // strokeDashArray:,       // Ligne pointillée : 10px visibles, 5px vides
+    // lineSegments: [...]          // Optionnel : s'utilise à la place de color/thickness pour découper la ligne en morceaux colorés
+
+    // ==========================================
+    // 🗺️ TYPE DE COURBE (RENDU)
+    // ==========================================
+    // curved: true,                   // Active les courbes de Bézier pour lisser la ligne
+    // curvature: 0.5,                 // Arrondi subtil (0 = angles droits, 1 = très arrondi)
+    // curveType: 1,                   // Type mathématique de la courbe (0 ou 1)
+    // stepChart: false,               // false pour rester en courbe classique (si true, écrase 'curved')
+
+    // ==========================================
+    // ⛰️ GRAPHIQUE D'AIRE (REMPLISSAGE)
+    // ==========================================
+    // areaChart: true,                // Active le remplissage sous la courbe
+    // startFillColor: '#2196F3',      // Dégradé : Couleur de départ (haut)
+    // endFillColor: '#FFFFFF',        // Dégradé : Couleur d'arrivée (bas)
+    // startOpacity: 0.4,              // Opacité forte en haut
+    // endOpacity: 0.0,                // Opacité totalement transparente en bas
+
+    // ==========================================
+    // 🔴 STYLE DES POINTS DE DONNÉES
+    // ==========================================
+    // hideDataPoints: false,          // Affiche bien les points sur la ligne
+    // dataPointsColor: '#FF5722',     // Points de couleur orange
+    // dataPointsRadius: 6,            // Taille des points si circulaires
+    // dataPointsShape: 'circular',    // Forme ronde (peut être 'rectangular')
+    // dataPointsWidth: 12,            // Largeur (utilisé si shape = 'rectangular')
+    // dataPointsHeight: 12,           // Hauteur (utilisé si shape = 'rectangular')
+
+    // ==========================================
+    // 🏷️ TEXTES & FLÈCHES
+    // ==========================================
+    // textColor: '#333333',           // Couleur du texte affiché au-dessus des points
+    // textFontSize: 12,               // Taille du texte des données
+    showArrow: true,                // Ajoute une flèche directionnelle au bout du tracé
+    arrowConfig: {                  // Personnalisation de la flèche terminale
+      length: 12,
+      width: 8,
+      color: '#ffffff',
+      showArrowBase: true,
     }
   })
 
@@ -118,7 +180,31 @@ export default function Charts(){
           adjustToWidth={true}
           backgroundColor='grey'
           noOfSections={4}
-          focusTogether={true} 
+          focusTogether={true}
+          pointerConfig={{
+    pointerColor: 'red',
+    radius: 6,
+    showPointerStrip: true,         // Active la ligne verticale de suivi
+    pointerStripColor: '#FFFFFF',   // Couleur de la ligne verticale
+    pointerStripWidth: 2,           // Épaisseur de la ligne verticale
+    pointerStripUptoDataPoint: true,// S'arrête au niveau du point le plus haut
+    
+    pointerColor: 'red',            // Couleur du petit point curseur
+    radius: 5,                      // Taille du curseur
+    
+    // Déclenché à chaque déplacement du doigt sur le graphique
+    onPointerChange: (item, index) => {
+      console.log("Axe vertical survolé à l'index :", index);
+    }
+    // Se déclenche dès qu'un point entre dans la zone du pointeur
+    onPointerEnter: (item, index) => {
+      alert('onPointer')
+    },
+    // Optionnel : s'active au premier contact physique
+    onTouchStart: (item, index) => {
+      alert('onTouch')
+    }
+  }} 
         />
     </View>
     </View>
