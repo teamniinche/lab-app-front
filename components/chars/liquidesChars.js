@@ -269,6 +269,7 @@ export default function Charts(){
   const [coordonnees,setCoordonnees]=useState({x:0,y:0,item:null});
   const {differentProducts,prodsWeeks}=interval.prodsByWeeks(postedAnalyses,startedAt,endedAt);
 
+// =====================================================================================================================================
   // const maxValue=Object.values(prodsWeeks).reduce((acc,item)=>{return item.count > acc ? item.count : acc;}, 0);
   // Alternative moderne et très lisible
   const maxValue = Math.max(...Object.values(prodsWeeks).map(item => item.count), 0);
@@ -282,7 +283,15 @@ export default function Charts(){
   const dynamicMax = dynamicStep * noOfSections;
   // C'est cet objet que vous passez à votre état (state) yAxisConfig
   const yAxisConfig = {max: dynamicMax,step: dynamicStep};
-
+// ===================================================================================================================================
+  const dataLength = Object.keys(prodsWeeks).length; // Nombre total de points sur l'axe X
+  // 📐 Configuration dynamique des espaces de l'axe X
+  const itemWidth = 50;         // Espace horizontal attribué à chaque point/barre (en px)
+  const initialSpacing = 30;    // Espace avant le tout premier point
+  const endSpacing = 30;        // 🌟 Espace de sécurité APRÈS le dernier point pour éviter qu'il soit collé au bord
+  // Calcul de la largeur totale requise pour étaler tout l'axe X
+  const calculatedWidth = (dataLength * itemWidth) + initialSpacing
+// ====================================================================================================================================
 
   const stackData=Object.entries(prodsWeeks).map(([key,val])=>{
       return {
@@ -343,12 +352,17 @@ export default function Charts(){
       <BarChart
         stackData={stackData}         // ✅ Charge la structure multi-étages
         barWidth={40}                 // Largeur de chaque colonne empilée
-        spacing={70}                  // Espace entre les colonnes
-        height={500}                  // Hauteur globale du graphique
+        height={350}                  // Hauteur globale du graphique
         noOfSections={noOfSections}              // Nombre de lignes de grille horizontales
         stepValue={yAxisConfig.step}   // 2. Définit la valeur de chaque palier
         maxValue={yAxisConfig.max}
+
         scrollable={true}
+        width={calculatedWidth}            // ✅ Donne toute la place nécessaire à l'axe X
+        initialSpacing={initialSpacing}    // Espace de départ à gauche
+        endSpacing={endSpacing}            // ✅ Force une zone vide à la fin de la dernière valeur
+        spacing={itemWidth}                // Distance entre chaque point de donnée
+
         bounces={true}                     // Ajoute un effet de rebond élastique en fin de course
         showScrollIndicator={true}
         // 🎨 Personnalisation des axes et labels
