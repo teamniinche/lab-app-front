@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useState} from 'react';
 import {useSelector} from 'react-redux';
 import { StyleSheet, View, Text } from 'react-native';
 import { LineChart,BarChart } from 'react-native-gifted-charts';
