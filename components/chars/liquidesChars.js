@@ -195,15 +195,15 @@ export default function Charts(){
     // Déclenché à chaque déplacement du doigt sur le graphique
     onPointerChange: (item, index) => {
       console.log("Axe vertical survolé à l'index :", index);
-    },
-    // Se déclenche dès qu'un point entre dans la zone du pointeur
-    onPointerEnter: (item, index) => {
-      // alert('onPointer')
-    },
-    // Optionnel : s'active au premier contact physique
-    onTouchStart: (item, index) => {
-      alert('onTouch')
     }
+    // // Se déclenche dès qu'un point entre dans la zone du pointeur
+    // onPointerEnter: (item, index) => {
+    //   // alert('onPointer')
+    // },
+    // // Optionnel : s'active au premier contact physique
+    // onTouchStart: (item, index) => {
+    //   alert('onTouch')
+    // }
   }} 
         />
     </View>
