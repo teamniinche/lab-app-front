@@ -271,43 +271,22 @@ export default function Charts(){
   const stackData=Object.entries(prodsWeeks).map(([key,val])=>{
       return {
         label:key,
-        stacks:differentProducts.map(dp=>{
+        stacks:[...differentProducts.map(dp=>{
           const vl=val.analyses?.filter(p=>p.name===dp)?.length;
           const prctge=val.count!==0?((vl/val.count)*100).toFixed(1).toString()+'%':'0%';
           const clor=Colors[colorFromName(dp)];
           return {
             value:vl,
-            // innerBarComponent:() => (
-            //   <Text style={{color: 'white', fontSize: 10, alignSelf: 'center',textWrap:'nowrap',overflow:'visible',width:'auto'}}>{dp}</Text>
-            // ),
-            innerBarComponent:() => (
-              <View style={{
-                position: 'absolute',
-                justifyContent: 'center',
-                alignItems: 'center',
-                height:'auto',
-                padding:1,
-                backgroundColor:'rgba(0,0,0,0.15)',
-                width: 250,             // 💡 Donne un espace large virtuel pour éviter l'enroulement
-                left: -100 + (40 / 2),  // 💡 Centre le bloc virtuel (remplacez 40 par votre barWidth)
-              }}>
-                <Text 
-                  numberOfLines={1}     // ❌ Empêche le retour à la ligne
-                  style={{
-                    color: 'white', 
-                    fontSize: 10, 
-                    fontWeight: 'bold',
-                    textAlign: 'center',
-                    letterSpacing:0.9,
-                  }}
-                >
-                  {vl!==0?vl+' '+dp.replace('Madar','Mdr').replace('Renzo','R').replace('Noura','Nra').replace('Premium','prem').replace('Platinium','plat')+' '+prctge:''}
-                </Text>
-              </View>
-            ),
+            innerBarComponent:<BarComponent params={{dp:dp,vl:vl,prctge:prctge}}/>,
             color:clor
           }
-        })
+        }),
+        {
+          value:10,
+          innerBarComponent:<BarComponent params={{dp:val.count.toString()+' prods',vl:10,prctge:''}}/>,
+          color:'transparent'
+        }
+      ]
       }
   });
 
@@ -365,7 +344,31 @@ export default function Charts(){
   );
 };
 
-
+const BarComponent({dp,vl,prctge})=()=>{
+  return <View style={{
+                position: 'absolute',
+                justifyContent: 'center',
+                alignItems: 'center',
+                height:'auto',
+                padding:1,
+                backgroundColor:'rgba(0,0,0,0.16)',
+                width: 250,             // 💡 Donne un espace large virtuel pour éviter l'enroulement
+                left: -100 + (40 / 2),  // 💡 Centre le bloc virtuel (remplacez 40 par votre barWidth)
+              }}>
+                <Text 
+                  numberOfLines={1}     // ❌ Empêche le retour à la ligne
+                  style={{
+                    color: 'white', 
+                    fontSize: 10, 
+                    fontWeight: 'bold',
+                    textAlign: 'center',
+                    letterSpacing:0.9,
+                  }}
+                >
+                  {vl!==0?vl+' '+dp.replace('Madar','Mdr').replace('Renzo','').replace('Citron','cit').replace('Noura','Nra').replace('Premium','prem').replace('Platinium','plat')+' '+prctge:''}
+                </Text>
+              </View>
+}
 
 
 
