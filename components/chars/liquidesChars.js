@@ -294,10 +294,10 @@ export default function MultiStagesBarCharts(){
     function handleDepPress(items){
       setAnalyses(items);
     }
-    return <View style={{width:200,minHeigth:500,paddingHorizontal:10,paddingVertical:20,borderRadius:5,borderWidth:1,borderBottomWidth:0,borderColor:'grey',backgroundColor:'whitesmoke'}}>
-        <Text style={{color:primaryColor,backgroundColor:'rgba(0,0,0,0.2)',borderRadius:4,marginBottom:10,letterSpacing:2,fontSize:14,fontWeight:'bold'}}>Départements</Text>
+    return <View style={{width:200,minHeigth:500,paddingHorizontal:10,paddingVertical:20,paddingTop:5,borderRadius:5,borderWidth:1,borderBottomWidth:0,borderColor:'grey',backgroundColor:'whitesmoke'}}>
+        <Text style={{color:primaryColor,backgroundColor:'rgba(0,0,0,0.15)',borderRadius:4,paddingVertical:20,textAlign:'center',marginBottom:20,letterSpacing:2,fontSize:14,fontWeight:'bold'}}>Départements</Text>
         {Object.entries(prodsByDep).sort((a,b)=>a[0].localeCompare(b[0])).map(([k,items])=>{
-          return <Pressable style={{width:'100%',height:50,paddingVertical:5}} onPress={()=>handleDepPress(items)}>
+          return <Pressable style={{width:'100%',height:50,padding:5}} onPress={()=>handleDepPress(items)}>
             <Text style={{color:'black',letterSpacing:2,fontSize:13,fontWeight:'bold'}}>{k}</Text>
             </Pressable>
         })}
@@ -307,7 +307,7 @@ export default function MultiStagesBarCharts(){
   return (<ScrollView 
                 horizontal={true}  
                 style={{ 
-                        minWidth:1000,
+                        minWidth:1050,
                         width:'100%',
                         height:'auto',
                         flexDirection:'row',
