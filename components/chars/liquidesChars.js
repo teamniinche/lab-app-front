@@ -283,6 +283,7 @@ export default function Charts(){
   const dynamicMax = dynamicStep * noOfSections;
   // C'est cet objet que vous passez à votre état (state) yAxisConfig
   const yAxisConfig = {max: dynamicMax,step: dynamicStep};
+
 // ===================================================================================================================================
   const dataLength = Object.keys(prodsWeeks).length; // Nombre total de points sur l'axe X
   // 📐 Configuration dynamique des espaces de l'axe X
@@ -302,13 +303,13 @@ export default function Charts(){
           const clor=Colors[colorFromName(dp)];
           return {
             value:vl,
-            innerBarComponent:()=>{return <BarComponent params={{dp:dp,vl:vl,prctge:prctge}}/>},
+            innerBarComponent:()=>{return <BarComponent params={{len:val.count,head:false,dp:dp,vl:vl,prctge:prctge}}/>},
             color:clor
           }
         }),
         {
           value:2,
-          innerBarComponent:()=>{return <BarComponent params={{dp:val.count.toString()+' prods',vl:2,prctge:''}}/>},
+          innerBarComponent:()=>{return <BarComponent params={{len:val.count,head:true,dp:val.count.toString()+' prods',vl:2,prctge:''}}/>},
           color:'transparent'
         }
       ]
@@ -352,13 +353,13 @@ export default function Charts(){
       <BarChart
         stackData={stackData}         // ✅ Charge la structure multi-étages
         barWidth={40}                 // Largeur de chaque colonne empilée
-        height={350}                  // Hauteur globale du graphique
+        height={300}                  // Hauteur globale du graphique
         noOfSections={noOfSections}              // Nombre de lignes de grille horizontales
         stepValue={yAxisConfig.step}   // 2. Définit la valeur de chaque palier
         maxValue={yAxisConfig.max}
 
         scrollable={true}
-        width={1000}            // ✅ Donne toute la place nécessaire à l'axe X
+        width={800}            // ✅ Donne toute la place nécessaire à l'axe X
         initialSpacing={initialSpacing}    // Espace de départ à gauche
         endSpacing={endSpacing}            // ✅ Force une zone vide à la fin de la dernière valeur
         spacing={itemWidth}                // Distance entre chaque point de donnée
@@ -379,7 +380,7 @@ export default function Charts(){
 };
 
 const BarComponent=({params})=>{
-  const {dp,vl,prctge}=params;
+  const {len,head,dp,vl,prctge}=params;
   return <View style={{
                 position: 'absolute',
                 justifyContent: 'center',
@@ -400,7 +401,7 @@ const BarComponent=({params})=>{
                     letterSpacing:0.9,
                   }}
                 >
-                  {vl!==0?vl+' '+dp.replace('Madar','Mdr').replace('Renzo','').replace('Citron','cit').replace('Noura','Nra').replace('Premium','prem').replace('Platinium','plat')+' '+prctge:''}
+                  {(vl!==0 && len!==0)?(!head?vl+' ':'')+dp.replace('Madar','Mdr').replace('Renzo','').replace('Citron','cit').replace('Noura','Nra').replace('Premium','prem').replace('Platinium','plat')+' '+prctge:''}
                 </Text>
               </View>
 }
