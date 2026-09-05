@@ -78,6 +78,7 @@ export default function Charts(){
     const postedAnalyses=state.data.postedAnalyses;
     return {startedAt:startedAt,endedAt:endedAt,postedAnalyses:postedAnalyses};
   });
+  const [coordonnees,setCoordonnees]=useState({x:0,y:0,item:null});
   const {differentProducts,prodsWeeks}=interval.prodsByWeeks(postedAnalyses,startedAt,endedAt);
   const LinesData=differentProducts.map(dp=>{
     return {name:dp,LineData:Object.entries(prodsWeeks).map(([key,val])=>{
@@ -92,14 +93,16 @@ export default function Charts(){
 
       }})}
   });
-
+  const FocusedShape=()=>{
+    return <Text style={{backgroundColor:'white',color:'black',borderRadius:5,width:'auto',height:40,padding:4,position:'absolute',bottom:coordonnees.y,left:coordonnees.x}}>test</Text>;
+  }
   const chartsDataSets=LinesData.map(item=>{
     const {name,LineData}=item;
     const clr=Colors[colorFromName(name)];
     return {
       data: LineData,
       curved:true,
-      curvature:0.5,
+      curvature:0.3,
       color: clr,
       dataPointsShape: 'circular', 
       dataPointsRadius: 4,
@@ -171,6 +174,7 @@ export default function Charts(){
          <Text style={styles.title}>Statistiques Hebdomadaires</Text>
       
       <View style={styles.chartContainer}>
+        <focusedShape/>
         <LineChart
           dataSet={chartsDataSets}
           height={300}
@@ -182,29 +186,17 @@ export default function Charts(){
           noOfSections={4}
           focusTogether={true}
           pointerConfig={{
-    pointerColor: 'red',
-    radius: 6,
-    showPointerStrip: true,         // Active la ligne verticale de suivi
-    pointerStripColor: '#FFFFFF',   // Couleur de la ligne verticale
-    pointerStripWidth: 2,           // Épaisseur de la ligne verticale
-    pointerStripUptoDataPoint: true,// S'arrête au niveau du point le plus haut
-    
-    pointerColor: 'red',            // Couleur du petit point curseur
-    radius: 5,                      // Taille du curseur
-    
-    // Déclenché à chaque déplacement du doigt sur le graphique
-    onPointerChange: (item, index) => {
-      console.log("Axe vertical survolé à l'index :", index);
-    }
-    // // Se déclenche dès qu'un point entre dans la zone du pointeur
-    // onPointerEnter: (item, index) => {
-    //   // alert('onPointer')
-    // },
-    // // Optionnel : s'active au premier contact physique
-    // onTouchStart: (item, index) => {
-    //   alert('onTouch')
-    // }
-  }} 
+          showPointerStrip: true,
+          onPointerChange: (item, index, event) => {
+            console.log(item);
+            const { locationX, locationY, pageX, pageY } = event.nativeEvent;
+            setCoordonnees({x:locationX, y:locationY,item:item});// dans le graphique
+            
+            // console.log(`Index survolé : ${index}`);
+            // console.log(`X dans le graphique : ${locationX}px, Y dans le graphique : ${locationY}px`);
+            // console.log(`X absolue écran : ${pageX}px, Y absolue écran : ${pageY}px`);
+          }
+        }} 
         />
     </View>
     </View>
