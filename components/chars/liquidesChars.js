@@ -261,35 +261,27 @@ export default function Charts(){
   //   },
   // ];
 
-  const stackData = [
-  {
-    stacks: [
-      { 
-        value: 10, 
-        color: '#4CAF50',
-        // 🎯 Affiche le texte directement dans ce bloc
-        innerBarComponent: () => (
-          <Text style={{color: 'white', fontSize: 10, alignSelf: 'center'}}>Vert</Text>
-        )
-      },
-      { 
-        value: 20, 
-        color: '#FF9800',
-        innerBarComponent: () => (
-          <Text style={{color: 'white', fontSize: 10, alignSelf: 'center'}}>Orange</Text>
-        )
-      },
-      { 
-        value: 15, 
-        color: '#F44336',
-        innerBarComponent: () => (
-          <Text style={{color: 'white', fontSize: 10, alignSelf: 'center'}}>Rouge</Text>
-        )
-      },
-    ],
-    label: 'Trim 1',
-  },
-];
+§§const {startedAt,endedAt,postedAnalyses}=useSelector(state=>{
+    const {startedAt,endedAt}=state.period.targetPeriod;
+    const postedAnalyses=state.data.postedAnalyses;
+    return {startedAt:startedAt,endedAt:endedAt,postedAnalyses:postedAnalyses};
+  });
+  const [coordonnees,setCoordonnees]=useState({x:0,y:0,item:null});
+  const {differentProducts,prodsWeeks}=interval.prodsByWeeks(postedAnalyses,startedAt,endedAt);
+  const stackData=Object.entries(prodsWeeks).map(([key,val])=>{
+      return {
+        label:key,
+        stacks:differentProducts.map(dp=>{ 
+          const vl=val.analyses.filter(p=>p.name===dp).length;
+          return {
+            value:vl,
+            innerBarComponent:()=>{return <Text style={styles.labelComponent}>{dp}</Text>},
+            color:clor
+          }
+        })
+      }
+  });
+
 
   return (
     <View style={{ padding: 20, backgroundColor: '#1A1A1A', borderRadius: 10 }}>
