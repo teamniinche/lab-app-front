@@ -274,7 +274,7 @@ export default function Charts(){
         stacks:differentProducts.map(dp=>{
           const vl=val.analyses?.filter(p=>p.name===dp)?.length;
           const clor=Colors[colorFromName(dp)];
-          return vl && vl!==0 && {
+          return {
             value:vl,
             // innerBarComponent:() => (
             //   <Text style={{color: 'white', fontSize: 10, alignSelf: 'center',textWrap:'nowrap',overflow:'visible',width:'auto'}}>{dp}</Text>
