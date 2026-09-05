@@ -261,7 +261,7 @@ export default function Charts(){
   //   },
   // ];
 
-§§const {startedAt,endedAt,postedAnalyses}=useSelector(state=>{
+  const {startedAt,endedAt,postedAnalyses}=useSelector(state=>{
     const {startedAt,endedAt}=state.period.targetPeriod;
     const postedAnalyses=state.data.postedAnalyses;
     return {startedAt:startedAt,endedAt:endedAt,postedAnalyses:postedAnalyses};
