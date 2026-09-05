@@ -94,7 +94,7 @@ export default function Charts(){
       }})}
   });
   const FocusedShape=()=>{
-    return <Text style={{backgroundColor:'white',color:'black',borderRadius:5,width:'auto',height:40,padding:4,position:'absolute',bottom:coordonnees.y,left:coordonnees.x}}>test</Text>;
+    return <Text style={{backgroundColor:'white',color:'black',borderRadius:5,width:200,height:200,padding:4,position:'absolute',bottom:coordonnees.y,left:coordonnees.x}}>test</Text>;
   }
   const chartsDataSets=LinesData.map(item=>{
     const {name,LineData}=item;
@@ -179,23 +179,56 @@ export default function Charts(){
           dataSet={chartsDataSets}
           height={300}
           width={1100}
-          focusEnabled={true}
-          onFocus={() =>alert('ok')}
+          // focusEnabled={true}
+          // onFocus={() =>alert('ok')}
           adjustToWidth={true}
           backgroundColor='grey'
           noOfSections={4}
-          focusTogether={true}
-          pointerConfig={{
-          showPointerStrip: true,
-          onPointerChange: (item, index, event) => {
-            console.log(item);
-            const { locationX, locationY, pageX, pageY } = event.nativeEvent;
-            setCoordonnees({x:locationX, y:locationY,item:item});// dans le graphique
+          // focusTogether={true}
+          // pointerConfig={{
+          // showPointerStrip: true,
+          // onPointerChange: (item, index, event) => {
+          //   console.log(item);
+          //   const { locationX, locationY, pageX, pageY } = event.nativeEvent;
+          //   setCoordonnees({x:locationX, y:locationY,item:item});// dans le graphique
             
-            // console.log(`Index survolé : ${index}`);
-            // console.log(`X dans le graphique : ${locationX}px, Y dans le graphique : ${locationY}px`);
-            // console.log(`X absolue écran : ${pageX}px, Y absolue écran : ${pageY}px`);
-          }
+          //   // console.log(`Index survolé : ${index}`);
+          //   // console.log(`X dans le graphique : ${locationX}px, Y dans le graphique : ${locationY}px`);
+          //   // console.log(`X absolue écran : ${pageX}px, Y absolue écran : ${pageY}px`);
+          // }
+
+          pointerConfig={{
+            showPointerStrip: true,
+            pointerStripColor: '#fff',
+            pointerStripWidth: 2,
+            pointerColor: 'red',
+            radius: 6,
+            
+            // ✅ 1. Callback pour sauvegarder l'item ou l'index dans votre state local
+            onPointerChange: (item, index) => {
+              console.log("Item survolé :", item);
+              // setMonIndex(index); // Si vous avez besoin de l'index ailleurs
+            },
+
+            // ✅ 2. C'est ici que vous dessinez votre Tooltip. 
+            // La bibliothèque gère TOUT le positionnement X et Y sur l'écran pour vous.
+            pointerComponent: (items) => {
+              // 'items' est un tableau contenant les points survolés de vos lignes
+              return (
+                <View style={{
+                  backgroundColor: '#000000e0',
+                  padding: 8,
+                  borderRadius: 6,
+                  bottom: 40,          // Positionne le bloc juste au-dessus du curseur tactile
+                  alignSelf: 'center',
+                  minWidth: 60,
+                }}>
+                  <Text style={{ color: 'white', fontWeight: 'bold', textAlign: 'center' }}>
+                    {items[0]?.value} {/* Affiche la valeur de la première ligne */}
+                  </Text>
+                </View>
+              );
+            }
         }} 
         />
     </View>
