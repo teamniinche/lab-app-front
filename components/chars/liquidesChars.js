@@ -277,13 +277,13 @@ export default function Charts(){
           const clor=Colors[colorFromName(dp)];
           return {
             value:vl,
-            innerBarComponent:<BarComponent params={{dp:dp,vl:vl,prctge:prctge}}/>,
+            innerBarComponent:()=>{return <BarComponent params={{dp:dp,vl:vl,prctge:prctge}}/>},
             color:clor
           }
         }),
         {
           value:10,
-          innerBarComponent:<BarComponent params={{dp:val.count.toString()+' prods',vl:10,prctge:''}}/>,
+          innerBarComponent:()=>{return <BarComponent params={{dp:val.count.toString()+' prods',vl:10,prctge:''}}/>},
           color:'transparent'
         }
       ]
