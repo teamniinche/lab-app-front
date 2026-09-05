@@ -72,7 +72,7 @@ export function Char() {
   );
 }
 
-export default function Charts(){
+export function Chats(){
   const {startedAt,endedAt,postedAnalyses}=useSelector(state=>{
     const {startedAt,endedAt}=state.period.targetPeriod;
     const postedAnalyses=state.data.postedAnalyses;
@@ -230,6 +230,91 @@ export default function Charts(){
     </View>
   );
 };
+
+
+export default function Charts(){
+  // 📊 Définition des données multi-étages
+  // const stackData = [
+  //   {
+  //     stacks: [
+  //       { value: 10, color: '#4CAF50' }, // Étage 1 (Bas) - Vert
+  //       { value: 20, color: '#FF9800' }, // Étage 2 (Milieu) - Orange
+  //       { value: 15, color: '#F44336' }, // Étage 3 (Haut) - Rouge
+  //     ],
+  //     label: 'Trim 1',
+  //   },
+  //   {
+  //     stacks: [
+  //       { value: 15, color: '#4CAF50' },
+  //       { value: 12, color: '#FF9800' },
+  //       { value: 30, color: '#F44336' },
+  //     ],
+  //     label: 'Trim 2',
+  //   },
+  //   {
+  //     stacks: [
+  //       { value: 22, color: '#4CAF50' },
+  //       { value: 18, color: '#FF9800' },
+  //       { value: 8, color: '#F44336' },
+  //     ],
+  //     label: 'Trim 3',
+  //   },
+  // ];
+
+  const stackData = [
+  {
+    stacks: [
+      { 
+        value: 10, 
+        color: '#4CAF50',
+        // 🎯 Affiche le texte directement dans ce bloc
+        innerBarComponent: () => (
+          <Text style={{color: 'white', fontSize: 10, alignSelf: 'center'}}>Vert</Text>
+        )
+      },
+      { 
+        value: 20, 
+        color: '#FF9800',
+        innerBarComponent: () => (
+          <Text style={{color: 'white', fontSize: 10, alignSelf: 'center'}}>Orange</Text>
+        )
+      },
+      { 
+        value: 15, 
+        color: '#F44336',
+        innerBarComponent: () => (
+          <Text style={{color: 'white', fontSize: 10, alignSelf: 'center'}}>Rouge</Text>
+        )
+      },
+    ],
+    label: 'Trim 1',
+  },
+];
+
+  return (
+    <View style={{ padding: 20, backgroundColor: '#1A1A1A', borderRadius: 10 }}>
+      <BarChart
+        stackData={stackData}         // ✅ Charge la structure multi-étages
+        barWidth={40}                 // Largeur de chaque colonne empilée
+        spacing={50}                  // Espace entre les colonnes
+        height={300}                  // Hauteur globale du graphique
+        noOfSections={4}              // Nombre de lignes de grille horizontales
+        
+        // 🎨 Personnalisation des axes et labels
+        xAxisLabelTextStyle={{ color: 'lightgray', fontSize: 12 }}
+        yAxisTextStyle={{ color: 'lightgray' }}
+        yAxisColor={'gray'}
+        xAxisColor={'gray'}
+        
+        // ✨ Options esthétiques optionnelles
+        barBorderRadius={4}           // Arrondit légèrement les angles des blocs
+      />
+    </View>
+  );
+};
+
+
+
 
 
 const styles = StyleSheet.create({
