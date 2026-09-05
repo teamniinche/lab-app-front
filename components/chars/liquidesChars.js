@@ -271,8 +271,8 @@ export default function Charts(){
 
   // const maxValue=Object.values(prodsWeeks).reduce((acc,item)=>{return item.count > acc ? item.count : acc;}, 0);
   // Alternative moderne et très lisible
-  const maxValue = Math.max(...Object.values(prodsWeeks).map(item => item.count), 0)+5;
-  const noOfSections = 4; // Le nombre de lignes horizontales de votre grille
+  const maxValue = Math.max(...Object.values(prodsWeeks).map(item => item.count), 0);
+  const noOfSections = 10; // Le nombre de lignes horizontales de votre grille
   // 2. Calcul du pas de base théorique
   const theoreticalStep = maxValue / noOfSections;
   // 3. Arrondi intelligent pour obtenir des graduations "propres" (ex: 23 -> 25, 104 -> 110)
@@ -344,7 +344,7 @@ export default function Charts(){
         stackData={stackData}         // ✅ Charge la structure multi-étages
         barWidth={40}                 // Largeur de chaque colonne empilée
         spacing={70}                  // Espace entre les colonnes
-        height={300}                  // Hauteur globale du graphique
+        height={500}                  // Hauteur globale du graphique
         noOfSections={noOfSections}              // Nombre de lignes de grille horizontales
         stepValue={yAxisConfig.step}   // 2. Définit la valeur de chaque palier
         maxValue={yAxisConfig.max}
