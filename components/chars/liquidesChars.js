@@ -344,7 +344,7 @@ export default function Charts(){
   );
 };
 
-const BarComponent({params})=()=>{
+const BarComponent=({params})=>{
   const {dp,vl,prctge}=params;
   return <View style={{
                 position: 'absolute',
