@@ -87,6 +87,7 @@ export default function Charts(){
         value:vl,
         labelComponent:()=>{return <Text style={styles.labelComponent}>{key}</Text>},
         dataPointText:vl.toString(),
+        key:dp,
         // textColor:clor,
         textFontSize:12,
         // spacing:4,
@@ -205,10 +206,9 @@ export default function Charts(){
             radius: 6,
             
             // ✅ 1. Callback pour sauvegarder l'item ou l'index dans votre state local
-            onPointerChange: (item, index) => {
-            },
+            // onPointerChange: (item, index) => {
+            // },
             pointerComponent: (items) => {
-              console.log(items);
               return (
                 <View style={{
                   backgroundColor: '#000000e0',
@@ -219,7 +219,7 @@ export default function Charts(){
                   minWidth: 60,
                 }}>
                   <Text style={{ color: 'white', fontWeight: 'bold', textAlign: 'center' }}>
-                    test
+                    {items?.key}
                   </Text>
                 </View>
               );
