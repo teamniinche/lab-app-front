@@ -1,11 +1,12 @@
 import React,{useState} from 'react';
 import {useSelector} from 'react-redux';
-import { StyleSheet,Pressable, View, Text } from 'react-native';
+import { StyleSheet,Pressable, View, Text,ScrollView } from 'react-native';
 import { LineChart,BarChart } from 'react-native-gifted-charts';
 import Filters from '../../kernel/classes/formatTablesAnalyses.js';
 import Interval from '../../kernel/classes/graphes/datesInterval.js';
 import {colorFromName} from '../../assets/functions.js';
 import Colors from '../../assets/colors.js';
+import {primaryColor} from '../../assets/constantes.js';
 const interval=new Interval();
 const filter=new Filters();
 function Y(val,index){const y=6+index;return y}
@@ -293,17 +294,20 @@ export default function MultiStagesBarCharts(){
     function handleDepPress(items){
       setAnalyses(items);
     }
-    return <View style={{width:240,minHeigth:500,paddingHorizontal:10,paddingVertical:20,borderRadius:5,borderWidth:1,borderBottomWidth:0,borderColor:'grey',backgroundColor:'whitesmoke'}}>
+    return <View style={{width:200,minHeigth:500,paddingHorizontal:10,paddingVertical:20,borderRadius:5,borderWidth:1,borderBottomWidth:0,borderColor:'grey',backgroundColor:'whitesmoke'}}>
+        <Text style={{color:primaryColor,backgroundColor:'rgba(0,0,0,0.2)',borderRadius:4,marginBottom:10,letterSpacing:2,fontSize:14,fontWeight:'bold'}}>Départements</Text>
         {Object.entries(prodsByDep).sort((a,b)=>a[0].localeCompare(b[0])).map(([k,items])=>{
-          return <Pressable style={{width:'100%',height:60,paddingVertical:5}} onPress={()=>handleDepPress(items)}>
-            <Text style={{color:'black',letterSpacing:2,fontSize:14,fontWeight:'bold'}}>{k}</Text>
+          return <Pressable style={{width:'100%',height:50,paddingVertical:5}} onPress={()=>handleDepPress(items)}>
+            <Text style={{color:'black',letterSpacing:2,fontSize:13,fontWeight:'bold'}}>{k}</Text>
             </Pressable>
         })}
       </View>
   }
 
-  return (<View  
+  return (<ScrollView 
+                horizontal={true}  
                 style={{ 
+                        minWidth:1000,
                         width:'100%',
                         height:'auto',
                         flexDirection:'row',
@@ -348,7 +352,7 @@ export default function MultiStagesBarCharts(){
                 barBorderRadius={4}           // Arrondit légèrement les angles des blocs
               />
             </View>
-    </View>
+    </ScrollView>
   );
 };
 
