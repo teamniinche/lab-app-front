@@ -285,6 +285,9 @@ export default function Charts(){
                 position: 'absolute',
                 justifyContent: 'center',
                 alignItems: 'center',
+                height:'auto',
+                padding:1,
+                backgroundColor:'rgba(0,0,0,0.15)',
                 width: 250,             // 💡 Donne un espace large virtuel pour éviter l'enroulement
                 left: -100 + (40 / 2),  // 💡 Centre le bloc virtuel (remplacez 40 par votre barWidth)
               }}>
