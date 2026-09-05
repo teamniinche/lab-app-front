@@ -274,7 +274,7 @@ export default function Charts(){
         stacks:differentProducts.map(dp=>{
           const vl=val.analyses?.filter(p=>p.name===dp)?.length;
           const clor=Colors[colorFromName(dp)];
-          return {
+          return vl && vl!==0 && {
             value:vl,
             // innerBarComponent:() => (
             //   <Text style={{color: 'white', fontSize: 10, alignSelf: 'center',textWrap:'nowrap',overflow:'visible',width:'auto'}}>{dp}</Text>
@@ -294,9 +294,10 @@ export default function Charts(){
                     fontSize: 10, 
                     fontWeight: 'bold',
                     textAlign: 'center',
+                    letterSpacing:0.9,
                   }}
                 >
-                  {dp}
+                  {dp.replace('Renzo','R').replace('Noura','Nra').replace('Premium','prem').replace('Platinium','plat')}
                 </Text>
               </View>
             ),
