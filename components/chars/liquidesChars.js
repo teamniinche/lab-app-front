@@ -206,25 +206,20 @@ export default function Charts(){
             
             // ✅ 1. Callback pour sauvegarder l'item ou l'index dans votre state local
             onPointerChange: (item, index) => {
-              console.log("Item survolé :", item);
-              // setMonIndex(index); // Si vous avez besoin de l'index ailleurs
             },
-
-            // ✅ 2. C'est ici que vous dessinez votre Tooltip. 
-            // La bibliothèque gère TOUT le positionnement X et Y sur l'écran pour vous.
             pointerComponent: (items) => {
-              // 'items' est un tableau contenant les points survolés de vos lignes
+              console.log(items);
               return (
                 <View style={{
                   backgroundColor: '#000000e0',
                   padding: 8,
                   borderRadius: 6,
-                  bottom: 40,          // Positionne le bloc juste au-dessus du curseur tactile
+                  bottom: 40,
                   alignSelf: 'center',
                   minWidth: 60,
                 }}>
                   <Text style={{ color: 'white', fontWeight: 'bold', textAlign: 'center' }}>
-                    {items[0]?.value} {/* Affiche la valeur de la première ligne */}
+                    test
                   </Text>
                 </View>
               );
