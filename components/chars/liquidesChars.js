@@ -311,8 +311,7 @@ export default function MultiStagesBarCharts(){
                         width:'100%',
                         height:'auto',
                         flexDirection:'row',
-                        justifyContent:'center',
-                        gap:5,
+                        justifyContent:'space-between',
                         alignItems:'flex-start',
                         padding: 5
                 }}
