@@ -198,7 +198,7 @@ export default function Charts(){
     },
     // Se déclenche dès qu'un point entre dans la zone du pointeur
     onPointerEnter: (item, index) => {
-      alert('onPointer')
+      // alert('onPointer')
     },
     // Optionnel : s'active au premier contact physique
     onTouchStart: (item, index) => {
