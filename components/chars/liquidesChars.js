@@ -1,6 +1,6 @@
 import React,{useState} from 'react';
 import {useSelector} from 'react-redux';
-import { StyleSheet, View, Text } from 'react-native';
+import { StyleSheet,Pressable, View, Text } from 'react-native';
 import { LineChart,BarChart } from 'react-native-gifted-charts';
 import Filters from '../../kernel/classes/formatTablesAnalyses.js';
 import Interval from '../../kernel/classes/graphes/datesInterval.js';
