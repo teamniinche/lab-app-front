@@ -165,7 +165,7 @@ export default function Charts(){
       color: '#ffffff',
       showArrowBase: true,
     }
-  })
+  }})
 
   return (<View style={styles.container}>
          <Text style={styles.title}>Statistiques Hebdomadaires</Text>
