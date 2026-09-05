@@ -297,7 +297,7 @@ export default function Charts(){
                     letterSpacing:0.9,
                   }}
                 >
-                  {dp.replace('Renzo','R').replace('Noura','Nra').replace('Premium','prem').replace('Platinium','plat')}
+                  {vl!==0?dp.replace('Renzo','R').replace('Noura','Nra').replace('Premium','prem').replace('Platinium','plat'):''}
                 </Text>
               </View>
             ),
