@@ -271,9 +271,7 @@ export default function Charts(){
   const stackData=Object.entries(prodsWeeks).map(([key,val])=>{
       return {
         label:key,
-        stacks:differentProducts.map(dp=>{ 
-          console.log(dp);
-          console.log(val.analyses.filter(p=>p.name===dp))
+        stacks:differentProducts.map(dp=>{
           const vl=val.analyses?.filter(p=>p.name===dp)?.length;
           const clor=Colors[colorFromName(dp)];
           return {
@@ -286,6 +284,7 @@ export default function Charts(){
         })
       }
   });
+  console.log(stackData)
 
 // const stackData = [
 //   {
