@@ -285,35 +285,35 @@ export default function Charts(){
       }
   });
 
-const stackData = [
-  {
-    stacks: [
-      { 
-        value: 10, 
-        color: '#4CAF50',
-        // 🎯 Affiche le texte directement dans ce bloc
-        innerBarComponent: () => (
-          <Text style={{color: 'white', fontSize: 10, alignSelf: 'center'}}>Vert</Text>
-        )
-      },
-      { 
-        value: 20, 
-        color: '#FF9800',
-        innerBarComponent: () => (
-          <Text style={{color: 'white', fontSize: 10, alignSelf: 'center'}}>Orange</Text>
-        )
-      },
-      { 
-        value: 15, 
-        color: '#F44336',
-        innerBarComponent: () => (
-          <Text style={{color: 'white', fontSize: 10, alignSelf: 'center'}}>Rouge</Text>
-        )
-      },
-    ],
-    label: 'Trim 1',
-  },
-];
+// const stackData = [
+//   {
+//     stacks: [
+//       { 
+//         value: 10, 
+//         color: '#4CAF50',
+//         // 🎯 Affiche le texte directement dans ce bloc
+//         innerBarComponent: () => (
+//           <Text style={{color: 'white', fontSize: 10, alignSelf: 'center'}}>Vert</Text>
+//         )
+//       },
+//       { 
+//         value: 20, 
+//         color: '#FF9800',
+//         innerBarComponent: () => (
+//           <Text style={{color: 'white', fontSize: 10, alignSelf: 'center'}}>Orange</Text>
+//         )
+//       },
+//       { 
+//         value: 15, 
+//         color: '#F44336',
+//         innerBarComponent: () => (
+//           <Text style={{color: 'white', fontSize: 10, alignSelf: 'center'}}>Rouge</Text>
+//         )
+//       },
+//     ],
+//     label: 'Trim 1',
+//   },
+// ];
 
 
 
