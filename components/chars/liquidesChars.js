@@ -282,8 +282,8 @@ export default function Charts(){
           }
         }),
         {
-          value:10,
-          innerBarComponent:()=>{return <BarComponent params={{dp:val.count.toString()+' prods',vl:10,prctge:''}}/>},
+          value:1,
+          innerBarComponent:()=>{return <BarComponent params={{dp:val.count.toString()+' prods',vl:1,prctge:''}}/>},
           color:'transparent'
         }
       ]
