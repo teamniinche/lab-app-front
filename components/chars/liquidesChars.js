@@ -293,7 +293,7 @@ export default function MultiStagesBarCharts(){
     function handleDepPress(items){
       setAnalyses(items);
     }
-    return <View style={{width:120,heigth:350,paddingHorizontal:25,paddingVertical:50,borderRadius:5,borderWidth:1,borderColor:'grey',backgroundColor:'whitesmoke'}}>
+    return <View style={{width:120,heigth:400,paddingHorizontal:10,paddingVertical:20,borderRadius:5,borderWidth:1,borderColor:'grey',backgroundColor:'whitesmoke'}}>
         {Object.entries(prodsByDep).map(([k,items])=>{
           return <Pressable style={{width:'100%',height:60,paddingVertical:5}} onPress={()=>handleDepPress(items)}>
             <Text style={{color:'black',letterSpacing:2,fontSize:14,fontWeight:'bold'}}>{k}</Text>
@@ -302,46 +302,52 @@ export default function MultiStagesBarCharts(){
       </View>
   }
 
-  return (
-    <View style={
-        { 
-          flexDirection:'row',
-          justifyContent:'center',
-          gap:5,
-          alignItems:'flex-start',
-          padding: 20, 
-          backgroundColor: '#1A1A1A', 
-          borderRadius: 10,
-          width:900,
-          padding:15 
-        }
-      }>
-      <LateralNav/>
-      <BarChart
-        stackData={stackData}         // ✅ Charge la structure multi-étages
-        barWidth={40}                 // Largeur de chaque colonne empilée
-        height={300}                  // Hauteur globale du graphique
-        noOfSections={noOfSections}              // Nombre de lignes de grille horizontales
-        stepValue={yAxisConfig.step}   // 2. Définit la valeur de chaque palier
-        maxValue={yAxisConfig.max}
+  return (<View  
+                style={{ 
+                        width:'100%',
+                        height:'auto',
+                        flexDirection:'row',
+                        justifyContent:'center',
+                        gap:5,
+                        alignItems:'flex-start',
+                        padding: 5
+                }}
+          >
+            <LateralNav/>
+            <View 
+              style={{ 
+                  backgroundColor: '#1A1A1A', 
+                  borderRadius: 10,
+                  width:900,
+                  padding:15 
+                }}
+            >
+              <BarChart
+                stackData={stackData}         // ✅ Charge la structure multi-étages
+                barWidth={40}                 // Largeur de chaque colonne empilée
+                height={300}                  // Hauteur globale du graphique
+                noOfSections={noOfSections}              // Nombre de lignes de grille horizontales
+                stepValue={yAxisConfig.step}   // 2. Définit la valeur de chaque palier
+                maxValue={yAxisConfig.max}
 
-        scrollable={true}
-        width={800}            // ✅ Donne toute la place nécessaire à l'axe X
-        initialSpacing={initialSpacing}    // Espace de départ à gauche
-        endSpacing={endSpacing}            // ✅ Force une zone vide à la fin de la dernière valeur
-        spacing={itemWidth}                // Distance entre chaque point de donnée
+                scrollable={true}
+                width={800}            // ✅ Donne toute la place nécessaire à l'axe X
+                initialSpacing={initialSpacing}    // Espace de départ à gauche
+                endSpacing={endSpacing}            // ✅ Force une zone vide à la fin de la dernière valeur
+                spacing={itemWidth}                // Distance entre chaque point de donnée
 
-        bounces={true}                     // Ajoute un effet de rebond élastique en fin de course
-        showScrollIndicator={true}
-        // 🎨 Personnalisation des axes et labels
-        xAxisLabelTextStyle={{ color: 'lightgray', fontSize: 12 }}
-        yAxisTextStyle={{ color: 'lightgray' }}
-        yAxisColor={'gray'}
-        xAxisColor={'gray'}
-        
-        // ✨ Options esthétiques optionnelles
-        barBorderRadius={4}           // Arrondit légèrement les angles des blocs
-      />
+                bounces={true}                     // Ajoute un effet de rebond élastique en fin de course
+                showScrollIndicator={true}
+                // 🎨 Personnalisation des axes et labels
+                xAxisLabelTextStyle={{ color: 'lightgray', fontSize: 12 }}
+                yAxisTextStyle={{ color: 'lightgray' }}
+                yAxisColor={'gray'}
+                xAxisColor={'gray'}
+                
+                // ✨ Options esthétiques optionnelles
+                barBorderRadius={4}           // Arrondit légèrement les angles des blocs
+              />
+            </View>
     </View>
   );
 };
