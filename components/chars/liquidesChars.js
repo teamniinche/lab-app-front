@@ -2,42 +2,41 @@ import React,{useState} from 'react';
 import {useSelector} from 'react-redux';
 import { StyleSheet, View, Text } from 'react-native';
 import { LineChart,BarChart } from 'react-native-gifted-charts';
+import Filters from '../../kernel/classes/formatTablesAnalyses.js';
 import Interval from '../../kernel/classes/graphes/datesInterval.js';
 import {colorFromName} from '../../assets/functions.js';
 import Colors from '../../assets/colors.js';
 const interval=new Interval();
-
-// export default function Charts() {
-//   const data = [
-//     { value: 40, label: 'Jan', frontColor: '#3498db' },
-//     { value: 75, label: 'Fév', frontColor: '#3498db' },
-//     { value: 60, label: 'Mar', frontColor: '#2ecc71' },
-//     { value: 95, label: 'Avr', frontColor: '#2ecc71' },
-//   ];
-
-//   return (
-//     <View style={styles.container}>
-//       <Text style={styles.title}>Rapport de Performance</Text>
-//       {/* <View style={styles.card}>
-//         <BarChart
-//           data={data}
-//           barWidth={35}
-//           capRadius={4}
-//           noOfSections={4}
-//           maxValue={100}
-//           yAxisTextStyle={{ color: '#7f8c8d' }}
-//           xAxisLabelTextStyle={{ color: '#7f8c8d' }}
-//         />
-//       </View> */}
-//       <View style={styles.card}>
-//         <LChart/>
-//       </View>
-//     </View>
-//   );
-// }
+const filter=new Filters();
 function Y(val,index){const y=6+index;return y}
+const BarComponent=({params})=>{
+  const {len,head,dp,vl,prctge}=params;
+  return <View style={{
+                position: 'absolute',
+                justifyContent: 'center',
+                alignItems: 'center',
+                height:'auto',
+                padding:1,
+                backgroundColor:'rgba(0,0,0,0.16)',
+                width: 250,             // 💡 Donne un espace large virtuel pour éviter l'enroulement
+                left: -100 + (40 / 2),  // 💡 Centre le bloc virtuel (remplacez 40 par votre barWidth)
+              }}>
+                <Text 
+                  numberOfLines={1}     // ❌ Empêche le retour à la ligne
+                  style={{
+                    color: 'white', 
+                    fontSize: 10, 
+                    fontWeight: 'bold',
+                    textAlign: 'center',
+                    letterSpacing:0.9,
+                  }}
+                >
+                  {(vl!==0 && len!==0)?(!head?vl+' ':'')+dp.replace('Madar','Mdr').replace('Renzo','').replace('Citron','cit').replace('Noura','Nra').replace('Premium','prem').replace('Platinium','plat')+' '+prctge:''}
+                </Text>
+              </View>
+}
 
-export function Char() {
+export function SingleLineChar() {
   const {startedAt,endedAt,postedAnalyses}=useSelector(state=>{
     const {startedAt,endedAt}=state.period.targetPeriod;
     const postedAnalyses=state.data.postedAnalyses;
@@ -72,7 +71,7 @@ export function Char() {
   );
 }
 
-export function Chats(){
+export function MultiLineCharts(){
   const {startedAt,endedAt,postedAnalyses}=useSelector(state=>{
     const {startedAt,endedAt}=state.period.targetPeriod;
     const postedAnalyses=state.data.postedAnalyses;
@@ -231,44 +230,17 @@ export function Chats(){
   );
 };
 
-
-export default function Charts(){
-  // 📊 Définition des données multi-étages
-  // const stackData = [
-  //   {
-  //     stacks: [
-  //       { value: 10, color: '#4CAF50' }, // Étage 1 (Bas) - Vert
-  //       { value: 20, color: '#FF9800' }, // Étage 2 (Milieu) - Orange
-  //       { value: 15, color: '#F44336' }, // Étage 3 (Haut) - Rouge
-  //     ],
-  //     label: 'Trim 1',
-  //   },
-  //   {
-  //     stacks: [
-  //       { value: 15, color: '#4CAF50' },
-  //       { value: 12, color: '#FF9800' },
-  //       { value: 30, color: '#F44336' },
-  //     ],
-  //     label: 'Trim 2',
-  //   },
-  //   {
-  //     stacks: [
-  //       { value: 22, color: '#4CAF50' },
-  //       { value: 18, color: '#FF9800' },
-  //       { value: 8, color: '#F44336' },
-  //     ],
-  //     label: 'Trim 3',
-  //   },
-  // ];
+export default function MultiStagesBarCharts(){
 
   const {startedAt,endedAt,postedAnalyses}=useSelector(state=>{
     const {startedAt,endedAt}=state.period.targetPeriod;
     const postedAnalyses=state.data.postedAnalyses;
     return {startedAt:startedAt,endedAt:endedAt,postedAnalyses:postedAnalyses};
   });
+  const [analyses,setAnalyses]=useState(postedAnalyses);
   const [coordonnees,setCoordonnees]=useState({x:0,y:0,item:null});
-  const {differentProducts,prodsWeeks}=interval.prodsByWeeks(postedAnalyses,startedAt,endedAt);
-
+  const {differentProducts,prodsWeeks}=interval.prodsByWeeks(analyses,startedAt,endedAt);
+  const prodsByDep=filter.filterByDep(postedAnalyses);
 // =====================================================================================================================================
   // const maxValue=Object.values(prodsWeeks).reduce((acc,item)=>{return item.count > acc ? item.count : acc;}, 0);
   // Alternative moderne et très lisible
@@ -317,40 +289,34 @@ export default function Charts(){
       }
   });
 
-// const stackData = [
-//   {
-//     stacks: [
-//       { 
-//         value: 10, 
-//         color: '#4CAF50',
-//         // 🎯 Affiche le texte directement dans ce bloc
-//         innerBarComponent: () => (
-//           <Text style={{color: 'white', fontSize: 10, alignSelf: 'center'}}>Vert</Text>
-//         )
-//       },
-//       { 
-//         value: 20, 
-//         color: '#FF9800',
-//         innerBarComponent: () => (
-//           <Text style={{color: 'white', fontSize: 10, alignSelf: 'center'}}>Orange</Text>
-//         )
-//       },
-//       { 
-//         value: 15, 
-//         color: '#F44336',
-//         innerBarComponent: () => (
-//           <Text style={{color: 'white', fontSize: 10, alignSelf: 'center'}}>Rouge</Text>
-//         )
-//       },
-//     ],
-//     label: 'Trim 1',
-//   },
-// ];
-
-
+  const LiteralNav=()=>{
+    function handleDepPress(items){
+      setAnalyses(items);
+    }
+    return <View style={{width:120,heigth:350,paddingHorizontal:25,paddingVertical:50,borderRadius:5,borderWidth:1,borderColor:'grey',backgroundColor:'whitesmoke'}}>
+        {Object.entries(prodsByDep).map(([k,items])=>{
+          return <Pressable style={{width:'100%',height:60,paddingVertical:5}} onPress={()=>handleDepPress(items)}>
+            <Text style={{color:'black',letterSpacing:2,fontSize:14,fontWeight:'bold'}}>{k}</Text>
+            </Pressable>
+        })}
+      </View>
+  }
 
   return (
-    <View style={{ padding: 20, backgroundColor: '#1A1A1A', borderRadius: 10,width:900,padding:15 }}>
+    <View style={
+        { 
+          flexDirection:'row',
+          justifyContent:'center',
+          gap:5,
+          alignItems:'flex-start',
+          padding: 20, 
+          backgroundColor: '#1A1A1A', 
+          borderRadius: 10,
+          width:900,
+          padding:15 
+        }
+      }>
+      <LateralNav/>
       <BarChart
         stackData={stackData}         // ✅ Charge la structure multi-étages
         barWidth={40}                 // Largeur de chaque colonne empilée
@@ -380,32 +346,6 @@ export default function Charts(){
   );
 };
 
-const BarComponent=({params})=>{
-  const {len,head,dp,vl,prctge}=params;
-  return <View style={{
-                position: 'absolute',
-                justifyContent: 'center',
-                alignItems: 'center',
-                height:'auto',
-                padding:1,
-                backgroundColor:'rgba(0,0,0,0.16)',
-                width: 250,             // 💡 Donne un espace large virtuel pour éviter l'enroulement
-                left: -100 + (40 / 2),  // 💡 Centre le bloc virtuel (remplacez 40 par votre barWidth)
-              }}>
-                <Text 
-                  numberOfLines={1}     // ❌ Empêche le retour à la ligne
-                  style={{
-                    color: 'white', 
-                    fontSize: 10, 
-                    fontWeight: 'bold',
-                    textAlign: 'center',
-                    letterSpacing:0.9,
-                  }}
-                >
-                  {(vl!==0 && len!==0)?(!head?vl+' ':'')+dp.replace('Madar','Mdr').replace('Renzo','').replace('Citron','cit').replace('Noura','Nra').replace('Premium','prem').replace('Platinium','plat')+' '+prctge:''}
-                </Text>
-              </View>
-}
 
 
 
@@ -422,7 +362,7 @@ const styles = StyleSheet.create({
     padding:2,
     textAlign:'center',
     backgroundColor:'blue',
-    height:30,
+    height:20,
     color:'white',
     fontWeight:'bold',
     fontSize:10,
