@@ -273,6 +273,7 @@ export default function Charts(){
         label:key,
         stacks:differentProducts.map(dp=>{
           const vl=val.analyses?.filter(p=>p.name===dp)?.length;
+          const prctge=val.count!==0?((vl/val.count)*100).toFixed(1).toString()+'%':'0%';
           const clor=Colors[colorFromName(dp)];
           return {
             value:vl,
@@ -284,7 +285,7 @@ export default function Charts(){
                 position: 'absolute',
                 justifyContent: 'center',
                 alignItems: 'center',
-                width: 200,             // 💡 Donne un espace large virtuel pour éviter l'enroulement
+                width: 250,             // 💡 Donne un espace large virtuel pour éviter l'enroulement
                 left: -100 + (40 / 2),  // 💡 Centre le bloc virtuel (remplacez 40 par votre barWidth)
               }}>
                 <Text 
@@ -297,7 +298,7 @@ export default function Charts(){
                     letterSpacing:0.9,
                   }}
                 >
-                  {vl!==0?dp.replace('Renzo','R').replace('Noura','Nra').replace('Premium','prem').replace('Platinium','plat'):''}
+                  {vl!==0?vl+' '+dp.replace('Madar','Mdr').replace('Renzo','R').replace('Noura','Nra').replace('Premium','prem').replace('Platinium','plat')+' '+prctge:''}
                 </Text>
               </View>
             ),
