@@ -268,52 +268,53 @@ export default function Charts(){
   });
   const [coordonnees,setCoordonnees]=useState({x:0,y:0,item:null});
   const {differentProducts,prodsWeeks}=interval.prodsByWeeks(postedAnalyses,startedAt,endedAt);
-  // const stackData=Object.entries(prodsWeeks).map(([key,val])=>{
-  //     return {
-  //       label:key,
-  //       stacks:differentProducts.map(dp=>{
-  //         const vl=val.analyses?.filter(p=>p.name===dp)?.length;
-  //         const clor=Colors[colorFromName(dp)];
-  //         return {
-  //           value:vl,
-  //           innerBarComponent:() => (
-  //             <Text style={{color: 'white', fontSize: 10, alignSelf: 'center'}}>{dp}</Text>
-  //           ),
-  //           color:clor
-  //         }
-  //       })
-  //     }
-  // });
+  const stackData=Object.entries(prodsWeeks).map(([key,val])=>{
+      return {
+        label:key,
+        stacks:differentProducts.map(dp=>{
+          const vl=val.analyses?.filter(p=>p.name===dp)?.length;
+          const clor=Colors[colorFromName(dp)];
+          return {
+            value:vl,
+            innerBarComponent:() => (
+              <Text style={{color: 'white', fontSize: 10, alignSelf: 'center'}}>{dp}</Text>
+            ),
+            color:clor
+          }
+        })
+      }
+  });
+  console.log(stackData)
 
-const stackData = [
-  {
-    stacks: [
-      { 
-        value: 1, 
-        color: '#4CAF50',
-        // 🎯 Affiche le texte directement dans ce bloc
-        innerBarComponent: () => (
-          <Text style={{color: 'white', fontSize: 10, alignSelf: 'center'}}>Vert</Text>
-        )
-      },
-      { 
-        value: 2, 
-        color: '#FF9800',
-        innerBarComponent: () => (
-          <Text style={{color: 'white', fontSize: 10, alignSelf: 'center'}}>Orange</Text>
-        )
-      },
-      { 
-        value: 3, 
-        color: '#F44336',
-        innerBarComponent: () => (
-          <Text style={{color: 'white', fontSize: 10, alignSelf: 'center'}}>Rouge</Text>
-        )
-      },
-    ],
-    label: 'Trim 1',
-  },
-];
+// const stackData = [
+//   {
+//     stacks: [
+//       { 
+//         value: 10, 
+//         color: '#4CAF50',
+//         // 🎯 Affiche le texte directement dans ce bloc
+//         innerBarComponent: () => (
+//           <Text style={{color: 'white', fontSize: 10, alignSelf: 'center'}}>Vert</Text>
+//         )
+//       },
+//       { 
+//         value: 20, 
+//         color: '#FF9800',
+//         innerBarComponent: () => (
+//           <Text style={{color: 'white', fontSize: 10, alignSelf: 'center'}}>Orange</Text>
+//         )
+//       },
+//       { 
+//         value: 15, 
+//         color: '#F44336',
+//         innerBarComponent: () => (
+//           <Text style={{color: 'white', fontSize: 10, alignSelf: 'center'}}>Rouge</Text>
+//         )
+//       },
+//     ],
+//     label: 'Trim 1',
+//   },
+// ];
 
 
 
