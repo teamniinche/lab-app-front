@@ -273,6 +273,7 @@ export default function Charts(){
         label:key,
         stacks:differentProducts.map(dp=>{ 
           const vl=val.analyses.filter(p=>p.name===dp).length;
+          const clor=Colors[colorFromName(dp)];
           return {
             value:vl,
             innerBarComponent:()=>{return <Text style={styles.labelComponent}>{dp}</Text>},
