@@ -274,7 +274,7 @@ export default function Charts(){
   const maxValue = Math.max(...Object.values(prodsWeeks).map(item => item.count), 0)+5;
   const noOfSections = 4; // Le nombre de lignes horizontales de votre grille
   // 2. Calcul du pas de base théorique
-  const theoreticalStep = maxRawValue / noOfSections;
+  const theoreticalStep = maxValue / noOfSections;
   // 3. Arrondi intelligent pour obtenir des graduations "propres" (ex: 23 -> 25, 104 -> 110)
   var dynamicStep = Math.ceil(theoreticalStep);
   if (dynamicStep > 10) {dynamicStep = Math.ceil(dynamicStep / 5) * 5;/*Arrondit au multiple de 5 supérieur si le pas est grand*/}
