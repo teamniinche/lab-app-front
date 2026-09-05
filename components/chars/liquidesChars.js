@@ -293,8 +293,9 @@ export default function MultiStagesBarCharts(){
   const LateralNav=()=>{
     const [dep,setDep]=useState(null);
     const [focusedDep,setFocusedDep]=useState(null);
-    function handleDepPress(items){
+    function handleDepPress(items,k){
       setAnalyses(items);
+      setFocusedDep(k);
     }
     const hoverStyle={backgroundColor:'rgba(0,0,250,0.1)',borderRadius:4}
     const focusStyle={backgroundColor:'rgba(0,0,250,0.2)',borderRadius:4}
@@ -303,7 +304,7 @@ export default function MultiStagesBarCharts(){
         {Object.entries(prodsByDep).sort((a,b)=>a[0].localeCompare(b[0])).map(([k,items])=>{
           return <Pressable 
               style={[{width:'100%',height:50,padding:5},dep===k?hoverStyle:{},focusedDep===k?focusStyle:{}]} 
-              onPress={()=>{handleDepPress(items);setFocusedDep(k)}}
+              onPress={()=>handleDepPress(items,k)}
               onHoverIn={()=>setDep(k)}
               onHoverOut={()=>setDep(null)}
           >
