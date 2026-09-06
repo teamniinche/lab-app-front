@@ -453,7 +453,7 @@ export default function BarsChart(){
   const maxValue = stepValue * noOfSections;
   const barWidth=40;
   const spacing=30;
-  const LabelWidth=Math.ceil(barWidth+spacing);
+  const labelWidth=Math.ceil(barWidth+spacing);
 
   return  (<ScrollView 
                 horizontal={true}  
