@@ -267,7 +267,7 @@ export function MultiStagesBarCharts(){
   const dataLength = Object.keys(prodsWeeks).length; // Nombre total de points sur l'axe X
   // 📐 Configuration dynamique des espaces de l'axe X
   const itemWidth = 50;         // Espace horizontal attribué à chaque point/barre (en px)
-  const initialSpacing = 30;    // Espace avant le tout premier point
+  const initialSpacing = 50;    // Espace avant le tout premier point
   const endSpacing = 30;        // 🌟 Espace de sécurité APRÈS le dernier point pour éviter qu'il soit collé au bord
   // Calcul de la largeur totale requise pour étaler tout l'axe X
   const calculatedWidth = (dataLength * itemWidth) + initialSpacing
@@ -472,8 +472,10 @@ export default function BarsChart(){
         <BarChart
         data={barData}
         barWidth={40}                 // Largeur de chaque colonne empilée
-        height={300}                // Largeur de chaque colonne
-        spacing={50}                  // Espace entre les colonnes
+        height={300}                  // Largeur de chaque colonne
+        scrollable={true}
+        width={800}
+        spacing={30}                  // Espace entre les colonnes
         initialSpacing={30}           // Espace avant la première colonne
         barBorderRadius={2}           // Arrondit légèrement le sommet des barres
         // frontColor={'#4ABFF5'}        // Couleur par défaut de toutes les barres
