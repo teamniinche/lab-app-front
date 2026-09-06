@@ -580,7 +580,7 @@ export default function PerformanceBarChart(){
 
             // 🎯 Solution : Affiche le nombre 'len' de manière centrée tout en haut de la barre
             topLabelComponent:()=>(<View style={{flexDirection:'column',justifyContent:'center',alignItems:'center',backgroundColor:'rgba(0,0,250,0.4)',borderRadius:5,padding:5,paddingHorizontal:8,minWidth:40,width:'auto',height:'auto'}}>
-              <Text style={{textAlign:'center',color:'white'}}>{len}</Text>
+              <Text style={{textAlign:'center',color:'white'}}>{prodsByEngine}</Text>
               {/* <Text style={{textAlign:'center',color:'white'}}>{ptg}</Text> */}
               </View>),
             frontColor:'#177AD5'
