@@ -402,7 +402,7 @@ export default function BarsChart(){
           return { 
             value: len,
             label: key,
-            labelComponent:()=>(<Text>{key}</Text>),
+            labelComponent:()=>(<Text style={styles.labelComponent}>{key}</Text>),
 
             // 🎯 Solution : Affiche le nombre 'len' de manière centrée tout en haut de la barre
             topLabelComponent: () => (
@@ -504,7 +504,7 @@ export default function BarsChart(){
 
         rotateLabel={true}
         labelWidth={200}
-        labelsDistanceFromXaxis={0}
+        labelsDistanceFromXaxis={150}
         xAxisLabelsHeight={30}
 
         // 📊 Configuration de l'Axe X (Horizontal)
