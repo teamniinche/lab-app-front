@@ -6,7 +6,7 @@ import Filters from '../../kernel/classes/formatTablesAnalyses.js';
 import Interval from '../../kernel/classes/graphes/datesInterval.js';
 import {colorFromName} from '../../assets/functions.js';
 import Colors from '../../assets/colors.js';
-import {primaryColor} from '../../assets/constantes.js';
+import {primaryColor,enginesForDep} from '../../assets/constantes.js';
 const interval=new Interval();
 const filter=new Filters();
 function Y(val,index){const y=6+index;return y}
@@ -400,7 +400,7 @@ export function MultiStagesBarCharts(){
 };
 
 
-export default function BarsChart(){
+export function BarsChart(){
   const {startedAt,endedAt,postedAnalyses}=useSelector(state=>{
     const {startedAt,endedAt}=state.period.targetPeriod;
     const postedAnalyses=state.data.postedAnalyses;
@@ -423,11 +423,10 @@ export default function BarsChart(){
 
             // 🎯 Solution : Affiche le nombre 'len' de manière centrée tout en haut de la barre
             topLabelComponent:()=>(<View style={{flexDirection:'column',justifyContent:'center',alignItems:'center',backgroundColor:'rgba(0,0,250,0.4)',borderRadius:5,padding:5,paddingHorizontal:8,minWidth:40,width:'auto',height:'auto'}}>
-              <Text style={{textAlign:'center',color:'white'}}>{((len/analyses?.length)*100).toFixed(1).toString()+'%'}</Text>
               <Text style={{textAlign:'center',color:'white'}}>{len}</Text>
+              <Text style={{textAlign:'center',color:'white'}}>{((len/analyses?.length)*100).toFixed(1).toString()+'%'}</Text>
               </View>),
             frontColor:clor
-            // innerBarComponent: () => (<BarsComponent dp={name} />)
           }
         });
   
@@ -556,7 +555,134 @@ export default function BarsChart(){
   )
 };
 
- 
+
+export default function PerformanceBarChart(){
+
+    const {startedAt,endedAt,postedAnalyses}=useSelector(state=>{
+    const {startedAt,endedAt}=state.period.targetPeriod;
+    const postedAnalyses=state.data.postedAnalyses;
+    return {startedAt:startedAt,endedAt:endedAt,postedAnalyses:postedAnalyses};
+  });
+  // enginesForDep
+  const prodsByDep=filter.filterByDep(postedAnalyses);
+  // const [analyses,setAnalyses]=useState(postedAnalyses);
+  const LEN=postedAnalyses?.length;
+  const barData=Object.entries(prodsByDep).map(([key,analises])=>{
+          const dep=key.split(' - ')[0];
+          const len=analises?.length;
+          const name=analises[0]?.name;
+          const prodsByEngine=Math.ceil(len/enginesForDep[dep]).toFixed(0);
+          const ptg=Math.ceil(len/LEN).toFixed(2).toString()+'%';
+          return { 
+            value: prodsByEngine,
+            label: dep,
+            labelComponent:()=>(<Text style={{backgroundColor:'rgba(0,0,0,0.3)',color:'white',fontWeight:'bold',letterSpacing:1.5}}>{reduceText(dep)}</Text>),
+
+            // 🎯 Solution : Affiche le nombre 'len' de manière centrée tout en haut de la barre
+            topLabelComponent:()=>(<View style={{flexDirection:'column',justifyContent:'center',alignItems:'center',backgroundColor:'rgba(0,0,250,0.4)',borderRadius:5,padding:5,paddingHorizontal:8,minWidth:40,width:'auto',height:'auto'}}>
+              <Text style={{textAlign:'center',color:'white'}}>{len}</Text>
+              <Text style={{textAlign:'center',color:'white'}}>{ptg}</Text>
+              </View>),
+            frontColor:'#177AD5'
+          }
+          
+        });
+
+    // 📐 2. Calculs dynamiques pour l'axe Y (Marge de sécurité + Paliers)
+  const maxRawValue = Math.max(...barData.map(item=> item?.value), 0);
+  const noOfSections = 4;
+  const stepValue = Math.ceil(maxRawValue / noOfSections);
+  const maxValue = stepValue * noOfSections;
+  const barWidth=40;
+  const spacing=30;
+  const labelWidth=Math.ceil(barWidth+spacing);
+
+  return (
+    <ScrollView 
+                horizontal={true}  
+                style={{ 
+                        minWidth:1050,
+                        width:'100%',
+                        height:'auto',
+                        flexDirection:'row',
+                        justifyContent:'space-between',
+                        alignItems:'flex-start',
+                        padding: 5
+                }}
+          >
+       <View 
+              style={{ 
+                  backgroundColor: '#1A1A1A', 
+                  borderRadius: 10,
+                  width:900,
+                  padding:15 
+                }}
+            >
+      <Titre params={{dateStart:startedAt,dateEnd:endedAt,total:postedAnalyses?.length,literal:' moyenne mélangeur/département'}}/>
+      <BarChart
+         data={barData}
+        barWidth={barWidth}                 // Largeur de chaque colonne empilée
+        height={300}                  // Largeur de chaque colonne
+        scrollable={true}
+        width={800}
+        spacing={spacing}                  // Espace entre les colonnes
+        initialSpacing={30}           // Espace avant la première colonne
+        barBorderRadius={2}           // Arrondit légèrement le sommet des barres
+        // frontColor={'#4ABFF5'}        // Couleur par défaut de toutes les barres
+
+        // 📏 Configuration Dynamique de l'Axe Y (Vertical)
+        noOfSections={noOfSections}
+        stepValue={stepValue}
+        maxValue={maxValue}
+        yAxisSide="left"
+        
+        labelWidth={labelWidth}
+        rotateLabel={true}
+        xAxisLabelsVerticalShift={2}
+        // xAxisLabelsHeight={200}
+        
+        yAxisColor={'#444'}           // Couleur de la ligne de l'axe Y
+        yAxisTextStyle={{ color: '#AEAEB2', fontSize: 12 }}
+        // 📊 Configuration de l'Axe X (Horizontal)
+        xAxisColor={'#444'}           // Couleur de la ligne de l'axe X
+        xAxisLabelTextStyle={{ color: '#AEAEB2', fontSize: 12, textAlign: 'center' }}
+        
+        // 🏁 Lignes de grille d'arrière-plan
+        rulesColor={'#2C2C2E'}        // Couleur des lignes de repère horizontales
+        rulesType={'solid'}           // Type de ligne ('solid' ou 'dashed')
+
+        // 💡 Options visuelles additionnelles (Optionnel)
+        showGradient={true}           // Ajoute un dégradé de couleur discret sur les barres
+        gradientColor={'#ffffff'}     // Couleur du bas du dégradé
+        
+        // 👆 Gestion des interactions de focus / survol
+        pointerConfig={{
+          pointerColor: 'white',
+          radius: 4,
+          pointerStripColor: 'rgba(255,255,255,0.2)',
+          pointerStripWidth: 1,
+          // pointerComponent: (items) => (
+          //   <View style={{
+          //     backgroundColor: '#000',
+          //     padding: 6,
+          //     borderRadius: 4,
+          //     bottom: 30,
+          //     alignSelf: 'center',
+          //   }}>
+          //     <Text style={{ color: 'white', fontSize: 12, fontWeight: 'bold' }}>
+          //       {items[0]?.value} €
+          //     </Text>
+          //   </View>
+          // ),
+        }}
+      />
+      </View>
+    </ScrollView>
+  );
+};
+
+
+
 const BarsComponent = ({ dp }) => {
 
   return (
