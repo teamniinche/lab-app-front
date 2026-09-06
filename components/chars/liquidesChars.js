@@ -566,11 +566,12 @@ export default function PerformanceBarChart(){
   // enginesForDep
   const prodsByDep=filter.filterByDep(postedAnalyses);
   // const [analyses,setAnalyses]=useState(postedAnalyses);
-  const LEN=postedAnalyses?.length;
-  const barData=Object.entries(prodsByDep).map(([key,analises])=>{
+  // const LEN=postedAnalyses?.length;
+  const barData=Object.entries(prodsByDep).map(([key,analyses])=>{
           const dep=key.split('-')[0];
-          const len=analises?.length;
-          const name=analises[0]?.name;
+          const len=analyses?.length;
+          const name=analyses[0]?.name;
+          alert(enginesForDep[dep]);
           const prodsByEngine=Math.ceil(len/enginesForDep[dep]).toFixed(0);
           // const ptg=Math.ceil(len/LEN).toFixed(2).toString()+'%';
           return { 
