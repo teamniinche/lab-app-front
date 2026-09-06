@@ -492,13 +492,14 @@ export default function BarsChart(){
         stepValue={stepValue}
         maxValue={maxValue}
         yAxisSide="left"
+        
+        labelWidth={150}
+        rotateLabel={true}
+        labelsDistanceFromXaxis={5}
+        // xAxisLabelsHeight={200}
+        
         yAxisColor={'#444'}           // Couleur de la ligne de l'axe Y
         yAxisTextStyle={{ color: '#AEAEB2', fontSize: 12 }}
-
-        rotateLabel={true}
-        // labelsDistanceFromXaxis={50}
-        // xAxisLabelsHeight={200}
-
         // 📊 Configuration de l'Axe X (Horizontal)
         xAxisColor={'#444'}           // Couleur de la ligne de l'axe X
         xAxisLabelTextStyle={{ color: '#AEAEB2', fontSize: 12, textAlign: 'center' }}
@@ -618,9 +619,6 @@ const styles = StyleSheet.create({
     padding: 16,
   },
   labelComponent:{
-    flexDirection:'row',
-    justifyContent:'center',
-    alignItems:'center',
     width:20,
     padding:2,
     textAlign:'center',
