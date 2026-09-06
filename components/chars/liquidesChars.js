@@ -10,6 +10,9 @@ import {primaryColor} from '../../assets/constantes.js';
 const interval=new Interval();
 const filter=new Filters();
 function Y(val,index){const y=6+index;return y}
+function reduceText(Text){
+  return Text.replace('Madar','Mdr').replace('Renzo','').replace('Citron','cit').replace('Noura','Nra').replace('Premium','prem').replace('Platinium','plat')
+}
 const BarComponent=({params})=>{
   const {len,head,dp,vl,prctge}=params;
   return <View style={{
@@ -32,7 +35,7 @@ const BarComponent=({params})=>{
                     letterSpacing:0.9,
                   }}
                 >
-                  {(vl!==0 && len!==0)?(!head?vl+' ':'')+dp.replace('Madar','Mdr').replace('Renzo','').replace('Citron','cit').replace('Noura','Nra').replace('Premium','prem').replace('Platinium','plat')+' '+prctge:''}
+                  {(vl!==0 && len!==0)?(!head?vl+' ':'')+reduceText(dp)+' '+prctge:''}
                 </Text>
               </View>
 }
@@ -402,7 +405,7 @@ export default function BarsChart(){
           return { 
             value: len,
             label: key,
-            labelComponent:()=>(<Text style={{color:'white',fontWeight:'bold',letterSpacing:1.5}}>{key}</Text>),
+            labelComponent:()=>(<Text style={{color:'white',fontWeight:'bold',letterSpacing:1.5}}>{reduceText(key)}</Text>),
 
             // 🎯 Solution : Affiche le nombre 'len' de manière centrée tout en haut de la barre
             topLabelComponent:()=>(<Text style={[styles.labelComponent,{backgroundColor:'rgba(0,0,250,0.4)',minWidth:40,width:'auto',height:40}]}>{len}</Text>),
@@ -615,6 +618,9 @@ const styles = StyleSheet.create({
     padding: 16,
   },
   labelComponent:{
+    flexDirection:'row',
+    justifyContent:'center',
+    alignItems:'center',
     width:20,
     padding:2,
     textAlign:'center',
