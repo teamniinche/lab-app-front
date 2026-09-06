@@ -383,7 +383,7 @@ export function MultiStagesBarCharts(){
 };
 
 
-export default function BarChart(){
+export default function BarsChart(){
   const {startedAt,endedAt,postedAnalyses}=useSelector(state=>{
     const {startedAt,endedAt}=state.period.targetPeriod;
     const postedAnalyses=state.data.postedAnalyses;
