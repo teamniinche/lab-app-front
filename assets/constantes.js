@@ -16,7 +16,7 @@ export const gifsanimes=[
     'https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExd3duaXA1Mm03Z3A0aWM5dzF5dnppMHFtbmQ1aGhkNW9xZDR6aTg4diZlcD12MV9naWZzX3NlYXJjaCZjdD1n/13Kguu4fbMbz1K/giphy.gif'// agitation soft et douce : favori
 ];
 // https://media.giphy.com/media/v1.Y2lkPWVjZjA1ZTQ3M3VhcDZhNGwzaWVkbzlvOXRpdmQ0YzlwMTBjemNpMW1ldnd0eWNkZSZlcD12MV9naWZzX3JlbGF0ZWQmY3Q9Zw/ubIJmD8SfSE35HuOjj/giphy.gif
-export const enginesForDep=[Liquide1:3,Liquide2:2,Cosmetique1:1,Cosmetique2:1,Mera:1];
+export const enginesForDep={Liquide1:3,Liquide2:2,Cosmetique1:1,Cosmetique2:1,Mera:1};
 export const possibleRooms = {liquides:'Laboratoire central',respo:'Responsable', poudre:'Laboratoire central', tour:'Tour', admin:'Responsable',mera:'Mera',javel:'Javel bouteilles',projet_javel:'Projet javel',comptabilite:'Comptabilite'};
 export const engines=["A","B","C","D","D1","D2","E","F"];
 export const reservoirs=[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,
