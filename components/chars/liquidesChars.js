@@ -21,7 +21,7 @@ const dateFr=(date)=>{
         };
 const Titre=({params})=>{
   const {dateStart,dateEnd,total,literal}=params;
-  return <View style={{width:'auto',height:'auto',flexDirection:'column',justifyContent:'center',backgroundColor:'rgba(250, 250, 250, 0.9)',alignItems:'center',borderWidth:2,borderColor:'rgba(200,200,200,0.4)',
+  return <View style={{height:'auto',flexDirection:'column',borderRadius:8,paddingHorizontal:5,justifyContent:'center',backgroundColor:'rgba(250, 250, 250, 0.9)',alignItems:'center',borderWidth:2,borderColor:'rgba(255,255,255,0.4)',
               }}>
             <Text style={{width:'auto',color:'grey',paddingHorizontal:10,fontWeight:'bold',fontSize:10}}>{'Statistiques du ' +dateFr(dateStart)+' au '+dateFr(dateEnd)}</Text>
             <Text style={{width:'auto',color:'black',paddingHorizontal:10,fontWeight:'bold',fontSize:12}}>{total +' analyses : '+literal}</Text>
