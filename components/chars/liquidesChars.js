@@ -563,26 +563,19 @@ export default function PerformanceBarChart(){
     const postedAnalyses=state.data.postedAnalyses;
     return {startedAt:startedAt,endedAt:endedAt,postedAnalyses:postedAnalyses};
   });
-  // enginesForDep
   const prodsByDep=filter.filterByDep(postedAnalyses);
-  // const [analyses,setAnalyses]=useState(postedAnalyses);
-  // const LEN=postedAnalyses?.length;
   const barData=Object.entries(prodsByDep).map(([key,analyses])=>{
           const dep=key.split('-')[0];
           const len=analyses?.length;
-          const name=analyses[0]?.name;
-          alert(enginesForDep[dep]);
-          const prodsByEngine=Math.ceil(len/enginesForDep[dep]).toFixed(0);
-          // const ptg=Math.ceil(len/LEN).toFixed(2).toString()+'%';
+          alert(Math.ceil(len / enginesForDep[dep]).toFixed(0))
+          const prodsByEngine=Math.ceil(len / enginesForDep[dep]).toFixed(0);
           return { 
             value: prodsByEngine,
             label: dep,
             labelComponent:()=>(<Text style={{backgroundColor:'rgba(0,0,0,0.3)',color:'white',fontWeight:'bold',letterSpacing:1.5}}>{reduceText(dep)}</Text>),
 
-            // 🎯 Solution : Affiche le nombre 'len' de manière centrée tout en haut de la barre
             topLabelComponent:()=>(<View style={{flexDirection:'column',justifyContent:'center',alignItems:'center',backgroundColor:'rgba(0,0,250,0.4)',borderRadius:5,padding:5,paddingHorizontal:8,minWidth:40,width:'auto',height:'auto'}}>
-              <Text style={{textAlign:'center',color:'white'}}>{prodsByEngine}</Text>
-              {/* <Text style={{textAlign:'center',color:'white'}}>{ptg}</Text> */}
+                  <Text style={{textAlign:'center',color:'white'}}>{prodsByEngine}</Text>
               </View>),
             frontColor:'#177AD5'
           }
