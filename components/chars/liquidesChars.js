@@ -440,7 +440,7 @@ export default function BarsChart(){
   }
 
   // 📐 2. Calculs dynamiques pour l'axe Y (Marge de sécurité + Paliers)
-  const maxRawValue = Math.max(...data.map(item => item.value), 0);
+  const maxRawValue = Math.max(...Object.entries(prodsByName).map([key,items] => items?.length), 0);
   const noOfSections = 4;
   const stepValue = Math.ceil(maxRawValue / noOfSections);
   const maxValue = stepValue * noOfSections;
