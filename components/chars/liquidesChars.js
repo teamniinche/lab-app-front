@@ -13,6 +13,20 @@ function Y(val,index){const y=6+index;return y}
 function reduceText(Text){
   return Text.replace('Madar','Mdr').replace('Renzo','').replace('Citron','cit').replace('Noura','Nra').replace('Premium','prem').replace('Platinium','plat')
 }
+const dateFr=(date)=>{
+            const months={Jan:"Janvier",Fev:"Fèvrier",Mar:"Mars",Apr:"Avril",May:"Mai",Jun:"Juin",Jul:"Juillet",Aug:"Aout",Sep:"Septembre",Oct:"Octobre",Nov:"Novembre",Dec:"Décembre"};
+            const splitDate=date.toString().split(" ");
+            const frDate=splitDate[2]+" "+months[splitDate[1]]+" "+splitDate[3];
+            return `<span style="font-size:18px;border:1px dotted blue;border-radius:5px;padding:5px;padding-left:15px;padding-right:15px;color:grey;font-weight:bold;">${frDate}</span>`;
+        };
+const Titre=({params})=>{
+  const {dateStart,dateEnd,total,literal}=params;
+  return <View style={{width:'auto',height:'auto',flexDirection:'column',justifyContent:'center',backgroundColor:'rgba(250, 250, 250, 0.9)',alignItems:'center',borderWidth:2,borderColor:'rgba(200,200,200,0.4)',
+              }}>
+            <Text style={{width:'auto',color:'grey',paddingHorizontal:10,fontWeight:'bold',fontSize:10}}>{'Statistiques du ' +dateFr(dateStart)+' au '+dateFr(dateEnd)}</Text>
+            <Text style={{width:'auto',color:'black',paddingHorizontal:10,fontWeight:'bold',fontSize:12}}>{total +' analyses : '+literal}</Text>
+        </View>
+}
 const BarComponent=({params})=>{
   const {len,head,dp,vl,prctge}=params;
   return <View style={{
@@ -408,7 +422,7 @@ export default function BarsChart(){
             labelComponent:()=>(<Text style={{backgroundColor:'rgba(0,0,0,0.3)',color:'white',fontWeight:'bold',letterSpacing:1.5}}>{reduceText(key)}</Text>),
 
             // 🎯 Solution : Affiche le nombre 'len' de manière centrée tout en haut de la barre
-            topLabelComponent:()=>(<Text style={{backgroundColor:'rgba(0,0,250,0.4)',color:'white',borderRadius:5,padding:5,paddingHorizontal:8,minWidth:40,width:'auto',height:30}}>{len}</Text>),
+            topLabelComponent:()=>(<Text style={{backgroundColor:'rgba(0,0,250,0.4)',textAlign:'center',color:'white',borderRadius:5,padding:5,paddingHorizontal:8,minWidth:40,width:'auto',height:30}}>{len}</Text>),
             frontColor:clor
             // innerBarComponent: () => (<BarsComponent dp={name} />)
           }
@@ -476,9 +490,7 @@ export default function BarsChart(){
                   padding:15 
                 }}
             >
-        <Text style={{ color: 'white', fontSize: 16, fontWeight: 'bold', marginBottom: 20 }}>
-          Statistiques de productions/produit
-        </Text>
+        <Titre params={{dateStart:startedAt,dateEnd:endedAt,total:analyses?.length,literal:' mélanges/produit'}}/>
         <BarChart
         data={barData}
         barWidth={barWidth}                 // Largeur de chaque colonne empilée
