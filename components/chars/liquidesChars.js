@@ -568,7 +568,7 @@ export default function PerformanceBarChart(){
   // const [analyses,setAnalyses]=useState(postedAnalyses);
   const LEN=postedAnalyses?.length;
   const barData=Object.entries(prodsByDep).map(([key,analises])=>{
-          const dep=key.split(' - ')[0];
+          const dep=key.split('-')[0];
           const len=analises?.length;
           const name=analises[0]?.name;
           const prodsByEngine=Math.ceil(len/enginesForDep[dep]).toFixed(0);
