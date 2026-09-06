@@ -408,7 +408,7 @@ export default function BarsChart(){
             labelComponent:()=>(<Text style={{backgroundColor:'rgba(0,0,0,0.3)',color:'white',fontWeight:'bold',letterSpacing:1.5}}>{reduceText(key)}</Text>),
 
             // 🎯 Solution : Affiche le nombre 'len' de manière centrée tout en haut de la barre
-            topLabelComponent:()=>(<Text style={[styles.labelComponent,{backgroundColor:'rgba(0,0,250,0.4)',padding:5,minWidth:40,width:'auto',height:40}]}>{len}</Text>),
+            topLabelComponent:()=>(<Text style={{backgroundColor:'rgba(0,0,250,0.4)',color:'white',borderRadius:5,padding:5,paddingHorizontal:8,minWidth:40,width:'auto',height:30}}>{len}</Text>),
             frontColor:clor
             // innerBarComponent: () => (<BarsComponent dp={name} />)
           }
