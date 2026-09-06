@@ -402,7 +402,7 @@ export default function BarsChart(){
           return { 
             value: len,
             label: key,
-            labelComponent:()=>(<Text style={styles.labelComponent}>{key}</Text>),
+            labelComponent:()=>(<Text style={{color:'white',fontWeight:'bold',letterSpacing:1.5}}>{key}</Text>),
 
             // 🎯 Solution : Affiche le nombre 'len' de manière centrée tout en haut de la barre
             topLabelComponent: () => (
