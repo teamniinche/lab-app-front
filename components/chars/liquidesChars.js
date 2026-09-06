@@ -408,7 +408,7 @@ export default function BarsChart(){
             labelComponent:()=>(<Text style={{color:'white',fontWeight:'bold',letterSpacing:1.5}}>{reduceText(key)}</Text>),
 
             // 🎯 Solution : Affiche le nombre 'len' de manière centrée tout en haut de la barre
-            topLabelComponent:()=>(<Text style={[styles.labelComponent,{backgroundColor:'rgba(0,0,250,0.4)',minWidth:40,width:'auto',height:40}]}>{len}</Text>),
+            topLabelComponent:()=>(<Text style={[styles.labelComponent,{backgroundColor:'rgba(0,0,250,0.4)',padding:5,minWidth:40,width:'auto',height:40}]}>{len}</Text>),
             frontColor:clor
             // innerBarComponent: () => (<BarsComponent dp={name} />)
           }
@@ -451,6 +451,9 @@ export default function BarsChart(){
   const noOfSections = 4;
   const stepValue = Math.ceil(maxRawValue / noOfSections);
   const maxValue = stepValue * noOfSections;
+  const barWidth=40;
+  const spacing=30;
+  const LabelWidth=barWidth+spacing;
 
   return  (<ScrollView 
                 horizontal={true}  
@@ -478,11 +481,11 @@ export default function BarsChart(){
         </Text>
         <BarChart
         data={barData}
-        barWidth={40}                 // Largeur de chaque colonne empilée
+        barWidth={barWidth}                 // Largeur de chaque colonne empilée
         height={300}                  // Largeur de chaque colonne
         scrollable={true}
         width={800}
-        spacing={30}                  // Espace entre les colonnes
+        spacing={spacing}                  // Espace entre les colonnes
         initialSpacing={30}           // Espace avant la première colonne
         barBorderRadius={2}           // Arrondit légèrement le sommet des barres
         // frontColor={'#4ABFF5'}        // Couleur par défaut de toutes les barres
@@ -493,9 +496,9 @@ export default function BarsChart(){
         maxValue={maxValue}
         yAxisSide="left"
         
-        labelWidth={150}
+        labelWidth={labelWidth}
         rotateLabel={true}
-        labelsDistanceFromXaxis={5}
+        xAxisLabelsVerticalShift={1}
         // xAxisLabelsHeight={200}
         
         yAxisColor={'#444'}           // Couleur de la ligne de l'axe Y
