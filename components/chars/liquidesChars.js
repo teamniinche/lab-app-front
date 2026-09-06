@@ -17,7 +17,7 @@ const dateFr=(date)=>{
             const months={Jan:"Janvier",Fev:"Fèvrier",Mar:"Mars",Apr:"Avril",May:"Mai",Jun:"Juin",Jul:"Juillet",Aug:"Aout",Sep:"Septembre",Oct:"Octobre",Nov:"Novembre",Dec:"Décembre"};
             const splitDate=date.toString().split(" ");
             const frDate=splitDate[2]+" "+months[splitDate[1]]+" "+splitDate[3];
-            return `<span style="font-size:18px;border:1px dotted blue;border-radius:5px;padding:5px;padding-left:15px;padding-right:15px;color:grey;font-weight:bold;">${frDate}</span>`;
+            return frDate;
         };
 const Titre=({params})=>{
   const {dateStart,dateEnd,total,literal}=params;
