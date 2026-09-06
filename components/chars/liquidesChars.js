@@ -493,8 +493,8 @@ export default function BarsChart(){
         yAxisTextStyle={{ color: '#AEAEB2', fontSize: 12 }}
 
         rotateLabel={true}
-        labelsDistanceFromXaxis={50}
-        xAxisLabelsHeight={200}
+        // labelsDistanceFromXaxis={50}
+        // xAxisLabelsHeight={200}
 
         // 📊 Configuration de l'Axe X (Horizontal)
         xAxisColor={'#444'}           // Couleur de la ligne de l'axe X
