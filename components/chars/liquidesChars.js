@@ -390,9 +390,9 @@ export default function BarsChart(){
     return {startedAt:startedAt,endedAt:endedAt,postedAnalyses:postedAnalyses};
   });
   const prodsByDep=filter.filterByDep(postedAnalyses);
-  const prodsByName=filter.filterByName(postedAnalyses);
+  const [analyses,setAnalyses]=useState(Object.entries(postedAnalyses)[0][1]);
+  const prodsByName=filter.filterByName(analyses);
 
-  const [analyses,setAnalyses]=useState(postedAnalyses);
 
   const barData=Object.entries(prodsByName).map(([key,analyses])=>{
           const len=analyses?.length;
