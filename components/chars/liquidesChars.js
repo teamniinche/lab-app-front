@@ -496,7 +496,7 @@ export default function BarsChart(){
 
         // 💡 Options visuelles additionnelles (Optionnel)
         showGradient={true}           // Ajoute un dégradé de couleur discret sur les barres
-        gradientColor={'#177AD5'}     // Couleur du bas du dégradé
+        gradientColor={'#ffffff'}     // Couleur du bas du dégradé
         
         // 👆 Gestion des interactions de focus / survol
         pointerConfig={{
