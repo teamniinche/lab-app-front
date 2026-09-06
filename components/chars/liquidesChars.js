@@ -402,7 +402,24 @@ export default function BarsChart(){
           return { 
             value: len,
             label: key,
-            labelComponent:()=>(<Text style={styles.labelComponent}>{key}</Text>),
+            labelComponent:()=>null,
+            // (<Text style={styles.labelComponent}>{key}</Text>),
+            
+            // 🎯 Solution : Affiche le nombre 'len' de manière centrée tout en haut de la barre
+            topLabelComponent: () => (
+              <Text style={{
+                color: 'white',       // Ajustez la couleur selon votre thème
+                fontSize: 12, 
+                fontWeight: 'bold', 
+                marginBottom: 6,      // Crée un espace entre le nombre et le sommet de la barre
+                textAlign: 'center',
+              }}>
+                {len}
+              </Text>
+            ),
+            innerBarComponent: () => (
+              <BarsComponent dp={key} />
+            ),
             frontColor:clor
           }
         });
@@ -524,6 +541,45 @@ export default function BarsChart(){
             </View>
     </ScrollView>
   )
+};
+
+ 
+const BarsComponent = ({ dp }) => {
+
+  return (
+    <View style={{
+      position: 'absolute',
+      top: 0,
+      bottom: 0,
+      left: 0,
+      right: 0,
+      justifyContent: 'center', // Centre le texte verticalement dans la barre
+      alignItems: 'center',     // Centre le texte horizontalement dans la barre
+    }}>
+      <View style={{
+        transform: [{ rotate: '-90deg' }], // 🔄 Pivote le texte à la verticale (bas vers le haut)
+        width: 100,                        // 💡 Largeur virtuelle pour éviter que le texte ne s'enroule
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}>
+        <Text 
+          numberOfLines={1}
+          style={{
+            color: 'white',
+            fontSize: 10,
+            fontWeight: 'bold',
+            textAlign: 'center',
+            // Optionnel : ajouter une ombre pour la lisibilité sur fond coloré
+            textShadowColor: 'rgba(0, 0, 0, 0.5)',
+            textShadowOffset: { width: 1, height: 1 },
+            textShadowRadius: 2,
+          }}
+        >
+          {dp} {/* Affiche votre label ou pourcentage */}
+        </Text>
+      </View>
+    </View>
+  );
 };
 
 
