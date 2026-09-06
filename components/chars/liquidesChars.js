@@ -231,17 +231,23 @@ export function MultiLineCharts(){
   );
 };
 
-export default function MultiStagesBarCharts(){
+export function MultiStagesBarCharts(){
 
   const {startedAt,endedAt,postedAnalyses}=useSelector(state=>{
     const {startedAt,endedAt}=state.period.targetPeriod;
     const postedAnalyses=state.data.postedAnalyses;
     return {startedAt:startedAt,endedAt:endedAt,postedAnalyses:postedAnalyses};
   });
+  const prodsByDep=filter.filterByDep(postedAnalyses);
+  const prodsByName=filter.filterByName(postedAnalyses);
+  const prodsByChemist=filter.groupedByChemist(postedAnalyses);
+
   const [analyses,setAnalyses]=useState(postedAnalyses);
   const [coordonnees,setCoordonnees]=useState({x:0,y:0,item:null});
   const {differentProducts,prodsWeeks}=interval.prodsByWeeks(analyses,startedAt,endedAt);
-  const prodsByDep=filter.filterByDep(postedAnalyses);
+
+
+
 // =====================================================================================================================================
   // const maxValue=Object.values(prodsWeeks).reduce((acc,item)=>{return item.count > acc ? item.count : acc;}, 0);
   // Alternative moderne et très lisible
@@ -308,7 +314,6 @@ export default function MultiStagesBarCharts(){
               onHoverIn={()=>setDep(k)}
               onHoverOut={()=>setDep(null)}
           >
-            {/* <Text style={{color:focusedDep===k?'white':'black',letterSpacing:2,fontSize:13,fontWeight:'bold'}}>{k}</Text> */}
             <Texts text={k} focusedDep={focusedDep}/>
           </Pressable>
         })}
@@ -344,6 +349,9 @@ export default function MultiStagesBarCharts(){
                   padding:15 
                 }}
             >
+              <Text style={{ color: 'white', fontSize: 16, fontWeight: 'bold', marginBottom: 20 }}>
+                Statistiques de productions/produit*semaine superposé
+              </Text>
               <BarChart
                 stackData={stackData}         // ✅ Charge la structure multi-étages
                 barWidth={40}                 // Largeur de chaque colonne empilée
@@ -373,6 +381,150 @@ export default function MultiStagesBarCharts(){
     </ScrollView>
   );
 };
+
+
+export default function BarChart(){
+  const {startedAt,endedAt,postedAnalyses}=useSelector(state=>{
+    const {startedAt,endedAt}=state.period.targetPeriod;
+    const postedAnalyses=state.data.postedAnalyses;
+    return {startedAt:startedAt,endedAt:endedAt,postedAnalyses:postedAnalyses};
+  });
+  const prodsByDep=filter.filterByDep(postedAnalyses);
+  const prodsByName=filter.filterByName(postedAnalyses);
+
+  const [analyses,setAnalyses]=useState(postedAnalyses);
+
+  const barData=Object.entries(prodsByName).map(([key,analyses])=>{
+          const len=analyses?.length;
+          const name=analyses[0]?.name;
+          // const prctge=val.count!==0?((vl/val.count)*100).toFixed(1).toString()+'%':'0%';
+          const clor=Colors[colorFromName(name)];
+          return { 
+            value: len,
+            label: key,
+            labelComponent:()=>(<Text style={styles.labelComponent}>{key}</Text>),
+            frontColor:clor
+          }
+        });
+  
+  const LateralNav=()=>{
+    const [dep,setDep]=useState(null);
+    const [focusedDep,setFocusedDep]=useState(null);
+    function handleDepPress(items,k){
+      setAnalyses(items);
+      setFocusedDep(k);
+    }
+    const hoverStyle={backgroundColor:'rgba(0,0,250,0.1)',borderRadius:4}
+    const focusStyle={backgroundColor:'rgba(0,0,250,0.2)',borderRadius:4}
+    return <View style={{width:200,minHeigth:500,paddingHorizontal:10,paddingVertical:20,paddingTop:5,marginRight:15,borderRadius:5,borderWidth:1,borderBottomWidth:0,borderColor:'grey',backgroundColor:'whitesmoke'}}>
+        <Text style={{color:primaryColor,backgroundColor:'rgba(0,0,0,0.15)',borderRadius:4,paddingVertical:20,textAlign:'center',marginBottom:20,letterSpacing:2,fontSize:14,fontWeight:'bold'}}>Départements</Text>
+        {Object.entries(prodsByName).sort((a,b)=>b[0].localeCompare(a[0])).map(([k,items])=>{
+          return <Pressable 
+              style={[{width:'100%',height:50,padding:5},dep===k?hoverStyle:{},focusedDep===k?focusStyle:{}]} 
+              onPress={()=>handleDepPress(items,k)}
+              onHoverIn={()=>setDep(k)}
+              onHoverOut={()=>setDep(null)}
+          >
+            <Texts text={k} focusedDep={focusedDep}/>
+          </Pressable>
+        })}
+      </View>
+  }
+
+  const Texts=({text,focusedDep})=>{
+    const texts=text.split('-');
+    return <View style={{flexDirection:'column',justifyContent:'center',gap:4,alignItems:'center'}}>
+            <Text style={{color:focusedDep===text?'white':'black',letterSpacing:2,fontSize:13,fontWeight:'bold'}}>{texts[0]}</Text>
+            <Text style={{color:focusedDep===text?'white':'rgba(0,0,0,0.4)',letterSpacing:2,fontSize:8,fontWeight:'bold'}}>{texts[1]}</Text>
+    </View>
+  }
+
+  // 📐 2. Calculs dynamiques pour l'axe Y (Marge de sécurité + Paliers)
+  const maxRawValue = Math.max(...data.map(item => item.value), 0);
+  const noOfSections = 4;
+  const stepValue = Math.ceil(maxRawValue / noOfSections);
+  const maxValue = stepValue * noOfSections;
+
+  return  (<ScrollView 
+                horizontal={true}  
+                style={{ 
+                        minWidth:1050,
+                        width:'100%',
+                        height:'auto',
+                        flexDirection:'row',
+                        justifyContent:'space-between',
+                        alignItems:'flex-start',
+                        padding: 5
+                }}
+          >
+            <LateralNav/>
+            <View 
+              style={{ 
+                  backgroundColor: '#1A1A1A', 
+                  borderRadius: 10,
+                  width:900,
+                  padding:15 
+                }}
+            >
+        <Text style={{ color: 'white', fontSize: 16, fontWeight: 'bold', marginBottom: 20 }}>
+          Statistiques de productions/produit
+        </Text>
+        <BarChart
+        data={barData}
+        barWidth={40}                 // Largeur de chaque colonne empilée
+        height={300}                // Largeur de chaque colonne
+        spacing={50}                  // Espace entre les colonnes
+        initialSpacing={30}           // Espace avant la première colonne
+        barBorderRadius={2}           // Arrondit légèrement le sommet des barres
+        // frontColor={'#4ABFF5'}        // Couleur par défaut de toutes les barres
+
+        // 📏 Configuration Dynamique de l'Axe Y (Vertical)
+        noOfSections={noOfSections}
+        stepValue={stepValue}
+        maxValue={maxValue}
+        yAxisSide="left"
+        yAxisColor={'#444'}           // Couleur de la ligne de l'axe Y
+        yAxisTextStyle={{ color: '#AEAEB2', fontSize: 12 }}
+
+        // 📊 Configuration de l'Axe X (Horizontal)
+        xAxisColor={'#444'}           // Couleur de la ligne de l'axe X
+        xAxisLabelTextStyle={{ color: '#AEAEB2', fontSize: 12, textAlign: 'center' }}
+        
+        // 🏁 Lignes de grille d'arrière-plan
+        rulesColor={'#2C2C2E'}        // Couleur des lignes de repère horizontales
+        rulesType={'solid'}           // Type de ligne ('solid' ou 'dashed')
+
+        // 💡 Options visuelles additionnelles (Optionnel)
+        showGradient={true}           // Ajoute un dégradé de couleur discret sur les barres
+        gradientColor={'#177AD5'}     // Couleur du bas du dégradé
+        
+        // 👆 Gestion des interactions de focus / survol
+        pointerConfig={{
+          pointerColor: 'white',
+          radius: 4,
+          pointerStripColor: 'rgba(255,255,255,0.2)',
+          pointerStripWidth: 1,
+          // pointerComponent: (items) => (
+          //   <View style={{
+          //     backgroundColor: '#000',
+          //     padding: 6,
+          //     borderRadius: 4,
+          //     bottom: 30,
+          //     alignSelf: 'center',
+          //   }}>
+          //     <Text style={{ color: 'white', fontSize: 12, fontWeight: 'bold' }}>
+          //       {items[0]?.value} €
+          //     </Text>
+          //   </View>
+          // ),
+        }}
+      />
+            </View>
+    </ScrollView>
+  )
+};
+
+
 
 
 
