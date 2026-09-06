@@ -572,7 +572,7 @@ export default function PerformanceBarChart(){
           const len=analises?.length;
           const name=analises[0]?.name;
           const prodsByEngine=Math.ceil(len/enginesForDep[dep]).toFixed(0);
-          const ptg=Math.ceil(len/LEN).toFixed(2).toString()+'%';
+          // const ptg=Math.ceil(len/LEN).toFixed(2).toString()+'%';
           return { 
             value: prodsByEngine,
             label: dep,
@@ -581,7 +581,7 @@ export default function PerformanceBarChart(){
             // 🎯 Solution : Affiche le nombre 'len' de manière centrée tout en haut de la barre
             topLabelComponent:()=>(<View style={{flexDirection:'column',justifyContent:'center',alignItems:'center',backgroundColor:'rgba(0,0,250,0.4)',borderRadius:5,padding:5,paddingHorizontal:8,minWidth:40,width:'auto',height:'auto'}}>
               <Text style={{textAlign:'center',color:'white'}}>{len}</Text>
-              <Text style={{textAlign:'center',color:'white'}}>{ptg}</Text>
+              {/* <Text style={{textAlign:'center',color:'white'}}>{ptg}</Text> */}
               </View>),
             frontColor:'#177AD5'
           }
