@@ -390,7 +390,7 @@ export default function BarsChart(){
     return {startedAt:startedAt,endedAt:endedAt,postedAnalyses:postedAnalyses};
   });
   const prodsByDep=filter.filterByDep(postedAnalyses);
-  const [analyses,setAnalyses]=useState(Object.entries(postedAnalyses)[0][1]);
+  const [analyses,setAnalyses]=useState(Object.entries(prodsByDep)[0][1]);
   const prodsByName=filter.filterByName(analyses);
 
 
