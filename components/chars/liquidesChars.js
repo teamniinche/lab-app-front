@@ -422,7 +422,7 @@ export default function BarsChart(){
             labelComponent:()=>(<Text style={{backgroundColor:'rgba(0,0,0,0.3)',color:'white',fontWeight:'bold',letterSpacing:1.5}}>{reduceText(key)}</Text>),
 
             // 🎯 Solution : Affiche le nombre 'len' de manière centrée tout en haut de la barre
-            topLabelComponent:()=>(<Text style={{flexDirection:'column',backgroundColor:'rgba(0,0,250,0.4)',textAlign:'center',color:'white',borderRadius:5,padding:5,paddingHorizontal:8,minWidth:40,width:'auto',height:30}}>
+            topLabelComponent:()=>(<Text style={{flexDirection:'column',backgroundColor:'rgba(0,0,250,0.4)',textAlign:'center',color:'white',borderRadius:5,padding:5,paddingHorizontal:8,minWidth:40,width:'auto',height:'auto'}}>
               <Text style={{color:'white'}}>{((len/analyses?.length)*100).toFixed(1).toString()+'%'}</Text>
               <Text style={{color:'white'}}>{len}</Text>
               </Text>),
