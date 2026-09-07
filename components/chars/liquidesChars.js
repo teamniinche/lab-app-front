@@ -5,7 +5,7 @@ import { LineChart,BarChart } from 'react-native-gifted-charts';
 import Filters from '../../kernel/classes/formatTablesAnalyses.js';
 import Interval from '../../kernel/classes/graphes/datesInterval.js';
 import {colorFromName} from '../../assets/functions.js';
-import Btn from './buttons/btnWithinfo.js';
+import Btn from '../buttons/btnWithinfo.js';
 import Colors from '../../assets/colors.js';
 import {primaryColor,enginesForDep} from '../../assets/constantes.js';
 const interval=new Interval();
