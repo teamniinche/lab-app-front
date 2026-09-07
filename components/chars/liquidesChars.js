@@ -69,6 +69,7 @@ const BarComponent=({params})=>{
                 }}
           >
             <GraphesNav render={(C)=>setComponent(C)}/>
+            {COMPONENTS[Component]}
           </ScrollView>
  }
 
@@ -791,9 +792,14 @@ const BarsComponent = ({ dp }) => {
 };
 
 const graphes={
-  productions:{component:BarsChart,info:'Dans un département selectionné, donne les statistiques de production suivant le produit'},
-  productionsParSemaine:{component:MultiStagesBarCharts,info:'Sur la période selectionnée,donne les statistiques de production de chaque semaine'},
-  performances:{component:PerformanceBarChart,info:'Comparaison des départements de production suivant le nombre de mélanges par mélange'}
+  productions:{component:'BarsChart',info:'Dans un département selectionné, donne les statistiques de production suivant le produit'},
+  productionsParSemaine:{component:'MultiStagesBarCharts',info:'Sur la période selectionnée,donne les statistiques de production de chaque semaine'},
+  performances:{component:'PerformanceBarChart',info:'Comparaison des départements de production suivant le nombre de mélanges par mélange'}
+}
+const COMPONENTS={
+  BarsChart:()=>(<BarsChart/>),
+  MultiStagesBarCharts:()=>(<MultiStagesBarCharts/>),
+  PerformanceBarChart:()=>(<PerformanceBarChart/>)
 }
 
 
