@@ -59,11 +59,11 @@ const BarComponent=({params})=>{
   return <ScrollView 
                 horizontal={true}  
                 style={{ 
-                        minWidth:1200,
+                        minWidth:1050,
                         width:'100%',
                         height:'auto',
-                        flexDirection:'row',
-                        justifyContent:'space-between',
+                        flexDirection:'column',
+                        justifyContent:'flex-start',
                         alignItems:'flex-start',
                         padding: 5
                 }}
@@ -83,7 +83,7 @@ const GraphesNav=({render})=>{
     }
     const hoverStyle={backgroundColor:'rgba(0,0,250,0.1)',borderRadius:4}
     const focusStyle={backgroundColor:'rgba(0,0,250,0.2)',borderRadius:4}
-    return <View style={{width:100,minHeigth:500,paddingHorizontal:10,paddingVertical:20,paddingTop:5,marginRight:15,borderRadius:5,borderWidth:1,borderBottomWidth:0,borderColor:'grey',backgroundColor:'rgba(240,240,240,0.2)'}}>
+    return <View style={{flexDirection:'row',justifyContent:'flex-start',gap:5,alignItems:'center',minWidth:1050,minHeigth:40,paddingHorizontal:10,paddingVertical:5,marginHorizontal:'auto',borderRadius:5,borderWidth:1,borderBottomWidth:0,borderColor:'grey',backgroundColor:'rgba(240,240,240,0.2)'}}>
         <Text style={{color:primaryColor,backgroundColor:'rgba(0,0,0,0.15)',borderRadius:4,paddingVertical:20,textAlign:'center',marginBottom:20,letterSpacing:2,fontSize:14,fontWeight:'bold'}}>Graphiques</Text>
         {Object.entries(graphes).map(([k,value])=>{
           const {component,info}=value;
@@ -97,7 +97,7 @@ const GraphesNav=({render})=>{
               info={info}
 
           >
-            <Text style={{color:focusedGrap===k?'white':'black',letterSpacing:2,fontSize:13,fontWeight:'bold'}}>{k}</Text>
+            <Text style={{color:focusedGrap===k?'white':'black',letterSpacing:2,fontSize:13,fontWeight:'bold'}}>{k.replace('ProductionsPar',' / ')}</Text>
           </Btn>
         })}
       </View>
@@ -792,9 +792,9 @@ const BarsComponent = ({ dp }) => {
 };
 
 const graphes={
-  productions:{component:'BarsChart',info:'Dans un département selectionné, donne les statistiques de production suivant le produit'},
-  productionsParSemaine:{component:'MultiStagesBarCharts',info:'Sur la période selectionnée,donne les statistiques de production de chaque semaine'},
-  performances:{component:'PerformanceBarChart',info:'Comparaison des départements de production suivant le nombre de mélanges par mélange'}
+  Productions:{component:'BarsChart',info:'Dans un département selectionné, donne les statistiques de production suivant le produit'},
+  ProductionsParSemaine:{component:'MultiStagesBarCharts',info:'Sur la période selectionnée,donne les statistiques de production de chaque semaine'},
+  Performances:{component:'PerformanceBarChart',info:'Comparaison des départements de production suivant le nombre de mélanges par mélange'}
 }
 const COMPONENTS={
   BarsChart:<BarsChart/>,
