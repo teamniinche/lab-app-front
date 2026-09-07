@@ -6,6 +6,8 @@ import {useCurrentProducted} from './wrappers/contexts';
 
 
 const Entete=({thisEntete,donnees,headers,render})=>{
+    console.log([...donnees])
+
   const [observations,actions,...rest]=headers;
   const info='filter la table suivant '+thisEntete?.toLowerCase();
   const HEADERS=[/* --> liquide */'heure','name','machine','reservoir','chimiste',/* --> poudre */'gg','matiere_active','alcanite','humidite'];
@@ -27,7 +29,6 @@ const Entete=({thisEntete,donnees,headers,render})=>{
 
   // 3. Tri des données en temps réel (optimisé avec useMemo)
   const donneesTriees = useMemo(() => {
-    console.log([...donnees])
     const copieDonnees = [...donnees];
     const entte=entete==='heure'?'createdAt':(entete==='chimiste'?'Utilisateur':entete);
     return copieDonnees.sort((a, b) => {
