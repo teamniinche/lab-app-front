@@ -28,7 +28,7 @@ const Entete=({thisEntete,donnees,headers,render})=>{
 
   // 3. Tri des données en temps réel (optimisé avec useMemo)
   const donneesTriees = useMemo(() => {
-    const copieDonnees =donnees?.length!==0?[...donnees]:[];
+    const copieDonnees =donnees?.length?[...donnees]:[];
     const entte=entete==='heure'?'createdAt':(entete==='chimiste'?'Utilisateur':entete);
     return copieDonnees.sort((a, b) => {
       if(entte==='utilisateur'){
