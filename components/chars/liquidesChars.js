@@ -11,6 +11,16 @@ import {primaryColor,enginesForDep} from '../../assets/constantes.js';
 const interval=new Interval();
 const filter=new Filters();
 function Y(val,index){const y=6+index;return y}
+const graphes={
+  Productions:{component:'BarsChart',info:'Dans un département selectionné, donne les statistiques de production suivant le produit'},
+  ProductionsParSemaine:{component:'MultiStagesBarCharts',info:'Sur la période selectionnée,donne les statistiques de production de chaque semaine'},
+  Performances:{component:'PerformanceBarChart',info:'Comparaison des départements de production suivant le nombre de mélanges par mélange'}
+}
+const COMPONENTS={
+  BarsChart:<BarsChart/>,
+  MultiStagesBarCharts:<MultiStagesBarCharts/>,
+  PerformanceBarChart:<PerformanceBarChart/>
+}
 function reduceText(Text){
   return Text.replace('Madar','Mdr').replace('Renzo','').replace('Citron','cit').replace('Noura','Nra').replace('Premium','prem').replace('Platinium','plat')
 }
@@ -54,6 +64,7 @@ const BarComponent=({params})=>{
                 </Text>
               </View>
 }
+
 export default function Main(){
   const [Component,setComponent]=useState('BarsChart')
   return <View
@@ -84,7 +95,7 @@ const GraphesNav=({render})=>{
     const focusStyle={backgroundColor:'rgba(0,0,250,0.5)',borderRadius:4}
     return <View style={{flexDirection:'column',justifyContent:'flex-start',alignItems:'flex-start',gap:3,minWidth:1050,width:'100%',heigth:'auto',padding:8,borderRadius:5,borderWidth:1,borderColor:'grey',backgroundColor:'rgba(240,240,240,0.2)'}}>
         <Text style={{color:'rgba(0,0,0,0.2)',borderRadius:4,paddingVertical:4,textAlign:'center',letterSpacing:2,fontSize:14,fontWeight:'bold'}}>Graphiques</Text>
-        <View style={{flexDirection:'row',justifyContent:'flex-start',gap:10,alignItems:'center',width:'auto',height:20}}>
+        <View style={{flexDirection:'row',paddingLeft:50,justifyContent:'flex-start',gap:15,alignItems:'center',width:'auto',height:20}}>
             {Object.entries(graphes).map(([k,value])=>{
               const {component,info}=value;
               return <Btn
@@ -415,9 +426,7 @@ export function MultiStagesBarCharts(){
                   padding:15 
                 }}
             >
-              <Text style={{ color: 'white', fontSize: 16, fontWeight: 'bold', marginBottom: 20 }}>
-                Statistiques de productions/produit*semaine superposé
-              </Text>
+              <Titre params={{dateStart:startedAt,dateEnd:endedAt,total:analyses?.length,literal:' productions/produit*semaine superposé'}}/>
               <BarChart
                 stackData={stackData}         // ✅ Charge la structure multi-étages
                 barWidth={40}                 // Largeur de chaque colonne empilée
@@ -647,6 +656,7 @@ export function PerformanceBarChart(){
                         width:'100%',
                         height:'auto',
                         flexDirection:'row',
+                        marginHorizontal:'auto',
                         justifyContent:'space-between',
                         alignItems:'flex-start',
                         padding: 5
@@ -722,85 +732,6 @@ export function PerformanceBarChart(){
     </ScrollView>
   );
 };
-
-
-
-const BarsComponent = ({ dp }) => {
-
-  return (
-    <View style={{
-                position: 'absolute',
-                width: 200,             // 💡 Donne un espace large virtuel pour éviter l'enroulement
-                flexDirection:'row',
-                justifyContent: 'center',
-                alignItems: 'center',
-                height:'auto',
-                padding:1,
-                transform: [{ rotate: '-90deg' }],
-                backgroundColor:'rgba(0,0,0,0.16)',
-                // left: -100 + (40 / 2),  // 💡 Centre le bloc virtuel (remplacez 40 par votre barWidth)
-              }}>
-                <Text 
-                  numberOfLines={1}     // ❌ Empêche le retour à la ligne
-                  style={{
-                    color: 'white', 
-                    fontSize: 10, 
-                    fontWeight: 'bold',
-                    textAlign: 'center',
-                    letterSpacing:0.9,
-                  }}
-                >
-                  {dp}
-                </Text>
-              </View>
-
-
-
-    // <View style={{
-    //   position: 'absolute',
-    //   top: 0,
-    //   bottom: 0,
-    //   left: 0,
-    //   right: 0,
-    //   justifyContent: 'center', // Centre le texte verticalement dans la barre
-    //   alignItems: 'center',     // Centre le texte horizontalement dans la barre
-    // }}>
-    //   <View style={{
-    //     transform: [{ rotate: '-90deg' }], // 🔄 Pivote le texte à la verticale (bas vers le haut)
-    //     width: 100,                        // 💡 Largeur virtuelle pour éviter que le texte ne s'enroule
-    //     alignItems: 'center',
-    //     justifyContent: 'center',
-    //   }}>
-    //     <Text 
-    //       numberOfLines={1}
-    //       style={{
-    //         color: 'white',
-    //         fontSize: 10,
-    //         fontWeight: 'bold',
-    //         textAlign: 'center',
-    //         // Optionnel : ajouter une ombre pour la lisibilité sur fond coloré
-    //         textShadowColor: 'rgba(0, 0, 0, 0.5)',
-    //         textShadowOffset: { width: 1, height: 1 },
-    //         textShadowRadius: 2,
-    //       }}
-    //     >
-    //       {dp} {/* Affiche votre label ou pourcentage */}
-    //     </Text>
-    //   </View>
-    // </View>
-  );
-};
-
-const graphes={
-  Productions:{component:'BarsChart',info:'Dans un département selectionné, donne les statistiques de production suivant le produit'},
-  ProductionsParSemaine:{component:'MultiStagesBarCharts',info:'Sur la période selectionnée,donne les statistiques de production de chaque semaine'},
-  Performances:{component:'PerformanceBarChart',info:'Comparaison des départements de production suivant le nombre de mélanges par mélange'}
-}
-const COMPONENTS={
-  BarsChart:<BarsChart/>,
-  MultiStagesBarCharts:<MultiStagesBarCharts/>,
-  PerformanceBarChart:<PerformanceBarChart/>
-}
 
 
 
