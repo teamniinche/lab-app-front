@@ -5,6 +5,7 @@ import { LineChart,BarChart } from 'react-native-gifted-charts';
 import Filters from '../../kernel/classes/formatTablesAnalyses.js';
 import Interval from '../../kernel/classes/graphes/datesInterval.js';
 import {colorFromName} from '../../assets/functions.js';
+import Btn from './buttons/btnWithinfo.js';
 import Colors from '../../assets/colors.js';
 import {primaryColor,enginesForDep} from '../../assets/constantes.js';
 const interval=new Interval();
@@ -53,6 +54,35 @@ const BarComponent=({params})=>{
                 </Text>
               </View>
 }
+// {style,bcgrndClr,textStyle,onPress,onHoverOut,onHoverIn,info,children,...props}
+const GraphesNav=()=>{
+    const [grap,setGrap]=useState(null);
+    const [focusedGrap,setFocusedGrap]=useState(null);
+    function handleGrapPress(component,k){
+      setComponent(component);
+      setFocusedGrap(k);
+    }
+    const hoverStyle={backgroundColor:'rgba(0,0,250,0.1)',borderRadius:4}
+    const focusStyle={backgroundColor:'rgba(0,0,250,0.2)',borderRadius:4}
+    return <View style={{width:100,minHeigth:500,paddingHorizontal:10,paddingVertical:20,paddingTop:5,marginRight:15,borderRadius:5,borderWidth:1,borderBottomWidth:0,borderColor:'grey',backgroundColor:'rgba(240,240,240,0.2)'}}>
+        <Text style={{color:primaryColor,backgroundColor:'rgba(0,0,0,0.15)',borderRadius:4,paddingVertical:20,textAlign:'center',marginBottom:20,letterSpacing:2,fontSize:14,fontWeight:'bold'}}>Graphiques</Text>
+        {Object.entries(graphes).map(([k,value])=>{
+          const {component,info}=value;
+          return <Btn
+              style={[{width:'100%',height:50,padding:5},grap===k?hoverStyle:{},focusedGrap===k?focusStyle:{}]} 
+              onPress={()=>handleGrapPress(component,k)}
+              onHoverIn={()=>setGrap(k)}
+              onHoverOut={()=>setGrap(null)}
+              bcgrndClr={'rgba(0,0,0,0.8)'}
+              textStyle={styles.tooltipText}
+              info={info}
+
+          >
+            <Text style={{color:focusedGrap===k?'white':'black',letterSpacing:2,fontSize:13,fontWeight:'bold'}}>{k}</Text>
+          </Btn>
+        })}
+      </View>
+  }
 
 export function SingleLineChar() {
   const {startedAt,endedAt,postedAnalyses}=useSelector(state=>{
@@ -567,7 +597,6 @@ export default function PerformanceBarChart(){
   const barData=Object.entries(prodsByDep).map(([key,analyses])=>{
           const dep=key.split('-')[0];
           const len=analyses?.length;
-          alert(Math.ceil(len / enginesForDep[dep]).toFixed(0))
           const prodsByEngine=Math.ceil(len / enginesForDep[dep]).toFixed(0);
           return { 
             value: prodsByEngine,
@@ -743,12 +772,29 @@ const BarsComponent = ({ dp }) => {
   );
 };
 
+const graphes={
+  productions:{component:BarsChart,info:'Dans un département selectionné, donne les statistiques de production suivant le produit'},
+  productionsParSemaine:{component:MultiStagesBarCharts,info:'Sur la période selectionnée,donne les statistiques de production de chaque semaine'},
+  performances:{component:PerformanceBarChart,info:'Comparaison des départements de production suivant le nombre de mélanges par mélange'}
+}
+
 
 
 
 
 
 const styles = StyleSheet.create({
+    tooltipText: {
+    width:'auto',
+    // backgroundColor:'rgba(0,0,0,0.8)',
+    color:'white',
+    height:20,
+    padding:2,
+    borderRadius:2,
+    textAlign:'center',
+    letterSpacing:1.5,
+    fontSize:12
+  },
   container: {
     flex: 1,
     backgroundColor: '#f8f9fa',
