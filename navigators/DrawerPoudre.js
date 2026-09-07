@@ -209,7 +209,7 @@ const AnalysedList=() => {
                 <Text style={{fontSize:12,textAlign:"center",fontWeight:'bold',width:"35%"}}>{/*nom ||name*/nameToDisplay}</Text>
             </View>
             <View style={{width:"100%",height:"auto",minHeight:740,maxHeight:740,paddingHorizontal:10,paddingVertical:0}}>
-                <PowderHeaders headers={headers}/>
+                <PowderHeaders donnees={analysed} headers={headers} render={(anlyss)=>setAnalysed(anlyss)}/>
                 {/* {loading ? (<ActivityIndicator size="large" color="#0000ff" />
                         ) : ( */}
                     <View style={{width:"100%",minHeight:740,maxHeight:740,overflowY:"scroll",}}>
