@@ -797,9 +797,9 @@ const graphes={
   performances:{component:'PerformanceBarChart',info:'Comparaison des départements de production suivant le nombre de mélanges par mélange'}
 }
 const COMPONENTS={
-  BarsChart:()=>(<BarsChart/>),
-  MultiStagesBarCharts:()=>(<MultiStagesBarCharts/>),
-  PerformanceBarChart:()=>(<PerformanceBarChart/>)
+  BarsChart:<BarsChart/>,
+  MultiStagesBarCharts:<MultiStagesBarCharts/>,
+  PerformanceBarChart:<PerformanceBarChart/>
 }
 
 
