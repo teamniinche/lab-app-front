@@ -69,7 +69,7 @@ export default function Main(){
                 }}
           >
             <GraphesNav render={(C)=>setComponent(C)}/>
-            {COMPONENTS[Component]}
+            <View>{COMPONENTS[Component]}</View>
           </ScrollView>
  }
 
