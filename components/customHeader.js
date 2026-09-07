@@ -30,7 +30,7 @@ const Entete=({thisEntete,donnees,headers,render})=>{
   const donneesTriees = useMemo(() => {
     const copieDonnees = [...donnees];
     const entte=entete==='heure'?'createdAt':(entete==='chimiste'?'Utilisateur':entete);
-    return copieDonnees.sort((a, b) => {
+    return (copieDonnees || []).sort((a, b) => {
       if(entte==='utilisateur'){
         if (a[entte]['pseudo'] < b[entte]['pseudo']) return directionTri === 'asc' ? -1 : 1;
         if (a[entte]['pseudo'] > b[entte]['pseudo']) return directionTri === 'asc' ? 1 : -1;
