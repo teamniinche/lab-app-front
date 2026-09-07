@@ -280,7 +280,7 @@ export const AnalysedListTour=() => {
     return <View style={{flex:1,width:"100%",minHeight:400,borderWidth:1,borderColor:'grey',borderRadius:15,backgroundColor:'white',paddingVertical:20,flexDirection:'column',justifyContent:'flex-start',alignItems:'center',marginLeft:2,marginTop:40}}>
             
             <View style={{width:"100%",height:"auto",minHeight:400,maxHeight:400,paddingHorizontal:10,paddingVertical:0}}>
-                <PowderHeaders headers={headersTour}/>
+                <PowderHeaders donnees={analysed} headers={headersTour} render={(anlyss)=>setAnalysed(anlyss)}/>
                     {/* <View style={{width:"100%",minHeight:740,maxHeight:740,overflowY:"scroll",}}> */}
                         <ScrollView 
                                 ref={scrollViewRef}
