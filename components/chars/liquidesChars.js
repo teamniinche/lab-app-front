@@ -54,9 +54,9 @@ const BarComponent=({params})=>{
                 </Text>
               </View>
 }
- export default function Main(){
+export default function Main(){
   const [Component,setComponent]=useState('BarsChart')
-  return <ScrollView 
+  return <ScrollView
                 horizontal={true}  
                 style={{ 
                         minWidth:1050,
@@ -83,12 +83,12 @@ const GraphesNav=({render})=>{
     }
     const hoverStyle={backgroundColor:'rgba(0,0,250,0.1)',borderRadius:4}
     const focusStyle={backgroundColor:'rgba(0,0,250,0.2)',borderRadius:4}
-    return <View style={{flexDirection:'row',justifyContent:'flex-start',gap:5,alignItems:'center',minWidth:1050,minHeigth:40,paddingHorizontal:10,paddingVertical:5,marginHorizontal:'auto',borderRadius:5,borderWidth:1,borderBottomWidth:0,borderColor:'grey',backgroundColor:'rgba(240,240,240,0.2)'}}>
+    return <View style={{flexDirection:'row',justifyContent:'flex-start',gap:5,alignItems:'center',minWidth:1050,heigth:40,paddingHorizontal:10,paddingVertical:5,marginHorizontal:'auto',borderRadius:5,borderWidth:1,borderBottomWidth:0,borderColor:'grey',backgroundColor:'rgba(240,240,240,0.2)'}}>
         <Text style={{color:primaryColor,backgroundColor:'rgba(0,0,0,0.15)',borderRadius:4,paddingVertical:20,textAlign:'center',marginBottom:20,letterSpacing:2,fontSize:14,fontWeight:'bold'}}>Graphiques</Text>
         {Object.entries(graphes).map(([k,value])=>{
           const {component,info}=value;
           return <Btn
-              style={[{width:'100%',height:50,padding:5},grap===k?hoverStyle:{},focusedGrap===k?focusStyle:{}]} 
+              style={[{width:'100%',height:40,padding:5},grap===k?hoverStyle:{},focusedGrap===k?focusStyle:{}]} 
               onPress={()=>handleGrapPress(component,k)}
               onHoverIn={()=>setGrap(k)}
               onHoverOut={()=>setGrap(null)}
