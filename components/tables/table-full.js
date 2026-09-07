@@ -84,15 +84,15 @@ export default TableFull=({navigation/*,route*/,routeNheaders})=>{
     },[product,api_url,startedAt,endedAt]);
     // =======================================================
 
-    useLayoutEffect(()=>{
-        navigation.setOptions({
-            headerLeft:()=>(
-                <TouchableOpacity style={{width:80,margin:0,marginLeft:30,backgroundColor:'transparent',}} onPress={() => navigation.goBack()}>
-                    <FontAwesome5 name='arrow-left' size={20} color='white'/>
-                </TouchableOpacity>
-            )
-        })
-    })
+    // useLayoutEffect(()=>{
+    //     navigation.setOptions({
+    //         headerLeft:()=>(
+    //             <TouchableOpacity style={{width:80,margin:0,marginLeft:30,backgroundColor:'transparent',}} onPress={() => navigation.goBack()}>
+    //                 <FontAwesome5 name='arrow-left' size={20} color='white'/>
+    //             </TouchableOpacity>
+    //         )
+    //     })
+    // })
 
     const refresh=()=>{// Pour raffraichir le screen d'accueil
         // setRefreshing(true); // je trouve la similation moche
