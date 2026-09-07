@@ -54,12 +54,30 @@ const BarComponent=({params})=>{
                 </Text>
               </View>
 }
+ export default function Main(){
+  const [Component,setComponent]=useState('BarsChart')
+  return <ScrollView 
+                horizontal={true}  
+                style={{ 
+                        minWidth:1200,
+                        width:'100%',
+                        height:'auto',
+                        flexDirection:'row',
+                        justifyContent:'space-between',
+                        alignItems:'flex-start',
+                        padding: 5
+                }}
+          >
+            <GraphesNav render={(C)=>setComponent(C)}/>
+          </ScrollView>
+ }
+
 // {style,bcgrndClr,textStyle,onPress,onHoverOut,onHoverIn,info,children,...props}
-const GraphesNav=()=>{
+const GraphesNav=({render})=>{
     const [grap,setGrap]=useState(null);
     const [focusedGrap,setFocusedGrap]=useState(null);
     function handleGrapPress(component,k){
-      setComponent(component);
+      render(component);
       setFocusedGrap(k);
     }
     const hoverStyle={backgroundColor:'rgba(0,0,250,0.1)',borderRadius:4}
@@ -586,7 +604,7 @@ export function BarsChart(){
 };
 
 
-export default function PerformanceBarChart(){
+export function PerformanceBarChart(){
 
     const {startedAt,endedAt,postedAnalyses}=useSelector(state=>{
     const {startedAt,endedAt}=state.period.targetPeriod;
