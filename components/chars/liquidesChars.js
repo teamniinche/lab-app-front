@@ -56,8 +56,7 @@ const BarComponent=({params})=>{
 }
 export default function Main(){
   const [Component,setComponent]=useState('BarsChart')
-  return <ScrollView
-                horizontal={true}  
+  return <View
                 style={{ 
                         minWidth:1050,
                         width:'100%',
@@ -69,8 +68,8 @@ export default function Main(){
                 }}
           >
             <GraphesNav render={(C)=>setComponent(C)}/>
-            <View>{COMPONENTS[Component]}</View>
-          </ScrollView>
+            {COMPONENTS[Component]}
+          </View>
  }
 
 // {style,bcgrndClr,textStyle,onPress,onHoverOut,onHoverIn,info,children,...props}
