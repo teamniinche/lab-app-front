@@ -80,9 +80,9 @@ const GraphesNav=({render})=>{
       render(component);
       setFocusedGrap(k);
     }
-    const hoverStyle={backgroundColor:'rgba(0,0,250,0.1)',borderRadius:4}
-    const focusStyle={backgroundColor:'rgba(0,0,250,0.2)',borderRadius:4}
-    return <View style={{flexDirection:'column',justifyContent:'flex-start',alignItems:'flex-start',gap:3,minWidth:1050,heigth:'auto',padding:8,borderRadius:5,borderWidth:1,borderRightWidth:0,borderColor:'grey',backgroundColor:'rgba(240,240,240,0.2)'}}>
+    const hoverStyle={backgroundColor:'rgba(0,0,250,0.0.08)',borderRadius:4}
+    const focusStyle={backgroundColor:'rgba(0,0,250,0.5)',borderRadius:4}
+    return <View style={{flexDirection:'column',justifyContent:'flex-start',alignItems:'flex-start',gap:3,minWidth:1050,width:'100%',heigth:'auto',padding:8,borderRadius:5,borderWidth:1,borderColor:'grey',backgroundColor:'rgba(240,240,240,0.2)'}}>
         <Text style={{color:'rgba(0,0,0,0.2)',borderRadius:4,paddingVertical:4,textAlign:'center',letterSpacing:2,fontSize:14,fontWeight:'bold'}}>Graphiques</Text>
         <View style={{flexDirection:'row',justifyContent:'flex-start',gap:10,alignItems:'center',width:'auto',height:20}}>
             {Object.entries(graphes).map(([k,value])=>{
