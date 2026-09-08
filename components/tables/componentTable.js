@@ -70,7 +70,8 @@ const Table = ({current,rend,product,API_URL, headers }) => {
                 return route.name;
             });
         const gf=drawerRouteName.includes('graphes')?'':'/liquides/';
-        const TYPE=targeted?`${gf}${targeted}` : '/*';
+        // const TYPE=targeted?`${gf}${targeted}` : '/*';
+        const TYPE=targeted?`${targeted}` : '/*';
 
         useEffect(()=>{
             if (drawerNavigation/* && !drawerRouteName.includes('raphes')*/) {

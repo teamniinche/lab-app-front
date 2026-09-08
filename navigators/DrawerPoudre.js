@@ -353,7 +353,8 @@ export const AnalysedListe=({product,rend}) => {// Pour Poudre-full
                 return route.name;
             });
         const gf=drawerRouteName.includes('graphes')?'':'/poudres';
-        const TYPE=type?`${gf}${type}` : '/*';
+        // const TYPE=type?`${gf}${type}` : '/*';
+        const TYPE=type?`${type}` : '/*';
         
         
         useEffect(()=>{
