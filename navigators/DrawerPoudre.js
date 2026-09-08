@@ -354,7 +354,7 @@ export const AnalysedListe=({product,rend}) => {// Pour Poudre-full
             });
         const gf=drawerRouteName.includes('graphes')?'':'/poudres';
         // const TYPE=type?`${gf}${type}` : '/*';
-        const TYPE=type?`${type}` : '/*';
+        const TYPE=type?`/${type}` : '/*';
         
         
         useEffect(()=>{
@@ -362,7 +362,7 @@ export const AnalysedListe=({product,rend}) => {// Pour Poudre-full
                 drawerNavigation.setOptions({title: `${drawerRouteName}${TYPE}`});
                 drawerNavigation.setOptions({
                     headerLeft:()=>(
-                        <TouchableOpacity style={{width:45,margin:0,marginLeft:30,backgroundColor:'transparent',}} onPress={() => drawerNavigation.goBack()}>
+                        <TouchableOpacity style={{width:40,margin:0,marginLeft:30,backgroundColor:'transparent',}} onPress={() => drawerNavigation.goBack()}>
                             <FontAwesome5 name='arrow-left' size={20} color='white'/>
                         </TouchableOpacity>
                     )
