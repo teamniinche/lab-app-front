@@ -11,7 +11,7 @@ import {useState} from 'react';
 // DATA STATEMENTS
 import { setPowderType } from './store/reducers/powderAnalysesReducer';
 import { changeCritery } from './store/reducers/criteryReducer';
-import { PopupProvider, usePopup } from './wrappers/contexts';
+import { PopupProvider, usePopup,useCurrentProducted} from './wrappers/contexts';
 import { setPeriod} from './store/reducers/periodReducer';
 import { cloone } from './store/reducers/activedReducer';
 import { connect } from './store/reducers/userReducer';
