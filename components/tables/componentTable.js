@@ -1,5 +1,6 @@
 // CALLED PACKAGES
 import { View, Text, FlatList, StyleSheet, Button,ActivityIndicator,TouchableOpacity, TextInput,Platform } from "react-native";
+import { FontAwesome5 } from '@expo/vector-icons';
 import { useNavigation ,useNavigationState} from '@react-navigation/native';
 import { Badge, Dialog, PaperProvider,Portal, Searchbar } from "react-native-paper";
 import { useState, useEffect,useContext,useMemo } from "react";
