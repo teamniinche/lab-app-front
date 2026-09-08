@@ -177,6 +177,14 @@ export function MultiLineCharts(){
       }})}
   });
 
+  const Texts=({text,focusedDep})=>{
+    const texts=text.split('-');
+    return <View style={{flexDirection:'column',justifyContent:'center',gap:4,alignItems:'center'}}>
+            <Text style={{color:focusedDep===text?'white':'black',letterSpacing:2,fontSize:13,fontWeight:'bold'}}>{texts[0]}</Text>
+            <Text style={{color:focusedDep===text?'white':'rgba(0,0,0,0.4)',letterSpacing:2,fontSize:8,fontWeight:'bold'}}>{texts[1]}</Text>
+    </View>
+  }
+
   const LateralNav=()=>{
     const [dep,setDep]=useState(null);
     const [focusedDep,setFocusedDep]=useState(null);
