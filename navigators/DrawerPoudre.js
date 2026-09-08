@@ -341,7 +341,7 @@ export const AnalysedListe=({product,rend}) => {// Pour Poudre-full
 
         // ========================================= AFFICHAGE DE LA ROUTE =======================================
         const suffixe = product ? `/${product}` : '';
-        const NTT=(entete && entete!=='heure')?` #${entete}`:'';
+        const NTT=(entete && entete!=='heure')?(!drawerRouteName.includes('graphes')??` #${entete}`''):'';
         // 1. Récupérer PRÉCISEMENT le nom de la route active du Drawer enfant
         const drawerRouteName = useNavigationState((state) => {
                 // On cherche l'état de la route actuellement affichée
