@@ -71,12 +71,12 @@ const Table = ({current,rend,product,API_URL, headers }) => {
             });
         const gf=drawerRouteName.includes('graphes')?'':'/liquides/';
         // const TYPE=targeted?`${gf}${targeted}` : '/*';
-        const TYPE=targeted?`${targeted}` : '/*';
+        const TYPE=targeted?(!drawerRouteName.includes('graphes')?`/${targeted}`:'' ): '/*';
 
         useEffect(()=>{
             if (drawerNavigation/* && !drawerRouteName.includes('raphes')*/) {
                 // drawerNavigation.setOptions({title: `${drawerRouteName}${TYPE}`});
-                drawerNavigation.setOptions({title: `${drawerRouteName}`});
+                drawerNavigation.setOptions({title: `${drawerRouteName}${TYPE}`});
                 drawerNavigation.setOptions({
                     headerLeft:()=>(
                         <TouchableOpacity style={{width:40,margin:0,marginLeft:30,backgroundColor:'transparent',}} onPress={() => drawerNavigation.goBack()}>
