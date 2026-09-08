@@ -13,6 +13,7 @@ const filter=new Filters();
 function Y(val,index){const y=6+index;return y}
 const graphes={
   Productions:{component:'BarsChart',info:'Dans un département selectionné, donne les statistiques de production suivant le produit'},
+  EvolutionParProduit:{component:'MultiLineCharts',info:"Dans un département selectionné, donne l'évolution de la production de chaque produit sur la période selectionnée"},
   ProductionsParSemaine:{component:'MultiStagesBarCharts',info:'Sur la période selectionnée,donne les statistiques de production de chaque semaine'},
   Performances:{component:'PerformanceBarChart',info:'Comparaison des départements de production suivant le nombre de mélanges par mélange'}
 }
@@ -108,7 +109,7 @@ const GraphesNav=({render})=>{
                   textStyle={styles.tooltipText}
                   info={info}
               >
-                <Text style={{color:focusedGrap===k?'white':'black',letterSpacing:2,fontSize:13,fontWeight:'bold'}}>{k.replace('ProductionsPar','Prods/')}</Text>
+                <Text style={{color:focusedGrap===k?'white':'black',letterSpacing:2,fontSize:13,fontWeight:'bold'}}>{k.replace('ProductionsPar','Prods / ').replace('EvolutionPar','Prods / ')}</Text>
               </Btn>
             })}
         </View>
