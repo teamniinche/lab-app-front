@@ -340,8 +340,7 @@ export const AnalysedListe=({product,rend}) => {// Pour Poudre-full
         },[]);
 
         // ========================================= AFFICHAGE DE LA ROUTE =======================================
-        const suffixe = product ? `/ ${product}` : '';
-        const TYPE=type?`/ ${type}` : '/*';
+        const suffixe = product ? `/${product}` : '';
         const NTT=(entete && entete!=='heure')?` #${entete}`:'';
         // 1. Récupérer PRÉCISEMENT le nom de la route active du Drawer enfant
         const drawerRouteName = useNavigationState((state) => {
@@ -353,10 +352,13 @@ export const AnalysedListe=({product,rend}) => {// Pour Poudre-full
 
                 return route.name;
             });
+        const gf=drawerRouteName.includes('graphes')?'':'/poudres';
+        const TYPE=type?`${gf}${type}` : '/*';
+        
         
         useEffect(()=>{
             if (drawerNavigation/* && !drawerRouteName.includes('raphes')*/) {
-                drawerNavigation.setOptions({title: `${drawerRouteName} / poudres ${TYPE}`});
+                drawerNavigation.setOptions({title: `${drawerRouteName}${TYPE}`});
                 drawerNavigation.setOptions({
                     headerLeft:()=>(
                         <TouchableOpacity style={{width:45,margin:0,marginLeft:30,backgroundColor:'transparent',}} onPress={() => drawerNavigation.goBack()}>
