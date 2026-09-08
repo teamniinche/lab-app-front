@@ -69,7 +69,7 @@ const Titre=({params})=>{
   return <View style={{height:'auto',maxWidth:350,flexDirection:'column',borderRadius:8,marginHorizontal:'auto',paddingHorizontal:5,justifyContent:'center',backgroundColor:'rgba(250, 250, 250, 0.9)',alignItems:'center',borderWidth:2,borderColor:'rgba(255,255,255,0.4)',
               }}>
             <Text style={{width:'auto',color:'grey',paddingHorizontal:10,fontWeight:'bold',fontSize:10}}>{'Statistiques du ' +dateFr(dateStart)+' au '+dateFr(dateEnd)}</Text>
-            <Text style={{width:'auto',color:'black',paddingHorizontal:10,fontWeight:'bold',fontSize:12}}>{total +' analyses : '+literal}</Text>
+            <Text style={{width:'auto',color:'black',paddingHorizontal:10,fontWeight:'bold',fontSize:12}}>{literal+' : '+total +' analyses'}</Text>
         </View>
 }
 const BarComponent=({params})=>{
@@ -133,7 +133,7 @@ const GraphesNav=({render})=>{
             {Object.entries(graphes).map(([k,value])=>{
               const {component,info}=value;
               return <Btn
-                  style={[{width:'100%',height:25,padding:2},grap===k?hoverStyle:{},focusedGrap===k?focusStyle:{}]} 
+                  style={[{width:'100%',height:25,padding:2,marginHorizontal:15},grap===k?hoverStyle:{},focusedGrap===k?focusStyle:{}]} 
                   onPress={()=>handleGrapPress(component,k)}
                   onHoverIn={()=>setGrap(k)}
                   onHoverOut={()=>setGrap(null)}
@@ -141,7 +141,7 @@ const GraphesNav=({render})=>{
                   textStyle={styles.tooltipText}
                   info={info}
               >
-                <Text style={{color:focusedGrap===k?'white':'black',letterSpacing:2,fontSize:13,fontWeight:'bold'}}>{k.replace('ProductionsPar','Prods / ').replace('EvolutionPar','Prods / ')}</Text>
+                <Text style={{color:focusedGrap===k?'white':'black',letterSpacing:2,fontSize:13,fontWeight:'bold'}}>{k.replace('ProductionsPar','Prods/').replace('EvolutionPar','Prods/')}</Text>
               </Btn>
             })}
         </View>
