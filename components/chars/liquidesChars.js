@@ -17,6 +17,7 @@ const graphes={
   Performances:{component:'PerformanceBarChart',info:'Comparaison des départements de production suivant le nombre de mélanges par mélange'}
 }
 const COMPONENTS={
+  MultiLineCharts:<MultiLineCharts/>,
   BarsChart:<BarsChart/>,
   MultiStagesBarCharts:<MultiStagesBarCharts/>,
   PerformanceBarChart:<PerformanceBarChart/>
@@ -155,8 +156,11 @@ export function MultiLineCharts(){
     const postedAnalyses=state.data.postedAnalyses;
     return {startedAt:startedAt,endedAt:endedAt,postedAnalyses:postedAnalyses};
   });
+  const prodsByDep=filter.filterByDep(postedAnalyses);
   const [coordonnees,setCoordonnees]=useState({x:0,y:0,item:null});
-  const {differentProducts,prodsWeeks}=interval.prodsByWeeks(postedAnalyses,startedAt,endedAt);
+  const [analyses,setAnalyses]=useState(Object.values(prodsByDep)[0] || []);
+  const {differentProducts,prodsWeeks}=interval.prodsByWeeks(analyses,startedAt,endedAt);
+
   const LinesData=differentProducts.map(dp=>{
     return {name:dp,LineData:Object.entries(prodsWeeks).map(([key,val])=>{
       const vl=val.analyses.filter(p=>p.name===dp).length;
@@ -171,9 +175,35 @@ export function MultiLineCharts(){
 
       }})}
   });
+
+  const LateralNav=()=>{
+    const [dep,setDep]=useState(null);
+    const [focusedDep,setFocusedDep]=useState(null);
+    function handleDepPress(items,k){
+      setAnalyses(items);
+      setFocusedDep(k);
+    }
+    const hoverStyle={backgroundColor:'rgba(0,0,250,0.1)',borderRadius:4}
+    const focusStyle={backgroundColor:'rgba(0,0,250,0.2)',borderRadius:4}
+    return <View style={{width:200,minHeigth:500,paddingHorizontal:10,paddingVertical:20,paddingTop:5,marginRight:15,borderRadius:5,borderWidth:1,borderBottomWidth:0,borderColor:'grey',backgroundColor:'whitesmoke'}}>
+        <Text style={{color:primaryColor,backgroundColor:'rgba(0,0,0,0.15)',borderRadius:4,paddingVertical:20,textAlign:'center',marginBottom:20,letterSpacing:2,fontSize:14,fontWeight:'bold'}}>Départements</Text>
+        {Object.entries(prodsByDep).sort((a,b)=>b[0].localeCompare(a[0])).map(([k,items])=>{
+          return <Pressable 
+              style={[{width:'100%',height:50,padding:5},dep===k?hoverStyle:{},focusedDep===k?focusStyle:{}]} 
+              onPress={()=>handleDepPress(items,k)}
+              onHoverIn={()=>setDep(k)}
+              onHoverOut={()=>setDep(null)}
+          >
+            <Texts text={k} focusedDep={focusedDep}/>
+          </Pressable>
+        })}
+      </View>
+  }
+
   const FocusedShape=()=>{
     return <Text style={{backgroundColor:'white',color:'black',borderRadius:5,width:200,height:200,padding:4,position:'absolute',bottom:coordonnees.y,left:coordonnees.x}}>test</Text>;
   }
+
   const chartsDataSets=LinesData.map(item=>{
     const {name,LineData}=item;
     const clr=Colors[colorFromName(name)];
@@ -248,63 +278,76 @@ export function MultiLineCharts(){
     }
   }})
 
-  return (<View style={styles.container}>
-         <Text style={styles.title}>Statistiques Hebdomadaires</Text>
-      
-      <View style={styles.chartContainer}>
-        <focusedShape/>
-        <LineChart
-          dataSet={chartsDataSets}
-          height={300}
-          width={1100}
-          // focusEnabled={true}
-          // onFocus={() =>alert('ok')}
-          adjustToWidth={true}
-          backgroundColor='grey'
-          noOfSections={4}
-          // focusTogether={true}
-          // pointerConfig={{
-          // showPointerStrip: true,
-          // onPointerChange: (item, index, event) => {
-          //   console.log(item);
-          //   const { locationX, locationY, pageX, pageY } = event.nativeEvent;
-          //   setCoordonnees({x:locationX, y:locationY,item:item});// dans le graphique
-            
-          //   // console.log(`Index survolé : ${index}`);
-          //   // console.log(`X dans le graphique : ${locationX}px, Y dans le graphique : ${locationY}px`);
-          //   // console.log(`X absolue écran : ${pageX}px, Y absolue écran : ${pageY}px`);
-          // }
+  return (<ScrollView 
+                horizontal={true}  
+                style={{ 
+                        minWidth:1050,
+                        width:'100%',
+                        height:'auto',
+                        flexDirection:'row',
+                        justifyContent:'space-between',
+                        alignItems:'flex-start',
+                        padding: 5
+                }}
+          >
+          <LateralNav/>
+          {/* // <View style={styles.container}> */}
+        <View style={styles.chartContainer}>
+            <Titre params={{dateStart:startedAt,dateEnd:endedAt,total:analyses?.length,literal:' Evolution production/produit'}}/>
+            {/* <focusedShape/> */}
+            <LineChart
+              dataSet={chartsDataSets}
+              height={300}
+              width={1100}
+              adjustToWidth={true}
+              backgroundColor='grey'
+              noOfSections={4}
+            // focusEnabled={true}
+              // onFocus={() =>alert('ok')}
+              // focusTogether={true}
+              // pointerConfig={{
+              // showPointerStrip: true,
+              // onPointerChange: (item, index, event) => {
+              //   console.log(item);
+              //   const { locationX, locationY, pageX, pageY } = event.nativeEvent;
+              //   setCoordonnees({x:locationX, y:locationY,item:item});// dans le graphique
+                
+              //   // console.log(`Index survolé : ${index}`);
+              //   // console.log(`X dans le graphique : ${locationX}px, Y dans le graphique : ${locationY}px`);
+              //   // console.log(`X absolue écran : ${pageX}px, Y absolue écran : ${pageY}px`);
+              // }
 
-          pointerConfig={{
-            showPointerStrip: true,
-            pointerStripColor: '#fff',
-            pointerStripWidth: 2,
-            pointerColor: 'red',
-            radius: 6,
-            
-            // ✅ 1. Callback pour sauvegarder l'item ou l'index dans votre state local
-            // onPointerChange: (item, index) => {
-            // },
-            pointerComponent: (items) => {
-              return (
-                <View style={{
-                  backgroundColor: '#000000e0',
-                  padding: 8,
-                  borderRadius: 6,
-                  bottom: 40,
-                  alignSelf: 'center',
-                  minWidth: 60,
-                }}>
-                  <Text style={{ color: 'white', fontWeight: 'bold', textAlign: 'center' }}>
-                    {items?.key}
-                  </Text>
-                </View>
-              );
-            }
-        }} 
-        />
-    </View>
-    </View>
+              pointerConfig={{
+                showPointerStrip: true,
+                pointerStripColor: '#fff',
+                pointerStripWidth: 2,
+                pointerColor: 'red',
+                radius: 6,
+                
+                // ✅ 1. Callback pour sauvegarder l'item ou l'index dans votre state local
+                // onPointerChange: (item, index) => {
+                // },
+                pointerComponent: (items) => {
+                  return (
+                    <View style={{
+                      backgroundColor: '#000000e0',
+                      padding: 8,
+                      borderRadius: 6,
+                      bottom: 40,
+                      alignSelf: 'center',
+                      minWidth: 60,
+                    }}>
+                      <Text style={{ color: 'white', fontWeight: 'bold', textAlign: 'center' }}>
+                        {items?.key}
+                      </Text>
+                    </View>
+                  );
+                }
+              }} 
+
+            />
+        </View>
+    </ScrollView>
   );
 };
 

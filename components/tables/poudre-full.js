@@ -324,18 +324,18 @@ export const UPNavigator=({routeNheaders})=>{
 
 const GraphesPoudre = ({navigation}) => {
 
-    useLayoutEffect(()=>{
-        navigation.setOptions({
-            headerLeft:()=>(
-                <TouchableOpacity style={{width:40,margin:0,marginLeft:5,backgroundColor:'transparent',}} onPress={() => navigation.goBack()}>
-                    {/* <FontAwesome5 name='arrow-left' size={20} color='white'/>
-                    <TouchableOpacity onPress={() => navigation.goBack()}>
-                    </TouchableOpacity> */}
-  <Text style={{ color: 'white', fontSize: 16 }}>⬅</Text>
-                </TouchableOpacity>
-            )
-        })
-    },[navigation])
+//     useLayoutEffect(()=>{
+//         navigation.setOptions({
+//             headerLeft:()=>(
+//                 <TouchableOpacity style={{width:40,margin:0,marginLeft:5,backgroundColor:'transparent',}} onPress={() => navigation.goBack()}>
+//                     {/* <FontAwesome5 name='arrow-left' size={20} color='white'/>
+//                     <TouchableOpacity onPress={() => navigation.goBack()}>
+//                     </TouchableOpacity> */}
+//   <Text style={{ color: 'white', fontSize: 16 }}>⬅</Text>
+//                 </TouchableOpacity>
+//             )
+//         })
+//     },[navigation])
 
     return <View style={styles.graphes}>
                 <ScrollView style={{height:'100%',width:'100%',minWidth:700,}}>
