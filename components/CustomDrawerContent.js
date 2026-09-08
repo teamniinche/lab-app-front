@@ -95,7 +95,7 @@ export default function CustomDrawerContent({ navigation }) {
 
       <TouchableOpacity
         style={styles.item}
-        onPress={() => {dropRubrique('poudres'),dispatch(setPowderType(null)),navigation.navigate('Poudres')}}
+        onPress={() => {dropRubrique('poudres'),dispatch(setPowderType(null)),tabNavigation.navigate('Poudres')}}
       >
         <View style={{minHeight:25,/*30,*/width:'100%',/*,'80%'*/flexDirection:'row',gap:8,flexWrap:'nowrap',}}>
             <Image source={require('../assets/images/poudre.png')} style={{borderWidth:'white',backgroundColor:primaryColor,padding:5,borderRadius:'50%',width:25,height:25,}} contentFit='contain'/>
@@ -107,7 +107,7 @@ export default function CustomDrawerContent({ navigation }) {
       {/* Sous-catégories affichées dynamiquement */}
       {poudres && (
         <View style={{...styles.subMenu,width:'95%',marginHorizontal:5,paddingVertical:15,marginVertical:10,marginTop:-5,}}>
-          <TouchableOpacity onMouseEnter={() => setHovered("root")} style={[styles.subItem,styles.rootAddedStyle,hovered==="root" && styles.hoveredStyle,targeted==="root" && styles.targetedStyle]} onPress={() => {setTargeted("root");dispatch(setPowderType(null)),drawerNavigation.navigate('Poudres')}}>
+          <TouchableOpacity onMouseEnter={() => setHovered("root")} style={[styles.subItem,styles.rootAddedStyle,hovered==="root" && styles.hoveredStyle,targeted==="root" && styles.targetedStyle]} onPress={() => {setTargeted("root");dispatch(setPowderType(null)),tabNavigation.navigate('Poudres')}}>
             <ButtonText name="home" text="root"/>
           </TouchableOpacity>
           {Object.entries(differentsPowderTypes).map(([key, value]) => (
@@ -129,7 +129,7 @@ export default function CustomDrawerContent({ navigation }) {
       {/* LIQUIDES */}
       <TouchableOpacity
         style={styles.item}
-        onPress={() => {dropRubrique('liquides'),navigation.navigate('Accueil')}}
+        onPress={() => {dropRubrique('liquides'),tabNavigation.navigate('Accueil')}}
       >
         <View style={{minHeight:25,/*30,*/width:'100%',/*,'80%'*/flexDirection:'row',gap:8,flexWrap:'nowrap',}}>
             {/* <FontAwesome5 name="cog" size={20} color="grey"/> */}
@@ -143,7 +143,7 @@ export default function CustomDrawerContent({ navigation }) {
       {/* Sous-catégories affichées dynamiquement */}
       {liquides && (
         <View style={{...styles.subMenu,width:'95%',marginHorizontal:5,paddingVertical:15,marginVertical:10,marginTop:-5,}}>
-          <TouchableOpacity style={[styles.item,styles.rootAddedStyle,targeted==="root" && styles.targetedStyle,hovered==="root" && styles.hoveredStyle]} onMouseEnter={() => setHovered('root')} onPress={() => {setTargeted('root');navigation.navigate('Liquides')}}>
+          <TouchableOpacity style={[styles.item,styles.rootAddedStyle,targeted==="root" && styles.targetedStyle,hovered==="root" && styles.hoveredStyle]} onMouseEnter={() => setHovered('root')} onPress={() => {setTargeted('root');tabNavigation.navigate('Liquides')}}>
             <ButtonText name="home" text="root"/>
           </TouchableOpacity>
           {differentsLiquidesTypes.map((type) => (
