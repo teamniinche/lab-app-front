@@ -359,7 +359,7 @@ export const AnalysedListe=({product,rend}) => {// Pour Poudre-full
                 drawerNavigation.setOptions({title: `${drawerRouteName} / poudres ${TYPE}`});
                 drawerNavigation.setOptions({
                     headerLeft:()=>(
-                        <TouchableOpacity style={{width:80,margin:0,marginLeft:30,backgroundColor:'transparent',}} onPress={() => drawerNavigation.goBack()}>
+                        <TouchableOpacity style={{width:45,margin:0,marginLeft:30,backgroundColor:'transparent',}} onPress={() => drawerNavigation.goBack()}>
                             <FontAwesome5 name='arrow-left' size={20} color='white'/>
                         </TouchableOpacity>
                     )
