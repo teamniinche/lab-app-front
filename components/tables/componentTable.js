@@ -77,7 +77,7 @@ const Table = ({current,rend,product,API_URL, headers }) => {
                 drawerNavigation.setOptions({title: `${drawerRouteName}${TYPE}`});
                 drawerNavigation.setOptions({
                     headerLeft:()=>(
-                        <TouchableOpacity style={{width:40,margin:0,marginLeft:30,backgroundColor:'transparent',}} onPress={() => drawerNavigation.goBack()}>
+                        <TouchableOpacity style={{width:40,margin:0,marginLeft:30,backgroundColor:'transparent',}} onPress={() => tabNavigation.goBack()}>
                             <FontAwesome5 name='arrow-left' size={20} color='white'/>
                         </TouchableOpacity>
                     )
