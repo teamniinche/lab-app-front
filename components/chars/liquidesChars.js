@@ -11,6 +11,38 @@ import {primaryColor,enginesForDep} from '../../assets/constantes.js';
 const interval=new Interval();
 const filter=new Filters();
 function Y(val,index){const y=6+index;return y}
+const Texts=({text,focusedDep})=>{
+    const texts=text.split('-');
+    return <View style={{flexDirection:'column',justifyContent:'center',gap:4,alignItems:'center'}}>
+            <Text style={{color:focusedDep===text?'white':'black',letterSpacing:2,fontSize:13,fontWeight:'bold'}}>{texts[0]}</Text>
+            <Text style={{color:focusedDep===text?'white':'rgba(0,0,0,0.4)',letterSpacing:2,fontSize:8,fontWeight:'bold'}}>{texts[1]}</Text>
+    </View>
+  }
+const LateralNav=({pstdAnalyses,render})=>{
+    const prodsByDep=filter.filterByDep(pstdAnalyses);
+    const [dep,setDep]=useState(null);
+    const [focusedDep,setFocusedDep]=useState(null);
+    function handleDepPress(items,k){
+      render(items);
+      setFocusedDep(k);
+    }
+    const hoverStyle={backgroundColor:'rgba(0,0,250,0.1)',borderRadius:4}
+    const focusStyle={backgroundColor:'rgba(0,0,250,0.2)',borderRadius:4}
+    return <View style={{width:200,minHeigth:500,paddingHorizontal:10,paddingVertical:20,paddingTop:5,marginRight:15,borderRadius:5,borderWidth:1,borderBottomWidth:0,borderColor:'grey',backgroundColor:'whitesmoke'}}>
+        <Text style={{color:primaryColor,backgroundColor:'rgba(0,0,0,0.15)',borderRadius:4,paddingVertical:20,textAlign:'center',marginBottom:20,letterSpacing:2,fontSize:14,fontWeight:'bold'}}>Départements</Text>
+        {Object.entries(prodsByDep).sort((a,b)=>b[0].localeCompare(a[0])).map(([k,items])=>{
+          return <Pressable 
+              style={[{width:'100%',height:50,padding:5},dep===k?hoverStyle:{},focusedDep===k?focusStyle:{}]} 
+              onPress={()=>handleDepPress(items,k)}
+              onHoverIn={()=>setDep(k)}
+              onHoverOut={()=>setDep(null)}
+          >
+            <Texts text={k} focusedDep={focusedDep}/>
+          </Pressable>
+        })}
+      </View>
+  }
+
 const graphes={
   Productions:{component:'BarsChart',info:'Dans un département selectionné, donne les statistiques de production suivant le produit'},
   EvolutionParProduit:{component:'MultiLineCharts',info:"Dans un département selectionné, donne l'évolution de la production de chaque produit sur la période selectionnée"},
@@ -177,38 +209,6 @@ export function MultiLineCharts(){
       }})}
   });
 
-  const Texts=({text,focusedDep})=>{
-    const texts=text.split('-');
-    return <View style={{flexDirection:'column',justifyContent:'center',gap:4,alignItems:'center'}}>
-            <Text style={{color:focusedDep===text?'white':'black',letterSpacing:2,fontSize:13,fontWeight:'bold'}}>{texts[0]}</Text>
-            <Text style={{color:focusedDep===text?'white':'rgba(0,0,0,0.4)',letterSpacing:2,fontSize:8,fontWeight:'bold'}}>{texts[1]}</Text>
-    </View>
-  }
-
-  const LateralNav=()=>{
-    const [dep,setDep]=useState(null);
-    const [focusedDep,setFocusedDep]=useState(null);
-    function handleDepPress(items,k){
-      setAnalyses(items);
-      setFocusedDep(k);
-    }
-    const hoverStyle={backgroundColor:'rgba(0,0,250,0.1)',borderRadius:4}
-    const focusStyle={backgroundColor:'rgba(0,0,250,0.2)',borderRadius:4}
-    return <View style={{width:200,minHeigth:500,paddingHorizontal:10,paddingVertical:20,paddingTop:5,marginRight:15,borderRadius:5,borderWidth:1,borderBottomWidth:0,borderColor:'grey',backgroundColor:'whitesmoke'}}>
-        <Text style={{color:primaryColor,backgroundColor:'rgba(0,0,0,0.15)',borderRadius:4,paddingVertical:20,textAlign:'center',marginBottom:20,letterSpacing:2,fontSize:14,fontWeight:'bold'}}>Départements</Text>
-        {Object.entries(prodsByDep).sort((a,b)=>b[0].localeCompare(a[0])).map(([k,items])=>{
-          return <Pressable 
-              style={[{width:'100%',height:50,padding:5},dep===k?hoverStyle:{},focusedDep===k?focusStyle:{}]} 
-              onPress={()=>handleDepPress(items,k)}
-              onHoverIn={()=>setDep(k)}
-              onHoverOut={()=>setDep(null)}
-          >
-            <Texts text={k} focusedDep={focusedDep}/>
-          </Pressable>
-        })}
-      </View>
-  }
-
   const FocusedShape=()=>{
     return <Text style={{backgroundColor:'white',color:'black',borderRadius:5,width:200,height:200,padding:4,position:'absolute',bottom:coordonnees.y,left:coordonnees.x}}>test</Text>;
   }
@@ -287,6 +287,14 @@ export function MultiLineCharts(){
     }
   }})
 
+    // 📐 2. Calculs dynamiques pour l'axe Y (Marge de sécurité + Paliers)
+  const maxRawValue = Math.max(...Object.values(filter.filterByName(analyses)).map(s=> s?.length), 0);
+  const noOfSections = 4;
+  const stepValue = Math.ceil(maxRawValue / noOfSections);
+  const maxValue = stepValue * noOfSections;
+  const spacing=30;
+  const labelWidth=Math.ceil(spacing);
+
   return (<ScrollView 
                 horizontal={true}  
                 style={{ 
@@ -299,18 +307,26 @@ export function MultiLineCharts(){
                         padding: 5
                 }}
           >
-          <LateralNav/>
-          {/* // <View style={styles.container}> */}
+        <LateralNav pstdAnalyses={postedAnalyses} render={(itms)=>setAnalyses(itms)}/>
         <View style={styles.chartContainer}>
             <Titre params={{dateStart:startedAt,dateEnd:endedAt,total:analyses?.length,literal:' Evolution production/produit'}}/>
-            {/* <focusedShape/> */}
             <LineChart
               dataSet={chartsDataSets}
               height={300}
-              width={1100}
-              adjustToWidth={true}
+              width={800}
               backgroundColor='grey'
               noOfSections={4}
+              scrollable={true}
+              spacing={spacing}                  // Espace entre les colonnes
+              initialSpacing={30}           // Espace avant la première colonne
+
+              // 📏 Configuration Dynamique de l'Axe Y (Vertical)
+              noOfSections={noOfSections}
+              stepValue={stepValue}
+              maxValue={maxValue}
+              // yAxisSide="left"
+
+              
             // focusEnabled={true}
               // onFocus={() =>alert('ok')}
               // focusTogether={true}
@@ -425,38 +441,6 @@ export function MultiStagesBarCharts(){
       }
   });
 
-  const LateralNav=()=>{
-    const [dep,setDep]=useState(null);
-    const [focusedDep,setFocusedDep]=useState(null);
-    function handleDepPress(items,k){
-      setAnalyses(items);
-      setFocusedDep(k);
-    }
-    const hoverStyle={backgroundColor:'rgba(0,0,250,0.1)',borderRadius:4}
-    const focusStyle={backgroundColor:'rgba(0,0,250,0.2)',borderRadius:4}
-    return <View style={{width:200,minHeigth:500,paddingHorizontal:10,paddingVertical:20,paddingTop:5,marginRight:15,borderRadius:5,borderWidth:1,borderBottomWidth:0,borderColor:'grey',backgroundColor:'whitesmoke'}}>
-        <Text style={{color:primaryColor,backgroundColor:'rgba(0,0,0,0.15)',borderRadius:4,paddingVertical:20,textAlign:'center',marginBottom:20,letterSpacing:2,fontSize:14,fontWeight:'bold'}}>Départements</Text>
-        {Object.entries(prodsByDep).sort((a,b)=>b[0].localeCompare(a[0])).map(([k,items])=>{
-          return <Pressable 
-              style={[{width:'100%',height:50,padding:5},dep===k?hoverStyle:{},focusedDep===k?focusStyle:{}]} 
-              onPress={()=>handleDepPress(items,k)}
-              onHoverIn={()=>setDep(k)}
-              onHoverOut={()=>setDep(null)}
-          >
-            <Texts text={k} focusedDep={focusedDep}/>
-          </Pressable>
-        })}
-      </View>
-  }
-
-  const Texts=({text,focusedDep})=>{
-    const texts=text.split('-');
-    return <View style={{flexDirection:'column',justifyContent:'center',gap:4,alignItems:'center'}}>
-            <Text style={{color:focusedDep===text?'white':'black',letterSpacing:2,fontSize:13,fontWeight:'bold'}}>{texts[0]}</Text>
-            <Text style={{color:focusedDep===text?'white':'rgba(0,0,0,0.4)',letterSpacing:2,fontSize:8,fontWeight:'bold'}}>{texts[1]}</Text>
-    </View>
-  }
-
   return (<ScrollView 
                 horizontal={true}  
                 style={{ 
@@ -469,7 +453,7 @@ export function MultiStagesBarCharts(){
                         padding: 5
                 }}
           >
-            <LateralNav/>
+            <LateralNav pstdAnalyses={postedAnalyses} render={(itms)=>setAnalyses(itms)}/>
             <View 
               style={{ 
                   backgroundColor: '#1A1A1A', 
@@ -520,7 +504,6 @@ export function BarsChart(){
   const [analyses,setAnalyses]=useState(Object.entries(prodsByDep)[0][1]);
   const prodsByName=filter.filterByName(analyses);
 
-
   const barData=Object.entries(prodsByName).map(([key,analises])=>{
           const len=analises?.length;
           const name=analises[0]?.name;
@@ -538,41 +521,11 @@ export function BarsChart(){
               </View>),
             frontColor:clor
           }
-        });
+      });
   
-  const LateralNav=()=>{
-    const [dep,setDep]=useState(null);
-    const [focusedDep,setFocusedDep]=useState(null);
-    function handleDepPress(items,k){
-      setAnalyses(items);
-      setFocusedDep(k);
-    }
-    const hoverStyle={backgroundColor:'rgba(0,0,250,0.1)',borderRadius:4}
-    const focusStyle={backgroundColor:'rgba(0,0,250,0.2)',borderRadius:4}
-    return <View style={{width:200,minHeigth:500,paddingHorizontal:10,paddingVertical:20,paddingTop:5,marginRight:15,borderRadius:5,borderWidth:1,borderBottomWidth:0,borderColor:'grey',backgroundColor:'whitesmoke'}}>
-        <Text style={{color:primaryColor,backgroundColor:'rgba(0,0,0,0.15)',borderRadius:4,paddingVertical:20,textAlign:'center',marginBottom:20,letterSpacing:2,fontSize:14,fontWeight:'bold'}}>Départements</Text>
-        {Object.entries(prodsByDep).sort((a,b)=>b[0].localeCompare(a[0])).map(([k,items])=>{
-          return <Pressable 
-              style={[{width:'100%',height:50,padding:5},dep===k?hoverStyle:{},focusedDep===k?focusStyle:{}]} 
-              onPress={()=>handleDepPress(items,k)}
-              onHoverIn={()=>setDep(k)}
-              onHoverOut={()=>setDep(null)}
-          >
-            <Texts text={k} focusedDep={focusedDep}/>
-          </Pressable>
-        })}
-      </View>
-  }
-
-  const Texts=({text,focusedDep})=>{
-    const texts=text.split('-');
-    return <View style={{flexDirection:'column',justifyContent:'center',gap:4,alignItems:'center'}}>
-            <Text style={{color:focusedDep===text?'white':'black',letterSpacing:2,fontSize:13,fontWeight:'bold'}}>{texts[0]}</Text>
-            <Text style={{color:focusedDep===text?'white':'rgba(0,0,0,0.4)',letterSpacing:2,fontSize:8,fontWeight:'bold'}}>{texts[1]}</Text>
-    </View>
-  }
-
-  // 📐 2. Calculs dynamiques pour l'axe Y (Marge de sécurité + Paliers)
+  
+  
+// 📐 2. Calculs dynamiques pour l'axe Y (Marge de sécurité + Paliers)
   const maxRawValue = Math.max(...Object.entries(prodsByName).map(([key,items])=> items?.length), 0);
   const noOfSections = 4;
   const stepValue = Math.ceil(maxRawValue / noOfSections);
@@ -593,7 +546,7 @@ export function BarsChart(){
                         padding: 5
                 }}
           >
-            <LateralNav/>
+            <LateralNav pstdAnalyses={postedAnalyses} render={(itms)=>setAnalyses(itms)}/>
             <View 
               style={{ 
                   backgroundColor: '#1A1A1A', 
