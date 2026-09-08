@@ -352,15 +352,13 @@ export const AnalysedListe=({product,rend}) => {// Pour Poudre-full
 
                 return route.name;
             });
-        const gf=drawerRouteName.includes('graphes')?'':'/poudres';
-        // const TYPE=type?`${gf}${type}` : '/*';
         const TYPE=type?(!drawerRouteName.includes('graphes')?`/${type}`:'' ): '/*';
         
         
         useEffect(()=>{
             if (drawerNavigation/* && !drawerRouteName.includes('raphes')*/) {
-                // drawerNavigation.setOptions({title: `${drawerRouteName}${TYPE}`});
-                drawerNavigation.setOptions({title: `${drawerRouteName}`});
+                drawerNavigation.setOptions({title: `${drawerRouteName}${TYPE}`});
+                // drawerNavigation.setOptions({title: `${drawerRouteName}`});
                 drawerNavigation.setOptions({
                     headerLeft:()=>(
                         <TouchableOpacity style={{width:40,margin:0,marginLeft:30,backgroundColor:'transparent',}} onPress={() => drawerNavigation.goBack()}>
@@ -372,7 +370,7 @@ export const AnalysedListe=({product,rend}) => {// Pour Poudre-full
         },[type]);
 
         useMemo(()=>{
-            if (drawerNavigation) {drawerNavigation.setOptions({title: `${drawerRouteName.replace('Accueil','Comptabilité')}${TYPE}${suffixe}${NTT}`, /*Affiche visuellement : "Boutique/favoris"*/});};
+            if (drawerNavigation) {drawerNavigation.setOptions({title: `${drawerRouteName.replace('Accueil','Comptabilité')}${TYPE.replace('root','')}${suffixe}${NTT}`, /*Affiche visuellement : "Boutique/favoris"*/});};
         // ==========================================================================================================
             setAnalysed(powderFiltred);
         },[product, drawerRouteName, drawerNavigation,entete]);// product pour gerer le cas du clic sur un decompte-item
