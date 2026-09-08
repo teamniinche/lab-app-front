@@ -354,7 +354,7 @@ export const AnalysedListe=({product,rend}) => {// Pour Poudre-full
             });
         const gf=drawerRouteName.includes('graphes')?'':'/poudres';
         // const TYPE=type?`${gf}${type}` : '/*';
-        const TYPE=type?`/${type}` : '/*';
+        const TYPE=type?(!drawerRouteName.includes('graphes')?`/${type}`:'' ): '/*';
         
         
         useEffect(()=>{
@@ -372,7 +372,7 @@ export const AnalysedListe=({product,rend}) => {// Pour Poudre-full
         },[type]);
 
         useMemo(()=>{
-            if (drawerNavigation) {drawerNavigation.setOptions({title: `${drawerRouteName.replace('Accueil','Comptabilité')} / poudres ${TYPE}${suffixe}${NTT}`, /*Affiche visuellement : "Boutique/favoris"*/});};
+            if (drawerNavigation) {drawerNavigation.setOptions({title: `${drawerRouteName.replace('Accueil','Comptabilité')}${TYPE}${suffixe}${NTT}`, /*Affiche visuellement : "Boutique/favoris"*/});};
         // ==========================================================================================================
             setAnalysed(powderFiltred);
         },[product, drawerRouteName, drawerNavigation,entete]);// product pour gerer le cas du clic sur un decompte-item
