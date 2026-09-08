@@ -353,7 +353,20 @@ export const AnalysedListe=({product,rend}) => {// Pour Poudre-full
 
                 return route.name;
             });
-        useEffect(()=>{if (drawerNavigation/* && !drawerRouteName.includes('raphes')*/) {drawerNavigation.setOptions({title: `${drawerRouteName} / poudres ${TYPE}`})}},[type])
+        
+        useEffect(()=>{
+            if (drawerNavigation/* && !drawerRouteName.includes('raphes')*/) {
+                drawerNavigation.setOptions({title: `${drawerRouteName} / poudres ${TYPE}`});
+                drawerNavigation.setOptions({
+                    headerLeft:()=>(
+                        <TouchableOpacity style={{width:80,margin:0,marginLeft:30,backgroundColor:'transparent',}} onPress={() => drawerNavigation.goBack()}>
+                            <FontAwesome5 name='arrow-left' size={20} color='white'/>
+                        </TouchableOpacity>
+                    )
+                });
+            }
+        },[type]);
+
         useMemo(()=>{
             if (drawerNavigation) {drawerNavigation.setOptions({title: `${drawerRouteName.replace('Accueil','Comptabilité')} / poudres ${TYPE}${suffixe}${NTT}`, /*Affiche visuellement : "Boutique/favoris"*/});};
         // ==========================================================================================================
