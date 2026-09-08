@@ -589,6 +589,8 @@ export const CurrentProductedProvider=({children})=>{
     const [entete,setEntete]=useState('heure');
     const [directionTri, setDirectionTri]=useState('asc');
 
+    const [targeted,setTargeted]=useState("");
+
     function UpdateFocusedProdByName(item){
         const {name,nom}=item;
         const {estFormule}=isFormule(item);
@@ -688,7 +690,7 @@ export const CurrentProductedProvider=({children})=>{
     },[focusedProduct]);
     // const currentProductedLen=Object.keys(currentProductedPro).length;
 
-    return <CurrentProductedContext.Provider value={{id2Update,setId2Update,entete,setEntete,directionTri,toPrint,setToPrint,toDisplayPrint, setToDisplayPrint, setDirectionTri,UpdateFocusedProdByName,setAction,toCreate,focusedList,setFocusedList,ListOfFocusedAndLastNumberTour,ListOfFocusedAndLastNumber,currentProductedLen,focusedPro,setFocusedPro,currentProductedPro,setCurrentProductedPro,keysAndRequirements,registred,setRegistred}}>
+    return <CurrentProductedContext.Provider value={{id2Update,setId2Update,targeted,setTargeted,entete,setEntete,directionTri,toPrint,setToPrint,toDisplayPrint, setToDisplayPrint, setDirectionTri,UpdateFocusedProdByName,setAction,toCreate,focusedList,setFocusedList,ListOfFocusedAndLastNumberTour,ListOfFocusedAndLastNumber,currentProductedLen,focusedPro,setFocusedPro,currentProductedPro,setCurrentProductedPro,keysAndRequirements,registred,setRegistred}}>
        {children}
     </CurrentProductedContext.Provider>
 }

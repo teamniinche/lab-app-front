@@ -44,6 +44,7 @@ const Isoles=()=>{return <Text style={{backgroundColor:'rgba(255,0,0,0.2)',margi
 export default function CustomDrawerContent({ navigation }) {
     const dispatch=useDispatch();
     const {setPop}=usePopup();
+    const {targeted,setTargeted}=useCurrentProducted();
     // const route=useRoute();
     // const nav=useNavigation();
     // const setRoute=(str)=>{
@@ -51,7 +52,7 @@ export default function CustomDrawerContent({ navigation }) {
     //   navigation.setOptions({title:routeRoot+"/"+str})
     // };
     // const navigation=useNavigation();
-    const [targeted,setTargeted]=useState("");
+    // const [targeted,setTargeted]=useState("");
     const [hovered,setHovered]=useState("");
     const {period,powderType,clooned}= useSelector(state => {
       const period=state.period.targetPeriod;

@@ -1,5 +1,6 @@
 // CALLED PACKAGES
 import { View, Text, FlatList, StyleSheet, Button,ActivityIndicator,TouchableOpacity, TextInput,Platform } from "react-native";
+import { useNavigation ,useNavigationState} from '@react-navigation/native';
 import { Badge, Dialog, PaperProvider,Portal, Searchbar } from "react-native-paper";
 import { useState, useEffect,useContext,useMemo } from "react";
 import { useSelector,useDispatch } from "react-redux";
@@ -38,7 +39,7 @@ const Table = ({current,rend,product,API_URL, headers }) => {
   const [analyses, setAnalyses] = useState([]);
   const [loading, setLoading] = useState(false);
   const {buildCurrentProducts}=useContext(CurrentProductsContext);
-  const {entete}=useCurrentProducted();
+  const {entete,targeted}=useCurrentProducted();
   const titleHeaders=['heure','name','machine','chimiste'];
 // ================ POUR LA PAGINATION ===================================
     const [totalPages, setTotalPages] = useState(1);
@@ -53,6 +54,42 @@ const Table = ({current,rend,product,API_URL, headers }) => {
     const [interDate,setInterDate]=useState({minDate:"",maxDate:""});
     const [dialogShow,setDialogShow]=useState(false);
 // =======================================================================
+        const tabNavigation=useNavigation();
+        // 2. Remonte d'un niveau pour cibler le Drawer Navigator parent
+        const drawerNavigation = tabNavigation.getParent();
+        const suffixe = product ? `/ ${product}` : '';
+        const TYPE=targeted?`/ ${targeted}` : '/*';
+        const NTT=(entete && entete!=='heure')?` #${entete}`:'';
+        const drawerRouteName = useNavigationState((state) => {
+                // On cherche l'état de la route actuellement affichée
+                const route = state.routes[state.index];
+                // Si cette route contient elle-même un état imbriqué (le Drawer)
+                if (route.state) {return route.state.routes[route.state.index].name;}
+                // Valeur de secours si l'état n'est pas encore initialisé
+
+                return route.name;
+            });
+        
+        useEffect(()=>{
+            if (drawerNavigation/* && !drawerRouteName.includes('raphes')*/) {
+                drawerNavigation.setOptions({title: `${drawerRouteName} / liquides ${TYPE}`});
+                drawerNavigation.setOptions({
+                    headerLeft:()=>(
+                        <TouchableOpacity style={{width:80,margin:0,marginLeft:30,backgroundColor:'transparent',}} onPress={() => drawerNavigation.goBack()}>
+                            <FontAwesome5 name='arrow-left' size={20} color='white'/>
+                        </TouchableOpacity>
+                    )
+                });
+            }
+        },[type]);
+
+        useMemo(()=>{
+            if (drawerNavigation) {drawerNavigation.setOptions({title: `${drawerRouteName.replace('Accueil','Comptabilité')} / liquides ${TYPE}${suffixe}${NTT}`, /*Affiche visuellement : "Boutique/favoris"*/});};
+        // ==========================================================================================================
+            setAnalysed(powderFiltred);
+        },[product, drawerRouteName, drawerNavigation,entete]);// product pour gerer le cas du clic sur un decompte-item
+
+
 
 async function paginatePostedAnalyses(analys){
                   // const fullAnalyses=postedAnalyses;
