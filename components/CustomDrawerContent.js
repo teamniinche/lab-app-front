@@ -116,7 +116,7 @@ export default function CustomDrawerContent({ navigation }) {
               onMouseEnter={() => setHovered(key)}
               style={[styles.subItem, hovered === key && styles.hoveredStyle, targeted === key && styles.targetedStyle]}
               onPress={() => {
-                drawerNavigation.navigate('Poudres');
+                navigation.navigate('Poudres');
                 dispatch(setPowderType(key));
                 setTargeted(key);
               }}
@@ -143,7 +143,7 @@ export default function CustomDrawerContent({ navigation }) {
       {/* Sous-catégories affichées dynamiquement */}
       {liquides && (
         <View style={{...styles.subMenu,width:'95%',marginHorizontal:5,paddingVertical:15,marginVertical:10,marginTop:-5,}}>
-          <TouchableOpacity style={[styles.item,styles.rootAddedStyle,targeted==="root" && styles.targetedStyle,hovered==="root" && styles.hoveredStyle]} onMouseEnter={() => setHovered('root')} onPress={() => {setTargeted('root');drawerNavigation.navigate('Liquides')}}>
+          <TouchableOpacity style={[styles.item,styles.rootAddedStyle,targeted==="root" && styles.targetedStyle,hovered==="root" && styles.hoveredStyle]} onMouseEnter={() => setHovered('root')} onPress={() => {setTargeted('root');navigation.navigate('Liquides')}}>
             <ButtonText name="home" text="root"/>
           </TouchableOpacity>
           {differentsLiquidesTypes.map((type) => (
