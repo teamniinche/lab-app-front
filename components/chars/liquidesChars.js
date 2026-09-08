@@ -109,7 +109,8 @@ export default function Main(){
                         flexDirection:'column',
                         justifyContent:'flex-start',
                         alignItems:'flex-start',
-                        padding: 5
+                        padding: 5,
+                        paddingVertical:30
                 }}
           >
             <GraphesNav render={(C)=>setComponent(C)}/>
