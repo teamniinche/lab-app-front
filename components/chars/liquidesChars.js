@@ -99,7 +99,7 @@ const BarComponent=({params})=>{
               </View>
 }
 
-export default function LiquidesCharts({Navigation}){
+export default function LiquidesCharts({navigation}){
   const [Component,setComponent]=useState('BarsChart');
   useLayoutEffect(()=>{
                 navigation.setOptions({
