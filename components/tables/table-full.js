@@ -40,7 +40,7 @@ export default TableFull=({navigation/*,route*/,routeNheaders})=>{
     const {setPop}=usePopup();
     const {api_url,headers}=routeNheaders;
     const {targetUser,startedAt,endedAt,powderAnalysed,clooned}= useSelector(state => {
-        const targetUser=state.state.user.targetUser;
+        const targetUser=state.user.targetUser;
         const {startedAt,endedAt}=state.period.targetPeriod;
         const powderAnalysed=state.powderAnalysed.powderAnalysed;
         const clooned=state.actived.clooned;
