@@ -105,7 +105,7 @@ export default function LiquidesCharts({navigation}){
   useLayoutEffect(()=>{
                 navigation.setOptions({
                     headerLeft:()=>(
-                        <TouchableOpacity style={{width:40,margin:0,marginLeft:30,backgroundColor:'transparent',}} onPress={() => navigation.goBack()}>
+                        <TouchableOpacity style={{width:40,margin:0,marginLeft:30,backgroundColor:'transparent',}} onPress={() => navigation.navigate('Accueil')}>
                             <FontAwesome5 name='arrow-left' size={20} color='white'/>
                         </TouchableOpacity>
                     )
