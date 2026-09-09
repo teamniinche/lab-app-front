@@ -47,11 +47,11 @@ export default function DrawerNavigator(){
         <Drawer.Screen name="Cosmétiques" children={({navigation,route}) => <ULNavigator navigation={navigation} route={route}  routeNheaders={cosmetiques}/>}/>
         <Drawer.Screen name="Caustique & Silicate" children={({navigation,route}) => <ULNavigator navigation={navigation} route={route}  routeNheaders={causilicate}/>}/>
         <Drawer.Screen name="Eaux" children={({navigation,route}) => <ULNavigator navigation={navigation} route={route}  routeNheaders={eaux}/>}/>
-        <Drawer.Screen name="Graphes liquides" children={({navigation,route}) => <Main/>}/>
-        <Drawer.Screen name="Graphes Poudres" children={({navigation,route}) => <ULNavigator navigation={navigation} route={route}  routeNheaders={eaux}/>}/>
+        <Drawer.Screen name="Liquides graphes" children={({navigation,route}) => <Main/>}/>
+        <Drawer.Screen name="Poudres graphes" children={({navigation,route}) => <ULNavigator navigation={navigation} route={route}  routeNheaders={eaux}/>}/>
         <Drawer.Screen name="Utilisateurs" children={() => <UsersNav/>}/>
         <Drawer.Screen name="Poudres" children={() => <UPNavigator routeNheaders={poudreFull} />}/>
-        <Drawer.Screen name="Normes physico-chimiques" children={({/*navigation,route*/}) =><Normes/>}/>
+        <Drawer.Screen name="Normes physico-chimiques" children={() =><Normes/>}/>
         {/* <Drawer.Screen name="updateLiquides" children={({navigation,route}) => <UpdateLiquidesNavigator navigation={navigation} route={route}/>}/> */}
         {/* <Drawer.Screen name="test" children={({navigation,route}) =><Tests/>}/> */}
         

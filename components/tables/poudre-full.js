@@ -255,33 +255,31 @@ return <BottomSheet ref={bottomSheetRef}>
                     return <MyChipp key={index} clooned={clooned} product={item} render={()=>setProduct(produit)} />})}
                 </View>}
                 <TouchableOpacity
-                        style={{position:'absolute',right:20,top:8,backgroundColor:'rgba(255,255,255,0.2)',width:'auto',height:"auto",padding:10,borderWidth:0.5,
-                        borderColor:'grey',borderRadius:8,paddingVertical:8,margin:'auto',marginTop:4,}}
-                        onPress={() => setIsDrop(!isDrop)}
-                      >
+                    style={{position:'absolute',right:20,top:8,backgroundColor:'rgba(255,255,255,0.2)',width:'auto',height:"auto",padding:10,borderWidth:0.5,
+                    borderColor:'grey',borderRadius:8,paddingVertical:8,margin:'auto',marginTop:4,}}
+                    onPress={() => setIsDrop(!isDrop)}
+                >
                         <Text style={{color:isDrop?'grey':'white',textAlign:'center',fontSize:14,fontWeight:'bold',letterSpacing:-1,}}>{isDrop ? <FontAwesome5 name="eye-slash" size={20} color="white"/> : <FontAwesome5 name="eye" size={20} color ="white"/>}{' décomptes'}</Text>
                 </TouchableOpacity>
             </View>
         </ChipProvider>
-
-                        <Pressable
-                            disabled={false/*!allowTo("ajouter une norme|user",targetUser?.privileges)*/}
-                                style={
-                                    {
-                                        width:50,
-                                        paddingHorizontal:10,
-                                        paddingVertical:10,
-                                        marginVertical:15,
-                                        marginHorizontal:20,
-                                        borderRadius:10,
-                                        backgroundColor:'rgba(0,0,0,0.2)',
-                                    }
-                                }
-
-                            onPress={()=>navigation.navigate("analyses/poudres/graphes")}
-                        >
-                            <FontAwesome5 size={20} name="chart-bar" color='blue'/>
-                        </Pressable>
+                <Pressable
+                    disabled={false/*!allowTo("ajouter une norme|user",targetUser?.privileges)*/}
+                        style={
+                            {
+                                width:50,
+                                paddingHorizontal:10,
+                                paddingVertical:10,
+                                marginVertical:15,
+                                marginHorizontal:20,
+                                borderRadius:10,
+                                backgroundColor:'rgba(0,0,0,0.2)',
+                            }
+                        }
+                    onPress={()=>navigation.navigate("Poudres graphes")}
+                >
+                    <FontAwesome5 size={20} name="chart-bar" color='blue'/>
+                </Pressable>
 
         <ScrollView horizontal={true} style={styles.table}>
             <SafeAreaProvider ref={safeAreaRef} style={{...styles.safeAreaView,maxWidth:'80%',marginHorizontal:"10%",marginVertical:10,minWidth:isLarge?1000:1000,}}>
