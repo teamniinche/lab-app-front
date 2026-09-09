@@ -28,7 +28,7 @@ const LateralNav=({pstdAnalyses,render})=>{
     }
     const focusStyle={backgroundColor:'rgba(0,0,250,0.3)'};
     const hoverStyle={backgroundColor:'rgba(0,0,250,0.08)'};
-    return <View style={{width:200,minHeigth:500,paddingHorizontal:10,paddingVertical:20,paddingTop:5,marginRight:15,borderRadius:5,borderWidth:1,borderBottomWidth:0,borderColor:'grey',backgroundColor:'whitesmoke'}}>
+return <View style={{width:200,minHeigth:500,paddingHorizontal:10,paddingVertical:20,paddingTop:5,marginRight:15,borderRadius:5,borderWidth:1,borderBottomWidth:0,borderColor:'grey',backgroundColor:'whitesmoke'}}>
         <Text style={{color:primaryColor,backgroundColor:'rgba(0,0,0,0.15)',borderRadius:4,paddingVertical:20,textAlign:'center',marginBottom:20,letterSpacing:2,fontSize:14,fontWeight:'bold'}}>Départements</Text>
         {Object.entries(prodsByDep).sort((a,b)=>b[0].localeCompare(a[0])).map(([k,items])=>{
           return <Pressable 
