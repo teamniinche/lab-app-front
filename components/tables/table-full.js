@@ -506,7 +506,7 @@ export default TableFull=({navigation/*,route*/,routeNheaders})=>{
 
             <View style={styles.print_graphes}>
                 {/* const {style,onPress,info,children,...restProps}=props; */}
-                <Btn style={styles.graphes_link} bcgrndClr={'rgba(0,0,0,0.8)'} textStyle={styles.tooltipText} onPress={()=>navigation.navigate("Liquides graphes")} info="diagrammes">
+                <Btn style={styles.graphes_link} bcgrndClr={'rgba(0,0,0,0.8)'} textStyle={styles.tooltipText} onPress={()=>navigation.navigate("Liquides/graphes")} info="diagrammes">
                     <FontAwesome5 size={25} name="chart-line" color='blue'/>
                 </Btn>
                 <Btn style={styles.graphes_link} bcgrndClr={'rgba(0,0,0,0.8)'} textStyle={styles.tooltipText}  onPress={async () => {setTimeout(async () => {await generatePDF();}, 500);}} info="imprimer table">

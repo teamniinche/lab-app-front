@@ -47,8 +47,8 @@ export default function DrawerNavigator(){
         <Drawer.Screen name="Cosmétiques" children={({navigation,route}) => <ULNavigator navigation={navigation} route={route}  routeNheaders={cosmetiques}/>}/>
         <Drawer.Screen name="Caustique & Silicate" children={({navigation,route}) => <ULNavigator navigation={navigation} route={route}  routeNheaders={causilicate}/>}/>
         <Drawer.Screen name="Eaux" children={({navigation,route}) => <ULNavigator navigation={navigation} route={route}  routeNheaders={eaux}/>}/>
-        <Drawer.Screen name="Liquides graphes" children={({navigation}) => <LiquidesCharts navigation={navigation}/>}/>
-        <Drawer.Screen name="Poudres graphes" children={({navigation}) => <PoudreCharts navigation={navigation}/>}/>
+        <Drawer.Screen name="Liquides/graphes" children={({navigation}) => <LiquidesCharts navigation={navigation}/>}/>
+        <Drawer.Screen name="Poudres/graphes" children={({navigation}) => <PoudreCharts navigation={navigation}/>}/>
         <Drawer.Screen name="Utilisateurs" children={() => <UsersNav/>}/>
         <Drawer.Screen name="Poudres" children={() => <UPNavigator routeNheaders={poudreFull} />}/>
         <Drawer.Screen name="Normes physico-chimiques" children={() =><Normes/>}/>

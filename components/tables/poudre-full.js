@@ -276,7 +276,7 @@ return <BottomSheet ref={bottomSheetRef}>
                                 backgroundColor:'rgba(0,0,0,0.2)',
                             }
                         }
-                    onPress={()=>navigation.navigate("Poudres graphes")}
+                    onPress={()=>navigation.navigate("Poudres/graphes")}
                 >
                     <FontAwesome5 size={20} name="chart-bar" color='blue'/>
                 </Pressable>
