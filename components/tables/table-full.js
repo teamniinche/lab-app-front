@@ -22,7 +22,7 @@ import Pop from '../popup';
 import Charts from '../chars/liquidesChars.js';
 // DATA STATEMENTS && UTILS
 import { ChipProvider,CurrentProductsProvider,useEverages,usePopup,usePowderEverages,useReservs } from '../wrappers/contexts';
-import {colorFromName,VALEURS,productsAndCountsFormat,Flex } from '../../assets/functions' ;
+import {colorFromName,VALEURS,productsAndCountsFormat,Flex,allowTo } from '../../assets/functions' ;
 import Filters from '../../kernel/classes/formatTablesAnalyses';
 import { setPeriod} from '../store/reducers/periodReducer';
 import { primaryColor,dbBaseRoot } from '../../assets/constantes';
@@ -39,11 +39,12 @@ export default TableFull=({navigation/*,route*/,routeNheaders})=>{
     const safeAreaRef=useRef();
     const {setPop}=usePopup();
     const {api_url,headers}=routeNheaders;
-    const {startedAt,endedAt,powderAnalysed,clooned}= useSelector(state => {
+    const {targetUser,startedAt,endedAt,powderAnalysed,clooned}= useSelector(state => {
+        const targetUser=state.state.user.targetUser;
         const {startedAt,endedAt}=state.period.targetPeriod;
         const powderAnalysed=state.powderAnalysed.powderAnalysed;
         const clooned=state.actived.clooned;
-        return {startedAt,endedAt,powderAnalysed,clooned};});
+        return {targetUser,startedAt,endedAt,powderAnalysed,clooned};});
     const {buildAnalytics}=useEverages();
     const {buildPowderAnalytics}=usePowderEverages();
     const [modalShow,setModalShow]=useState(false);
@@ -506,9 +507,9 @@ export default TableFull=({navigation/*,route*/,routeNheaders})=>{
 
             <View style={styles.print_graphes}>
                 {/* const {style,onPress,info,children,...restProps}=props; */}
-                <Btn style={styles.graphes_link} bcgrndClr={'rgba(0,0,0,0.8)'} textStyle={styles.tooltipText} onPress={()=>navigation.navigate("Liquides/graphes")} info="diagrammes">
+                {allowTo("illimite",targetUser?.privileges) && <Btn style={styles.graphes_link} bcgrndClr={'rgba(0,0,0,0.8)'} textStyle={styles.tooltipText} onPress={()=>navigation.navigate("Liquides/graphes")} info="diagrammes">
                     <FontAwesome5 size={25} name="chart-line" color='blue'/>
-                </Btn>
+                </Btn>}
                 <Btn style={styles.graphes_link} bcgrndClr={'rgba(0,0,0,0.8)'} textStyle={styles.tooltipText}  onPress={async () => {setTimeout(async () => {await generatePDF();}, 500);}} info="imprimer table">
                     <Text ><FontAwesome5 name="file-pdf" size={25} color="blue"/></Text>
                 </Btn>

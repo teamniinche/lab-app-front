@@ -10,7 +10,7 @@ import {CurrentProductsProvider,ChipProvider,CurrentProductedProvider,useCurrent
 import { AnalysedListe } from '../../navigators/DrawerPoudre';
 import { MyChipp,Filter } from '../chip';
 import FiltersP from '../../kernel/classes/formatTablesAnalysesPoudre';
-import { productsAndCountsFormat,Flex,VALEURSPOUDRE,isFormule,moy,keyReduce } from '../../assets/functions';
+import { productsAndCountsFormat,Flex,VALEURSPOUDRE,isFormule,moy,keyReduce,allowTo } from '../../assets/functions';
 import { FontAwesome5 } from '@expo/vector-icons';
 import BottomSheet from '../modaux.js/bottomSheet';
 import WinDim from '../../assets/operatingData';
@@ -24,11 +24,12 @@ export default PoudreFull=({navigation,routeNheaders})=>{
     const viewRef=useRef();
     const safeAreaRef=useRef();
     const {api_url,headers}=routeNheaders;
-    const {startedAt,endedAt,postedAnalyses,clooned}= useSelector(state => {
+    const {targetUser,startedAt,endedAt,postedAnalyses,clooned}= useSelector(state => {
+        const targetUser=state.user.targetUser;
         const {startedAt,endedAt}=state.period.targetPeriod;
         const postedAnalyses=state.data.postedAnalyses;
         const clooned=state.actived.clooned;
-        return {startedAt,endedAt,postedAnalyses,clooned};});
+        return {targetUser,startedAt,endedAt,postedAnalyses,clooned};});
     
     const {buildAnalytics}=useEverages();
     const {buildPowderAnalytics}=usePowderEverages();
@@ -263,7 +264,7 @@ return <BottomSheet ref={bottomSheetRef}>
                 </TouchableOpacity>
             </View>
         </ChipProvider>
-                <Pressable
+                {allowTo("illimite",targetUser?.privileges) && <Pressable
                     disabled={false/*!allowTo("ajouter une norme|user",targetUser?.privileges)*/}
                         style={
                             {
@@ -279,7 +280,7 @@ return <BottomSheet ref={bottomSheetRef}>
                     onPress={()=>navigation.navigate("Poudres/graphes")}
                 >
                     <FontAwesome5 size={20} name="chart-bar" color='blue'/>
-                </Pressable>
+                </Pressable>}
 
         <ScrollView horizontal={true} style={styles.table}>
             <SafeAreaProvider ref={safeAreaRef} style={{...styles.safeAreaView,maxWidth:'80%',marginHorizontal:"10%",marginVertical:10,minWidth:isLarge?1000:1000,}}>
