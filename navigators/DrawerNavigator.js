@@ -5,8 +5,8 @@ import { FontAwesome5 } from '@expo/vector-icons';
 // mes components
 import { ULNavigator } from '../components/tables/table-full';
 import { UPNavigator } from '../components/tables/poudre-full';
-import LiquidesCharts from '../components/chars/liquidesCharts.js';
-import PoudreCharts from '../components/chars/poudresCharts.js';
+import LiquidesCharts from './components/chars/liquidesCharts.js';
+import PoudreCharts from './components/chars/poudresCharts.js';
 import Normes from '../components/jsonOfNormes';
 import CustomDrawerContent from '../components/CustomDrawerContent';
 import { routesAndHeaders,routesAndHeadersPowder } from '../iterables';
