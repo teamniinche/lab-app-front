@@ -1,0 +1,807 @@
+import React,{useState,useLayoutEffect} from 'react';
+import {useSelector} from 'react-redux';
+import { StyleSheet,Pressable,TouchableOpacity,View, Text,ScrollView } from 'react-native';
+import { FontAwesome5 } from '@expo/vector-icons';
+import { LineChart,BarChart } from 'react-native-gifted-charts';
+import Filters from '../../kernel/classes/formatTablesAnalyses.js';
+import Interval from '../../kernel/classes/graphes/datesInterval.js';
+import {colorFromName} from '../../assets/functions.js';
+import Btn from '../buttons/btnWithinfo.js';
+import Colors from '../../assets/colors.js';
+import {primaryColor,enginesForDep} from '../../assets/constantes.js';
+const interval=new Interval();
+const filter=new Filters();
+function Y(val,index){const y=6+index;return y}
+const Texts=({text,focusedDep})=>{
+    const texts=text.split('-');
+    return <View style={{flexDirection:'column',justifyContent:'center',gap:4,alignItems:'center'}}>
+            <Text style={{color:focusedDep===text?'white':'black',letterSpacing:2,fontSize:13,fontWeight:'bold'}}>{texts[0]}</Text>
+            <Text style={{color:focusedDep===text?'white':'rgba(0,0,0,0.4)',letterSpacing:2,fontSize:8,fontWeight:'bold'}}>{texts[1]}</Text>
+    </View>
+  }
+const LateralNav=({pstdAnalyses,render})=>{
+    const prodsByDep=filter.filterByDep(pstdAnalyses);
+    const [dep,setDep]=useState(null);
+    const [focusedDep,setFocusedDep]=useState(null);
+    function handleDepPress(items,k){
+      render(items);
+      setFocusedDep(k);
+    }
+    const hoverStyle={backgroundColor:'rgba(0,0,250,0.1)',borderRadius:4}
+    const focusStyle={backgroundColor:'rgba(0,0,250,0.2)',borderRadius:4}
+    return <View style={{width:200,minHeigth:500,paddingHorizontal:10,paddingVertical:20,paddingTop:5,marginRight:15,borderRadius:5,borderWidth:1,borderBottomWidth:0,borderColor:'grey',backgroundColor:'whitesmoke'}}>
+        <Text style={{color:primaryColor,backgroundColor:'rgba(0,0,0,0.15)',borderRadius:4,paddingVertical:20,textAlign:'center',marginBottom:20,letterSpacing:2,fontSize:14,fontWeight:'bold'}}>Départements</Text>
+        {Object.entries(prodsByDep).sort((a,b)=>b[0].localeCompare(a[0])).map(([k,items])=>{
+          return <Pressable 
+              style={[{width:'100%',height:50,padding:5},dep===k?hoverStyle:{},focusedDep===k?focusStyle:{}]} 
+              onPress={()=>handleDepPress(items,k)}
+              onHoverIn={()=>setDep(k)}
+              onHoverOut={()=>setDep(null)}
+          >
+            <Texts text={k} focusedDep={focusedDep}/>
+          </Pressable>
+        })}
+      </View>
+  }
+
+const graphes={
+  Productions:{component:'BarsChart',info:'Dans un département selectionné, donne les statistiques de production suivant le produit'},
+  EvolutionParProduit:{component:'MultiLineCharts',info:"Dans un département selectionné, donne l'évolution de la production de chaque produit sur la période selectionnée"},
+  ProductionsParSemaine:{component:'MultiStagesBarCharts',info:'Sur la période selectionnée,donne les statistiques de production de chaque semaine'},
+  Performances:{component:'PerformanceBarChart',info:'Comparaison des départements de production suivant le nombre de mélanges par mélange'}
+}
+const COMPONENTS={
+  MultiLineCharts:<MultiLineCharts/>,
+  BarsChart:<BarsChart/>,
+  MultiStagesBarCharts:<MultiStagesBarCharts/>,
+  PerformanceBarChart:<PerformanceBarChart/>
+}
+function reduceText(Text){
+  return Text.replace('Madar','Mdr').replace('Renzo','').replace('Citron','cit').replace('Noura','Nra').replace('Premium','prem').replace('Platinium','plat')
+}
+const dateFr=(date)=>{
+            const months={Jan:"Janvier",Fev:"Fèvrier",Mar:"Mars",Apr:"Avril",May:"Mai",Jun:"Juin",Jul:"Juillet",Aug:"Aout",Sep:"Septembre",Oct:"Octobre",Nov:"Novembre",Dec:"Décembre"};
+            const splitDate=date.toString().split(" ");
+            const frDate=splitDate[2]+" "+months[splitDate[1]]+" "+splitDate[3];
+            return frDate;
+        };
+const Titre=({params})=>{
+  const {dateStart,dateEnd,total,literal}=params;
+  return <View style={{height:'auto',maxWidth:350,flexDirection:'column',borderRadius:8,marginHorizontal:'auto',paddingHorizontal:5,justifyContent:'center',backgroundColor:'rgba(250, 250, 250, 0.9)',alignItems:'center',borderWidth:2,borderColor:'rgba(255,255,255,0.4)',
+              }}>
+            <Text style={{width:'auto',color:'grey',paddingHorizontal:10,fontWeight:'bold',fontSize:10}}>{'Statistiques du ' +dateFr(dateStart)+' au '+dateFr(dateEnd)}</Text>
+            <Text style={{width:'auto',color:'black',paddingHorizontal:10,fontWeight:'bold',fontSize:12}}>{literal+' : '+total +' analyses'}</Text>
+        </View>
+}
+const BarComponent=({params})=>{
+  const {len,head,dp,vl,prctge}=params;
+  return <View style={{
+                position: 'absolute',
+                justifyContent: 'center',
+                alignItems: 'center',
+                height:'auto',
+                padding:1,
+                backgroundColor:'rgba(0,0,0,0.16)',
+                width: 250,             // 💡 Donne un espace large virtuel pour éviter l'enroulement
+                left: -100 + (40 / 2),  // 💡 Centre le bloc virtuel (remplacez 40 par votre barWidth)
+              }}>
+                <Text 
+                  numberOfLines={1}     // ❌ Empêche le retour à la ligne
+                  style={{
+                    color: 'white', 
+                    fontSize: 10, 
+                    fontWeight: 'bold',
+                    textAlign: 'center',
+                    letterSpacing:0.9,
+                  }}
+                >
+                  {(vl!==0 && len!==0)?(!head?vl+' ':'')+reduceText(dp)+' '+prctge:''}
+                </Text>
+              </View>
+}
+
+export default function LiquidesCharts({navigation}){
+    const [Component,setComponent]=useState('BarsChart');
+    useLayoutEffect(()=>{
+                navigation.setOptions({
+                    headerLeft:()=>(
+                        <TouchableOpacity style={{width:40,margin:0,marginLeft:30,backgroundColor:'transparent',}} onPress={() => navigation.navigate('Poudres')}>
+                            <FontAwesome5 name='arrow-left' size={20} color='white'/>
+                        </TouchableOpacity>
+                    )
+                });
+        },[]);
+  return <View
+                style={{ 
+                        minWidth:1050,
+                        width:'100%',
+                        height:'auto',
+                        flexDirection:'column',
+                        justifyContent:'flex-start',
+                        alignItems:'flex-start',
+                        padding: 5
+                }}
+          >
+            <GraphesNav render={(C)=>setComponent(C)}/>
+                <Text>Poudres</Text>
+            {COMPONENTS[Component]}
+          </View>
+ }
+
+// {style,bcgrndClr,textStyle,onPress,onHoverOut,onHoverIn,info,children,...props}
+const GraphesNav=({render})=>{
+    const [grap,setGrap]=useState(null);
+    const [focusedGrap,setFocusedGrap]=useState(null);
+    function handleGrapPress(component,k){
+      render(component);
+      setFocusedGrap(k);
+    }
+    const hoverStyle={backgroundColor:'rgba(0,0,250,0.0.08)',borderRadius:4}
+    const focusStyle={backgroundColor:'rgba(0,0,250,0.5)',borderRadius:4}
+    return <View style={{flexDirection:'column',justifyContent:'flex-start',alignItems:'flex-start',gap:3,minWidth:1050,width:'100%',heigth:'auto',padding:8,marginBottom:10,paddingBottom:20,borderRadius:5,borderWidth:1,borderColor:'grey',backgroundColor:'rgba(240,240,240,0.2)'}}>
+        <Text style={{color:'rgba(0,0,0,0.3)',borderRadius:4,paddingVertical:4,textAlign:'center',letterSpacing:2,fontSize:14}}>Graphiques</Text>
+        <View style={{flexDirection:'row',paddingLeft:50,justifyContent:'flex-start',gap:15,alignItems:'center',width:'auto',height:20}}>
+            {Object.entries(graphes).map(([k,value])=>{
+              const {component,info}=value;
+              return <Btn
+                  style={[{width:'100%',height:25,padding:2,marginHorizontal:15},grap===k?hoverStyle:{},focusedGrap===k?focusStyle:{}]} 
+                  onPress={()=>handleGrapPress(component,k)}
+                  onHoverIn={()=>setGrap(k)}
+                  onHoverOut={()=>setGrap(null)}
+                  bcgrndClr={'rgba(0,0,0,0.8)'}
+                  textStyle={styles.tooltipText}
+                  info={info}
+              >
+                <Text style={{color:focusedGrap===k?'white':'black',letterSpacing:2,fontSize:13,fontWeight:'bold'}}>{k.replace('ProductionsPar','Prods/').replace('EvolutionPar','Prods/')}</Text>
+              </Btn>
+            })}
+        </View>
+      </View>
+  }
+
+export function SingleLineChar() {
+  const {startedAt,endedAt,postedAnalyses}=useSelector(state=>{
+    const {startedAt,endedAt}=state.period.targetPeriod;
+    const postedAnalyses=state.data.postedAnalyses;
+    return {startedAt:startedAt,endedAt:endedAt,postedAnalyses:postedAnalyses};
+  });
+  const {differentProducts,prodsWeeks}=interval.prodsByWeeks(postedAnalyses,startedAt,endedAt);
+
+  const data = Object.entries(prodsByWeeks).map(([key,val],index)=>{return { value: Y(val.count,index), label: key }});
+  return (
+    <View style={styles.container}>
+      <Text style={styles.title}>Statistiques Hebdomadaires</Text>
+      
+      <View style={styles.chartContainer}>
+        <LineChart
+          data={data}
+          height={300}
+          width={1000}
+          thickness={1}
+          color="#3498db"
+          noOfSections={4}
+          areaChart // Remplit la zone sous la ligne
+          startFillColor="rgba(52, 152, 219, 0.4)"
+          endFillColor="rgba(52, 152, 219, 0.0)"
+          dataPointsColor="#2c3e50"
+          dataPointsRadius={4}
+          textColor="#7f8c8d"
+          xAxisColor="#bdc3c7"
+          yAxisColor="#bdc3c7"
+        />
+      </View>
+    </View>
+  );
+}
+
+export function MultiLineCharts(){
+  const {startedAt,endedAt,postedAnalyses}=useSelector(state=>{
+    const {startedAt,endedAt}=state.period.targetPeriod;
+    const postedAnalyses=state.data.postedAnalyses;
+    return {startedAt:startedAt,endedAt:endedAt,postedAnalyses:postedAnalyses};
+  });
+  const prodsByDep=filter.filterByDep(postedAnalyses);
+  const [coordonnees,setCoordonnees]=useState({x:0,y:0,item:null});
+  const [analyses,setAnalyses]=useState(Object.values(prodsByDep)[0] || []);
+  const {differentProducts,prodsWeeks}=interval.prodsByWeeks(analyses,startedAt,endedAt);
+
+  const LinesData=differentProducts.map(dp=>{
+    return {name:dp,LineData:Object.entries(prodsWeeks).map(([key,val])=>{
+      const vl=val.analyses.filter(p=>p.name===dp).length;
+      return {
+        value:vl,
+        labelComponent:()=>{return <Text style={styles.labelComponent}>{key}</Text>},
+        dataPointText:vl.toString(),
+        key:dp,
+        // textColor:clor,
+        textFontSize:12,
+        // spacing:4,
+
+      }})}
+  });
+
+  const FocusedShape=()=>{
+    return <Text style={{backgroundColor:'white',color:'black',borderRadius:5,width:200,height:200,padding:4,position:'absolute',bottom:coordonnees.y,left:coordonnees.x}}>test</Text>;
+  }
+
+  const chartsDataSets=LinesData.map(item=>{
+    const {name,LineData}=item;
+    const clr=Colors[colorFromName(name)];
+    return {
+      data: LineData,
+      curved:true,
+      curvature:0.3,
+      color: clr,
+      dataPointsShape: 'circular', 
+      dataPointsRadius: 4,
+      dataPointsColor: clr,
+      textColor: '#ffffff',
+     // ==========================================
+  // 📉 DONNÉES & PLAGES
+    // ==========================================
+    // data: [
+    //   { value: 20, label: 'Jan' }, 
+    //   { value: 45, label: 'Fév' }, 
+    //   { value: 28, label: 'Mar' }, 
+    //   { value: 80, label: 'Avr' }
+    // ],
+    // startIndex: 0,                  // Débute le tracé au tout premier élément
+    // endIndex: 3,                    // Arrête le tracé au quatrième élément
+
+    // ==========================================
+    // 🎨 STYLE DE LA LIGNE
+    // ==========================================
+    // color: '#2196F3',               // Ligne de couleur bleue
+    // thickness: 4,                   // Épaisseur de la courbe à 4px
+    // zIndex: 10,                     // Force cette ligne à passer au-dessus des autres
+    // strokeDashArray:,       // Ligne pointillée : 10px visibles, 5px vides
+    // lineSegments: [...]          // Optionnel : s'utilise à la place de color/thickness pour découper la ligne en morceaux colorés
+
+    // ==========================================
+    // 🗺️ TYPE DE COURBE (RENDU)
+    // ==========================================
+    // curved: true,                   // Active les courbes de Bézier pour lisser la ligne
+    // curvature: 0.5,                 // Arrondi subtil (0 = angles droits, 1 = très arrondi)
+    // curveType: 1,                   // Type mathématique de la courbe (0 ou 1)
+    // stepChart: false,               // false pour rester en courbe classique (si true, écrase 'curved')
+
+    // ==========================================
+    // ⛰️ GRAPHIQUE D'AIRE (REMPLISSAGE)
+    // ==========================================
+    // areaChart: true,                // Active le remplissage sous la courbe
+    // startFillColor: '#2196F3',      // Dégradé : Couleur de départ (haut)
+    // endFillColor: '#FFFFFF',        // Dégradé : Couleur d'arrivée (bas)
+    // startOpacity: 0.4,              // Opacité forte en haut
+    // endOpacity: 0.0,                // Opacité totalement transparente en bas
+
+    // ==========================================
+    // 🔴 STYLE DES POINTS DE DONNÉES
+    // ==========================================
+    // hideDataPoints: false,          // Affiche bien les points sur la ligne
+    // dataPointsColor: '#FF5722',     // Points de couleur orange
+    // dataPointsRadius: 6,            // Taille des points si circulaires
+    // dataPointsShape: 'circular',    // Forme ronde (peut être 'rectangular')
+    // dataPointsWidth: 12,            // Largeur (utilisé si shape = 'rectangular')
+    // dataPointsHeight: 12,           // Hauteur (utilisé si shape = 'rectangular')
+
+    // ==========================================
+    // 🏷️ TEXTES & FLÈCHES
+    // ==========================================
+    // textColor: '#333333',           // Couleur du texte affiché au-dessus des points
+    // textFontSize: 12,               // Taille du texte des données
+    showArrow: true,                // Ajoute une flèche directionnelle au bout du tracé
+    arrowConfig: {                  // Personnalisation de la flèche terminale
+      length: 12,
+      width: 8,
+      color: '#ffffff',
+      showArrowBase: true,
+    }
+  }})
+
+    // 📐 2. Calculs dynamiques pour l'axe Y (Marge de sécurité + Paliers)
+  const maxRawValue = Math.max(...Object.values(filter.filterByName(analyses)).map(s=> s?.length), 0);
+  const noOfSections = 4;
+  const stepValue = Math.ceil(maxRawValue / noOfSections);
+  const maxValue = stepValue * noOfSections;
+  const spacing=30;
+  const labelWidth=Math.ceil(spacing);
+
+  return (<ScrollView 
+                horizontal={true}  
+                style={{ 
+                        minWidth:1050,
+                        width:'100%',
+                        height:'auto',
+                        flexDirection:'row',
+                        justifyContent:'space-between',
+                        alignItems:'flex-start',
+                        padding: 5
+                }}
+          >
+        <LateralNav pstdAnalyses={postedAnalyses} render={(itms)=>setAnalyses(itms)}/>
+        <View style={styles.chartContainer}>
+            <Titre params={{dateStart:startedAt,dateEnd:endedAt,total:analyses?.length,literal:' Evolution production/produit'}}/>
+            <LineChart
+              dataSet={chartsDataSets}
+              height={300}
+              width={800}
+              backgroundColor='grey'
+              noOfSections={4}
+              scrollable={true}
+              spacing={spacing}                  // Espace entre les colonnes
+              initialSpacing={30}           // Espace avant la première colonne
+
+              // 📏 Configuration Dynamique de l'Axe Y (Vertical)
+              noOfSections={noOfSections}
+              stepValue={stepValue}
+              maxValue={maxValue}
+              // yAxisSide="left"
+
+              
+            // focusEnabled={true}
+              // onFocus={() =>alert('ok')}
+              // focusTogether={true}
+              // pointerConfig={{
+              // showPointerStrip: true,
+              // onPointerChange: (item, index, event) => {
+              //   console.log(item);
+              //   const { locationX, locationY, pageX, pageY } = event.nativeEvent;
+              //   setCoordonnees({x:locationX, y:locationY,item:item});// dans le graphique
+                
+              //   // console.log(`Index survolé : ${index}`);
+              //   // console.log(`X dans le graphique : ${locationX}px, Y dans le graphique : ${locationY}px`);
+              //   // console.log(`X absolue écran : ${pageX}px, Y absolue écran : ${pageY}px`);
+              // }
+
+              pointerConfig={{
+                showPointerStrip: true,
+                pointerStripColor: '#fff',
+                pointerStripWidth: 2,
+                pointerColor: 'red',
+                radius: 6,
+                
+                // ✅ 1. Callback pour sauvegarder l'item ou l'index dans votre state local
+                // onPointerChange: (item, index) => {
+                // },
+                pointerComponent: (items) => {
+                  return (
+                    <View style={{
+                      backgroundColor: '#000000e0',
+                      padding: 8,
+                      borderRadius: 6,
+                      bottom: 40,
+                      alignSelf: 'center',
+                      minWidth: 60,
+                    }}>
+                      <Text style={{ color: 'white', fontWeight: 'bold', textAlign: 'center' }}>
+                        {items?.key}
+                      </Text>
+                    </View>
+                  );
+                }
+              }} 
+
+            />
+        </View>
+    </ScrollView>
+  );
+};
+
+export function MultiStagesBarCharts(){
+
+  const {startedAt,endedAt,postedAnalyses}=useSelector(state=>{
+    const {startedAt,endedAt}=state.period.targetPeriod;
+    const postedAnalyses=state.data.postedAnalyses;
+    return {startedAt:startedAt,endedAt:endedAt,postedAnalyses:postedAnalyses};
+  });
+  const prodsByDep=filter.filterByDep(postedAnalyses);
+  const prodsByName=filter.filterByName(postedAnalyses);
+  const prodsByChemist=filter.groupedByChemist(postedAnalyses);
+
+  const [analyses,setAnalyses]=useState(postedAnalyses);
+  const [coordonnees,setCoordonnees]=useState({x:0,y:0,item:null});
+  const {differentProducts,prodsWeeks}=interval.prodsByWeeks(analyses,startedAt,endedAt);
+
+
+
+// =====================================================================================================================================
+  // const maxValue=Object.values(prodsWeeks).reduce((acc,item)=>{return item.count > acc ? item.count : acc;}, 0);
+  // Alternative moderne et très lisible
+  const maxValue = Math.max(...Object.values(prodsWeeks).map(item => item.count), 0);
+  const noOfSections = 10; // Le nombre de lignes horizontales de votre grille
+  // 2. Calcul du pas de base théorique
+  const theoreticalStep = maxValue / noOfSections;
+  // 3. Arrondi intelligent pour obtenir des graduations "propres" (ex: 23 -> 25, 104 -> 110)
+  var dynamicStep = Math.ceil(theoreticalStep);
+  if (dynamicStep > 10) {dynamicStep = Math.ceil(dynamicStep / 2) * 2;/*Arrondit au multiple de 5 supérieur si le pas est grand*/}
+  // 4. Le nouveau maximum du graphique sera un multiple parfait du step
+  const dynamicMax = dynamicStep * noOfSections;
+  // C'est cet objet que vous passez à votre état (state) yAxisConfig
+  const yAxisConfig = {max: dynamicMax,step: dynamicStep};
+
+// ===================================================================================================================================
+  const dataLength = Object.keys(prodsWeeks).length; // Nombre total de points sur l'axe X
+  // 📐 Configuration dynamique des espaces de l'axe X
+  const itemWidth = 50;         // Espace horizontal attribué à chaque point/barre (en px)
+  const initialSpacing = 50;    // Espace avant le tout premier point
+  const endSpacing = 30;        // 🌟 Espace de sécurité APRÈS le dernier point pour éviter qu'il soit collé au bord
+  // Calcul de la largeur totale requise pour étaler tout l'axe X
+  const calculatedWidth = (dataLength * itemWidth) + initialSpacing
+// ====================================================================================================================================
+
+  const stackData=Object.entries(prodsWeeks).map(([key,val])=>{
+      return {
+        label:key,
+        labelComponent:()=>(<Text style={styles.labelComponent}>{key}</Text>),
+        stacks:[...differentProducts.map(dp=>{
+          const vl=val.analyses?.filter(p=>p.name===dp)?.length;
+          const prctge=val.count!==0?((vl/val.count)*100).toFixed(1).toString()+'%':'0%';
+          const clor=Colors[colorFromName(dp)];
+          return {
+            value:vl,
+            innerBarComponent:()=>(<BarComponent params={{len:val.count,head:false,dp:dp,vl:vl,prctge:prctge}}/>),
+            color:clor
+          }
+        }),
+        {
+          value:2,
+          innerBarComponent:()=>(<BarComponent params={{len:val.count,head:true,dp:val.count.toString()+' prods',vl:2,prctge:''}}/>),
+          color:'transparent'
+        }
+      ]
+      }
+  });
+
+  return (<ScrollView 
+                horizontal={true}  
+                style={{ 
+                        minWidth:1050,
+                        width:'100%',
+                        height:'auto',
+                        flexDirection:'row',
+                        justifyContent:'space-between',
+                        alignItems:'flex-start',
+                        padding: 5
+                }}
+          >
+            <LateralNav pstdAnalyses={postedAnalyses} render={(itms)=>setAnalyses(itms)}/>
+            <View 
+              style={{ 
+                  backgroundColor: '#1A1A1A', 
+                  borderRadius: 10,
+                  width:900,
+                  padding:15 
+                }}
+            >
+              <Titre params={{dateStart:startedAt,dateEnd:endedAt,total:analyses?.length,literal:' productions/produit*semaine superposé'}}/>
+              <BarChart
+                stackData={stackData}         // ✅ Charge la structure multi-étages
+                barWidth={40}                 // Largeur de chaque colonne empilée
+                height={300}                  // Hauteur globale du graphique
+                noOfSections={noOfSections}              // Nombre de lignes de grille horizontales
+                stepValue={yAxisConfig.step}   // 2. Définit la valeur de chaque palier
+                maxValue={yAxisConfig.max}
+
+                scrollable={true}
+                width={800}            // ✅ Donne toute la place nécessaire à l'axe X
+                initialSpacing={initialSpacing}    // Espace de départ à gauche
+                endSpacing={endSpacing}            // ✅ Force une zone vide à la fin de la dernière valeur
+                spacing={itemWidth}                // Distance entre chaque point de donnée
+
+                bounces={true}                     // Ajoute un effet de rebond élastique en fin de course
+                showScrollIndicator={true}
+                // 🎨 Personnalisation des axes et labels
+                xAxisLabelTextStyle={{ color: 'lightgray', fontSize: 12 }}
+                yAxisTextStyle={{ color: 'lightgray' }}
+                yAxisColor={'gray'}
+                xAxisColor={'gray'}
+                
+                // ✨ Options esthétiques optionnelles
+                barBorderRadius={4}           // Arrondit légèrement les angles des blocs
+              />
+            </View>
+    </ScrollView>
+  );
+};
+
+
+export function BarsChart(){
+  const {startedAt,endedAt,postedAnalyses}=useSelector(state=>{
+    const {startedAt,endedAt}=state.period.targetPeriod;
+    const postedAnalyses=state.data.postedAnalyses;
+    return {startedAt:startedAt,endedAt:endedAt,postedAnalyses:postedAnalyses};
+  });
+  const prodsByDep=filter.filterByDep(postedAnalyses);
+  const [analyses,setAnalyses]=useState(Object.entries(prodsByDep)[0][1]);
+  const prodsByName=filter.filterByName(analyses);
+
+  const barData=Object.entries(prodsByName).map(([key,analises])=>{
+          const len=analises?.length;
+          const name=analises[0]?.name;
+          // const prctge=val.count!==0?((vl/val.count)*100).toFixed(1).toString()+'%':'0%';
+          const clor=Colors[colorFromName(name)];
+          return { 
+            value: len,
+            label: key,
+            labelComponent:()=>(<Text style={{backgroundColor:'rgba(0,0,0,0.3)',color:'white',fontWeight:'bold',letterSpacing:1.5}}>{reduceText(key)}</Text>),
+
+            // 🎯 Solution : Affiche le nombre 'len' de manière centrée tout en haut de la barre
+            topLabelComponent:()=>(<View style={{flexDirection:'column',justifyContent:'center',alignItems:'center',backgroundColor:'rgba(0,0,250,0.4)',borderRadius:5,padding:5,paddingHorizontal:8,minWidth:40,width:'auto',height:'auto'}}>
+              <Text style={{textAlign:'center',color:'white'}}>{len}</Text>
+              <Text style={{textAlign:'center',color:'white'}}>{((len/analyses?.length)*100).toFixed(1).toString()+'%'}</Text>
+              </View>),
+            frontColor:clor
+          }
+      });
+  
+  
+  
+// 📐 2. Calculs dynamiques pour l'axe Y (Marge de sécurité + Paliers)
+  const maxRawValue = Math.max(...Object.entries(prodsByName).map(([key,items])=> items?.length), 0);
+  const noOfSections = 4;
+  const stepValue = Math.ceil(maxRawValue / noOfSections);
+  const maxValue = stepValue * noOfSections;
+  const barWidth=40;
+  const spacing=30;
+  const labelWidth=Math.ceil(barWidth+spacing);
+
+  return  (<ScrollView 
+                horizontal={true}  
+                style={{ 
+                        minWidth:1050,
+                        width:'100%',
+                        height:'auto',
+                        flexDirection:'row',
+                        justifyContent:'space-between',
+                        alignItems:'flex-start',
+                        padding: 5
+                }}
+          >
+            <LateralNav pstdAnalyses={postedAnalyses} render={(itms)=>setAnalyses(itms)}/>
+            <View 
+              style={{ 
+                  backgroundColor: '#1A1A1A', 
+                  borderRadius: 10,
+                  width:900,
+                  padding:15 
+                }}
+            >
+        <Titre params={{dateStart:startedAt,dateEnd:endedAt,total:analyses?.length,literal:' mélanges/produit'}}/>
+        <BarChart
+        data={barData}
+        barWidth={barWidth}                 // Largeur de chaque colonne empilée
+        height={300}                  // Largeur de chaque colonne
+        scrollable={true}
+        width={800}
+        spacing={spacing}                  // Espace entre les colonnes
+        initialSpacing={30}           // Espace avant la première colonne
+        barBorderRadius={2}           // Arrondit légèrement le sommet des barres
+        // frontColor={'#4ABFF5'}        // Couleur par défaut de toutes les barres
+
+        // 📏 Configuration Dynamique de l'Axe Y (Vertical)
+        noOfSections={noOfSections}
+        stepValue={stepValue}
+        maxValue={maxValue}
+        yAxisSide="left"
+        
+        labelWidth={labelWidth}
+        rotateLabel={true}
+        xAxisLabelsVerticalShift={2}
+        // xAxisLabelsHeight={200}
+        
+        yAxisColor={'#444'}           // Couleur de la ligne de l'axe Y
+        yAxisTextStyle={{ color: '#AEAEB2', fontSize: 12 }}
+        // 📊 Configuration de l'Axe X (Horizontal)
+        xAxisColor={'#444'}           // Couleur de la ligne de l'axe X
+        xAxisLabelTextStyle={{ color: '#AEAEB2', fontSize: 12, textAlign: 'center' }}
+        
+        // 🏁 Lignes de grille d'arrière-plan
+        rulesColor={'#2C2C2E'}        // Couleur des lignes de repère horizontales
+        rulesType={'solid'}           // Type de ligne ('solid' ou 'dashed')
+
+        // 💡 Options visuelles additionnelles (Optionnel)
+        showGradient={true}           // Ajoute un dégradé de couleur discret sur les barres
+        gradientColor={'#ffffff'}     // Couleur du bas du dégradé
+        
+        // 👆 Gestion des interactions de focus / survol
+        pointerConfig={{
+          pointerColor: 'white',
+          radius: 4,
+          pointerStripColor: 'rgba(255,255,255,0.2)',
+          pointerStripWidth: 1,
+          // pointerComponent: (items) => (
+          //   <View style={{
+          //     backgroundColor: '#000',
+          //     padding: 6,
+          //     borderRadius: 4,
+          //     bottom: 30,
+          //     alignSelf: 'center',
+          //   }}>
+          //     <Text style={{ color: 'white', fontSize: 12, fontWeight: 'bold' }}>
+          //       {items[0]?.value} €
+          //     </Text>
+          //   </View>
+          // ),
+        }}
+      />
+            </View>
+    </ScrollView>
+  )
+};
+
+
+export function PerformanceBarChart(){
+
+    const {startedAt,endedAt,postedAnalyses}=useSelector(state=>{
+    const {startedAt,endedAt}=state.period.targetPeriod;
+    const postedAnalyses=state.data.postedAnalyses;
+    return {startedAt:startedAt,endedAt:endedAt,postedAnalyses:postedAnalyses};
+  });
+  const prodsByDep=filter.filterByDep(postedAnalyses);
+  const barData=Object.entries(prodsByDep).map(([key,analyses])=>{
+          const dep=key.split('-')[0];
+          const len=analyses?.length;
+          const prodsByEngine=Math.ceil(len / enginesForDep[dep]).toFixed(0);
+          return { 
+            value: prodsByEngine,
+            label: dep,
+            labelComponent:()=>(<Text style={{backgroundColor:'rgba(0,0,0,0.3)',color:'white',fontWeight:'bold',letterSpacing:1.5}}>{reduceText(dep)}</Text>),
+
+            topLabelComponent:()=>(<View style={{flexDirection:'column',justifyContent:'center',alignItems:'center',backgroundColor:'rgba(0,0,250,0.4)',borderRadius:5,padding:5,paddingHorizontal:8,minWidth:40,width:'auto',height:'auto'}}>
+                  <Text style={{textAlign:'center',color:'white'}}>{prodsByEngine}</Text>
+              </View>),
+            frontColor:'#177AD5'
+          }
+          
+        });
+
+    // 📐 2. Calculs dynamiques pour l'axe Y (Marge de sécurité + Paliers)
+  const maxRawValue = Math.max(...barData.map(item=> item?.value), 0);
+  const noOfSections = 4;
+  const stepValue = Math.ceil(maxRawValue / noOfSections);
+  const maxValue = stepValue * noOfSections;
+  const barWidth=40;
+  const spacing=30;
+  const labelWidth=Math.ceil(barWidth+spacing);
+
+  return (
+    <ScrollView 
+                horizontal={true}  
+                style={{ 
+                        minWidth:1050,
+                        width:'100%',
+                        height:'auto',
+                        flexDirection:'row',
+                        marginHorizontal:'auto',
+                        justifyContent:'space-between',
+                        alignItems:'flex-start',
+                        padding: 5
+                }}
+          >
+       <View 
+              style={{ 
+                  backgroundColor: '#1A1A1A', 
+                  borderRadius: 10,
+                  width:900,
+                  padding:15 
+                }}
+            >
+      <Titre params={{dateStart:startedAt,dateEnd:endedAt,total:postedAnalyses?.length,literal:' moyenne mélangeur/département'}}/>
+      <BarChart
+         data={barData}
+        barWidth={barWidth}                 // Largeur de chaque colonne empilée
+        height={300}                  // Largeur de chaque colonne
+        scrollable={true}
+        width={800}
+        spacing={spacing}                  // Espace entre les colonnes
+        initialSpacing={30}           // Espace avant la première colonne
+        barBorderRadius={2}           // Arrondit légèrement le sommet des barres
+        // frontColor={'#4ABFF5'}        // Couleur par défaut de toutes les barres
+
+        // 📏 Configuration Dynamique de l'Axe Y (Vertical)
+        noOfSections={noOfSections}
+        stepValue={stepValue}
+        maxValue={maxValue}
+        yAxisSide="left"
+        
+        labelWidth={labelWidth}
+        rotateLabel={true}
+        xAxisLabelsVerticalShift={2}
+        // xAxisLabelsHeight={200}
+        
+        yAxisColor={'#444'}           // Couleur de la ligne de l'axe Y
+        yAxisTextStyle={{ color: '#AEAEB2', fontSize: 12 }}
+        // 📊 Configuration de l'Axe X (Horizontal)
+        xAxisColor={'#444'}           // Couleur de la ligne de l'axe X
+        xAxisLabelTextStyle={{ color: '#AEAEB2', fontSize: 12, textAlign: 'center' }}
+        
+        // 🏁 Lignes de grille d'arrière-plan
+        rulesColor={'#2C2C2E'}        // Couleur des lignes de repère horizontales
+        rulesType={'solid'}           // Type de ligne ('solid' ou 'dashed')
+
+        // 💡 Options visuelles additionnelles (Optionnel)
+        showGradient={true}           // Ajoute un dégradé de couleur discret sur les barres
+        gradientColor={'#ffffff'}     // Couleur du bas du dégradé
+        
+        // 👆 Gestion des interactions de focus / survol
+        pointerConfig={{
+          pointerColor: 'white',
+          radius: 4,
+          pointerStripColor: 'rgba(255,255,255,0.2)',
+          pointerStripWidth: 1,
+          // pointerComponent: (items) => (
+          //   <View style={{
+          //     backgroundColor: '#000',
+          //     padding: 6,
+          //     borderRadius: 4,
+          //     bottom: 30,
+          //     alignSelf: 'center',
+          //   }}>
+          //     <Text style={{ color: 'white', fontSize: 12, fontWeight: 'bold' }}>
+          //       {items[0]?.value} €
+          //     </Text>
+          //   </View>
+          // ),
+        }}
+      />
+      </View>
+    </ScrollView>
+  );
+};
+
+
+
+
+
+
+const styles = StyleSheet.create({
+    tooltipText: {
+    width:'auto',
+    // backgroundColor:'rgba(0,0,0,0.8)',
+    color:'white',
+    height:20,
+    padding:2,
+    borderRadius:2,
+    textAlign:'center',
+    letterSpacing:1.5,
+    fontSize:12
+  },
+  container: {
+    flex: 1,
+    backgroundColor: '#f8f9fa',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 16,
+  },
+  labelComponent:{
+    width:20,
+    padding:2,
+    textAlign:'center',
+    backgroundColor:'blue',
+    height:20,
+    color:'white',
+    fontWeight:'bold',
+    fontSize:10,
+    borderRadius:'50%'
+
+  },
+  title: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginBottom: 24,
+    color: '#2c3e50',
+  },
+  chartContainer: {
+    width:'auto',
+    backgroundColor: '#ffffff',
+    padding: 16,
+    borderRadius: 12,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3, // Ombre sur Android
+  },
+  card: { backgroundColor: '#fff', padding: 20, borderRadius: 12, elevation: 3 }
+
+});

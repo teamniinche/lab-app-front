@@ -1,41 +1,47 @@
 // CALLED PACKAGES
 import { View, Text, FlatList, StyleSheet, Button,ActivityIndicator,TouchableOpacity, TextInput,Platform } from "react-native";
+import { FontAwesome5 } from '@expo/vector-icons';
+import { useNavigation ,useNavigationState} from '@react-navigation/native';
 import { Badge, Dialog, PaperProvider,Portal, Searchbar } from "react-native-paper";
 import { useState, useEffect,useContext,useMemo } from "react";
 import { useSelector,useDispatch } from "react-redux";
 // DATA STATEMENTS
-import { CurrentProductsContext,useMonoProducts,usePopup} from "../wrappers/contexts";
+import { CurrentProductsContext,useMonoProducts,useCurrentProducted,usePopup} from "../wrappers/contexts";
 import { postAnalyses } from "../store/reducers/dataReducer";
 import { ResultProvider} from "../resultProvider";
 import Pop from "../popup";
 // COMPONENTS
 import HideStatusBarOnFocus from "../wrappers/wrapperHideStatusBar";
 import { ClickableRow } from "./chat-for-table";
+import {EnteteRow} from '../entete-row.js';
 import Connect from "../connexion/connect";
 import { Periodes } from "../periode";
 // UTILS
+import Entete from '../customHeader.js';
 import { primaryColor,departements} from "../../assets/constantes";
-import { colorFromName,centrer } from "../../assets/functions";
+import { colorFromName,centrer,realKeyFromEntete } from "../../assets/functions";
 import {pA,currentElemnts } from "../../hooks/littleBiblio";
 import WinDim from '../../assets/operatingData'
 import Colors from "../../assets/colors";
 
 const {isWeb}=WinDim;
 const Table = ({current,rend,product,API_URL, headers }) => {
-    const {startedAt,endedAt,postedAnalyses}=useSelector(state=>{
-            const {startedAt,endedAt}=state.period.targetPeriod;
-            const postedAnalyses=state.data.postedAnalyses;
-            return {startedAt:startedAt,endedAt:endedAt,postedAnalyses:postedAnalyses};
-        });
-    const postedAnalysesToString = JSON.stringify(
-      postedAnalyses.map(item => ({ id: item.id, item: item}))
-    );
-    const dispatch=useDispatch();
-    const {setPop}=usePopup();
-    const {aujourdhui,demain}=Periodes();
-    const [analyses, setAnalyses] = useState([]);
-    const [loading, setLoading] = useState(false);
-    const {buildCurrentProducts}=useContext(CurrentProductsContext);
+  const {startedAt,endedAt,postedAnalyses}=useSelector(state=>{
+    const {startedAt,endedAt}=state.period.targetPeriod;
+    const postedAnalyses=state.data.postedAnalyses;
+    return {startedAt:startedAt,endedAt:endedAt,postedAnalyses:postedAnalyses};
+  });
+  const postedAnalysesToString = JSON.stringify(
+    postedAnalyses.map(item => ({ id: item.id, item: item}))
+  );
+  const dispatch=useDispatch();
+  const {setPop}=usePopup();
+  const {aujourdhui,demain}=Periodes();
+  const [analyses, setAnalyses] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const {buildCurrentProducts}=useContext(CurrentProductsContext);
+  const {entete,targeted}=useCurrentProducted();
+  const titleHeaders=['heure','name','machine','chimiste'];
 // ================ POUR LA PAGINATION ===================================
     const [totalPages, setTotalPages] = useState(1);
     const [totalAnalyses, setTotalAnalyses] = useState(1);
@@ -49,6 +55,36 @@ const Table = ({current,rend,product,API_URL, headers }) => {
     const [interDate,setInterDate]=useState({minDate:"",maxDate:""});
     const [dialogShow,setDialogShow]=useState(false);
 // =======================================================================
+        const tabNavigation=useNavigation();
+        // 2. Remonte d'un niveau pour cibler le Drawer Navigator parent
+        const drawerNavigation = tabNavigation.getParent();
+        const suffixe = product ? `/ ${product}` : '';
+        const drawerRouteName = useNavigationState((state) => {
+                // On cherche l'état de la route actuellement affichée
+                const route = state.routes[state.index];
+                // Si cette route contient elle-même un état imbriqué (le Drawer)
+                if (route.state) {return route.state.routes[route.state.index].name;}
+                // Valeur de secours si l'état n'est pas encore initialisé
+
+                return route.name;
+            });
+        
+        const NTT=(entete && entete!=='heure')?(!drawerRouteName.includes('graphes')?` #${entete}`:''):'';
+        const TYPE=targeted?(!drawerRouteName.includes('graphes')?`/${targeted}`:'' ): '/*';
+
+        useEffect(()=>{
+            if (drawerNavigation/* && !drawerRouteName.includes('raphes')*/) {
+                drawerNavigation.setOptions({title: `${drawerRouteName}${TYPE}`});
+            }
+        },[targeted]);
+
+        useMemo(()=>{
+            if (drawerNavigation) {drawerNavigation.setOptions({title: `${drawerRouteName.replace('Accueil','Comptabilité')}${TYPE.replace('root','')}${suffixe}${NTT}`, /*Affiche visuellement : "Boutique/favoris"*/});};
+        // ==========================================================================================================
+            // setAnalysed(powderFiltred);
+        },[product, drawerRouteName, drawerNavigation,entete]);// product pour gerer le cas du clic sur un decompte-item
+
+
 
 async function paginatePostedAnalyses(analys){
                   // const fullAnalyses=postedAnalyses;
@@ -147,7 +183,6 @@ async function paginatePostedAnalyses(analys){
 // ===============================================================================================
   const colorIfProduct=product && '#dfdfdf';
   const [searchQuery, setSearchQuery] = useState('');
-
   const handleSearchQueryChange= async (query)=>{
       const deps=Object.keys(departements);
       setSearchQuery(query);
@@ -164,6 +199,11 @@ async function paginatePostedAnalyses(analys){
     handleSearchQueryChange(it);
     setDialogShow(false);
   }
+
+  const entetesAlreadyIn=[];
+  function enteteIsIn(ent){if(!entetesAlreadyIn.includes(ent)){entetesAlreadyIn.push(ent);return false;}else{return true;}};
+  
+
   const currentStyle={justifyContent: "flex-start",gap:"6%",};
 return (<HideStatusBarOnFocus>
     <PaperProvider><View style={styles.container}>
@@ -203,10 +243,11 @@ return (<HideStatusBarOnFocus>
             onPress={() => setCurrentPage((prev) => Math.min(prev+1, totalPages))}
         />
       </View>
-      <View style={styles.row}>
+      <View style={[styles.row,{/*pour l'infobulle seulement*/alignItems:'center'}]}>
         {headers.map((header, index) => (
-          <Text  key={index} style={[styles.cell,styles.header,{minWidth:index===2 && 160,backgroundColor:'none',color:'rgba(0,0,0,0.8)',}]}>
-            {header.toUpperCase()}
+          <Text  key={index} style={[styles.cell,styles.header,{minWidth:index===2 && 160,backgroundColor:'none',color:'rgba(0,0,0,0.8)',/*pour infoBulle seuelement*/flexDriection:'row',alignItems:'center'}]}>
+            {/* {header.toUpperCase()} */}
+            <Entete donnees={analyses} headers={headers} thisEntete={header.toLowerCase()} render={(anlyss)=>setAnalyses(anlyss)}/>
           </Text>
         ))}
       </View>
@@ -220,7 +261,10 @@ return (<HideStatusBarOnFocus>
                   if(interDate.minDate===""){
                     // ()=>setInterDate({...interDate,minDate:ReduceDateTime(createdAt)}); // A VOIR A REVOIR  A VOIR A REVOIR
                   }
-                return <ClickableRow
+                  const realKey=realKeyFromEntete(entete,item);
+                return <>
+                      {realKey!==undefined && !enteteIsIn(realKey) && <EnteteRow item={item} ntte={realKey} prodName={item?.name} analysed={analyses}/>}
+                      <ClickableRow
                           key={index}
                           num={index+1}
                           search={searchQuery}
@@ -234,6 +278,7 @@ return (<HideStatusBarOnFocus>
                           setK={(idx)=>setK(idx)}
 
                         />
+                        </>
                 }
                 }
               />
@@ -279,14 +324,16 @@ const Dialogue = ({handleNamePress,dialogShow,render,analyses}) => {
           </Dialog>
         </Portal>
 }
-export const PowderHeaders=({headers})=>{
+export const PowderHeaders=({donnees,headers,render})=>{
     const firstHeadStyle={borderTopWidth:2,borderLeftWidth:2,borderColor:"green",borderTopLeftRadius:5};
     const lastHeadStyle={borderTopWidth:2,borderRightWidth:2,borderColor:"green",borderTopRightRadius:5};
     const headersLen=headers.length;
   return <View style={[styles.row,{width:"100%"}]}>
         {headers.map((header, index) => (
               <Text  key={index} style={[styles.cell,{fontWeight: "bold",minWidth:index===1 && 100,fontSize:8,backgroundColor:'none',color:'rgba(0,0,0,0.4)',maxWidth:index===0 && 30,width:index===0 && 20},index===0 && firstHeadStyle,index===headersLen-1 && lastHeadStyle]}>
-                {header.toUpperCase()}
+                {/* {header.toUpperCase()} */}
+                <Entete donnees={donnees} headers={headers} thisEntete={header.toLowerCase()} render={(anlyss)=>render(anlyss)}/>
+
               </Text>
             ))
         }

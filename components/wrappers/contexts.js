@@ -152,7 +152,7 @@ export const FormulesProvider=({children})=>{// Formules ===lansas doit provenir
 export const useFormules=()=>useContext(FormulesContext);
 // ================================================ JAVEL ================================================================
 export const JavelFormulesProvider=({children})=>{
-    const JavelFormules=Object.keys(typesJavel);
+    const JavelFormules=Object?.keys(typesJavel);
     const [javelFocused,setJavelFocused]=useState(null);
     const [wrapperShow,setWrapperShow]=useState(false);
     const [fWrapperShow,setFWrapperShow]=useState(false);
@@ -584,6 +584,13 @@ export const CurrentProductedProvider=({children})=>{
     const [toCreate,setToCreate]=useState(true);// Switcheur entre mode creteating || mode updating
     const [id2Update,setId2Update]=useState(null);
 
+    const [toPrint,setToPrint]=useState({});
+    const [toDisplayPrint, setToDisplayPrint] = useState([]);
+    const [entete,setEntete]=useState('heure');
+    const [directionTri, setDirectionTri]=useState('asc');
+
+    const [targeted,setTargeted]=useState("");
+
     function UpdateFocusedProdByName(item){
         const {name,nom}=item;
         const {estFormule}=isFormule(item);
@@ -648,19 +655,19 @@ export const CurrentProductedProvider=({children})=>{
         return {list,freeChariot};
     }
 
-    function Everages(items){
-        var GG=0;var HUMIDITE=0;var MATIERE_ACTIVE=0;var ALCANITE=0;
-        items.map(item=>{
-            const {gg,humidite,matiere_active,alcanite}=item;
-            GG+=gg!==undefined?Number(gg):0;
-            HUMIDITE+=humidite!==undefined?Number(humidite):0;
-            MATIERE_ACTIVE+=matiere_active!==undefined?Number(matiere_active):0;
-            ALCANITE+=alcanite!==undefined?Number(alcanite):0;
+    // function Everages(items){
+    //     var GG=0;var HUMIDITE=0;var MATIERE_ACTIVE=0;var ALCANITE=0;
+    //     items.map(item=>{
+    //         const {gg,humidite,matiere_active,alcanite}=item;
+    //         GG+=gg!==undefined?Number(gg):0;
+    //         HUMIDITE+=humidite!==undefined?Number(humidite):0;
+    //         MATIERE_ACTIVE+=matiere_active!==undefined?Number(matiere_active):0;
+    //         ALCANITE+=alcanite!==undefined?Number(alcanite):0;
 
-        })
+    //     })
 
-        return {GG,HUMIDITE,MATIERE_ACTIVE,ALCANITE};
-    }
+    //     return {GG,HUMIDITE,MATIERE_ACTIVE,ALCANITE};
+    // }
 
     function keysAndRequirements(){
         const {name,couleur,taches,densite,...rest}=focusedPro;
@@ -683,7 +690,7 @@ export const CurrentProductedProvider=({children})=>{
     },[focusedProduct]);
     // const currentProductedLen=Object.keys(currentProductedPro).length;
 
-    return <CurrentProductedContext.Provider value={{id2Update,setId2Update,UpdateFocusedProdByName,Everages,setAction,toCreate,focusedList,setFocusedList,ListOfFocusedAndLastNumberTour,ListOfFocusedAndLastNumber,currentProductedLen,focusedPro,setFocusedPro,currentProductedPro,setCurrentProductedPro,keysAndRequirements,registred,setRegistred}}>
+    return <CurrentProductedContext.Provider value={{id2Update,setId2Update,targeted,setTargeted,entete,setEntete,directionTri,toPrint,setToPrint,toDisplayPrint, setToDisplayPrint, setDirectionTri,UpdateFocusedProdByName,setAction,toCreate,focusedList,setFocusedList,ListOfFocusedAndLastNumberTour,ListOfFocusedAndLastNumber,currentProductedLen,focusedPro,setFocusedPro,currentProductedPro,setCurrentProductedPro,keysAndRequirements,registred,setRegistred}}>
        {children}
     </CurrentProductedContext.Provider>
 }

@@ -17,7 +17,9 @@ import { MyChip,Filter } from '../chip';
 import { Periodes } from '../periode';
 import { clooner } from '../accueil';
 import Table from './componentTable'
+import Btn from '../buttons/btnWithinfo.js';
 import Pop from '../popup';
+import Charts from '../chars/liquidesChars.js';
 // DATA STATEMENTS && UTILS
 import { ChipProvider,CurrentProductsProvider,useEverages,usePopup,usePowderEverages,useReservs } from '../wrappers/contexts';
 import {colorFromName,VALEURS,productsAndCountsFormat,Flex } from '../../assets/functions' ;
@@ -36,13 +38,13 @@ export default TableFull=({navigation/*,route*/,routeNheaders})=>{
     const viewRef=useRef();
     const safeAreaRef=useRef();
     const {setPop}=usePopup();
-    const {buildAnalytics}=useEverages();
     const {api_url,headers}=routeNheaders;
     const {startedAt,endedAt,powderAnalysed,clooned}= useSelector(state => {
         const {startedAt,endedAt}=state.period.targetPeriod;
         const powderAnalysed=state.powderAnalysed.powderAnalysed;
         const clooned=state.actived.clooned;
         return {startedAt,endedAt,powderAnalysed,clooned};});
+    const {buildAnalytics}=useEverages();
     const {buildPowderAnalytics}=usePowderEverages();
     const [modalShow,setModalShow]=useState(false);
     const [productsAndCounts,setProductsAndCounts]=useState(null);
@@ -54,16 +56,16 @@ export default TableFull=({navigation/*,route*/,routeNheaders})=>{
     const [titre,setTitre]=useState('');
     const filter=new Filters();
     const dataFilters=[
-        {name:'/Mois',data:filter.date_dep_engine(toPrint),active:true},//suivant melanges par date/mois
-        {name:'Dep.',data:filter.dep_date_engine(toPrint),active:true},// suivant departement
+        {name:'/Mois',info:'filtrer la table suivant le mois',data:filter.date_dep_engine(toPrint),active:true},//suivant melanges par date/mois
+        {name:'Dep.',info:'filtrer la table suivant le département',data:filter.dep_date_engine(toPrint),active:true},// suivant departement
         // {name:'DANC',data:filter.dep_isValidated_mois_date(toPrint),active:false},//suivant Non conforme par departement
-        {name:'Mel./L',data:filter.mois_date_dep_engine(toPrint),active:true},//suivant melangeurs/longue periode
-        {name:'Mel.',data:filter.dep_engine_mois_date_isValidated(toPrint),active:true},// melanges non conformes par melangeur/longue periode
-        {name:'P/D',data:filter.dep_engine_mois_date_product(toPrint),active:false},// suivant Produits par departement
-        {name:'P',data:filter.product_mois_date(toPrint),active:true},//suivant produit/longue periode
-        {name:'P.F.',data:filter.dep_mois_date_product(toPrint),active:true},//melanges avec name filtrer/longue periode
-        {name:'A.NC/P',data:filter.product_isValidated(toPrint),active:false},//suivant Non conforme par produit
-        {name:'Op.',data:filter.chemist_mois_date(toPrint),active:false}//suivant Operateur
+        {name:'Mel./L',info:'filtrer la table suivant le melangeur sur une période excédant un mois',data:filter.mois_date_dep_engine(toPrint),active:true},//suivant melangeurs/longue periode
+        {name:'Mel.',info:'filtrer la table suivant le mélangeur',data:filter.dep_engine_mois_date_isValidated(toPrint),active:true},// melanges non conformes par melangeur/longue periode
+        {name:'P/D',info:'filtrer la table suivant les département,melangeur et produit',data:filter.dep_engine_mois_date_product(toPrint),active:false},// suivant Produits par departement
+        {name:'P',info:'filtrer la table suivant le produit',data:filter.product_mois_date(toPrint),active:true},//suivant produit/longue periode
+        {name:'P.F.',info:'filtrer la table suivant le produit sur une periode excédant un mois',data:filter.dep_mois_date_product(toPrint),active:true},//melanges avec name filtrer/longue periode
+        {name:'A.NC/P',info:'filtrer la table suivant la non conformité par produit',data:filter.product_isValidated(toPrint),active:false},//suivant Non conforme par produit
+        {name:'Op.',info:"filtrer la table suivant l'opérateur",data:filter.chemist_mois_date(toPrint),active:false}//suivant Operateur
     ];
 
     // ============== POUR L'IMPRESSION SEULEMENT ============
@@ -82,6 +84,16 @@ export default TableFull=({navigation/*,route*/,routeNheaders})=>{
     },[product,api_url,startedAt,endedAt]);
     // =======================================================
 
+    // useLayoutEffect(()=>{
+    //     navigation.setOptions({
+    //         headerLeft:()=>(
+    //             <TouchableOpacity style={{width:80,margin:0,marginLeft:30,backgroundColor:'transparent',}} onPress={() => navigation.goBack()}>
+    //                 <FontAwesome5 name='arrow-left' size={20} color='white'/>
+    //             </TouchableOpacity>
+    //         )
+    //     })
+    // })
+
     const refresh=()=>{// Pour raffraichir le screen d'accueil
         // setRefreshing(true); // je trouve la similation moche
         setTimeout(()=>{
@@ -95,7 +107,7 @@ export default TableFull=({navigation/*,route*/,routeNheaders})=>{
 
     const terminate=({key,object}) => {
                 const count=Object.values(object).length;
-                return `<h3 class="key3">${key}<span style="display:inline-block;background-color:blue;font-weight:bold;font-size:14px;border-radius:50%;width:auto;height:auto;padding:4px;margin-left:5px;margin-right:5px;color:white;border:1px solid grey">${count}</span><h3>
+                return `<h3 class="key3">${key}<span style="display:inline-block;background-color:rgba(0,0,0,0.1);font-weight:bold;font-size:14px;border-radius:50%;width:auto;height:auto;padding:4px;margin-left:5px;margin-right:5px;color:black;border:1px solid grey">${count}</span><h3>
                     </div>
                         ${Object.entries(object).map(([k,item]) => {
                             var it=item || item[0];
@@ -139,6 +151,9 @@ export default TableFull=({navigation/*,route*/,routeNheaders})=>{
                     .key2{font-size:14px;color:rgba(0,0,0,0.5);margin:8px;margin-left:6px;}
                     .key3{font-size:14px;color:rgba(0,0,0,0.2);margin:8px;margin-left:10px;}
                     .counts{display:inline-block;background-color:blue;font-weight:bold;font-size:14px;border-radius:50%;border:2px solid blue;width:auto;height:auto;padding:4px;margin-left:5px;margin-right:5px;color:white;}
+                    .counts1{display:inline-block;background-color:grey;font-weight:bold;font-size:14px;border-radius:50%;border:2px solid blue;width:auto;height:auto;padding:4px;margin-left:5px;margin-right:5px;color:blue;}
+                    .counts2{display:inline-block;background-color:rgba(0,0,0,0.3);font-weight:bold;font-size:14px;border-radius:50%;border:2px solid blue;width:auto;height:auto;padding:4px;margin-left:5px;margin-right:5px;color:black;}
+                    .counts3{display:inline-block;background-color:rgba(0,0,0,0.1);font-weight:bold;font-size:14px;border-radius:50%;border:2px solid blue;width:auto;height:auto;padding:4px;margin-left:5px;margin-right:5px;color:black;}
                     .pCounts{color:rgba(0,0,0,0.4);padding-left:100px;}
                 </style>
                 <html>
@@ -176,40 +191,40 @@ export default TableFull=({navigation/*,route*/,routeNheaders})=>{
                                                 const {count,...rest4}=object4;
                                                 const item4=Object.values(rest4)[0].name;
                                                 // }
-                                                var bool4=(item4!==null && item4!==undefined);
-                                                return bool4?terminate({key:key4,object:rest4}):`<h3 class="key2">${key4}<h3>
+                                                // var bool4=(item4!==null && item4!==undefined);
+                                                return item4?terminate({key:key4,object:rest4}):`<h3 class="key2">${key4}<h3>
                                                 <div>
                                                     ${Object.entries(rest4).map(([key5,object5]) => {
                                                         // const count5=Object.values(object5).length;
                                                         // const count5=object5.count;
                                                         const {count,...rest5}=object5;
                                                         const item5=Object.values(rest5)[0]?.name;
-                                                        var bool5=(item5!==null && item5!==undefined);
-                                                        return bool5?terminate({key:key5,object:rest5}):`<h3 class="key3">${key5}<span class="counts" style="border:1px solid grey">${count}</span><h3>
+                                                        // var bool5=(item5!==null && item5!==undefined);
+                                                        return item5?terminate({key:key5,object:rest5}):`<h3 class="key3">${key5}<span class="counts1" style="border:1px solid grey">${count}</span><h3>
                                                             </div>
                                                                 ${Object.entries(rest5).map(([key6,object6]) => {
                                                                     // const count6=Object.values(object6).length;
                                                                     // const count6=object6.count;
                                                                     const {count,...rest6}=object6;
                                                                     const item6=Object.values(rest6)[0].name;
-                                                                    var bool6=(item6!==null && item6!==undefined);
-                                                                    return bool6?terminate({key:key6,object:rest6}):`<h3 class="key3">${key6}<span class="counts" style="border:1px solid grey">${count}</span><h3>
+                                                                    // var bool6=(item6!==null && item6!==undefined);
+                                                                    return item6?terminate({key:key6,object:rest6}):`<h3 class="key3">${key6}<span class="counts2" style="border:1px solid grey">${count}</span><h3>
                                                                         </div>
                                                                             ${Object.entries(rest6).map(([key7,object7]) => {
                                                                                 // const count7=Object.values(object7).length;
                                                                                 // const count7=object7.count;
                                                                                 const {count,...rest7}=object7;
                                                                                 const item7=Object.values(rest7)[0].name;//alert(item7);
-                                                                                var bool7=(item7!==null && item7!==undefined);
-                                                                                return bool7?terminate({key:key7,object:rest7}):`<h3 class="key3">${key7}<span class="counts" style="border:1px solid grey">${count}</span><h3>
+                                                                                // var bool7=(item7!==null && item7!==undefined);
+                                                                                return item7?terminate({key:key7,object:rest7}):`<h3 class="key3">${key7}<span class="counts3" style="border:1px solid grey">${count}</span><h3>
                                                                                     </div>
                                                                                         ${Object.entries(rest7).map(([key8,object8]) => {
                                                                                             // const count8=Object.values(object8).length;
                                                                                             // const count8=object8.count;
                                                                                             const {count,...rest8}=object8;
                                                                                             const item8=Object.values(rest8)[0].name;//alert(item7);
-                                                                                            var bool8=(item8!==null && item8!==undefined);
-                                                                                            return bool7?terminate({key:key8,object:rest8}):`<h3 class="key3">${key8+'  '+count}<h3>`
+                                                                                            // var bool8=(item8!==null && item8!==undefined);
+                                                                                            return item8?terminate({key:key8,object:rest8}):`<h3 class="key3">${key8+'  '+count}<h3>`
                                                                                         }).join("")}
                                                                                     </div>`
                                                                             }).join("")}
@@ -248,8 +263,7 @@ export default TableFull=({navigation/*,route*/,routeNheaders})=>{
                 //(error);
             }
         };
-
-    // const genratePDF = async () => {
+// const genratePDF = async () => {
     //     const months=['Janvier','Fèvrier','Mars','Avril','Mai','Juin','Juillet','Aout','Septembre','Octobre','Novembre','Décembre']
     //     try {
 
@@ -463,8 +477,8 @@ export default TableFull=({navigation/*,route*/,routeNheaders})=>{
                     <MyChip product={null} clooned={clooned} render={()=>setProduct(null)} />
                     
                     {dataFilters.map((o,index)=>{
-                        const {name,data,active}=o;
-                        return <Filter key={index} active={active} title={name} text={titre} render={(txt)=>{setToDisplayPrint(data);setTitre(txt)}} />
+                        const {name,data,active,info}=o;
+                        return <Filter info={info} key={index} active={active} title={name} text={titre} render={(txt)=>{setToDisplayPrint(data);setTitre(txt)}} />
                     })}
                     
                 </View>
@@ -483,48 +497,30 @@ export default TableFull=({navigation/*,route*/,routeNheaders})=>{
             </View>
         </ChipProvider>
                
-        <ScrollView horizontal={true} style={styles.table}
-            // refreshControl={<RefreshControl refreshing={refreshing} onRefresh={refresh}/>}
-        >
+        <ScrollView horizontal={true} style={styles.table}>
             <SafeAreaProvider ref={safeAreaRef} style={{...styles.safeAreaView,maxWidth:'100%',minWidth:isLarge?1190:1000,}}>
                 <CurrentProductsProvider>
                     <Table current={false} product={product} navigation={navigation} rend={(data)=>{refresh();setProductsAndCounts(productsAndCountsFormat(data))}} render={()=>setModalShow(true)} API_URL={api_url} headers={headers}/>
                 </CurrentProductsProvider>
             </SafeAreaProvider>
+
+            <View style={styles.print_graphes}>
+                {/* const {style,onPress,info,children,...restProps}=props; */}
+                <Btn style={styles.graphes_link} bcgrndClr={'rgba(0,0,0,0.8)'} textStyle={styles.tooltipText} onPress={()=>navigation.navigate("Liquides/graphes")} info="diagrammes">
+                    <FontAwesome5 size={25} name="chart-line" color='blue'/>
+                </Btn>
+                <Btn style={styles.graphes_link} bcgrndClr={'rgba(0,0,0,0.8)'} textStyle={styles.tooltipText}  onPress={async () => {setTimeout(async () => {await generatePDF();}, 500);}} info="imprimer table">
+                    <Text ><FontAwesome5 name="file-pdf" size={25} color="blue"/></Text>
+                </Btn>
+            </View>
+            
+
         </ScrollView>
-
-        {/* <ModalMesures  */}
-        {/* navigation={navigation} route={route}  */}
-        {/* bool={modalShow} render={()=>setModalShow(false)}  */}
-
-        {/* /> */}
     </ScrollView>
         <TouchableOpacity  onPress={handleOpenPress} style={{position:'absolute',right:20,top:0.61*screenHeight,height:65,borderWidth:1,borderColor:'whitesmoke',paddingHorizontal:8,paddingVertical:8,borderRadius:10,backgroundColor:"rgba(155, 0, 0, 0.7)",}} >
             <Text style={{fontWeight:800,letterSpacing:-2,fontSize:16,color:"whitesmoke",paddingVertical:6,paddingHorizontal:2,borderBottomWidth:4,borderTopWidth:4,borderRadius:16,borderColor:'whitesmoke'}}>MOY</Text>
         </TouchableOpacity>
-        <TouchableOpacity
-        style={{position:'absolute',right:20,top:0.71*screenHeight,backgroundColor:'rgba(155,0,0,0.7)',padding:8,borderRadius:10,}}
-        onPress={async () => {setTimeout(async () => {
-                            await generatePDF();
-                        }, 500);
-                    }}
-        >
-    
-            {/* <Button
-                icon="file-pdf"
-                mode="contained"
-                onPress={async () => {
-                    // if (Platform.OS !== 'web' && viewRef.current) {
-                        setTimeout(async () => {
-                            await generatePDF();
-                        }, 500);
-                    }}
-                style={{fontWeight:'bold',color:'white',}}
-                  title='générer le PDF'
-            /> */}
-            <Text ><FontAwesome5 name="file-pdf" size={50} color="white"/></Text>
-        </TouchableOpacity>
-        {/* <Pop/> */}
+        
     </BottomSheet>
 }
 
@@ -752,9 +748,33 @@ export const ULNavigator=({route,routeNheaders})=>{
     return (<Stack.Navigator
         screenOptions={{headerShown: false,}}>
         <Stack.Screen name="Liquides" children={({navigation}) => <TableFull navigation={navigation} route={route} routeNheaders={routeNheaders}/>}/>
+        <Stack.Screen name="analyses/liquides/graphes" children={({navigation}) => <Graphes navigation={navigation}/>} />
         <Stack.Screen name="analyses/liquides/updateLiquides" children={({navigation,route}) => <ModalMesures navigation={navigation} route={route}/>} options={{presentation:'transparentModal'}}/>
     </Stack.Navigator>
     )}
+
+const Graphes = ({navigation}) => {
+
+    // useLayoutEffect(()=>{
+    //     navigation.setOptions({
+    //         headerLeft:()=>(
+    //             <TouchableOpacity style={{width:80,margin:0,marginLeft:30,backgroundColor:'transparent',}} onPress={() => navigation.goBack()}>
+    //                 <FontAwesome5 name='arrow-left' size={20} color='white'/>
+    //             </TouchableOpacity>
+    //         )
+    //     })
+    // })
+
+    return <View style={styles.graphes}>
+                <ScrollView style={{height:'100%',width:'100%',minWidth:700,}}>
+                    <View style={styles.graphes_parent}>
+                        <Charts/>
+                    </View>
+                </ScrollView>
+        </View>
+};
+
+
 
 export const SimpleTable=()=>{
     const dispatch=useDispatch();
@@ -791,6 +811,55 @@ return <ScrollView horizontal={true} style={styles.table}>
 
 
 const styles=StyleSheet.create({
+    tooltipText: {
+    width:'auto',
+    // backgroundColor:'rgba(0,0,0,0.8)',
+    color:'white',
+    height:20,
+    padding:2,
+    borderRadius:2,
+    textAlign:'center',
+    letterSpacing:1.5,
+    fontSize:12
+  },
+    print_graphes:{
+        width:'auto',
+        height:45,
+        padding:10,
+        // paddingHorizontal:10,
+        flexDirection:'row',
+        justifyContent:'center',
+        alignItems:'center',
+        gap:6,
+        position:'absolute',
+        top:20,
+        right:100,
+        borderRadius:4,
+        backgroundColor:'rgba(0,0,0,0.05)',
+
+    },
+    graphes_link:{/*position :'absolute',top:10,right:50,*/
+        width:'auto',
+        height:'95%',
+        flexDirection:'row',
+        alignItems:'center',
+        paddingHorizontal:10,
+        paddingVertical:10,
+        margin:3,
+        // marginVertical:15,
+        // marginHorizontal:20,
+        borderRadius:8,
+        borderWidth:1,
+        borderColor:'white',
+        backgroundColor:'transparent',
+
+    },
+    // print:{/*position:'absolute',right:20,top:0.71*screenHeight,*/
+    //     height:'90%',
+    //     backgroundColor:'rgba(155,0,0,0.7)',
+    //     padding:8,
+    //     borderRadius:10
+    // },
     container: {
         paddingHorizontal:5,
         // flex:1,

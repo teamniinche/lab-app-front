@@ -4,7 +4,8 @@ import { isFormule } from '../../../assets/functions';
 const initialState = {
    powderAnalysed:[],
    powderFiltred:[],
-   powderType:[]
+   powderType:[],
+   type:null
   };
   
   const powderAnalysedSlice = createSlice({
@@ -22,7 +23,7 @@ const initialState = {
         const powderByType=action.payload===null ? state.powderAnalysed : state.powderAnalysed.filter(itm=>itm.name.toLowerCase().includes(action.payload.toLowerCase()) && !isFormule(itm).estFormule);
         const powderFinished=state.powderAnalysed.filter(itm=>isFormule(itm).estFormule);
         // alert(JSON.stringify(powderByType))
-        
+        state.type=action.payload;
         state.powderType =action.payload!=="Finies" ? powderByType : powderFinished;
         state.powderFiltred =action.payload!=="Finies" ? powderByType : powderFinished;
       },

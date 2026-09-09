@@ -1,8 +1,9 @@
 import { useMemo,useEffect,useLayoutEffect,useState,useRef } from 'react';
 import { createDrawerNavigator } from '@react-navigation/drawer';
+import { useNavigation ,useNavigationState} from '@react-navigation/native';
 import { Picker } from '@react-native-picker/picker';
 import { View, Text, StyleSheet,TouchableWithoutFeedback,Pressable,ActivityIndicator,Platform,FlatList, TouchableOpacity } from 'react-native';
-// import { FontAwesome5 } from '@expo/vector-icons';
+import { FontAwesome5 } from '@expo/vector-icons';
 import { Searchbar,TextInput,Button, Dialog, Portal, PaperProvider } from 'react-native-paper';
 import Collapsible from 'react-native-collapsible';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -23,10 +24,11 @@ import WinDim from '../assets/operatingData';
 import { Lansas,routesAndHeadersPowder,headersTour } from '../iterables';
 import { styles } from '../components/tables/componentTable';
 import { ViewOrImgBgPowderWrapper } from '../components/wrappers/viewOrImgWrapper';
+import {EnteteRowPoudre} from '../components/entete-row.js';
 import { ScrollView } from 'react-native-gesture-handler';
 import { Comment } from '../components/tables/chat-for-table';
 import { AdjentDayInMs} from '../components/periode';
-import { isFormule,allowTo,isAlreadyAnalysed,Chariots} from '../assets/functions';
+import { isFormule,allowTo,isAlreadyAnalysed,Chariots,IsEmptyObject,moy,keyReduce,realKeyFromEntete} from '../assets/functions';
 import Colors from '../assets/colors';
 const {aujourdhui,demain}=Periodes();
 const {full}=routesAndHeadersPowder;
@@ -96,6 +98,7 @@ export const UpdateLansa = ({visible,item}) => {
 }
 
 export default function DrawerPoudre(){
+    const {setPop}=usePopup();
     const dispatch=useDispatch();
     useLayoutEffect(()=>{
             fetch(dbBaseRoot+"poudre/analyses/lansasAndformules")
@@ -106,7 +109,7 @@ export default function DrawerPoudre(){
                 dispatch(setPowderAnalysed(analyses));
             })
             .catch(function(error){
-                alert(error.message)
+                setPop({show:true,message:error.message,code:"#880000"})
             })
         },[]);
   return (<CurrentProductedProvider>
@@ -180,7 +183,7 @@ const AnalysedList=() => {
             return {powderAnalysed,focusedListe};
         })
         const [analysed,setAnalysed]=useState([]);
-        const {registred,Everages}=useCurrentProducted();
+        const {registred}=useCurrentProducted();
         function handleResearchChange(txt){
             // alert(JSON.stringify(registred))
             const matchedAnalysed=powderAnalysed.filter(it=>(it.name.toLowerCase().includes(txt.toLowerCase()) || it.nChar.toString().includes(txt)));// registred a la place powderAnalysed
@@ -190,8 +193,8 @@ const AnalysedList=() => {
         useMemo(()=>{setAnalysed(focusedListe.filter(item=>isAlreadyAnalysed(item)))},[focusedListe]);// focusedListe du store etait import pour cette partie
         const {name,nom}=focusedListe[0]||{};
         const {nameToDisplay}=isFormule(focusedListe[0]||{})
-        const AnalysedLen=analysed.length;
-        const {GG,HUMIDITE,MATIERE_ACTIVE,ALCANITE}=Everages(analysed);
+        // const AnalysedLen=analysed.length;
+        // const {GG,HUMIDITE,MATIERE_ACTIVE,ALCANITE}=Everages(analysed);
     return <View style={{flex:1,width:"55%",minHeight:700,backgroundColor:'white',flexDirection:'column',justifyContent:'flex-start',alignItems:'center',marginLeft:2}}>
             <View style={{width:"100%",height:75,backgroundColor:"#ddd",flexDirection:'row-reverse',justifyContent:'space-between',alignItems:'center',borderBottomWidth:2,borderColor:"black",paddingHorizontal:20,paddingRight:10,marginBottom:10}}>
                 <View style={{width:"65%",flexDirection:"row-reverse",justifyContent:"flex-start",alignItems:"center",gap:0}}>
@@ -206,7 +209,7 @@ const AnalysedList=() => {
                 <Text style={{fontSize:12,textAlign:"center",fontWeight:'bold',width:"35%"}}>{/*nom ||name*/nameToDisplay}</Text>
             </View>
             <View style={{width:"100%",height:"auto",minHeight:740,maxHeight:740,paddingHorizontal:10,paddingVertical:0}}>
-                <PowderHeaders headers={headers}/>
+                <PowderHeaders donnees={analysed} headers={headers} render={(anlyss)=>setAnalysed(anlyss)}/>
                 {/* {loading ? (<ActivityIndicator size="large" color="#0000ff" />
                         ) : ( */}
                     <View style={{width:"100%",minHeight:740,maxHeight:740,overflowY:"scroll",}}>
@@ -225,7 +228,7 @@ const AnalysedList=() => {
                                         }
                           />
                     </View>
-                <View 
+                {/* <View 
                 style={{
                         flex:1,
                         maxHeight:60,
@@ -247,7 +250,7 @@ const AnalysedList=() => {
                     <Text style={{fontWeight:"bold",fontSize:18,textAlign:"center",width:"auto",color:"white"}}>{"HUM. "+(HUMIDITE/AnalysedLen).toFixed(2)}</Text>
                     <Text style={{fontWeight:"bold",fontSize:18,textAlign:"center",width:"auto",color:"white"}}>{"MA "+(MATIERE_ACTIVE/AnalysedLen).toFixed(2)}</Text>
                     <Text style={{fontWeight:"bold",fontSize:18,textAlign:"center",width:"auto",color:"white"}}>{"ALCA. "+(ALCANITE/AnalysedLen).toFixed(2)}</Text>
-                </View>
+                </View> */}
             </View>
                         {/* )
                   } */}
@@ -277,7 +280,7 @@ export const AnalysedListTour=() => {
     return <View style={{flex:1,width:"100%",minHeight:400,borderWidth:1,borderColor:'grey',borderRadius:15,backgroundColor:'white',paddingVertical:20,flexDirection:'column',justifyContent:'flex-start',alignItems:'center',marginLeft:2,marginTop:40}}>
             
             <View style={{width:"100%",height:"auto",minHeight:400,maxHeight:400,paddingHorizontal:10,paddingVertical:0}}>
-                <PowderHeaders headers={headersTour}/>
+                <PowderHeaders donnees={analysed} headers={headersTour} render={(anlyss)=>setAnalysed(anlyss)}/>
                     {/* <View style={{width:"100%",minHeight:740,maxHeight:740,overflowY:"scroll",}}> */}
                         <ScrollView 
                                 ref={scrollViewRef}
@@ -307,24 +310,26 @@ export const AnalysedListTour=() => {
 
 export const AnalysedListe=({product,rend}) => {// Pour Poudre-full
         // const [loading,setLoading]=useState(false);
+        // const route=useRoute();
+        const tabNavigation=useNavigation();
+        // 2. Remonte d'un niveau pour cibler le Drawer Navigator parent
+        const drawerNavigation = tabNavigation.getParent(); 
+
         const dispatch=useDispatch();
         const {startedAt,endedAt}=useSelector(state=>state.period.targetPeriod);
         const [K,setK]=useState(null);
         const {setPop}=usePopup();
-        const {powderFiltred,powderAnalysed,powderType,focusedListe}=useSelector(state=>{
+        const {powderFiltred,powderAnalysed,powderType,type,focusedListe}=useSelector(state=>{
             const powderFiltred=state.powderAnalysed.powderFiltred;
             const powderAnalysed=state.powderAnalysed.powderAnalysed;
-            const powderType=state.powderAnalysed.powderType;
+            const {powderType,type}=state.powderAnalysed;
             const focusedListe=state.currentProducted.focusedListe;
-            return {powderFiltred,powderAnalysed,powderType,focusedListe};
+            return {powderFiltred,powderAnalysed,powderType,type,focusedListe};
         })
         const [analysed,setAnalysed]=useState([]);
-        const {Everages}=useCurrentProducted();
-        // function handleResearchChange(txt){
-        //     const matchedAnalysed=registred.filter(it=>(it.name.toLowerCase().includes(txt.toLowerCase()) || it.nChar.toString().includes(txt)));// registred a la place powderAnalysed
-        //     setAnalysed(matchedAnalysed);
-        //     // .sort((firstItem, secondItem) => firstItem.nChar - secondItem.nChar)
-        // }
+        const {entete}=useCurrentProducted();
+
+
         useLayoutEffect(()=>{
             fetch(`${dbBaseRoot}poudre/analyses?startedAt=${startedAt}&endedAt=${endedAt}`) 
             .then(response=>response.json())
@@ -332,22 +337,55 @@ export const AnalysedListe=({product,rend}) => {// Pour Poudre-full
             .catch(function(error){ 
                 setPop({show:true,message:error.message,code:"#880000"})
             })
-            // setAnalysed(powderFiltred); 
         },[]);
-        //  useMemo(()=>{
-        //     const products=product===null?analysed:analysed.filter((itm)=>isFormule(itm).estFormule?(isFormule(itm).nameToDisplay===product):itm.name===product);
-        //     setAnalysed(products)},[product]);// product pour gerer le cas du clic sur un decompte-item
+
+        // ========================================= AFFICHAGE DE LA ROUTE =======================================
+        const suffixe = product ? `/${product}` : '';
+        // 1. Récupérer PRÉCISEMENT le nom de la route active du Drawer enfant
+        const drawerRouteName = useNavigationState((state) => {
+                // On cherche l'état de la route actuellement affichée
+                const route = state.routes[state.index];
+                // Si cette route contient elle-même un état imbriqué (le Drawer)
+                if (route.state) {return route.state.routes[route.state.index].name;}
+                // Valeur de secours si l'état n'est pas encore initialisé
+
+                return route.name;
+            });
+        const NTT=(entete && entete!=='heure')?(!drawerRouteName.includes('graphes')?` #${entete}`:''):'';
+        const TYPE=type?(!drawerRouteName.includes('graphes')?`/${type}`:'' ): '/*';
+        
+        
+        useEffect(()=>{
+            if (drawerNavigation/* && !drawerRouteName.includes('raphes')*/) {
+                drawerNavigation.setOptions({title: `${drawerRouteName}${TYPE}`});
+            }
+        },[type]);
+
+        useMemo(()=>{
+            if (drawerNavigation) {drawerNavigation.setOptions({title: `${drawerRouteName.replace('Accueil','Comptabilité')}${TYPE.replace('root','')}${suffixe}${NTT}`, /*Affiche visuellement : "Boutique/favoris"*/});};
+        // ==========================================================================================================
+            setAnalysed(powderFiltred);
+        },[product, drawerRouteName, drawerNavigation,entete]);// product pour gerer le cas du clic sur un decompte-item
+
+
 
         useEffect/*useMemo*/(()=>{
             setAnalysed(powderType); // filtrer suivant le type (extra,local,finies,get,diam,...)
             ///** Essayons -le */ rend(powderAnalysed); // construit les chipps: doit rester constatn que owderAnalysed n'a pas changé: Pouvait se faire dans le useLayoutEffect si aucune mise a jour des powderAnalysed n'est envisagée
         },[powderAnalysed,powderType]);// focusedListe du store etait import pour cette partie
 
-        const AnalysedLen=analysed.length;
-        const {GG,HUMIDITE,MATIERE_ACTIVE,ALCANITE}=Everages(analysed);
+        // const AnalysedLen=analysed.length;
+        // const {GG,HUMIDITE,MATIERE_ACTIVE,ALCANITE}=Everages(analysed);
+
+        // =========================================== POUR  EnteteRow seulement ==============================================
+        const entetesAlreadyIn=[];
+        function enteteIsIn(ent){if(!entetesAlreadyIn.includes(ent)){entetesAlreadyIn.push(ent);return false;}else{return true;}};
+        
+
     return <View style={{flex:1,width:"100%",height:"auto",padding:50,paddingTop:20,backgroundColor:'white',flexDirection:'column',justifyContent:'flex-start',alignItems:'center',marginLeft:2}}>
+            
             <View style={{width:"100%",height:"auto",height:"auto",maxHeight:740,paddingHorizontal:10,paddingVertical:0}}>
-                <PowderHeaders headers={headers}/>
+                <PowderHeaders donnees={analysed} headers={headers} render={(anlyss)=>setAnalysed(anlyss)}/>
                 {/* {loading ? (<ActivityIndicator size="large" color="#0000ff" />
                         ) : ( */}
                     <View style={{width:"100%",height:"auto",maxHeight:740,marginBottom:70,overflowY:"scroll",}}>
@@ -355,7 +393,10 @@ export const AnalysedListe=({product,rend}) => {// Pour Poudre-full
                                         data={analysed}
                                         keyExtractor={(item,i) =>(item.nChar?.toString()+i.toString())}
                                         renderItem={({ item },index) =>{
-                                        return <PowderRow
+                                            const realKey=realKeyFromEntete(entete,item);
+                                            return <>
+                                                {realKey!==undefined && !enteteIsIn(realKey) && <EnteteRowPoudre analysed={analysed} ntte={realKey} prodName={item.name}/>}
+                                                <PowderRow
                                                     key={index}
                                                     K={K}
                                                     setK={setK}
@@ -363,11 +404,12 @@ export const AnalysedListe=({product,rend}) => {// Pour Poudre-full
                                                     items={analysed}
                                                     ac={true}
                                                 />
+                                            </>
                                             }
                                         }
                           />
                     </View>
-                {product!==null && <View 
+                {/* {product!==null && <View 
                 style={{
                         flex:1,
                         maxHeight:60,
@@ -389,7 +431,7 @@ export const AnalysedListe=({product,rend}) => {// Pour Poudre-full
                     <Text style={{fontWeight:"bold",fontSize:18,textAlign:"center",width:"auto",color:"white"}}>{"HUM. "+(HUMIDITE/AnalysedLen).toFixed(2)}</Text>
                     <Text style={{fontWeight:"bold",fontSize:18,textAlign:"center",width:"auto",color:"white"}}>{"MA "+(MATIERE_ACTIVE/AnalysedLen).toFixed(2)}</Text>
                     <Text style={{fontWeight:"bold",fontSize:18,textAlign:"center",width:"auto",color:"white"}}>{"ALCA. "+(ALCANITE/AnalysedLen).toFixed(2)}</Text>
-                </View>}
+                </View>} */}
             </View>
                         {/* )
                   } */}
@@ -844,25 +886,20 @@ const PoudreWorkSpace=() => {
                     })
                     .then(response=>response.json())
                     .then(data=>{
-                        // console.log(data)
                         const {code,message,analyse,analyses}=data;
-                        if(code!=='red'){
-                            const {lansas,formules}=analyses;
-                            const ANALYSES=[...lansas,...formules];
-                            // alert(JSON.stringify(ANALYSES));
-                            setRegistred(ANALYSES);
-                            dispatch(setPowderAnalysed(ANALYSES));
-                            setPop({show:true,message:"Analyse ajoutée avec succes.",code:code});
 
-                        // }
-                        // const toPop=code==='green'?
-                        //         {show:true,message:"Analyse enregistrée avec succes.",code:code}
-                        //         :
-                        //         {show:true,message:"L'analyse n'a pas pu etre enregistrée :"+ message,code:'#880000'}
-                        // setPop(toPop);
+                        if(code!=='red'){
+                            try{
+                                const {lansas,formules}=!IsEmptyObject(analyses || {})?analyses:{lansas:[],formules:[]};
+                                const ANALYSES=[...lansas,...formules];
+                                setRegistred(ANALYSES);
+                                dispatch(setPowderAnalysed(ANALYSES));
+                                setPop({show:true,message:"Analyse ajoutée avec succes.",code:code});
+                            }catch(error){throw new Error("L'analyse n'a pas pu etre ajoutée: "+error.message);}
                         }else{
                             throw new Error("L'analyse n'a pas pu etre ajoutée: "+message);
                         }
+
                         return analyse;
                     })
                     .then((analyse)=>{
@@ -905,18 +942,23 @@ const PoudreWorkSpace=() => {
                     .then(response=>response.json())
                     .then(data=>{
                         const {code,message,analyses}=data;
+
                         if(code!=='red'){
-                        const {lansas,formules}=analyses;
-                        const ANALYSES=[...lansas,...formules];
-                        setRegistred(ANALYSES.sort((firstItem, secondItem) => Number(firstItem.nChar) - Number(secondItem.nChar)));
-                        dispatch(setPowderAnalysed(ANALYSES.sort((firstItem, secondItem) => Number(firstItem.nChar)- Number(secondItem.nChar))));
-                        setPop({show:true,message:"Analyse modifiée avec succes.",code:code});
-                        // const toPop=code==='green'?
-                        //         {show:true,message:"Analyse modifiée avec succes.",code:code}
-                        //         :{show:true,message:"L'analyse n'a pas pu etre modifiée: "+message,code:'#880000'}
+                            try{
+                                const {lansas,formules}=!IsEmptyObject(analyses || {})?analyses:{lansas:[],formules:[]};
+                                const ANALYSES=[...lansas,...formules];
+                                setRegistred(ANALYSES.sort((firstItem, secondItem) => Number(firstItem.nChar) - Number(secondItem.nChar)));
+                                dispatch(setPowderAnalysed(ANALYSES.sort((firstItem, secondItem) => Number(firstItem.nChar)- Number(secondItem.nChar))));
+                                setPop({show:true,message:"Analyse modifiée avec succes.",code:code});
+                                // const toPop=code==='green'?
+                                //         {show:true,message:"Analyse modifiée avec succes.",code:code}
+                                //         :{show:true,message:"L'analyse n'a pas pu etre modifiée: "+message,code:'#880000'}
+                            }catch(error){throw new Error("L'analyse n'a pas pu etre modifiée: "+error.message);}
+
                         }else{
                             throw new Error("L'analyse n'a pas pu etre modifiée: "+message);
                         }
+
                     })
                     .then(()=>{
                         const ID=builtItem?.id;
@@ -958,7 +1000,7 @@ const PoudreWorkSpace=() => {
                             }}
                 onPress={handleEnregistrerPress}
             >
-                <Text style={{color:"white",fontWeight:"bold",textAlign:"center",width:"center"}}>{"Enregistrer"+(!toCreate?" les modificstions":"")}</Text>
+                <Text style={{color:"white",fontWeight:"bold",textAlign:"center",width:"center"}}>{"Enregistrer"+(!toCreate?" les modifications":"")}</Text>
             </TouchableOpacity>}
         </View>}
         {/* <Pop/> */} 

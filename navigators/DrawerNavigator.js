@@ -5,9 +5,11 @@ import { FontAwesome5 } from '@expo/vector-icons';
 // mes components
 import { ULNavigator } from '../components/tables/table-full';
 import { UPNavigator } from '../components/tables/poudre-full';
+import LiquidesCharts from '../components/chars/liquidesChars.js';
+import PoudreCharts from '../components/chars/poudresChars.js';
 import Normes from '../components/jsonOfNormes';
 import CustomDrawerContent from '../components/CustomDrawerContent';
-import { routesAndHeaders } from '../iterables';
+import { routesAndHeaders,routesAndHeadersPowder } from '../iterables';
 import {UsersNav} from '../components/modaux.js/users/users';
 import WinDim from '../assets/operatingData';
 import { primaryColor } from '../assets/constantes';
@@ -15,28 +17,29 @@ const {isLarge}=WinDim;
 const Drawer = createDrawerNavigator();
 
 export default function DrawerNavigator(){
-const {full,cosmetiques,multiusages,eaux,pates,causilicate}=routesAndHeaders;
-  return (
+    const {full,cosmetiques,multiusages,eaux,pates,causilicate}=routesAndHeaders;
+    const {poudreFull}=routesAndHeadersPowder;
+    return (
       <Drawer.Navigator initialRouteName="Accueil"
-      screenOptions={{
-            // drawerStyle: { backgroundColor: '#ddd'},
-            // drawerType: 'slide',
-            drawerType:isLarge?'permanent':'slide',
-            drawerStyle:isLarge?{width:'21%'/*'23%'*/,backgroundColor: '#ddd',}:{backgroundColor: '#ddd'},
-            overlayColor:isLarge && "transparent",
-            headerLeft:isLarge?()=>null:undefined,
-            switeEnabled:!isLarge,
-            headerStyle: { backgroundColor: '#6200ee',height:40 },
-            drawerPosition: 'left',
-            headerShown: true,
-            gestureEnabled:true,
-            gestureDirection:'horizontal',
-            headerTintColor: '#fff',
-            headerTitleAlign: 'left',
-            drawerLabelStyle: { fontSize: 18,letterSpacing:2, },
-            headerRight:() => (<HeaderRight isLarge={isLarge} liq={true}/>)
-        }}
-        drawerContent={(props)=><CustomDrawerContent {...props}/>}
+            screenOptions={{
+                // drawerStyle: { backgroundColor: '#ddd'},
+                // drawerType: 'slide',
+                drawerType:isLarge?'permanent':'slide',
+                drawerStyle:isLarge?{width:'21%'/*'23%'*/,backgroundColor: '#ddd',}:{backgroundColor: '#ddd'},
+                overlayColor:isLarge && "transparent",
+                headerLeft:isLarge?()=>null:undefined,
+                switeEnabled:!isLarge,
+                headerStyle: { backgroundColor: '#6200ee',height:40 },
+                drawerPosition: 'left',
+                headerShown: true,
+                gestureEnabled:true,
+                gestureDirection:'horizontal',
+                headerTintColor: '#fff',
+                headerTitleAlign: 'left',
+                drawerLabelStyle: { fontSize: 18,letterSpacing:2, },
+                headerRight:() => (<HeaderRight isLarge={isLarge} liq={true}/>)
+            }}
+            drawerContent={(props)=><CustomDrawerContent {...props}/>}
         >
         <Drawer.Screen name="Accueil" children={({navigation,route /*pour pouvoir les passer au ModalMesures */}) => <ULNavigator navigation={navigation} route={route} routeNheaders={full}/>}/>
         <Drawer.Screen name="Liquides multiusage" children={({navigation,route}) => <ULNavigator navigation={navigation} route={route}  routeNheaders={multiusages} />} />
@@ -44,9 +47,11 @@ const {full,cosmetiques,multiusages,eaux,pates,causilicate}=routesAndHeaders;
         <Drawer.Screen name="Cosmétiques" children={({navigation,route}) => <ULNavigator navigation={navigation} route={route}  routeNheaders={cosmetiques}/>}/>
         <Drawer.Screen name="Caustique & Silicate" children={({navigation,route}) => <ULNavigator navigation={navigation} route={route}  routeNheaders={causilicate}/>}/>
         <Drawer.Screen name="Eaux" children={({navigation,route}) => <ULNavigator navigation={navigation} route={route}  routeNheaders={eaux}/>}/>
+        <Drawer.Screen name="Liquides/graphes" children={({navigation}) => <LiquidesCharts navigation={navigation}/>}/>
+        <Drawer.Screen name="Poudres/graphes" children={({navigation}) => <PoudreCharts navigation={navigation}/>}/>
         <Drawer.Screen name="Utilisateurs" children={() => <UsersNav/>}/>
-        <Drawer.Screen name="Poudres" children={() => <UPNavigator />}/>
-        <Drawer.Screen name="Normes physico-chimiques" children={({/*navigation,route*/}) =><Normes/>}/>
+        <Drawer.Screen name="Poudres" children={() => <UPNavigator routeNheaders={poudreFull} />}/>
+        <Drawer.Screen name="Normes physico-chimiques" children={() =><Normes/>}/>
         {/* <Drawer.Screen name="updateLiquides" children={({navigation,route}) => <UpdateLiquidesNavigator navigation={navigation} route={route}/>}/> */}
         {/* <Drawer.Screen name="test" children={({navigation,route}) =><Tests/>}/> */}
         

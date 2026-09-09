@@ -13,7 +13,7 @@ const analyses = [
     {
       identifiant: {
         /* caracteristiques physiques*/
-          // constants
+          //// constants
             forme: "Liquide",
             nom: "Produit A",
           // à controler
@@ -46,10 +46,10 @@ export const routesAndHeaders={
         "matiere_active",
         "viscosite",
         "densite",
-        "caustique",
-        "silicate",
-        "durete",
-        "tds",
+        // "caustique",
+        // "silicate",
+        // "durete",
+        // "tds",
         "observations",
         "Chimiste",
         "Actions"
@@ -106,7 +106,7 @@ export const routesAndHeaders={
         "ph",
         "viscosite",
         "densite",
-        "caustique",
+        // "caustique",
         "observations",
         "Chimiste",
         "Actions"
@@ -148,9 +148,14 @@ export const routesAndHeaders={
 
 export const routesAndHeadersPowder={
     full:{
-      api_url:`${dbBaseRoot}powerAnalyses`,
+      api_url:`${dbBaseRoot}poudre/analyses`,
       headers:["N° Ch.","name","gg","humidite","matiere_active","alcanite","silicate","sel"]//"couleur","taches",
-    }}
+    },
+    poudreFull:{// je repete la meme structure du hessus par prudence p. Peut il est utilisé ailleurs qui m'échappe encore
+      api_url:`${dbBaseRoot}poudre/analyses`,
+      headers:["N° Ch.","name","gg","humidite","matiere_active","alcanite","silicate","sel"]//"couleur","taches",
+    }
+  }
 
 // from  results  color(inclu dans results) urlImage
 export default dentifricesObject=async ()=>{
@@ -414,5 +419,6 @@ export const typesJavel={
 // (this.VolumeThio!==null && this.ConcentrationThio!==null)?(this.VolumeThio*this.ConcentrationThio).toFixed(2):null
 export const Parfums=["Top66","Top55","brillant","Floral","Citron","Platinium","Prime shine","Amour","Lavande","Oxygene","Metal","Super star"];
 
-const urlPoudreGif="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExZDM5MW5yYnZlcGE0Mm80YjlncTR5cG41cG5rNWhua2N2enBudXk2YyZlcD12MV9naWZzX3NlYXJjaCZjdD1n/SnwifA7bOFDhe/giphy.gif"
+const urlPoudreGif="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExZDM5MW5yYnZlcGE0Mm80YjlncTR5cG41cG5rNWhua2N2enBudXk2YyZlcD12MV9naWZzX3NlYXJjaCZjdD1n/SnwifA7bOFDhe/giphy.gif";
+
 export const defaultFormules=[{"name":"Local 2 sacs","couleur":"white","taches":"blue-red","max_gg":{"normes":3,"required":true},"densite":{"normes":{"min":230,"max":360},"required":true},"max_humidite":{"normes":3,"required":true},"matiere_active":{"normes":{"min":17,"max":19},"required":true},"alcanite":{"normes":{"min":9,"max":11},"required":true},"silicate":{"normes":{"min":16,"max":18},"required":true},"sel":{"normes":{"min":8,"max":9},"required":true},"parfum":"Top55","format":["5kg","10kg","11kg"],"compression":false,"percarbonate":false,"mousses":false},{"name":"Extra 1 avec sel export","couleur":"white","taches":"blue","max_gg":{"normes":3,"required":true},"densite":{"normes":{"min":280,"max":300},"required":true},"max_humidite":{"normes":3,"required":true},"matiere_active":{"normes":{"min":14.5,"max":16.5},"required":true},"alcanite":{"normes":{"min":9,"max":11},"required":true},"silicate":{"normes":{"min":16,"max":18},"required":true},"sel":{"normes":{"min":8,"max":9},"required":true},"parfum":"Citron","format":["5kg","10kg","11kg"],"compression":false,"percarbonate":false,"mousses":false},{"name":"Extra 1 avec sel export","couleur":"white","taches":"blue","max_gg":{"normes":3,"required":true},"densite":{"normes":{"min":280,"max":300},"required":true},"max_humidite":{"normes":3,"required":true},"matiere_active":{"normes":{"min":14.5,"max":16.5},"required":true},"alcanite":{"normes":{"min":9,"max":11},"required":true},"silicate":{"normes":{"min":16,"max":18},"required":true},"sel":{"normes":{"min":8,"max":9},"required":true},"parfum":"brillant","format":["5kg","10kg"],"compression":{"min":0,"max":300},"percarbonate":false,"mousses":false},{"name":"Get 1","couleur":"white","taches":"blue","max_gg":{"normes":3,"required":true},"densite":{"normes":{"min":230,"max":270},"required":true},"max_humidite":{"normes":3,"required":true},"matiere_active":{"normes":{"min":12.9,"max":14.9},"required":true},"alcanite":{"normes":{"min":10.1,"max":12.1},"required":true},"silicate":{"normes":{"min":15,"max":17},"required":true},"sel":{"normes":{"min":8,"max":9},"required":true},"parfum":"Top66","format":["10kg"],"compression":{"min":0,"max":300},"percarbonate":false,"mousses":false},{"name":"Get 1","couleur":"white","taches":"blue","max_gg":{"normes":3,"required":true},"densite":{"normes":{"min":230,"max":270},"required":true},"max_humidite":{"normes":3,"required":true},"matiere_active":{"normes":{"min":12.9,"max":14.9},"required":true},"alcanite":{"normes":{"min":10.1,"max":12.1},"required":true},"silicate":{"normes":{"min":15,"max":17},"required":true},"sel":{"normes":{"min":8,"max":9},"required":true},"parfum":"Top66","format":["10kg","11kg"],"compression":{"min":0,"max":300},"percarbonate":false,"mousses":false},{"name":"Get 1 export","couleur":"white","taches":"blue","max_gg":{"normes":3,"required":true},"densite":{"normes":{"min":280,"max":300},"required":true},"max_humidite":{"normes":3,"required":true},"matiere_active":{"normes":{"min":12.9,"max":14.9},"required":true},"alcanite":{"normes":{"min":10.1,"max":12.1},"required":true},"silicate":{"normes":{"min":15,"max":17},"required":true},"sel":{"normes":{"min":8,"max":9},"required":true},"parfum":"Floral","format":["10kg"],"compression":{"min":0,"max":300},"percarbonate":false,"mousses":false}];

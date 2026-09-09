@@ -77,7 +77,7 @@ async _init(){try{//{API_URL,startedAt,endedAt,product}
     // //     // this.mois_date_dep_engine()                       //ok
     // );
     // return this._analyses;
-    }catch(error){alert(error.message);}
+    }catch(error){setPop({show:true,message:error.message,code:"#880000"});}
 }
 
 // periode -> departement -> Machine
@@ -365,7 +365,7 @@ product_isValidated(elements){//chemist_mois_date
 
     this._formatElements(elements).filter(([key,item])=>{
         const {validation,Utilisateur}=item;
-        const validateur = validation?.Utilisateur?.pseudo || "";
+        const validateur = validation?.Utilisateur?.pseudo || null;
         const chemist = Utilisateur?.pseudo || "";
         if(CHEMIST.includes(chemist)){
             grouped[chemist]=[...grouped[chemist],item];
@@ -373,12 +373,14 @@ product_isValidated(elements){//chemist_mois_date
             grouped[chemist]=[item];
             CHEMIST.push(chemist);
         };
-        if(CHEMIST.includes(validateur)){
-            grouped[validateur]=[...grouped[validateur],item];
-        }else{
-            grouped[validateur]=[item];
-            CHEMIST.push(validateur);
-        }
+        if(validation && validateur){
+            if(CHEMIST.includes(validateur)){
+                grouped[validateur]=[...grouped[validateur],item];
+            }else{
+                grouped[validateur]=[item];
+                CHEMIST.push(validateur);
+            }
+        };
 
     })
     return grouped;

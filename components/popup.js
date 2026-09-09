@@ -5,20 +5,29 @@ import {Snackbar } from 'react-native-paper';
 import { usePopup } from './wrappers/contexts';
 import * as Speech from 'expo-speech';
 function Message(msg){
-      const msgSplit=msg?.split('🏢');
-      const msgSplitndJoined=msgSplit[0]+(msgSplit[1]?" "+msgSplit[1]:"");
       const isAboutAnalyse=msg.includes('nalyse');
-      const msgWithAttention=!isAboutAnalyse?msgSplitndJoined:"Votre attention s'il vous plait ! "+msgSplitndJoined;
+      const msgWithAttention=!isAboutAnalyse?msg:"Votre attention s'il vous plait ! "+msg;
       const MESSAGE=msgWithAttention
+                    .replace('Vous etes connecté avec succes','connectéde')
+                    .replace('🏢 avec succes','')
+                    .replace('succes','succés')
+                    .replace('🏢','')
                     .replace('Even-driver',"Le gestionnaire d'évenement")
                     .replace('connected',"connecté")
-                    .replace('disconnected',"s'est déconnecté")
+                    .replace('disconnected',"déconnecté")
+                    .replace('❌','')
+                    .replace('✅','')
+                    .replace('COMPTABILITE','comptabilité')
+                    .replace('⚠️','')
+                    .replace('❗','')
+                    .replace('*','')
+                    
       return MESSAGE;
     }
 const Pop = () => {
     const {pop,setPop}=usePopup();
     const {show,status,message,code}=pop;
-    const durations={low:5000,middle:10000,high:1800000}
+    const durations={low:5000,middle:10000,high:1800000};
     useEffect(() => {
     // ================================= QUALITE DE LA VOIX ========================================================
     async function getPremiumFrenchVoice() {

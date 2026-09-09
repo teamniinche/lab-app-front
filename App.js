@@ -1,6 +1,10 @@
 // CALLED PACKAGES
+// element.style {
+//     background-color: rgb(242, 242, 242);
+//     display: flex;
+// }
 import {View,Text,Easing,StyleSheet,TextInput,ActivityIndicator,
-  TouchableOpacity, ImageBackground} from 'react-native';
+  TouchableOpacity,Platform,ImageBackground} from 'react-native';
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import {useState,useMemo,useEffect,useRef,useLayoutEffect} from "react";
 import { NavigationContainer,getPathFromState} from "@react-navigation/native";
@@ -8,16 +12,18 @@ import { Provider as PaperProvider,Portal} from 'react-native-paper';
 import { PersistGate } from 'redux-persist/integration/react';
 import socket from './assets/socketService.js';
 import NetInfo from '@react-native-community/netinfo';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ErrorBoundary } from 'react-error-boundary';
 import Slider from "@react-native-community/slider";
 import { useSelector,useDispatch,Provider } from 'react-redux';
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons,FontAwesome} from '@expo/vector-icons';
 import { Image } from 'expo-image';
 // DATA STATEMENTS
 import { EveragesProvider,PopupProvider,EveragesPowderProvider,
   ReservoirsProvider, MonoProductsProvider,JavelFormulesProvider,
   CurrentJavelProductedProvider,usePopup,useCurrentProducted,CurrentProductedProvider} from './components/wrappers/contexts.js';
 import { store, persistor } from './components/store/store.js';
+import {themes} from './assets/colors.js';
 // NAVIGATORS & COMPONENTS
 import LiquidesNavigator from "./navigators/liquidesNavigator.js";
 // import PoudreNavigator from "./navigators/poudreNavigator.js";
@@ -26,7 +32,7 @@ import DrawerPoudre from "./navigators/DrawerPoudre.js";
 import DrawerJavel from "./navigators/DrawerJavel.js";
 import DrawerTour from "./navigators/DrawerTour.js";
 import Pop, { NewAnalysed }  from "./components/popup.js";
-// UTILS
+// UTILS 
 import { isAcceptable,allowTo } from "./assets/functions.js";
 import { primaryColor,possibleRooms } from "./assets/constantes.js";
 import WinDim from './assets/operatingData'
@@ -73,32 +79,11 @@ export default function App() {
 }
 
 function AppRoot() {
-  
-  //   const [isOnline, setIsOnline] = useState(null);
-  // const [isChecking, setIsChecking] = useState(true);
-
-  // useEffect(() => {
-  //   // Vérification de la connexion au lancement
-  //   NetInfo.fetch().then(state => {
-  //     // isConnected vérifie si l'appareil est connecté au réseau
-  //     // isInternetReachable vérifie si le réseau a réellement accès à internet
-  //     setIsOnline(state.isConnected && state.isInternetReachable);
-  //     setIsChecking(false);
-  //   });
-
-  //   // Écouteur pour détecter les changements d'état en temps réel
-  //   const unsubscribe = NetInfo.addEventListener(state => {
-  //     setIsOnline(state.isConnected && state.isInternetReachable);
-  //   });
-
-  //   return () => unsubscribe();
-  // }, [isOnline]);
 
   return ( <Provider store={store}>
     <PaperProvider><CurrentProductedProvider>
       <PopupProvider><MonoProductsProvider><EveragesPowderProvider><EveragesProvider><ReservoirsProvider><CurrentJavelProductedProvider><JavelFormulesProvider>
       <PersistGate loading={null} persistor={persistor}>
-        {/* <Pop/> */}
         <MainNavigator />
       </PersistGate>
       </JavelFormulesProvider></CurrentJavelProductedProvider></ReservoirsProvider></EveragesProvider></EveragesPowderProvider></MonoProductsProvider></PopupProvider>
@@ -124,7 +109,6 @@ const MainNavigator=()=>{// Pour rester dans le context du store
   }, [targetUser]);
   const [routeName,setRouteName]=useState('comptabilite');
     var name='';
-    // alert(JSON.stringify(Lansas))
     const styleInline=isLarge?{
       accueil:{
         size:20,
@@ -160,7 +144,7 @@ const MainNavigator=()=>{// Pour rester dans le context du store
       };
     }, []);
 
-    // function onAnalysePoudreAdded(data){
+    //// function onAnalysePoudreAdded(data){
     //       setNewAna({show:true,id:data?.id||101,code:data?.code || 'green'});
     //   }
     useEffect(() => {
@@ -202,6 +186,7 @@ const MainNavigator=()=>{// Pour rester dans le context du store
       <View style={styles.mere}>        
         <NavigationContainer
           ref={navigationRef}
+          style={{backgroundColor:'black'}}
           onStateChange={() => {
             const state = navigationRef.current.getRootState();
             const currentUrlPath = getPathFromState(state);
@@ -287,11 +272,34 @@ const MainNavigator=()=>{// Pour rester dans le context du store
             
           </Tab.Navigator>
         </NavigationContainer>
-          
+        <ToggleTheme/>
         </View>
         <Pop/>
         <NewAnalysed/>
         </View>
+}
+
+export const ToggleTheme=()=>{
+
+    const storage=Platform.OS===('web' || 'window' || 'macos')?localStorage:AsyncStorage;
+    // const themesCouple=['light','dark'];
+    const thm=storage.getItem('theme')||'light';
+    const [theme,setTheme]=useState(thm);
+    const THEME=themes[theme];
+    const handleThemeChange=() => {
+        const emeht=theme==='light'?'dark':'light';
+        if(Platform.OS===('web' || 'window' || 'macos')){
+            storage.setItem('theme',emeht);
+            setTheme(emeht);
+        }
+    }
+
+
+return <TouchableOpacity style={{position:'absolute',right:20,top:8,backgroundColor:THEME.backgroundClr,padding:8,paddingHorizontal:24,borderRadius:8,}}  onPress={handleThemeChange}>
+          <Text style={{color:'transparent',}}>
+            <FontAwesome name={THEME.icone} size={15} color={THEME.iconeColor}/>
+          </Text>
+    </TouchableOpacity>
 }
 
 const Viscosimetre=()=>{

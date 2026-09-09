@@ -11,7 +11,7 @@ export function Flex(dir,jC,aI){
     alignItems:aI,
   }
 }
-
+export function IsEmptyObject(objet){const keys=Object.keys(objet);return keys.length===0;}
 export const Flexion=((dir,jC,aI,gap)=>{ return {flexDirection:dir,justifyContent:jC,alignItems:aI,gap:gap}})();
 
 export const centrer=(()=>{return {flexDirection:'row',justifyContent:'center',alignItems:'center'}})();
@@ -67,6 +67,20 @@ export function numericDateTime() {
   return `${year}${month}${day}${hours}${minutes}${seconds}`;
 }
 
+export function realKeyFromEntete(entete,item){
+    var toReturn;
+   switch(entete) {
+    case 'Utilisateur':
+      toReturn=item['Utilisateur']['pseudo']
+      break;
+    case 'createdAt':
+      toReturn=item['createdAt'].split('T')[0]
+      break;
+    default:
+      toReturn=item[entete];
+  }
+  return toReturn;
+}
 
 export const colorFromName=(text)=>{
   const textSplit=text.split(' ');
@@ -200,6 +214,36 @@ export function VALEURS(obj,valeurs){
                 )
                 .join("");
   return vals
+}
+
+export const keyReduce=k=>k.replace('nChar','Chr')
+                      .replace('matiere_active','ma')
+                      .replace('alcanite','alca')
+                      .replace('humidite','hum')
+                      .replace('silicate','sil')
+                      .replace('densite','d');
+
+export function VALEURSPOUDRE(obj,valeurs){
+  const vals = Object.entries(obj).map(([key,v],index) =>
+                  v && typeof v === "object"?
+                                            " -- " +(valeurs.includes(key)?(key+" = "):"")
+                                            :
+                                            v!==null?
+                                                    (index===0?"   "+(valeurs.includes(key)?(keyReduce(key)+" = "):"")+v:" -- "+(valeurs.includes(key)?(keyReduce(key)+" = "):"")+v)
+                                                    :""
+                )
+                .join("");
+  return vals
+}
+export function moy(tab,key){
+  const formatTab=(elements)=>{
+        if (!elements)return [];
+        return Array.isArray(elements)?elements:Object.values(elements);
+    }
+  const n=(d)=>!isNaN(Number(d))?Number(d):0;
+  var validItems=formatTab(tab).filter(item=>item[key]!==null && item[key]!==undefined && !isNaN(Number(item[key])))
+  const moyenne=(validItems.reduce((acc, b) => acc + n(b[key]),0) / validItems.length).toFixed(2);
+  return !isNaN(moyenne)?moyenne:"";
 }
 
 export function Chariots(items){

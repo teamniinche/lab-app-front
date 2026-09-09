@@ -11,7 +11,7 @@ import {useState} from 'react';
 // DATA STATEMENTS
 import { setPowderType } from './store/reducers/powderAnalysesReducer';
 import { changeCritery } from './store/reducers/criteryReducer';
-import { PopupProvider, usePopup } from './wrappers/contexts';
+import { PopupProvider, usePopup,useCurrentProducted} from './wrappers/contexts';
 import { setPeriod} from './store/reducers/periodReducer';
 import { cloone } from './store/reducers/activedReducer';
 import { connect } from './store/reducers/userReducer';
@@ -44,14 +44,7 @@ const Isoles=()=>{return <Text style={{backgroundColor:'rgba(255,0,0,0.2)',margi
 export default function CustomDrawerContent({ navigation }) {
     const dispatch=useDispatch();
     const {setPop}=usePopup();
-    // const route=useRoute();
-    // const nav=useNavigation();
-    // const setRoute=(str)=>{
-    //   const routeRoot=route.name.split('/')[0];
-    //   navigation.setOptions({title:routeRoot+"/"+str})
-    // };
-    // const navigation=useNavigation();
-    const [targeted,setTargeted]=useState("");
+    const {targeted,setTargeted}=useCurrentProducted();
     const [hovered,setHovered]=useState("");
     const {period,powderType,clooned}= useSelector(state => {
       const period=state.period.targetPeriod;
@@ -61,14 +54,6 @@ export default function CustomDrawerContent({ navigation }) {
     });
     const {dropState,dropRubrique}=useDropCustomDrawer();
     const {poudres,liquides,matieresPremieres,parametres}=dropState;
-    // const {key,startedAt,endedAt}=period;
-    // const currentCritery= useSelector(state => state.critery.currentCritery);
-    // const [multiusageOpen, setMultiusageOpen] = useState(false);
-    // const [patesOpen, setPatesOpen] = useState(false);
-    // const [cosmetiquesOpen, setCosmetiquesOpen] = useState(false);
-    // const [causilicateOpen, setCausilicateOpen] = useState(false);
-    // const [eauxOpen, setEauxOpen] = useState(false);
-    // const [paramsOpen, setParamsOpen] = useState(false);
     const {connected,privileges,pseudo}=Connection();
     const [modaux,setModaux]=useState({visible:false,vizible:false,vigible:false})
     const dispatchedKey=(key)=>{
@@ -78,8 +63,6 @@ export default function CustomDrawerContent({ navigation }) {
                 resolve(powderType[0].name);
               },100);
           })}
-    // const [critery,setCritery]=useState(currentCritery);
-    // const handleUsersPress=()=>{setModaux({...modaux,visible:true})}
     const handleChangePwdPress=()=>{setModaux({...modaux,vigible:true})}
     const differentsPowderTypes={Extra:"Extra",Local:"Local",Get:"Get",Diam:"Diam",Auto:"Auto",Finies:"Poudres finies"};
     const differentsLiquidesTypes=["Liquides multiusage","Pates dentifrices", "Cosmétiques"];
@@ -112,6 +95,7 @@ export default function CustomDrawerContent({ navigation }) {
               onMouseEnter={() => setHovered(key)}
               style={[styles.subItem, hovered === key && styles.hoveredStyle, targeted === key && styles.targetedStyle]}
               onPress={() => {
+                navigation.navigate('Poudres');
                 dispatch(setPowderType(key));
                 setTargeted(key);
               }}
@@ -138,7 +122,7 @@ export default function CustomDrawerContent({ navigation }) {
       {/* Sous-catégories affichées dynamiquement */}
       {liquides && (
         <View style={{...styles.subMenu,width:'95%',marginHorizontal:5,paddingVertical:15,marginVertical:10,marginTop:-5,}}>
-          <TouchableOpacity style={[styles.item,styles.rootAddedStyle,targeted==="root" && styles.targetedStyle,hovered==="root" && styles.hoveredStyle]} onMouseEnter={() => setHovered('root')} onPress={() => {setTargeted('root');navigation.navigate('Accueil')}}>
+          <TouchableOpacity style={[styles.item,styles.rootAddedStyle,targeted==="root" && styles.targetedStyle,hovered==="root" && styles.hoveredStyle]} onMouseEnter={() => setHovered('root')} onPress={() => {setTargeted('root');navigation.navigate('Liquides')}}>
             <ButtonText name="home" text="root"/>
           </TouchableOpacity>
           {differentsLiquidesTypes.map((type) => (

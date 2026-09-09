@@ -58,7 +58,7 @@ const UsersListe=()=>{
             setUsrs(utilisateurs);
             dispatch(postUsers(utilisateurs));
         })
-        .catch(function(error){ alert(error.message)})
+        .catch(function(error){ setPop({show:true,message:error.message,code:"#880000"})})
         :setUsrs(postedUsers);
     }, []);
 

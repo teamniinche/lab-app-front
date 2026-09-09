@@ -1,28 +1,26 @@
-# Dépendances locales (Le piège absolu à exclure)
+# --- DÉPENDANCES ET LOGS (À EXCLURE ABSOLUMENT) ---
 node_modules/
 npm-debug.log
 yarn-error.log
 
-# Dossiers spécifiques à Expo et aux builds locaux
-.expo/
-web-build/
-dist/
+# --- ENVIROUNEMENT ET SÉCURITÉ ---
+.env
+.env.local
+.env.*.local
 
-# Dossiers de compilation native mobile (Si vous avez fait un prebuild)
+# --- DOSSIERS DE BUILD ET COMPILATION ---
+dist/
+web-build/
+.expo/
 ios/
 android/
 .eas/
 
-# Fichiers de configuration système et éditeurs
+# --- CONFIGURATIONS ÉDITEURS ET SYSTÈME ---
 .git
 .gitignore
-.editorconfig
 .vscode/
 .idea/
+.editorconfig
 Thumbs.db
 .DS_Store
-
-# Fichiers d'environnement (Sécurité : pour éviter de copier vos secrets en clair)
-.env
-.env.local
-.env.*.local

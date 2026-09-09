@@ -79,7 +79,7 @@ const Connect = ({visible,setPop,render}) => {
           <Dialog style={{maxWidth:600,minWidth:500,marginHorizontal:"auto"}}
            visible={visible} onDismiss={()=>render(false)}>
             <Dialog.Title style={{fontSize:15,color:"grey",textAlign:"center",fontWeight:"bold",borderBottomWidth:1,borderBottomColor:"rgba(0,0,0,0.1)"}}>Veuillez entrer vos identifiants.</Dialog.Title>
-            <Dialog.Content style={{maxWidth:800,minWidth:500,maxHeight:400,minHeight:250,overflowX:"scroll",margin:"auto",flexDirection:"row",flexWrap:"wrap",justifyContent:"flex-start",alignItems:"flex-start",paddingHorizontal:40,height:"auto"}}>
+            <Dialog.Content style={{maxWidth:800,minWidth:500,maxHeight:400,minHeight:250,margin:"auto",flexDirection:"row",flexWrap:"wrap",justifyContent:"flex-start",alignItems:"flex-start",paddingHorizontal:40,height:"auto"}}>
                {/* <TouchableWithoutFeedback> */}
                 {/* <View style={styles.viewParent}> */}
                 <View style={styles.inputs}>
