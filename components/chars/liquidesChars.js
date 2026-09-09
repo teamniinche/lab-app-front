@@ -1,6 +1,7 @@
 import React,{useState,useLayoutEffect} from 'react';
 import {useSelector} from 'react-redux';
-import { StyleSheet,Pressable, View, Text,ScrollView } from 'react-native';
+import { StyleSheet,Pressable,TouchableOpacity,View, Text,ScrollView } from 'react-native';
+import { FontAwesome5 } from '@expo/vector-icons';
 import { LineChart,BarChart } from 'react-native-gifted-charts';
 import Filters from '../../kernel/classes/formatTablesAnalyses.js';
 import Interval from '../../kernel/classes/graphes/datesInterval.js';

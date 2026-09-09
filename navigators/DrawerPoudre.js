@@ -358,14 +358,6 @@ export const AnalysedListe=({product,rend}) => {// Pour Poudre-full
         useEffect(()=>{
             if (drawerNavigation/* && !drawerRouteName.includes('raphes')*/) {
                 drawerNavigation.setOptions({title: `${drawerRouteName}${TYPE}`});
-                // drawerNavigation.setOptions({title: `${drawerRouteName}`});
-                drawerNavigation.setOptions({
-                    headerLeft:()=>(
-                        <TouchableOpacity style={{width:40,margin:0,marginLeft:30,backgroundColor:'transparent',}} onPress={() => tabNavigation.goBack()}>
-                            <FontAwesome5 name='arrow-left' size={20} color='white'/>
-                        </TouchableOpacity>
-                    )
-                });
             }
         },[type]);
 
