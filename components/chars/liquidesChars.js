@@ -21,7 +21,8 @@ const Texts=({text,focusedDep})=>{
   }
 const LateralNav=({pstdAnalyses,render})=>{
     const prodsByDep=filter.filterByDep(pstdAnalyses);
-    const [dep,setDep]=useState('Liquide2-Ibrahima');
+    const prodsEntries=Object.entries(prodsByDep).sort((a,b)=>b[0].localeCompare(a[0]));
+    const [dep,setDep]=useState(prodsEntries[0][1]);
     const [focusedDep,setFocusedDep]=useState(null);
     function handleDepPress(items,k){
       render(items);
@@ -31,7 +32,7 @@ const LateralNav=({pstdAnalyses,render})=>{
     const focusStyle={backgroundColor:'rgba(0,0,250,0.2)',borderRadius:4}
     return <View style={{width:200,minHeigth:500,paddingHorizontal:10,paddingVertical:20,paddingTop:5,marginRight:15,borderRadius:5,borderWidth:1,borderBottomWidth:0,borderColor:'grey',backgroundColor:'whitesmoke'}}>
         <Text style={{color:primaryColor,backgroundColor:'rgba(0,0,0,0.15)',borderRadius:4,paddingVertical:20,textAlign:'center',marginBottom:20,letterSpacing:2,fontSize:14,fontWeight:'bold'}}>Départements</Text>
-        {Object.entries(prodsByDep).sort((a,b)=>b[0].localeCompare(a[0])).map(([k,items])=>{
+        {prodsEntries.map(([k,items])=>{
           return <Pressable 
               style={[{width:'100%',height:50,padding:5},dep===k?hoverStyle:{},focusedDep===k?focusStyle:{}]} 
               onPress={()=>handleDepPress(items,k)}
