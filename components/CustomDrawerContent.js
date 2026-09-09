@@ -45,17 +45,6 @@ export default function CustomDrawerContent({ navigation }) {
     const dispatch=useDispatch();
     const {setPop}=usePopup();
     const {targeted,setTargeted}=useCurrentProducted();
-    // 2. Remonte d'un niveau pour cibler le Drawer Navigator parent
-    const tabNavigation=useNavigation();
-    const drawerNavigation = tabNavigation.getParent();
-    // const route=useRoute();
-    // const nav=useNavigation();
-    // const setRoute=(str)=>{
-    //   const routeRoot=route.name.split('/')[0];
-    //   navigation.setOptions({title:routeRoot+"/"+str})
-    // };
-    // const navigation=useNavigation();
-    // const [targeted,setTargeted]=useState("");
     const [hovered,setHovered]=useState("");
     const {period,powderType,clooned}= useSelector(state => {
       const period=state.period.targetPeriod;
@@ -65,14 +54,6 @@ export default function CustomDrawerContent({ navigation }) {
     });
     const {dropState,dropRubrique}=useDropCustomDrawer();
     const {poudres,liquides,matieresPremieres,parametres}=dropState;
-    // const {key,startedAt,endedAt}=period;
-    // const currentCritery= useSelector(state => state.critery.currentCritery);
-    // const [multiusageOpen, setMultiusageOpen] = useState(false);
-    // const [patesOpen, setPatesOpen] = useState(false);
-    // const [cosmetiquesOpen, setCosmetiquesOpen] = useState(false);
-    // const [causilicateOpen, setCausilicateOpen] = useState(false);
-    // const [eauxOpen, setEauxOpen] = useState(false);
-    // const [paramsOpen, setParamsOpen] = useState(false);
     const {connected,privileges,pseudo}=Connection();
     const [modaux,setModaux]=useState({visible:false,vizible:false,vigible:false})
     const dispatchedKey=(key)=>{
@@ -82,8 +63,6 @@ export default function CustomDrawerContent({ navigation }) {
                 resolve(powderType[0].name);
               },100);
           })}
-    // const [critery,setCritery]=useState(currentCritery);
-    // const handleUsersPress=()=>{setModaux({...modaux,visible:true})}
     const handleChangePwdPress=()=>{setModaux({...modaux,vigible:true})}
     const differentsPowderTypes={Extra:"Extra",Local:"Local",Get:"Get",Diam:"Diam",Auto:"Auto",Finies:"Poudres finies"};
     const differentsLiquidesTypes=["Liquides multiusage","Pates dentifrices", "Cosmétiques"];
@@ -95,7 +74,7 @@ export default function CustomDrawerContent({ navigation }) {
 
       <TouchableOpacity
         style={styles.item}
-        onPress={() => {dropRubrique('poudres'),dispatch(setPowderType(null)),tabNavigation.navigate('Poudres')}}
+        onPress={() => {dropRubrique('poudres'),dispatch(setPowderType(null)),navigation.navigate('Poudres')}}
       >
         <View style={{minHeight:25,/*30,*/width:'100%',/*,'80%'*/flexDirection:'row',gap:8,flexWrap:'nowrap',}}>
             <Image source={require('../assets/images/poudre.png')} style={{borderWidth:'white',backgroundColor:primaryColor,padding:5,borderRadius:'50%',width:25,height:25,}} contentFit='contain'/>
@@ -107,7 +86,7 @@ export default function CustomDrawerContent({ navigation }) {
       {/* Sous-catégories affichées dynamiquement */}
       {poudres && (
         <View style={{...styles.subMenu,width:'95%',marginHorizontal:5,paddingVertical:15,marginVertical:10,marginTop:-5,}}>
-          <TouchableOpacity onMouseEnter={() => setHovered("root")} style={[styles.subItem,styles.rootAddedStyle,hovered==="root" && styles.hoveredStyle,targeted==="root" && styles.targetedStyle]} onPress={() => {setTargeted("root");dispatch(setPowderType(null)),tabNavigation.navigate('Poudres')}}>
+          <TouchableOpacity onMouseEnter={() => setHovered("root")} style={[styles.subItem,styles.rootAddedStyle,hovered==="root" && styles.hoveredStyle,targeted==="root" && styles.targetedStyle]} onPress={() => {setTargeted("root");dispatch(setPowderType(null)),navigation.navigate('Poudres')}}>
             <ButtonText name="home" text="root"/>
           </TouchableOpacity>
           {Object.entries(differentsPowderTypes).map(([key, value]) => (
@@ -129,7 +108,7 @@ export default function CustomDrawerContent({ navigation }) {
       {/* LIQUIDES */}
       <TouchableOpacity
         style={styles.item}
-        onPress={() => {dropRubrique('liquides'),tabNavigation.navigate('Accueil')}}
+        onPress={() => {dropRubrique('liquides'),navigation.navigate('Accueil')}}
       >
         <View style={{minHeight:25,/*30,*/width:'100%',/*,'80%'*/flexDirection:'row',gap:8,flexWrap:'nowrap',}}>
             {/* <FontAwesome5 name="cog" size={20} color="grey"/> */}
@@ -143,14 +122,14 @@ export default function CustomDrawerContent({ navigation }) {
       {/* Sous-catégories affichées dynamiquement */}
       {liquides && (
         <View style={{...styles.subMenu,width:'95%',marginHorizontal:5,paddingVertical:15,marginVertical:10,marginTop:-5,}}>
-          <TouchableOpacity style={[styles.item,styles.rootAddedStyle,targeted==="root" && styles.targetedStyle,hovered==="root" && styles.hoveredStyle]} onMouseEnter={() => setHovered('root')} onPress={() => {setTargeted('root');tabNavigation.navigate('Liquides')}}>
+          <TouchableOpacity style={[styles.item,styles.rootAddedStyle,targeted==="root" && styles.targetedStyle,hovered==="root" && styles.hoveredStyle]} onMouseEnter={() => setHovered('root')} onPress={() => {setTargeted('root');navigation.navigate('Liquides')}}>
             <ButtonText name="home" text="root"/>
           </TouchableOpacity>
           {differentsLiquidesTypes.map((type) => (
             <TouchableOpacity
               key={type}
               style={[styles.subItem, hovered === type && styles.hoveredStyle, targeted === type && styles.targetedStyle]}
-              onPress={() => {setTargeted(type);drawerNavigation.navigate(type, { critery: null })}}
+              onPress={() => {setTargeted(type);navigation.navigate(type, { critery: null })}}
               onMouseEnter={() => setHovered(type)}
             >
               <ButtonText name="star" text={type} />

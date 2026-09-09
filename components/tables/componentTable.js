@@ -59,7 +59,6 @@ const Table = ({current,rend,product,API_URL, headers }) => {
         // 2. Remonte d'un niveau pour cibler le Drawer Navigator parent
         const drawerNavigation = tabNavigation.getParent();
         const suffixe = product ? `/ ${product}` : '';
-        const NTT=(entete && entete!=='heure')?(!drawerRouteName.includes('graphes')?` #${entete}`:''):'';
         const drawerRouteName = useNavigationState((state) => {
                 // On cherche l'état de la route actuellement affichée
                 const route = state.routes[state.index];
@@ -70,6 +69,7 @@ const Table = ({current,rend,product,API_URL, headers }) => {
                 return route.name;
             });
         
+        const NTT=(entete && entete!=='heure')?(!drawerRouteName.includes('graphes')?` #${entete}`:''):'';
         const TYPE=targeted?(!drawerRouteName.includes('graphes')?`/${targeted}`:'' ): '/*';
 
         useEffect(()=>{

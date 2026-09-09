@@ -99,7 +99,7 @@ const BarComponent=({params})=>{
               </View>
 }
 
-export default function Main(){
+export default function LiquidesCharts(){
   const [Component,setComponent]=useState('BarsChart')
   return <View
                 style={{ 

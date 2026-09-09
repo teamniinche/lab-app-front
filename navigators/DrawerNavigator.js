@@ -5,6 +5,8 @@ import { FontAwesome5 } from '@expo/vector-icons';
 // mes components
 import { ULNavigator } from '../components/tables/table-full';
 import { UPNavigator } from '../components/tables/poudre-full';
+import LiquidesCharts from '../components/chars/liquidesCharts.js';
+import PoudreCharts from '../components/chars/poudresCharts.js';
 import Normes from '../components/jsonOfNormes';
 import CustomDrawerContent from '../components/CustomDrawerContent';
 import { routesAndHeaders,routesAndHeadersPowder } from '../iterables';
@@ -15,9 +17,9 @@ const {isLarge}=WinDim;
 const Drawer = createDrawerNavigator();
 
 export default function DrawerNavigator(){
-const {full,cosmetiques,multiusages,eaux,pates,causilicate}=routesAndHeaders;
-const {poudreFull}=routesAndHeadersPowder;
-  return (
+    const {full,cosmetiques,multiusages,eaux,pates,causilicate}=routesAndHeaders;
+    const {poudreFull}=routesAndHeadersPowder;
+    return (
       <Drawer.Navigator initialRouteName="Accueil"
             screenOptions={{
                 // drawerStyle: { backgroundColor: '#ddd'},
@@ -45,6 +47,8 @@ const {poudreFull}=routesAndHeadersPowder;
         <Drawer.Screen name="Cosmétiques" children={({navigation,route}) => <ULNavigator navigation={navigation} route={route}  routeNheaders={cosmetiques}/>}/>
         <Drawer.Screen name="Caustique & Silicate" children={({navigation,route}) => <ULNavigator navigation={navigation} route={route}  routeNheaders={causilicate}/>}/>
         <Drawer.Screen name="Eaux" children={({navigation,route}) => <ULNavigator navigation={navigation} route={route}  routeNheaders={eaux}/>}/>
+        <Drawer.Screen name="Graphes liquides" children={({navigation,route}) => <Main/>}/>
+        <Drawer.Screen name="Graphes Poudres" children={({navigation,route}) => <ULNavigator navigation={navigation} route={route}  routeNheaders={eaux}/>}/>
         <Drawer.Screen name="Utilisateurs" children={() => <UsersNav/>}/>
         <Drawer.Screen name="Poudres" children={() => <UPNavigator routeNheaders={poudreFull} />}/>
         <Drawer.Screen name="Normes physico-chimiques" children={({/*navigation,route*/}) =><Normes/>}/>
