@@ -22,7 +22,7 @@ const Texts=({text,focusedDep})=>{
 const LateralNav=({pstdAnalyses,render})=>{
     const prodsByDep=filter.filterByDep(pstdAnalyses);
     const prodsEntries=Object.entries(prodsByDep).sort((a,b)=>b[0].localeCompare(a[0]));
-    const [dep,setDep]=useState(prodsEntries[0][1]);
+    const [dep,setDep]=useState('Liquide2-Ibrahima');//prodsEntries[0][1]
     const [focusedDep,setFocusedDep]=useState(null);
     function handleDepPress(items,k){
       render(items);
@@ -34,7 +34,7 @@ const LateralNav=({pstdAnalyses,render})=>{
         <Text style={{color:primaryColor,backgroundColor:'rgba(0,0,0,0.15)',borderRadius:4,paddingVertical:20,textAlign:'center',marginBottom:20,letterSpacing:2,fontSize:14,fontWeight:'bold'}}>Départements</Text>
         {prodsEntries.map(([k,items])=>{
           return <Pressable 
-              style={[{width:'100%',height:50,padding:5},dep===k?hoverStyle:{},focusedDep===k?focusStyle:{}]} 
+              style={[{width:'100%',height:50,padding:5},dep===k && hoverStyle,focusedDep===k && focusStyle]} 
               onPress={()=>handleDepPress(items,k)}
               onHoverIn={()=>setDep(k)}
               onHoverOut={()=>setDep(null)}
@@ -131,7 +131,7 @@ export default function LiquidesCharts({navigation}){
 // {style,bcgrndClr,textStyle,onPress,onHoverOut,onHoverIn,info,children,...props}
 const GraphesNav=({render})=>{
     const [grap,setGrap]=useState('Productions');
-    const [focusedGrap,setFocusedGrap]=useState(null);
+    const [focusedGrap,setFocusedGrap]=useState(Object.keys(graphes)[0] || null);
     function handleGrapPress(component,k){
       render(component);
       setFocusedGrap(k);
