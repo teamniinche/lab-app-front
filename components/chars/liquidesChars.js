@@ -21,7 +21,7 @@ const Texts=({text,focusedDep})=>{
   }
 const LateralNav=({pstdAnalyses,render})=>{
     const prodsByDep=filter.filterByDep(pstdAnalyses);
-    const [dep,setDep]=useState(null);
+    const [dep,setDep]=useState('Liquide2-Ibrahima');
     const [focusedDep,setFocusedDep]=useState(null);
     function handleDepPress(items,k){
       render(items);
@@ -129,7 +129,7 @@ export default function LiquidesCharts({navigation}){
 
 // {style,bcgrndClr,textStyle,onPress,onHoverOut,onHoverIn,info,children,...props}
 const GraphesNav=({render})=>{
-    const [grap,setGrap]=useState(null);
+    const [grap,setGrap]=useState('Productions');
     const [focusedGrap,setFocusedGrap]=useState(null);
     function handleGrapPress(component,k){
       render(component);
@@ -151,7 +151,7 @@ const GraphesNav=({render})=>{
                   textStyle={styles.tooltipText}
                   info={info}
               >
-                <Text style={{color:focusedGrap===k?'white':'black',letterSpacing:2,fontSize:13,fontWeight:'bold'}}>{k.replace('ProductionsPar','Prods/').replace('EvolutionPar','Prods/')}</Text>
+                <Text style={{color:focusedGrap===k?'white':'black',width:'100%',textAlign:'center',letterSpacing:2,fontSize:13,fontWeight:'bold'}}>{k.replace('ProductionsPar','Prods/').replace('EvolutionPar','Prods/')}</Text>
               </Btn>
             })}
         </View>
