@@ -1,4 +1,4 @@
-import React,{useState} from 'react';
+import React,{useState,useLayoutEffect} from 'react';
 import {useSelector} from 'react-redux';
 import { StyleSheet,Pressable, View, Text,ScrollView } from 'react-native';
 import { LineChart,BarChart } from 'react-native-gifted-charts';
@@ -99,8 +99,17 @@ const BarComponent=({params})=>{
               </View>
 }
 
-export default function LiquidesCharts(){
-  const [Component,setComponent]=useState('BarsChart')
+export default function LiquidesCharts({Navigation}){
+  const [Component,setComponent]=useState('BarsChart');
+  useLayoutEffect(()=>{
+                navigation.setOptions({
+                    headerLeft:()=>(
+                        <TouchableOpacity style={{width:40,margin:0,marginLeft:30,backgroundColor:'transparent',}} onPress={() => navigation.goBack()}>
+                            <FontAwesome5 name='arrow-left' size={20} color='white'/>
+                        </TouchableOpacity>
+                    )
+                });
+        },[]);
   return <View
                 style={{ 
                         minWidth:1050,
