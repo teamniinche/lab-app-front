@@ -1,4 +1,4 @@
-import React,{useState} from 'react';
+import React,{useState,useLayoutEffect} from 'react';
 import {useSelector} from 'react-redux';
 import { StyleSheet,Pressable,TouchableOpacity,View, Text,ScrollView } from 'react-native';
 import { FontAwesome5 } from '@expo/vector-icons';
