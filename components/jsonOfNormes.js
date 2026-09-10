@@ -1,5 +1,6 @@
 import {useState,useLayoutEffect} from 'react';
 import { View ,Text,TouchableOpacity,ActivityIndicator, Platform} from 'react-native';
+import { FontAwesome5 } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useSelector,useDispatch } from 'react-redux';
 import { FontAwesome } from '@expo/vector-icons';
@@ -23,6 +24,7 @@ import { usePopup } from './wrappers/contexts';
 const Normes=()=>{
     const dispatch=useDispatch();
     const {setPop}=usePopup();
+    const navigation=useNavigation();
     const storage=Platform.OS===('web' || 'window' || 'macos')?localStorage:AsyncStorage;
     const theme=storage.getItem('isLight') || false;
     var {user,normes}=useSelector(state=>{
@@ -40,7 +42,15 @@ const Normes=()=>{
     const [loading,setLoading]=useState(false);
     const [fetching,setFetching]=useState(false);
     const [User,setUser]=useState({});
-    // const {trace,formatTrace}=useTraces({});
+    useLayoutEffect(()=>{
+                navigation.setOptions({
+                    headerLeft:()=>(
+                        <TouchableOpacity style={{width:40,margin:0,marginLeft:30,backgroundColor:'transparent',}} onPress={() => navigation.navigate('Accueil')}>
+                            <FontAwesome5 name='arrow-left' size={20} color='white'/>
+                        </TouchableOpacity>
+                    )
+                });
+        },[]);
     function handleSave(){
         if(!allowTo("modifier une norme",user?.privileges)){
             setPop({show:true,message:"Vous n'êtes pas habileté à modifier les normes.",code:'#880000'});
