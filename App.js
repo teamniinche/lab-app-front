@@ -6,6 +6,17 @@
 import {View,Text,Easing,StyleSheet,TextInput,ActivityIndicator,
   TouchableOpacity,Platform,ImageBackground} from 'react-native';
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+// ================== SWITE par balayage =======================
+// ❌ REMPLACEZ : import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+// ❌ REMPLACEZ : const Tab = createBottomTabNavigator();
+
+//  PAR :
+// import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+// const Tab = createMaterialTopTabNavigator();
+
+// (gestureEnabled, animation: "shift", sceneStyleInterpolator) : incompatibles avec createMaterialTopTabNavigator
+// ==================================================================
+
 import {useState,useMemo,useEffect,useRef,useLayoutEffect} from "react";
 import { NavigationContainer,getPathFromState} from "@react-navigation/native";
 import { Provider as PaperProvider,Portal} from 'react-native-paper';
