@@ -41,12 +41,14 @@ const Connect = ({visible,setPop,render}) => {
             .then((response) => response.json())
             .then((result) => {
                 const {code,doesExist,message,data,token}=result;
+                console.log(result);
                 if(doesExist){
                     const userAndPrivileges={...data,token:token,privileges:niveaux_privileges[data.niv]};
                     dispatch(connect(userAndPrivileges));
                     render(false);
                     setPop({show:true,message:'✅Vous etes connecté avec succes.',code:code});
                 }else{
+                    console.log(message);
                     render(false);
                     setPop({show:true,message:'❌ Rejetée ! :'+message,code:'#880000'});
                 }
