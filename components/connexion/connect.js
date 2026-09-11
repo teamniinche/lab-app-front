@@ -51,7 +51,7 @@ const Connect = ({visible,setPop,render}) => {
                     setPop({show:true,message:'❌ Rejetée ! :'+message,code:'#880000'});
                 }
             })
-            .catch((error) => setPop({show:true,message:error.message,code:'#880000'}))
+            .catch((error) => {console.log(error);setPop({show:true,message:error.message,code:'#880000'})})
             .finally(()=>{setLoading(false);})
     }
 
