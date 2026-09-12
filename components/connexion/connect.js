@@ -40,20 +40,20 @@ const Connect = ({visible,setPop,render}) => {
         })
             .then((response) => response.json())
             .then((result) => {
-                const {code,doesExist,message,data,token}=result;
                 console.log(result);
+                const {code,doesExist,message,data,token}=result;
                 if(doesExist){
                     const userAndPrivileges={...data,token:token,privileges:niveaux_privileges[data.niv]};
                     dispatch(connect(userAndPrivileges));
                     render(false);
                     setPop({show:true,message:'✅Vous etes connecté avec succes.',code:code});
                 }else{
-                    console.log(message);
+                    console.error(message);
                     render(false);
                     setPop({show:true,message:'❌ Rejetée ! :'+message,code:'#880000'});
                 }
             })
-            .catch((error) => {console.log(error);setPop({show:true,message:error.message,code:'#880000'})})
+            .catch((error) => {console.error(error);setPop({show:true,message:error.message,code:'#880000'})})
             .finally(()=>{setLoading(false);})
     }
 
