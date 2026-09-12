@@ -325,16 +325,15 @@ const keyOk=noErrors && missingLength===0 && toCreate;
                     .then(data=>{
                     //    alert(JSON.stringify(data))
                         const {code,message,analyses}=data;
-
-                        const {lansas,formules}=!IsEmptyObject(analyses || {})?analyses:{lansas:[],formules:[]};
                         try{
+                            const {lansas,formules}=!IsEmptyObject(analyses || {})?analyses:{lansas:[],formules:[]};
                             const ANALYSES=[...lansas,...formules];
                             // alert(JSON.stringify(ANALYSES));
                             setRegistred(ANALYSES);
                             dispatch(setPowderAnalysed(ANALYSES));
+                            return lansas;
                         }catch(error){throw new Error("L'analyse n'a pas pu etre ajoutée: "+error.message);}
 
-                        return lansas;
                         // const toPop=code==='green'?
                         //         {show:true,message:"Analyse enregistrée avec succes.",code:code}
                         //         :
