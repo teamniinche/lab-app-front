@@ -323,7 +323,7 @@ const keyOk=noErrors && missingLength===0 && toCreate;
                     })
                     .then(response=>response.json())
                     .then(data=>{
-                        console.log(data)
+                       alert(JSON.stringify(data))
                         const {code,message,analyses}=data;
 
                         try{
