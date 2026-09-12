@@ -325,9 +325,8 @@ const keyOk=noErrors && missingLength===0 && toCreate;
                     .then(data=>{
                     //    alert(JSON.stringify(data))
                         const {code,message,analyses}=data;
-                        alert(IsEmptyObject(analyses || {}))
+                        const {lansas,formules}=!IsEmptyObject(analyses || {})?analyses:{lansas:[],formules:[]};
                         try{
-                            const {lansas,formules}=!IsEmptyObject(analyses || {})?analyses:{lansas:[],formules:[]};
                             const ANALYSES=[...lansas,...formules];
                             // alert(JSON.stringify(ANALYSES));
                             setRegistred(ANALYSES);
