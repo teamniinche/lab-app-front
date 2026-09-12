@@ -323,12 +323,10 @@ const keyOk=noErrors && missingLength===0 && toCreate;
                     })
                     .then(response=>response.json())
                     .then(data=>{
-                    //    alert(JSON.stringify(data))
                         const {code,message,analyses}=data;
                         const {lansas,formules}=!IsEmptyObject(analyses || {})?analyses:{lansas:[],formules:[]};
                         try{
                             const ANALYSES=[...lansas,...formules];
-                            // alert(JSON.stringify(ANALYSES));
                             setRegistred(ANALYSES);
                             dispatch(setPowderAnalysed(ANALYSES));
                         }catch(error){throw new Error("L'analyse n'a pas pu etre ajoutée: "+error.message);}
@@ -341,14 +339,12 @@ const keyOk=noErrors && missingLength===0 && toCreate;
                         // setPop(toPop);
                     })
                     .then(lansas=>{
-                        const ID=lansas.slice(-1)[0].id
+                        const ID=lansas.slice(-1)[0]?.id || null;
                         socket.emit('analysePoudreAdded',{startedAt:aujourdhui,endedAt:demain,code:'green',id:ID})
                     })
-                    .catch((error)=>alert(error.message))
-                    
-                    // dispatch(storeFocusedListe([...list,buildItem]));
-                    // setRegistred(enregistre);
-                    // dispatch(setPowderAnalysed(enregistre));
+                    .catch((error)=>setPop({show:true,message:"Error :"+error.message,code:'#880000'}))
+                        
+                        // alert(error.message))
                    
                 }else{
                     const registredWithoutTheFocused=registred.filter(tem=>tem.identifier!==numIdentifier);// pour identifier on utilise l'identifiant unique qui est une combinaison du nChar et de la date de creation pour eviter les problemes de chariots identiques
