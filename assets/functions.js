@@ -1,8 +1,6 @@
-
 // import Colors from "./colors";
 import { dbBaseRoot } from "./constantes";
 import { productsImages } from "../iterables";
-
 
 export function Flex(dir,jC,aI){
   return {
@@ -12,6 +10,7 @@ export function Flex(dir,jC,aI){
     alignItems:aI,
   }
 }
+
 export function IsEmptyObject(objet){const keys=Object.keys(objet);return keys.length===0;}
 export const Flexion=((dir,jC,aI,gap)=>{ return {flexDirection:dir,justifyContent:jC,alignItems:aI,gap:gap}})();
 

@@ -44,42 +44,6 @@ function Flex(dir,jC,aI){
   }
 }
 const Drawer = createDrawerNavigator();
-// const colors={ // import de DrawerPoudre
-//     "white":{
-//         "nom":"Blanc",
-//         "color":"rgb(255,255,255)"
-//     },
-//     "red":{
-//         "nom":"Rouge",
-//         "color":"rgba(255,0,0,0.4)"
-//     },
-//     "blue":{
-//         "nom":"Bleu",
-//         "color":"rgba(0,0,255,0.4)"
-//     },
-//     "green":{
-//         "nom":"Vert",
-//         "color":"rgba(0,255,0,0.4)"
-//     }
-
-// }
-
-// const Errors = ({visible,render,isMissing,missing}) => { // import de DrwerPoudre
-//     const {errors,noErrors}=useItemToSave();
-//     const Errors=(isMissing && noErrors)?missing:errors;
-//     const errorsLen=Errors.length;
-//     return  <Portal>
-//           <Dialog style={{maxWidth:700,minWidth:400,marginHorizontal:"auto"}} visible={visible} onDismiss={()=>render()}>
-//             <Dialog.Title style={{fontSize:15,color:"red",textAlign:"center",fontWeight:"bold",borderBottomWidth:1,borderBottomColor:"rgba(0,0,0,0.1)"}}>{errorsLen+" invalid input"+(errorsLen>1?"s":"")}</Dialog.Title>
-//             <Dialog.Content style={{maxWidth:700,minWidth:400,margin:"auto"}}>
-//               {Errors.map((er,i)=><Text variant="bodyMedium" key={i} style={{marginBottom:20}}>{"🚨 "+er}</Text>)}
-//             </Dialog.Content>
-//             <Dialog.Actions>
-//               <Button onPress={()=>render()}>OK</Button>
-//             </Dialog.Actions>
-//           </Dialog>
-//         </Portal>
-// }
 
 const UpdateLansa = ({visible,item}) => {// import de DrawerPoudre
   return<View >
@@ -101,17 +65,6 @@ const UpdateLansa = ({visible,item}) => {// import de DrawerPoudre
 export default function DrawerTour(){
     const dispatch=useDispatch();
     const {setPop}=usePopup();
-    // useEffect(() => {
-    //     socket.emit('joinRoom','Tour');
-    //     socket.on('roomJoiningStatus', (data) => {
-    //         const {success,message}=data;
-    //         if(!success){
-    //             setPop({show:true,message:message,status:'middle',code:'#880000'});
-    //             return;
-    //         }
-    //         setPop({show:true,message:message,status:'low',code:'green'});
-    //     })
-    // }, []);
     useLayoutEffect(()=>{
             fetch(dbBaseRoot+"poudre/analyses/lansasAndformules")
             .then(response=>response.json())
@@ -172,12 +125,10 @@ export const Tabs=() => {
         paddingVertical:0,
     }}
 > 
-{/* // https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExZDM5MW5yYnZlcGE0Mm80YjlncTR5cG41cG5rNWhua2N2enBudXk2YyZlcD12MV9naWZzX3NlYXJjaCZjdD1n/SnwifA7bOFDhe/giphy.gif"> ancien */}
     <ViewOrImgBgPowderWrapper uri="https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExMmd4bWZ3aHZ4ejlqY3dzOXhlMmZ3YmpkdGRjbXY3ZmU0c3hhZG9jYyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/h3XeInHxWLN84/giphy.gif">
         <FormulesProvider>
-                
             <PaperProvider>
-                    <PoudreWorkSpace mission="create"/>
+                <PoudreWorkSpace mission="create"/>
             </PaperProvider>
         </FormulesProvider>
     </ViewOrImgBgPowderWrapper>
@@ -328,23 +279,6 @@ const PoudreWorkSpace=() => {
         return missings;
     };
  
-    //  useEffect(() => {
-
-    //         if(!socket.connected){
-    //             setPop({show:true,message:'Even-Driver disconnected',code:'#880000'})
-    //         }
-    //         function onAnalysePoudreAdded(data){
-    //             const {newAnalyse,lansas}=data;alert(JSON.stringify(data))
-    //             setRegistred(lansas);
-    //             dispatch(setPowderAnalysed(lansas));
-    //             setNewAna({show:true,id:newAnalyse?.id||101,code:data?.code || 'green'});
-    //         }
-    //         socket.on('analysePoudreAdded', (data)=>onAnalysePoudreAdded(data));
-    //         return () => {
-    //             socket.off('analysePoudreAdded');
-    //             };
-    //         }, []);
-
 const missings=missingRequiredKeys();
 const missingLength=missings.length;
 const keyOk=noErrors && missingLength===0 && toCreate;
@@ -366,10 +300,6 @@ const keyOk=noErrors && missingLength===0 && toCreate;
             }else{
                 var saveObject={};
                 if(toCreate){
-                    // ====================== build des non requis ==================================
-                    // const notRequired=Object.entries(focusedPro).filter(([ky,vl])=>ky!=='densite');
-                    // notRequired.forEach((nr,index)=>{saveObject[nr[0]]=typeof(nr[1])==="object"?null:nr[1];})// reconstruire notRequired sous forme d'objet js dans saveObject
-                    
                     // ====================== build du item a enregistre ============================
                     const {list,freeChariot}=ListOfFocusedAndLastNumberTour(focusedProduct,powderAnalysed);
                     // const {list,freeChariot}=ListOfFocusedAndLastNumber(focusedPro,registred);// registred  et focusedPro a la place de focusedProduct a la place powderAnalysed 1
@@ -393,7 +323,7 @@ const keyOk=noErrors && missingLength===0 && toCreate;
                     })
                     .then(response=>response.json())
                     .then(data=>{
-                        // console.log(data)
+                        console.log(data)
                         const {code,message,analyses}=data;
 
                         try{
