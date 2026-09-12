@@ -323,11 +323,11 @@ const keyOk=noErrors && missingLength===0 && toCreate;
                     })
                     .then(response=>response.json())
                     .then(data=>{
-                       alert(JSON.stringify(data))
+                    //    alert(JSON.stringify(data))
                         const {code,message,analyses}=data;
 
+                        const {lansas,formules}=!IsEmptyObject(analyses || {})?analyses:{lansas:[],formules:[]};
                         try{
-                            const {lansas,formules}=!IsEmptyObject(analyses || {})?analyses:{lansas:[],formules:[]};
                             const ANALYSES=[...lansas,...formules];
                             // alert(JSON.stringify(ANALYSES));
                             setRegistred(ANALYSES);
