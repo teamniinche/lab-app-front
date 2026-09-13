@@ -32,7 +32,7 @@ import { Image } from 'expo-image';
 // DATA STATEMENTS
 import { EveragesProvider,PopupProvider,EveragesPowderProvider,
   ReservoirsProvider, MonoProductsProvider,JavelFormulesProvider,
-  CurrentJavelProductedProvider,usePopup,useCurrentProducted,CurrentProductedProvider,useNetInfo} from './components/wrappers/contexts.js';
+  CurrentJavelProductedProvider,usePopup,useCurrentProducted,CurrentProductedProvider,NetInfoProvider,useNetInfo} from './components/wrappers/contexts.js';
 import { store, persistor } from './components/store/store.js';
 import {themes} from './assets/colors.js';
 // NAVIGATORS & COMPONENTS
