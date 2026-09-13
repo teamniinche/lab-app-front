@@ -1,4 +1,4 @@
-import {createContext,useState,useContext,useMemo, useEffect} from 'react';
+import {Platform,createContext,useState,useContext,useMemo, useEffect} from 'react';
 import { useSelector} from 'react-redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import NetInfo from '@react-native-community/netinfo';
@@ -65,9 +65,6 @@ const NetInfoContext = createContext();
 //     </NetInfoContext.Provider>
 //   );
 // };
-import React, { createContext, useContext, useEffect, useState } from 'react';
-import { Platform } from 'react-native';
-import NetInfo from '@react-native-community/netinfo';
 
 export const NetInfoProvider = ({ children }) => {
   const [netState, setNetState] = useState({
@@ -96,7 +93,7 @@ export const NetInfoProvider = ({ children }) => {
       window.addEventListener('offline', handleWebStatusChange);
       // Lancement initial sur le web
       handleWebStatusChange();
-      
+
       return () => {
         window.removeEventListener('online', handleWebStatusChange);
         window.removeEventListener('offline', handleWebStatusChange);
