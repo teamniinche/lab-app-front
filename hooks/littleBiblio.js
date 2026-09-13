@@ -1,4 +1,5 @@
 import { dbBaseRoot } from "../assets/constantes";
+import {IsEmptyObject} from "../assets/functions";
 export default nombers=(normes)=>{
     const {min,max}=normes;
     const moy=Number(((min+max)/2).toFixed(2));
@@ -94,6 +95,7 @@ export const GroupItems=(elements)=>{
  */
 export const commentsFromObjectToArray=(commentsObject)=>{
     var commentsArray=[];
+    if(IsEmptyObject(commentsObject)){ return []};
       Object.values(commentsObject)?.map(comment=>{
         const {fName,lName,url,pseudo,tel,isAdmin}=comment?.Utilisateur;
         const {text}=comment;
