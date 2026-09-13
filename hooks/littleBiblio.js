@@ -94,8 +94,8 @@ export const GroupItems=(elements)=>{
  */
 export const commentsFromObjectToArray=(commentsObject)=>{
     var commentsArray=[];
-      Object.values(commentsObject).map(comment=>{
-        const {fName,lName,url,pseudo,tel,isAdmin}=comment.Utilisateur;
+      Object.values(commentsObject)?.map(comment=>{
+        const {fName,lName,url,pseudo,tel,isAdmin}=comment?.Utilisateur;
         const {text}=comment;
         commentsArray=[[text,fName,lName,url,isAdmin,pseudo],...commentsArray]
       })
