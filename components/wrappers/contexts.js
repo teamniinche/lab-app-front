@@ -1,6 +1,7 @@
 import {createContext,useState,useContext,useMemo, useEffect} from 'react';
 import { useSelector} from 'react-redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import NetInfo from '@react-native-community/netinfo';
 import WinDim from '../../assets/operatingData';
 const {isWeb}=WinDim;
 import { commentsFromObjectToArray } from '../../hooks/littleBiblio';
@@ -32,6 +33,40 @@ const monoPageContext=createContext();
 const modalContext=createContext();
 const reservoirsContext=createContext();
 const popupContext=createContext();
+const NetInfoContext = createContext();
+
+// ================================ Net Infos =================================================
+export const NetInfoProvider = ({ children }) => {
+  // Initialisation avec un état par défaut
+  const [netState, setNetState] = useState({
+    type: 'unknown',
+    isConnected: null,
+    isInternetReachable: null,
+  });
+
+  useEffect(() => {
+    const unsubscribe = NetInfo.addEventListener((state) => {
+      setNetState(state);
+    });
+    return () => unsubscribe();
+  }, []);
+
+  return (
+    <NetInfoContext.Provider
+      value={{
+        isOnLine:(netState.isConnected && netState.isInternetReachable),
+        isConnected: netState.isConnected,
+        isInternetReachable: netState.isInternetReachable,
+        type: netState.type,
+        details: netState, // Accès à l'objet complet si besoin
+      }}
+    >
+      {children}
+    </NetInfoContext.Provider>
+  );
+};
+export const useNetInfo=()=>useContext(NetInfoContext);
+
 // =================================== POPUP =====================================================================
 export const PopupProvider=({children})=>{
     const [pop,setPop]=useState({show:false,status:'low',message:'',code:'green'});

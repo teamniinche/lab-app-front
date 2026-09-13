@@ -32,7 +32,7 @@ import { Image } from 'expo-image';
 // DATA STATEMENTS
 import { EveragesProvider,PopupProvider,EveragesPowderProvider,
   ReservoirsProvider, MonoProductsProvider,JavelFormulesProvider,
-  CurrentJavelProductedProvider,usePopup,useCurrentProducted,CurrentProductedProvider} from './components/wrappers/contexts.js';
+  CurrentJavelProductedProvider,usePopup,useCurrentProducted,CurrentProductedProvider,useNetInfo} from './components/wrappers/contexts.js';
 import { store, persistor } from './components/store/store.js';
 import {themes} from './assets/colors.js';
 // NAVIGATORS & COMPONENTS
@@ -91,7 +91,7 @@ export default function App() {
 
 function AppRoot() {
 
-  return ( <Provider store={store}>
+  return ( <Provider store={store}><NetInfoProvider>
     <PaperProvider><CurrentProductedProvider>
       <PopupProvider><MonoProductsProvider><EveragesPowderProvider><EveragesProvider><ReservoirsProvider><CurrentJavelProductedProvider><JavelFormulesProvider>
       <PersistGate loading={null} persistor={persistor}>
@@ -99,7 +99,7 @@ function AppRoot() {
       </PersistGate>
       </JavelFormulesProvider></CurrentJavelProductedProvider></ReservoirsProvider></EveragesProvider></EveragesPowderProvider></MonoProductsProvider></PopupProvider>
     </CurrentProductedProvider></PaperProvider>
-    </Provider>
+    </NetInfoProvider></Provider>
   )
 }
 
@@ -283,11 +283,28 @@ const MainNavigator=()=>{// Pour rester dans le context du store
             
           </Tab.Navigator>
         </NavigationContainer>
+        <IsOnline/>
         <ToggleTheme/>
         </View>
         <Pop/>
         <NewAnalysed/>
         </View>
+}
+
+const IsOnline=()=>{
+  const {isOnLine}=useNetInfo();
+  const text=isOnline?'🟢 El' : '🔴 Hl';
+  return <Text
+    style={{
+      position:'absolute',right:100,top:8,
+      width:'auto',
+      padding:2,
+      paddingHorizontal:4,
+      color:'white',
+      textAlign:'center',
+
+    }}
+  >{text}</Text>
 }
 
 export const ToggleTheme=()=>{
