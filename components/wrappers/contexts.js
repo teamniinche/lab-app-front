@@ -39,22 +39,23 @@ const NetInfoContext = createContext();
 export const NetInfoProvider = ({ children }) => {
   // Initialisation avec un état par défaut
   const [netState, setNetState] = useState({
+    isOnLine:false,
     type: 'unknown',
     isConnected: null,
     isInternetReachable: null,
   });
-
+  const isOnLine=(netState.isConnected && netState.isInternetReachable);
   useEffect(() => {
     const unsubscribe = NetInfo.addEventListener((state) => {
       setNetState(state);
     });
     return () => unsubscribe();
-  }, []);
+  }, [isOnLine]);
 
   return (
     <NetInfoContext.Provider
       value={{
-        isOnLine:(netState.isConnected && netState.isInternetReachable),
+        isOnLine:isOnLine,
         isConnected: netState.isConnected,
         isInternetReachable: netState.isInternetReachable,
         type: netState.type,
