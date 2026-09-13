@@ -293,7 +293,7 @@ const MainNavigator=()=>{// Pour rester dans le context du store
 
 const IsOnline=()=>{
   const {isOnLine}=useNetInfo();
-  const text=isOnline?'🟢 El' : '🔴 Hl';
+  const text=isOnLine?'🟢 El' : '🔴 Hl';
   return <Text
     style={{
       position:'absolute',right:100,top:8,
