@@ -327,8 +327,10 @@ const keyOk=noErrors && missingLength===0 && toCreate;
                         const {lansas,formules}=!IsEmptyObject(analyses || {})?analyses:{lansas:[],formules:[]};
                         try{
                             const ANALYSES=[...lansas,...formules];
-                            setRegistred(ANALYSES);
-                            dispatch(setPowderAnalysed(ANALYSES));
+                            if(ANALYSES.length!==0){ // Ne rien mettre à jour si [...lansas,...formules] est empty
+                                setRegistred(ANALYSES);
+                                dispatch(setPowderAnalysed(ANALYSES));
+                            }
                         }catch(error){throw new Error("L'analyse n'a pas pu etre ajoutée: "+error.message);}
                         
                         return lansas;
@@ -339,7 +341,7 @@ const keyOk=noErrors && missingLength===0 && toCreate;
                         // setPop(toPop);
                     })
                     .then(lansas=>{
-                        const ID=lansas.slice(-1)[0]?.id || null;
+                        const ID=lansas.slice(-1)[0]?.id || null;// affecter la valeur null à ID si lansas = []. la defaukt value = 101 sera pris une fois dans l'API
                         socket.emit('analysePoudreAdded',{startedAt:aujourdhui,endedAt:demain,code:'green',id:ID})
                     })
                     .catch((error)=>setPop({show:true,message:"Error :"+error.message,code:'#880000'}))
