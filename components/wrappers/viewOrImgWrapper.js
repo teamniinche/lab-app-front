@@ -39,7 +39,7 @@ export const ViewOrImgBgPowderWrapper=(props)=>{
                 //       isLarge?10:'10%',
                       // marginHorizontal:5,// à retablir
                       // paddingVertical:5,
-                //       minWidth:isLarge?'50%':'95%',//initialement 40 a la place de 50
+                      minWidth:isLarge?'50%':'95%',//initialement 40 a la place de 50
                 //       maxWidth:isLarge?'50%':'95%',
                       backgroundColor:'rgba(0,0,0,0.1)'/*,border:'1px solid grey'*/,
                       borderRadius:8,/*'8px',*/

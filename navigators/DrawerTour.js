@@ -125,13 +125,13 @@ export const Tabs=() => {
         paddingVertical:0,
     }}
 > 
-    <ViewOrImgBgPowderWrapper uri="https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExMmd4bWZ3aHZ4ejlqY3dzOXhlMmZ3YmpkdGRjbXY3ZmU0c3hhZG9jYyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/h3XeInHxWLN84/giphy.gif">
         <FormulesProvider>
             <PaperProvider>
-                <PoudreWorkSpace mission="create"/>
+                <ViewOrImgBgPowderWrapper uri="https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExMmd4bWZ3aHZ4ejlqY3dzOXhlMmZ3YmpkdGRjbXY3ZmU0c3hhZG9jYyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/h3XeInHxWLN84/giphy.gif">
+                    <PoudreWorkSpace mission="create"/>
+                </ViewOrImgBgPowderWrapper>
             </PaperProvider>
-        </FormulesProvider>
-    </ViewOrImgBgPowderWrapper>
+            </FormulesProvider>
         <View style={{width:'50%'}}>
             <AnalysedCards/>
         </View>
