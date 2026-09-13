@@ -301,8 +301,7 @@ const IsOnline=()=>{
       padding:2,
       paddingHorizontal:4,
       color:'white',
-      textAlign:'center',
-
+      textAlign:'center'
     }}
   >{text}</Text>
 }
