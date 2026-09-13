@@ -36,29 +36,89 @@ const popupContext=createContext();
 const NetInfoContext = createContext();
 
 // ================================ Net Infos =================================================
+// export const NetInfoProvider = ({ children }) => {
+//   // Initialisation avec un état par défaut
+//   const [netState, setNetState] = useState({
+//     type: 'unknown',
+//     isConnected: null,
+//     isInternetReachable: null,
+//   });
+//   const isOnLine=!!(netState.isConnected && netState.isInternetReachable);
+//   useEffect(() => {
+//     const unsubscribe = NetInfo.addEventListener((state) => {
+//       setNetState(state);
+//     });
+//     return () => unsubscribe();
+//   }, []);
+
+//   return (
+//     <NetInfoContext.Provider
+//       value={{
+//         isOnLine:isOnLine,
+//         isConnected: netState.isConnected,
+//         isInternetReachable: netState.isInternetReachable,
+//         type: netState.type,
+//         details: netState, // Accès à l'objet complet si besoin
+//       }}
+//     >
+//       {children}
+//     </NetInfoContext.Provider>
+//   );
+// };
+import React, { createContext, useContext, useEffect, useState } from 'react';
+import { Platform } from 'react-native';
+import NetInfo from '@react-native-community/netinfo';
+
 export const NetInfoProvider = ({ children }) => {
-  // Initialisation avec un état par défaut
   const [netState, setNetState] = useState({
     type: 'unknown',
-    isConnected: null,
-    isInternetReachable: null,
+    isConnected: typeof window !== 'undefined' ? window.navigator.onLine : true,
+    isInternetReachable: typeof window !== 'undefined' ? window.navigator.onLine : true
   });
-  const isOnLine=!!(netState.isConnected && netState.isInternetReachable);
+
+  // Calcul propre du statut "En ligne"
+  const isOnLine = !!(netState.isConnected && netState.isInternetReachable);
+
   useEffect(() => {
+    // ---- CODE POUR LE WEB 🌐 ----
+    if (Platform.OS === 'web') {
+      const handleWebStatusChange = () => {
+        const online = window.navigator.onLine;
+        setNetState({
+            isOnLine:isOnLine,
+            type: online ? 'wifi' : 'none',
+            isConnected: online,
+            isInternetReachable: online, // Sur le web basique, on aligne les deux
+        });
+      };
+      // Écouteurs d'événements natifs du navigateur web
+      window.addEventListener('online', handleWebStatusChange);
+      window.addEventListener('offline', handleWebStatusChange);
+      // Lancement initial sur le web
+      handleWebStatusChange();
+      
+      return () => {
+        window.removeEventListener('online', handleWebStatusChange);
+        window.removeEventListener('offline', handleWebStatusChange);
+      };
+    }
+
+    // ---- CODE POUR LE MOBILE (iOS / Android) 📱 ----
     const unsubscribe = NetInfo.addEventListener((state) => {
       setNetState(state);
     });
+
     return () => unsubscribe();
   }, []);
 
   return (
     <NetInfoContext.Provider
       value={{
-        isOnLine:isOnLine,
+        isOnLine,
         isConnected: netState.isConnected,
         isInternetReachable: netState.isInternetReachable,
         type: netState.type,
-        details: netState, // Accès à l'objet complet si besoin
+        details: netState,
       }}
     >
       {children}
