@@ -74,6 +74,8 @@ export const getChartData = (relation, analyses) => {
           x: Number(item?.matiereActive) || 0,
 
           y: Number(item?.grosGrains) || 0,
+          r: 8 ,
+          label:"0"
 
         }))
 
@@ -94,6 +96,8 @@ export const getChartData = (relation, analyses) => {
           x: Number(item?.matiereActive) || 0,
 
           y: Number(item?.humidite) || 0,
+          r: 8 ,
+          label:"0"
 
         }))
 
@@ -114,6 +118,8 @@ export const getChartData = (relation, analyses) => {
           x: Number(item?.matiereActive) || 0,
 
           y: Number(item?.alcalinite) || 0,
+          r: 8 ,
+          label:"0"
 
         }))
 
@@ -134,6 +140,8 @@ export const getChartData = (relation, analyses) => {
           x: Number(item?.grosGrains) || 0,
 
           y: Number(item?.alcalinite) || 0,
+          r: 8 ,
+          label:"0"
 
         }))
 
@@ -154,6 +162,8 @@ export const getChartData = (relation, analyses) => {
           x: Number(item?.humidite) || 0,
 
           y: Number(item?.alcalinite) || 0,
+          r: 8 ,
+          label:"0"
 
         }))
 
@@ -174,6 +184,8 @@ export const getChartData = (relation, analyses) => {
           x: Number(item?.humidite) || 0,
 
           y: Number(item?.grosGrains) || 0,
+          r: 8 ,
+          label:"0"
 
         }))
 
@@ -194,6 +206,8 @@ export const getChartData = (relation, analyses) => {
           x: Number(item?.densite) || 0,
 
           y: Number(item?.grosGrains) || 0,
+          r: 8 ,
+          label:"0"
 
         }))
 
@@ -214,6 +228,8 @@ export const getChartData = (relation, analyses) => {
           x: Number(item?.matiereActive) || 0,
 
           y: Number(item?.densite) || 0,
+          r: 8 ,
+          label:"0"
 
         }))
 
@@ -234,6 +250,8 @@ export const getChartData = (relation, analyses) => {
           x: Number(item?.humidite) || 0,
 
           y: Number(item?.densite) || 0,
+          r: 8 ,
+          label:"0"
 
         }))
 
@@ -254,6 +272,8 @@ export const getChartData = (relation, analyses) => {
           x: Number(item?.densite) || 0,
 
           y: Number(item?.alcalinite) || 0,
+          r: 8 ,
+          label:"0"
 
         }))
 
@@ -267,7 +287,9 @@ export const getChartData = (relation, analyses) => {
 
         yLabel: "",
 
-        points: []
+        points: [],
+        r: 8 ,
+      label:"0"
 
       };
 
@@ -279,23 +301,24 @@ export const InterdependenceChart = ({relation,data}) => {
 
       const chartData = getChartData(relation, data);
        const dat = [
-    { x: 10, y: 45, r: 6 },
-    { x: 25, y: 85, r: 6 },
-    { x: 40, y: 30, r: 6 },
-    { x: 55, y: 110, r: 6 },
-    { x: 70, y: 65, r: 6 },
-    { x: 90, y: 140, r: 6 },
+    { x: 10, y: 45, r: 8 ,label:"45"},
+    { x: 25, y: 85, r: 8 },
+    { x: 40, y: 30, r: 8 },
+    { x: 55, y: 110, r: 8 },
+    { x: 70, y: 65, r: 8 },
+    { x: 90, y: 140, r: 8 },
   ];
 
       return (
         <View> 
           <BubbleChart
-            data={dat}
+            data={chartData.points}
         
             // --- MODE SCATTER XY ---
             scatterChart={true}        // Active le traitement mathématique des axes X et Y
-            showGradient={false}       // Garde une couleur unie sur vos points
-            bubblesColor="#007AFF"     // Couleur de vos coordonnées
+            showGradient={true}       // Garde une couleur unie sur vos points
+            centerColorForGradient="#007AFF"
+            bubblesColor="#ffffff" //"#007AFF"     // Couleur de vos coordonnées
             
             // --- CONFIGURATION DE L'AJUSTEMENT (AUTO-FIT) ---
             width={800}   // Largeur utile de la grille du graphique
