@@ -282,14 +282,14 @@ export const InterdependenceChart = ({relation,data}) => {
       const chartData = getChartData(relation, data);
 
       return (
-        <View>
+        <View> 
           <ScatterChart
             // data={{
             //   datasets: [{data: chartData.points}]
             // }}
             data={chartData.points}
-            width={screenWidth - 32}
-            height={260}
+            width={800}
+            height={350}
             // chartConfig={{
             //   backgroundGradientFrom: "#fff",
             //   backgroundGradientTo: "#fff",
