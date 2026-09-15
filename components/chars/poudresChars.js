@@ -24,7 +24,7 @@ export const RelationSelector = ({ value, onChange }) => {
 
   const [visible, setVisible] = useState(false);
   const selected = relations.find(
-    item => item.value === value
+    item => item?.value === value
   );
 
   return (
@@ -44,10 +44,10 @@ export const RelationSelector = ({ value, onChange }) => {
         {/* Liste des relations */}
         {relations.map(item => (
           <Menu.Item
-            key={item.value}
-            title={item.label}
+            key={item?.value}
+            title={item?.label}
             onPress={() => {
-              onChange(item.value);
+              onChange(item?.value);
               setVisible(false);
             }}
           />
@@ -58,7 +58,7 @@ export const RelationSelector = ({ value, onChange }) => {
 };
 
 export const getChartData = (relation, analyses) => {
-
+console.log(analyses);
   switch (relation) {
 
     // Gros grains suivant matière active
@@ -73,9 +73,9 @@ export const getChartData = (relation, analyses) => {
 
         points: analyses.map(item => ({
 
-          x: Number(item.matiereActive),
+          x: Number(item?.matiereActive) || 0,
 
-          y: Number(item.grosGrains),
+          y: Number(item?.grosGrains) || 0,
 
         }))
 
@@ -93,9 +93,9 @@ export const getChartData = (relation, analyses) => {
 
         points: analyses.map(item => ({
 
-          x: Number(item.matiereActive),
+          x: Number(item?.matiereActive) || 0,
 
-          y: Number(item.humidite),
+          y: Number(item?.humidite) || 0,
 
         }))
 
@@ -113,9 +113,9 @@ export const getChartData = (relation, analyses) => {
 
         points: analyses.map(item => ({
 
-          x: Number(item.matiereActive),
+          x: Number(item?.matiereActive) || 0,
 
-          y: Number(item.alcalinite),
+          y: Number(item?.alcalinite) || 0,
 
         }))
 
@@ -133,9 +133,9 @@ export const getChartData = (relation, analyses) => {
 
         points: analyses.map(item => ({
 
-          x: Number(item.grosGrains),
+          x: Number(item?.grosGrains) || 0,
 
-          y: Number(item.alcalinite),
+          y: Number(item?.alcalinite) || 0,
 
         }))
 
@@ -153,9 +153,9 @@ export const getChartData = (relation, analyses) => {
 
         points: analyses.map(item => ({
 
-          x: Number(item.humidite),
+          x: Number(item?.humidite) || 0,
 
-          y: Number(item.alcalinite),
+          y: Number(item?.alcalinite) || 0,
 
         }))
 
@@ -173,9 +173,9 @@ export const getChartData = (relation, analyses) => {
 
         points: analyses.map(item => ({
 
-          x: Number(item.humidite),
+          x: Number(item?.humidite) || 0,
 
-          y: Number(item.grosGrains),
+          y: Number(item?.grosGrains) || 0,
 
         }))
 
@@ -193,9 +193,9 @@ export const getChartData = (relation, analyses) => {
 
         points: analyses.map(item => ({
 
-          x: Number(item.densite),
+          x: Number(item?.densite) || 0,
 
-          y: Number(item.grosGrains),
+          y: Number(item?.grosGrains) || 0,
 
         }))
 
@@ -213,9 +213,9 @@ export const getChartData = (relation, analyses) => {
 
         points: analyses.map(item => ({
 
-          x: Number(item.matiereActive),
+          x: Number(item?.matiereActive) || 0,
 
-          y: Number(item.densite),
+          y: Number(item?.densite) || 0,
 
         }))
 
@@ -233,9 +233,9 @@ export const getChartData = (relation, analyses) => {
 
         points: analyses.map(item => ({
 
-          x: Number(item.humidite),
+          x: Number(item?.humidite) || 0,
 
-          y: Number(item.densite),
+          y: Number(item?.densite) || 0,
 
         }))
 
@@ -253,9 +253,9 @@ export const getChartData = (relation, analyses) => {
 
         points: analyses.map(item => ({
 
-          x: Number(item.densite),
+          x: Number(item?.densite) || 0,
 
-          y: Number(item.alcalinite),
+          y: Number(item?.alcalinite) || 0,
 
         }))
 
