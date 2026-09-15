@@ -13,7 +13,7 @@ export default PoudreCorrelations=()=>{
             return {powderAnalysed};
         })
   const [relation, setRelation] = useState("GGMA");
-  console.log(powderAnalysed);
+  alert(JSON.stringify(powderAnalysed));
 
   return <View style={{flexDirection:'column'}}>
         <RelationSelector value={relation} onChange={setRelation} />
