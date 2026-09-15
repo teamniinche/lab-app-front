@@ -45,6 +45,25 @@ export const NetInfoProvider = ({ children }) => {
   });
   const isOnLine=!!(netState.isConnected && netState.isInternetReachable);
   useEffect(() => {
+    // Fonction qui va double-vérifier en interrogeant un vrai serveur (Ping)
+      const checkRealInternet = async () => {
+        try {
+          // On tente de charger un pixel très léger pour vérifier l'accès réel
+          await fetch('https://google.com', { mode: 'no-cors', cache: 'no-store' });
+          
+          setNetState({ type: 'wifi', isConnected: true, isInternetReachable: true });
+        } catch (error) {
+          // Si le fetch échoue (pas d'internet), on bascule immédiatement sur Hors Ligne
+          setNetState({ type: 'none', isConnected: false, isInternetReachable: false });
+        }
+      };
+      if (!window.navigator.onLine) {
+          // Coupure franche détectée par le navigateur
+          setNetState({ type: 'none', isConnected: false, isInternetReachable: false });
+        } else {
+          // Le navigateur dit "Oui" mais on vérifie si Internet fonctionne vraiment
+          checkRealInternet();
+        }
     const unsubscribe = NetInfo.addEventListener((state) => {
       setNetState(state);
     });

@@ -6,8 +6,33 @@ import { imagesMadar,imagesMatiz,imagesNoura,imagesNouraNet,imagesSm } from "./k
 import { dbBaseRoot } from "./assets/constantes";
   // const Colors=require("./assets/colors");
   // const dentifricesResults=require("./assets/dentifrices/dentifricesResults");
+  // ======================================================== POUDRE ======================================
+export const relations = [
+
+  { label: "Gros grains ← Matière active", value: "GGMA" },
+
+  { label: "Humidité ← Matière active", value: "HMA" },
+
+  { label: "Alcalinité ← Matière active", value: "AlcaMA" },
+
+  { label: "Alcalinité ← Gros grains", value: "AlcaGG" },
+
+  { label: "Alcalinité ← Humidité", value: "AlcaH" },
+
+  { label: "Gros grains ← Humidité", value: "GGH" },
+
+  { label: "Gros grains ← Densité", value: "GGD" },
+
+  { label: "Densité ← Matière active", value: "DMA" },
+
+  { label: "Densité ← Humidité", value: "DH" },
+
+  { label: "Alcalinité ← Densité", value: "AlcaD" },
+
+];
 
 
+// ===========================================================================================================
 const analyses = [
     // retour de AnalyseStrategy() apres productAnalyse() et grandeurAnalyse() passées
     {
