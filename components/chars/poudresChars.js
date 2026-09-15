@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { View } from "react-native";
 import {useSelector} from 'react-redux';
 import { Text, Menu, Button } from "react-native-paper";
+import { ScatterChart } from 'react-native-gifted-charts';
+
 import {relations} from '../../iterables.js';
 
 
@@ -282,23 +284,24 @@ export const InterdependenceChart = ({relation,data}) => {
       return (
         <View>
           <ScatterChart
-            data={{
-              datasets: [{data: chartData.points}]
-            }}
+            // data={{
+            //   datasets: [{data: chartData.points}]
+            // }}
+            data={chartData.points}
             width={screenWidth - 32}
             height={260}
-            chartConfig={{
-              backgroundGradientFrom: "#fff",
-              backgroundGradientTo: "#fff",
-              decimalPlaces: 2,
-              color: () => "#1976D2",
-              labelColor: () => "#333",
-              propsForDots: {
-                r: "4",
-              },
-            }}
-            accessor="y"
-            bezier={false}
+            // chartConfig={{
+            //   backgroundGradientFrom: "#fff",
+            //   backgroundGradientTo: "#fff",
+            //   decimalPlaces: 2,
+            //   color: () => "#1976D2",
+            //   labelColor: () => "#333",
+            //   propsForDots: {
+            //     r: "4",
+            //   },
+            // }}
+            // accessor="y"
+            // bezier={false}
           />
         </View>
       );

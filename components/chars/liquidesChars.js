@@ -326,7 +326,7 @@ export function MultiLineCharts(){
               height={300}
               width={800}
               backgroundColor='grey'
-              noOfSections={4}
+              // noOfSections={4}
               scrollable={true}
               spacing={spacing}                  // Espace entre les colonnes
               initialSpacing={30}           // Espace avant la première colonne
