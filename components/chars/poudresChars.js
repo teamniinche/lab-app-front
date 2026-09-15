@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { View } from "react-native";
 import {useSelector} from 'react-redux';
 import { Text, Menu, Button } from "react-native-paper";
-import { ScatterChart } from 'react-native-gifted-charts';
+import { BubbleChart } from 'react-native-gifted-charts';
 
 import {relations} from '../../iterables.js';
 
@@ -278,28 +278,39 @@ export const getChartData = (relation, analyses) => {
 export const InterdependenceChart = ({relation,data}) => {
 
       const chartData = getChartData(relation, data);
+       const dat = [
+    { x: 10, y: 45, r: 6 },
+    { x: 25, y: 85, r: 6 },
+    { x: 40, y: 30, r: 6 },
+    { x: 55, y: 110, r: 6 },
+    { x: 70, y: 65, r: 6 },
+    { x: 90, y: 140, r: 6 },
+  ];
 
       return (
         <View> 
-          <ScatterChart
-            // data={{
-            //   datasets: [{data: chartData.points}]
-            // }}
-            data={chartData.points}
-            width={800}
-            height={350}
-            // chartConfig={{
-            //   backgroundGradientFrom: "#fff",
-            //   backgroundGradientTo: "#fff",
-            //   decimalPlaces: 2,
-            //   color: () => "#1976D2",
-            //   labelColor: () => "#333",
-            //   propsForDots: {
-            //     r: "4",
-            //   },
-            // }}
-            // accessor="y"
-            // bezier={false}
+          <BubbleChart
+            data={dat}
+        
+            // --- MODE SCATTER XY ---
+            scatterChart={true}        // Active le traitement mathématique des axes X et Y
+            showGradient={false}       // Garde une couleur unie sur vos points
+            bubblesColor="#007AFF"     // Couleur de vos coordonnées
+            
+            // --- CONFIGURATION DE L'AJUSTEMENT (AUTO-FIT) ---
+            width={800}   // Largeur utile de la grille du graphique
+            parentWidth={850}  // Largeur totale de prise en compte du conteneur
+            
+            // --- DESIGN DES AXES & GRILLE ---
+            yAxisThickness={1}
+            xAxisThickness={1}
+            yAxisColor="#333"
+            xAxisColor="#333"
+            showGrid={true}
+            gridColor="#EAEAEA"
+            
+            // Hauteur fixe du repère ordonné
+            height={360}
           />
         </View>
       );
