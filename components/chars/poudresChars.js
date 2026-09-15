@@ -13,7 +13,7 @@ export default PoudreCorrelations=()=>{
             return {powderAnalysed};
         })
   const [relation, setRelation] = useState("GGMA");
-  alert(JSON.stringify(powderAnalysed));
+  // alert(JSON.stringify(powderAnalysed));
 
   return <View style={{flexDirection:'column'}}>
         <RelationSelector value={relation} onChange={setRelation} />
@@ -300,14 +300,6 @@ export const getChartData = (relation, analyses) => {
 export const InterdependenceChart = ({relation,data}) => {
 
       const chartData = getChartData(relation, data);
-       const dat = [
-    { x: 10, y: 45, r: 8 ,label:"45"},
-    { x: 25, y: 85, r: 8 },
-    { x: 40, y: 30, r: 8 },
-    { x: 55, y: 110, r: 8 },
-    { x: 70, y: 65, r: 8 },
-    { x: 90, y: 140, r: 8 },
-  ];
 
       return (
         <View> 
