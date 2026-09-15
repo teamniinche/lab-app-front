@@ -17,7 +17,7 @@ export default PoudreCorrelations=()=>{
 
   return <View style={{flexDirection:'column'}}>
         <RelationSelector value={relation} onChange={setRelation} />
-        {/* <InterdependenceChart relation={relation} data={[]}/> */}
+        <InterdependenceChart relation={relation} data={[]}/>
     </View>
 };
 
