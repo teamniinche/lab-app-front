@@ -262,21 +262,15 @@ return <BottomSheet ref={bottomSheetRef}>
                 >
                         <Text style={{color:isDrop?'grey':'white',textAlign:'center',fontSize:14,fontWeight:'bold',letterSpacing:-1,}}>{isDrop ? <FontAwesome5 name="eye-slash" size={20} color="white"/> : <FontAwesome5 name="eye" size={20} color ="white"/>}{' décomptes'}</Text>
                 </TouchableOpacity>
-            </View>
-        </ChipProvider>
-                
-
-        <ScrollView horizontal={true} style={styles.table}>
-            <SafeAreaProvider ref={safeAreaRef} style={{...styles.safeAreaView,maxWidth:'80%',marginHorizontal:"10%",marginVertical:10,minWidth:isLarge?1000:1000,}}>
-                <CurrentProductsProvider>
-                    {allowTo("illimite",targetUser?.privileges) && <Pressable
+                {allowTo("illimite",targetUser?.privileges) && <Pressable
                     disabled={false/*!allowTo("ajouter une norme|user",targetUser?.privileges)*/}
                         style={
                             {
                                 position:'absolute',
-                                top:4,
-                                left:4,
-                                width:50,
+                                bottom:-45,
+                                left:40,
+                                width:40,
+                                zIndex:10,
                                 paddingHorizontal:10,
                                 paddingVertical:10,
                                 marginVertical:15,
@@ -289,6 +283,34 @@ return <BottomSheet ref={bottomSheetRef}>
                 >
                     <FontAwesome5 size={20} name="chart-bar" color='blue'/>
                 </Pressable>}
+            </View>
+        </ChipProvider>
+                
+
+        <ScrollView horizontal={true} style={styles.table}>
+            {allowTo("illimite",targetUser?.privileges) && <Pressable
+                    disabled={false/*!allowTo("ajouter une norme|user",targetUser?.privileges)*/}
+                        style={
+                            {
+                                position:'absolute',
+                                top:4,
+                                left:4,
+                                width:50,
+                                zIndex:100,
+                                paddingHorizontal:10,
+                                paddingVertical:10,
+                                marginVertical:15,
+                                marginHorizontal:20,
+                                borderRadius:10,
+                                backgroundColor:'rgba(0,0,0,0.2)',
+                            }
+                        }
+                    onPress={()=>navigation.navigate("Poudres/graphes")}
+                >
+                    <FontAwesome5 size={20} name="chart-bar" color='blue'/>
+                </Pressable>}
+            <SafeAreaProvider ref={safeAreaRef} style={{...styles.safeAreaView,maxWidth:'80%',marginHorizontal:"10%",marginVertical:10,minWidth:isLarge?1000:1000,}}>
+                <CurrentProductsProvider>
                     <AnalysedListe product={product} rend={(data)=>{refresh();setProductsAndCounts(productsAndCountsFormat(data))}}/>
                 </CurrentProductsProvider>
             </SafeAreaProvider>
