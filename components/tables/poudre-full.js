@@ -271,7 +271,7 @@ return <BottomSheet ref={bottomSheetRef}>
             {
                 allowTo("illimite",targetUser?.privileges) && 
                     <Btn
-                        bcgrndClr='rgba(0,0,0,0.8)'
+                        bcgrndClr={'rgba(0,0,0,0.8)'}
                         textStyle={styles.tooltipText}
                         style={
                             {
@@ -279,7 +279,6 @@ return <BottomSheet ref={bottomSheetRef}>
                                 top:4,
                                 left:4,
                                 width:50,
-                                zIndex:100,
                                 paddingHorizontal:10,
                                 paddingVertical:10,
                                 marginVertical:15,
