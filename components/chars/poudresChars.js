@@ -1,11 +1,10 @@
-import React, { useState,useLayoutEffect} from "react";
+import { useState,useLayoutEffect} from "react";
 import { View,ScrollView, } from "react-native";
 import {useSelector} from 'react-redux';
 import { Text, Menu, Button } from "react-native-paper";
 import { BubbleChart } from 'react-native-gifted-charts';
 import { FontAwesome5 } from '@expo/vector-icons';
 import {Texts,Titre} from './liquidesChars.js';
-
 import {relations} from '../../iterables.js';
 const LateralNav=(props)=>{
   const {relation, setRelation} = props;
@@ -13,19 +12,19 @@ return <View style={{width:200,minHeigth:500,paddingHorizontal:10,paddingVertica
         <View style={{backgroundColor:'rgba(0,0,0,0.07)',borderRadius:4,paddingVertical:20,marginBottom:20,borderWidth:1,brderColor:'rgba(0,0,0,0.05)'}}>
           <Texts focusedDep={null} text="Corrélations-Selectionnes une corrélation"/>
         </View>
-        <RelationSelector value={relation} onChange={setRelation} />
+        <RelationSelector value={relation} onChange={(r)=>setRelation(r)} />
         
       </View>
   }
 
-  export default function PoudresCharts({navigation}){
+  export default PoudresCharts=({navigation})=>{
     const [relation, setRelation] = useState("GGMA");
     const {startedAt,endedAt,powderAnalysed}=useSelector(state=>{
       const {startedAt,endedAt}=state.period.targetPeriod;
       const powderAnalysed=state.powderAnalysed.powderAnalysed;
       return {startedAt:startedAt,endedAt:endedAt,powderAnalysed:powderAnalysed};
     });
-    // const {xLabel,yLabel}=getChartData(relation,powderAnalysed);
+    const {xLabel,yLabel}=getChartData(relation,powderAnalysed);
     useLayoutEffect(()=>{
                 navigation.setOptions({
                     headerLeft:()=>(
@@ -56,7 +55,7 @@ return <View style={{width:200,minHeigth:500,paddingHorizontal:10,paddingVertica
                   padding:15 
                 }}
             >
-        <Titre params={{dateStart:startedAt,dateEnd:endedAt,total:powderAnalysed?.length,literal:'corrélation'/*xLabel+'( '+yLabel+' )'*/}}/>
+        <Titre params={{dateStart:startedAt,dateEnd:endedAt,total:powderAnalysed?.length,literal:xLabel+'( '+yLabel+' )'}}/>
         <InterdependenceChart relation={relation} data={powderAnalysed}/>
        
             </View>
