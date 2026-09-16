@@ -269,15 +269,23 @@ return <BottomSheet ref={bottomSheetRef}>
 
         <ScrollView horizontal={true} style={styles.table}>
             {
-                allowTo("illimite",targetUser?.privileges) && 
+                allowTo("illimite",targetUser?.privileges) && <View
+                 style={{
+                    position:'absolute',
+                    top:4,
+                    left:4,
+                    flexDirection:'column',
+                    justifyContent:'flex-start',
+                    maxWidth:55,
+                    height:'auto',
+                    paddingHorizontal:2,
+
+                }}>
                     <Btn
                         bcgrndClr={'rgba(0,0,0,0.8)'}
                         textStyle={{}}
                         style={
                             {
-                                position:'absolute',
-                                top:4,
-                                left:4,
                                 width:50,
                                 paddingHorizontal:10,
                                 paddingVertical:10,
@@ -292,6 +300,7 @@ return <BottomSheet ref={bottomSheetRef}>
                     >
                         <FontAwesome5 size={20} name="chart-bar" color='blue'/>
                     </Btn>
+                </View>
             }
             <SafeAreaProvider ref={safeAreaRef} style={{...styles.safeAreaView,maxWidth:'80%',marginHorizontal:"10%",marginVertical:10,minWidth:isLarge?1000:1000,}}>
                 <CurrentProductsProvider>
