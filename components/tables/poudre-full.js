@@ -272,7 +272,7 @@ return <BottomSheet ref={bottomSheetRef}>
                 allowTo("illimite",targetUser?.privileges) && 
                     <Btn
                         bcgrndClr={'rgba(0,0,0,0.8)'}
-                        textStyle={styles.tooltipText}
+                        textStyle={{}}
                         style={
                             {
                                 position:'absolute',
