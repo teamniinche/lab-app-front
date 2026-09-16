@@ -3,7 +3,7 @@ import { View } from "react-native";
 import {useSelector} from 'react-redux';
 import { Text, Menu,ScrollView, Button } from "react-native-paper";
 import { BubbleChart } from 'react-native-gifted-charts';
-import {Texts} from './liquidesChars.js';
+import {Texts,Titre} from './liquidesChars.js';
 
 import {relations} from '../../iterables.js';
 const LateralNav=(props)=>{
