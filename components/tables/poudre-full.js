@@ -268,22 +268,32 @@ return <BottomSheet ref={bottomSheetRef}>
                 
 
         <ScrollView horizontal={true} style={styles.table}>
-            {
-                allowTo("illimite",targetUser?.privileges) && <View
+            <View
                  style={{
                     position:'absolute',
                     top:4,
                     left:4,
                     flexDirection:'column',
                     justifyContent:'flex-start',
+                    alignItems:'center',
+                    borderWidth:1,
+                    borderRadius:4,
+                    borderColor:'rgba(0,0,0,0.05)',
                     maxWidth:55,
                     height:'auto',
+                    gap:10,
                     paddingHorizontal:2,
+                    paddingVertical:8,
+                    backgroundColor:'rgba(0,0,0,0.015)'
+                    
 
                 }}>
-                    <Btn
+                    <Btn style={styles.graphes_link} bcgrndClr={'rgba(0,0,0,0.8)'} textStyle={styles.tooltipText}  onPress={async () => {setTimeout(async () => {await generatePDF();}, 500);}} info="imprimer table">
+                        <Text ><FontAwesome5 name="file-pdf" size={25} color="blue"/></Text>
+                    </Btn>
+                    { allowTo("illimite",targetUser?.privileges) && <Btn
                         bcgrndClr={'rgba(0,0,0,0.8)'}
-                        textStyle={{}}
+                        textStyle={styles.tooltipText}
                         style={
                             {
                                 width:50,
@@ -300,8 +310,10 @@ return <BottomSheet ref={bottomSheetRef}>
                     >
                         <FontAwesome5 size={20} name="chart-bar" color='blue'/>
                     </Btn>
+                    }
+                    
                 </View>
-            }
+            
             <SafeAreaProvider ref={safeAreaRef} style={{...styles.safeAreaView,maxWidth:'80%',marginHorizontal:"10%",marginVertical:10,minWidth:isLarge?1000:1000,}}>
                 <CurrentProductsProvider>
                     <AnalysedListe product={product} rend={(data)=>{refresh();setProductsAndCounts(productsAndCountsFormat(data))}}/>
@@ -313,9 +325,9 @@ return <BottomSheet ref={bottomSheetRef}>
             <TouchableOpacity  onPress={handleOpenPress} style={styles.moy} >
                 <Text style={styles.moy_text}>MOY</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.pdf} onPress={async () => {setTimeout(async () => {await generatePDF();},500);}}>
+            {/* <TouchableOpacity style={styles.pdf} onPress={async () => {setTimeout(async () => {await generatePDF();},500);}}>
                 <Text ><FontAwesome5 name="file-pdf" size={50} color="white"/></Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
 
     </BottomSheet>
 }
@@ -394,6 +406,22 @@ const styles=StyleSheet.create({
                         borderColor:'rgba(0,0,0,0.2)',
                         borderRadius:10,
                         backgroundColor:'rgba(255,255,255,0.7)',
+    },
+    graphes_link:{/*position :'absolute',top:10,right:50,*/
+        width:'auto',
+        height:'95%',
+        flexDirection:'row',
+        alignItems:'center',
+        paddingHorizontal:10,
+        paddingVertical:10,
+        margin:3,
+        // marginVertical:15,
+        // marginHorizontal:20,
+        borderRadius:8,
+        borderWidth:1,
+        borderColor:'white',
+        backgroundColor:'transparent',
+
     },
     moy:{
         position:'absolute',
