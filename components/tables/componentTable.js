@@ -239,7 +239,7 @@ return (<HideStatusBarOnFocus>
             right={()=><Badge size={20} style={{backgroundColor:primaryColor,color:'white',position:'absolute',top:12,right:5}}>{analyses.length}</Badge>}
             style={{backgroundColor:'rgba(0,0,0,0.1)',borderWidth:1,borderColor:primaryColor,borderRadius:5,width:250,height:45}}
          />}
-        <Button style={{backgroundColor:primaryColor,color:'white'}} title={"Suivant"} disabled={currentPage >= totalPages} style={centrer}
+        <Button style={{backgroundColor:primaryColor,color:'white',...centrer}} title={"Suivant"} disabled={currentPage >= totalPages} /*style={centrer}*/
             onPress={() => setCurrentPage((prev) => Math.min(prev+1, totalPages))}
         />
       </View>

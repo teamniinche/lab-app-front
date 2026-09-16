@@ -10,13 +10,14 @@ import {CurrentProductsProvider,ChipProvider,CurrentProductedProvider,useCurrent
 import { AnalysedListe } from '../../navigators/DrawerPoudre';
 import { MyChipp,Filter } from '../chip';
 import FiltersP from '../../kernel/classes/formatTablesAnalysesPoudre';
+import Btn from '../buttons/btnWithinfo.js';
 import { productsAndCountsFormat,Flex,VALEURSPOUDRE,isFormule,moy,keyReduce,allowTo } from '../../assets/functions';
 import { FontAwesome5 } from '@expo/vector-icons';
 import BottomSheet from '../modaux.js/bottomSheet';
 import WinDim from '../../assets/operatingData';
 import {Time } from '../../hooks/littleBiblio';
-import Colors from '../../assets/colors';
-import { dbBaseRoot } from '../../assets/constantes';
+// import Colors from '../../assets/colors';
+// import { dbBaseRoot } from '../../assets/constantes';
 const Stack=createNativeStackNavigator();
 const {isLarge,screenHeight}=WinDim;
 
@@ -262,39 +263,21 @@ return <BottomSheet ref={bottomSheetRef}>
                 >
                         <Text style={{color:isDrop?'grey':'white',textAlign:'center',fontSize:14,fontWeight:'bold',letterSpacing:-1,}}>{isDrop ? <FontAwesome5 name="eye-slash" size={20} color="white"/> : <FontAwesome5 name="eye" size={20} color ="white"/>}{' décomptes'}</Text>
                 </TouchableOpacity>
-                {allowTo("illimite",targetUser?.privileges) && <Pressable
-                    disabled={false/*!allowTo("ajouter une norme|user",targetUser?.privileges)*/}
-                        style={
-                            {
-                                position:'absolute',
-                                bottom:-45,
-                                left:40,
-                                width:40,
-                                zIndex:10,
-                                paddingHorizontal:10,
-                                paddingVertical:10,
-                                marginVertical:15,
-                                marginHorizontal:20,
-                                borderRadius:10,
-                                backgroundColor:'rgba(0,0,0,0.2)',
-                            }
-                        }
-                    onPress={()=>navigation.navigate("Poudres/graphes")}
-                >
-                    <FontAwesome5 size={20} name="chart-bar" color='blue'/>
-                </Pressable>}
             </View>
         </ChipProvider>
                 
 
         <ScrollView horizontal={true} style={styles.table}>
-            {allowTo("illimite",targetUser?.privileges) && <Pressable
-                    disabled={false/*!allowTo("ajouter une norme|user",targetUser?.privileges)*/}
+            {
+                allowTo("illimite",targetUser?.privileges) && 
+                    <Btn
+                        bcgrndClr={'rgba(0,0,0,0.8)'}
+                        textStyle={styles.tooltipText}
                         style={
                             {
                                 position:'absolute',
                                 top:4,
-                                left:4,
+                                right:4,
                                 width:50,
                                 zIndex:100,
                                 paddingHorizontal:10,
@@ -305,10 +288,12 @@ return <BottomSheet ref={bottomSheetRef}>
                                 backgroundColor:'rgba(0,0,0,0.2)',
                             }
                         }
-                    onPress={()=>navigation.navigate("Poudres/graphes")}
-                >
-                    <FontAwesome5 size={20} name="chart-bar" color='blue'/>
-                </Pressable>}
+                        onPress={()=>navigation.navigate("Poudres/graphes")}
+                        info='Aller aux diagrammes relatives à la poudre'
+                    >
+                        <FontAwesome5 size={20} name="chart-bar" color='blue'/>
+                    </Btn>
+            }
             <SafeAreaProvider ref={safeAreaRef} style={{...styles.safeAreaView,maxWidth:'80%',marginHorizontal:"10%",marginVertical:10,minWidth:isLarge?1000:1000,}}>
                 <CurrentProductsProvider>
                     <AnalysedListe product={product} rend={(data)=>{refresh();setProductsAndCounts(productsAndCountsFormat(data))}}/>
