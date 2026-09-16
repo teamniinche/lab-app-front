@@ -1,36 +1,40 @@
-import React, { useState } from "react";
+import React, { useState,useLayoutEffect} from "react";
 import { View,ScrollView, } from "react-native";
 import {useSelector} from 'react-redux';
 import { Text, Menu, Button } from "react-native-paper";
 import { BubbleChart } from 'react-native-gifted-charts';
+import { FontAwesome5 } from '@expo/vector-icons';
 import {Texts,Titre} from './liquidesChars.js';
 
 import {relations} from '../../iterables.js';
 const LateralNav=(props)=>{
   const {relation, setRelation} = props;
-  // function handleDepPress(items,k){
-  //     render(items);setFocusedDep(k);setDep(k);
-  //   }
-    // const focusStyle={backgroundColor:'rgba(0,0,250,0.3)'};
-    // const hoverStyle={backgroundColor:'rgba(0,0,250,0.08)'};
 return <View style={{width:200,minHeigth:500,paddingHorizontal:10,paddingVertical:20,paddingTop:5,marginRight:15,borderRadius:5,borderWidth:1,borderBottomWidth:0,borderColor:'grey',backgroundColor:'whitesmoke'}}>
         <View style={{backgroundColor:'rgba(0,0,0,0.07)',borderRadius:4,paddingVertical:20,marginBottom:20,borderWidth:1,brderColor:'rgba(0,0,0,0.05)'}}>
-          <Texts text="Corrélations-Selectionnes une corrélation"/>
+          <Texts focusedDep={null} text="Corrélations-Selectionnes une corrélation"/>
         </View>
         <RelationSelector value={relation} onChange={setRelation} />
         
       </View>
   }
 
-  export default function PoudresCharts(){
+  export default function PoudresCharts({navigation}){
     const [relation, setRelation] = useState("GGMA");
     const {startedAt,endedAt,powderAnalysed}=useSelector(state=>{
       const {startedAt,endedAt}=state.period.targetPeriod;
       const powderAnalysed=state.powderAnalysed.powderAnalysed;
       return {startedAt:startedAt,endedAt:endedAt,powderAnalysed:powderAnalysed};
     });
-    const {xLabel,yLabel}=getChartData(relation,powderAnalysed);
-
+    // const {xLabel,yLabel}=getChartData(relation,powderAnalysed);
+    useLayoutEffect(()=>{
+                navigation.setOptions({
+                    headerLeft:()=>(
+                        <TouchableOpacity style={{width:40,margin:0,marginLeft:30,backgroundColor:'transparent',}} onPress={() => navigation.navigate('Accueil')}>
+                            <FontAwesome5 name='arrow-left' size={20} color='white'/>
+                        </TouchableOpacity>
+                    )
+                });
+        },[]);
   return  (<ScrollView 
                 horizontal={true}  
                 style={{ 
@@ -52,7 +56,7 @@ return <View style={{width:200,minHeigth:500,paddingHorizontal:10,paddingVertica
                   padding:15 
                 }}
             >
-        <Titre params={{dateStart:startedAt,dateEnd:endedAt,total:powderAnalysed?.length,literal:xLabel+'( '+yLabel+' )'}}/>
+        <Titre params={{dateStart:startedAt,dateEnd:endedAt,total:powderAnalysed?.length,literal:'corrélation'/*xLabel+'( '+yLabel+' )'*/}}/>
         <InterdependenceChart relation={relation} data={powderAnalysed}/>
        
             </View>
