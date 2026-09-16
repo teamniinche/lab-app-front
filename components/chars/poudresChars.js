@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { View } from "react-native";
+import { View,ScrollView, } from "react-native";
 import {useSelector} from 'react-redux';
-import { Text, Menu,ScrollView, Button } from "react-native-paper";
+import { Text, Menu, Button } from "react-native-paper";
 import { BubbleChart } from 'react-native-gifted-charts';
 import {Texts,Titre} from './liquidesChars.js';
 
