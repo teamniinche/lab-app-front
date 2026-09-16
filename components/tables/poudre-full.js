@@ -271,13 +271,13 @@ return <BottomSheet ref={bottomSheetRef}>
             {
                 allowTo("illimite",targetUser?.privileges) && 
                     <Btn
-                        bcgrndClr={'rgba(0,0,0,0.8)'}
+                        bcgrndClr='rgba(0,0,0,0.8)'
                         textStyle={styles.tooltipText}
                         style={
                             {
                                 position:'absolute',
                                 top:4,
-                                right:4,
+                                left:4,
                                 width:50,
                                 zIndex:100,
                                 paddingHorizontal:10,
@@ -357,6 +357,16 @@ const GraphesPoudre = ({navigation}) => {
 
 
 const styles=StyleSheet.create({
+    tooltipText: {
+        width:'auto',
+        backgroundColor:'whitesmoke',
+        height:20,
+        padding:2,
+        borderRadius:2,
+        textAlign:'center',
+        letterSpacing:1.5,
+        fontSize:12
+    },
     graphes:{
         flex: 1,
         flexDirection:'column',
