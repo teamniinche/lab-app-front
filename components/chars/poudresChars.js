@@ -50,7 +50,7 @@ return <View style={{width:200,minHeigth:500,paddingHorizontal:10,paddingVertica
             <LateralNav relation={relation} setRelation={(r)=>setRelation(r)}/>
             <View 
               style={{ 
-                  backgroundColor: '#1A1A1A', 
+                  backgroundColor: 'whitsmoke', 
                   borderRadius: 10,
                   width:900,
                   padding:15 
@@ -375,8 +375,8 @@ export const InterdependenceChart = ({relation,data}) => {
             // --- DESIGN DES AXES & GRILLE ---
             yAxisThickness={1}
             xAxisThickness={1}
-            yAxisColor="#fff"
-            xAxisColor="#fff"
+            yAxisColor="#333"
+            xAxisColor="#333"
             showGrid={false}
             // gridColor="#EAEAEA"
             
