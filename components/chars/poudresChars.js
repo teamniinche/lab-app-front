@@ -361,13 +361,12 @@ export const InterdependenceChart = ({relation,data}) => {
         <View> 
           <BubbleChart
             data={chartData.points}
-        
+            xNoOfSections={5}
             // --- MODE SCATTER XY ---
             scatterChart={true}        // Active le traitement mathématique des axes X et Y
             showGradient={true}       // Garde une couleur unie sur vos points
             centerColorForGradient="#007AFF"
             bubblesColor="#ffffff" //"#007AFF"     // Couleur de vos coordonnées
-            backgroundColor="#ffffff"
             
             // --- CONFIGURATION DE L'AJUSTEMENT (AUTO-FIT) ---
             width={800}   // Largeur utile de la grille du graphique
@@ -376,8 +375,8 @@ export const InterdependenceChart = ({relation,data}) => {
             // --- DESIGN DES AXES & GRILLE ---
             yAxisThickness={1}
             xAxisThickness={1}
-            yAxisColor="#333"
-            xAxisColor="#333"
+            yAxisColor="#fff"
+            xAxisColor="#fff"
             showGrid={false}
             // gridColor="#EAEAEA"
             
