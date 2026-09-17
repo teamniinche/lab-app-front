@@ -1,5 +1,5 @@
 import { useState,useLayoutEffect} from "react";
-import { View,ScrollView, } from "react-native";
+import { View,TouchableOpacity,ScrollView, } from "react-native";
 import {useSelector} from 'react-redux';
 import { Text, Menu, Button } from "react-native-paper";
 import { BubbleChart } from 'react-native-gifted-charts';
