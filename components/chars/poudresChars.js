@@ -50,7 +50,7 @@ return <View style={{width:200,minHeigth:500,paddingHorizontal:10,paddingVertica
             <LateralNav relation={relation} setRelation={(r)=>setRelation(r)}/>
             <View 
               style={{ 
-                  backgroundColor: 'whitsmoke', 
+                  backgroundColor: '#888', 
                   borderRadius: 10,
                   width:900,
                   padding:15 
@@ -356,6 +356,8 @@ export const getChartData = (relation, analyses) => {
 export const InterdependenceChart = ({relation,data}) => {
 
       const chartData = getChartData(relation, data);
+      const maxX=Math.max(...chartData.points.map(pt=> pt.x), 0)+5;
+      const maxY=Math.max(...chartData.points.map(pt=> pt.y), 0)+5;
 
       return (
         <View> 
@@ -371,14 +373,15 @@ export const InterdependenceChart = ({relation,data}) => {
             // --- CONFIGURATION DE L'AJUSTEMENT (AUTO-FIT) ---
             width={800}   // Largeur utile de la grille du graphique
             parentWidth={850}  // Largeur totale de prise en compte du conteneur
-            
+            maxY={maxY}
+            maxX={maxX}
             // --- DESIGN DES AXES & GRILLE ---
             yAxisThickness={1}
             xAxisThickness={1}
             yAxisColor="#333"
             xAxisColor="#333"
             showGrid={false}
-            // gridColor="#EAEAEA"
+            gridColor="#EAEAEA"
             
             // Hauteur fixe du repère ordonné
             height={360}
