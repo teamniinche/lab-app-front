@@ -17,7 +17,7 @@ return <View style={{width:200,minHeigth:500,paddingHorizontal:10,paddingVertica
       </View>
   }
 
-  export default PoudresCharts=({navigation})=>{
+  export default PoudreCharts=({navigation})=>{
     const [relation, setRelation] = useState("GGMA");
     const {startedAt,endedAt,powderAnalysed}=useSelector(state=>{
       const {startedAt,endedAt}=state.period.targetPeriod;
