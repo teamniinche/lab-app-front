@@ -65,7 +65,7 @@ const dateFr=(date)=>{
             const frDate=splitDate[2]+" "+months[splitDate[1]]+" "+splitDate[3];
             return frDate;
         };
-const Titre=({params})=>{
+export const Titre=({params})=>{
   const {dateStart,dateEnd,total,literal}=params;
   return <View style={{height:'auto',maxWidth:350,flexDirection:'column',borderRadius:8,marginHorizontal:'auto',paddingHorizontal:5,justifyContent:'center',backgroundColor:'rgba(250, 250, 250, 0.9)',alignItems:'center',borderWidth:2,borderColor:'rgba(255,255,255,0.4)',
               }}>
