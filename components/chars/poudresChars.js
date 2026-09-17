@@ -25,16 +25,17 @@ return <View style={{width:200,minHeigth:500,paddingHorizontal:10,paddingVertica
       return {startedAt:startedAt,endedAt:endedAt,powderAnalysed:powderAnalysed};
     });
     const {xLabel,yLabel}=getChartData(relation,powderAnalysed);
-    useLayoutEffect(()=>{
-                navigation.setOptions({
-                    headerLeft:()=>(
-                        <TouchableOpacity style={{width:40,margin:0,marginLeft:30,backgroundColor:'transparent',}} onPress={() => navigation.navigate('Accueil')}>
-                            <FontAwesome5 name='arrow-left' size={20} color='white'/>
-                        </TouchableOpacity>
-                    )
-                });
-        },[]);
-  return  (<ScrollView 
+    // useLayoutEffect(()=>{
+    //             navigation.setOptions({
+    //                 headerLeft:()=>(
+    //                     <TouchableOpacity style={{width:40,margin:0,marginLeft:30,backgroundColor:'transparent',}} onPress={() => navigation.navigate('Accueil')}>
+    //                         <FontAwesome5 name='arrow-left' size={20} color='white'/>
+    //                     </TouchableOpacity>
+    //                 )
+    //             });
+    //     },[]);
+  return  (
+      <ScrollView 
                 horizontal={true}  
                 style={{ 
                         minWidth:1050,
@@ -45,7 +46,7 @@ return <View style={{width:200,minHeigth:500,paddingHorizontal:10,paddingVertica
                         alignItems:'flex-start',
                         padding: 5
                 }}
-          >
+      >
             <LateralNav relation={relation} setRelation={(r)=>setRelation(r)}/>
             <View 
               style={{ 
@@ -55,11 +56,10 @@ return <View style={{width:200,minHeigth:500,paddingHorizontal:10,paddingVertica
                   padding:15 
                 }}
             >
-        <Titre params={{dateStart:startedAt,dateEnd:endedAt,total:powderAnalysed?.length,literal:xLabel+'( '+yLabel+' )'}}/>
-        <InterdependenceChart relation={relation} data={powderAnalysed}/>
-       
+            <Titre params={{dateStart:startedAt,dateEnd:endedAt,total:powderAnalysed?.length,literal:xLabel+'( '+yLabel+' )'}}/>
+            <InterdependenceChart relation={relation} data={powderAnalysed}/>
             </View>
-    </ScrollView>
+      </ScrollView>
   )
 };
 
