@@ -28,7 +28,7 @@ return <View style={{width:200,minHeigth:500,paddingHorizontal:10,paddingVertica
     useLayoutEffect(()=>{
                 navigation.setOptions({
                     headerLeft:()=>(
-                        <TouchableOpacity style={{width:40,margin:0,marginLeft:30,backgroundColor:'transparent',}} onPress={() => navigation.navigate('Accueil')}>
+                        <TouchableOpacity style={{width:40,margin:0,marginLeft:30,backgroundColor:'transparent',}} onPress={() => navigation.navigate('Poudres')}>
                             <FontAwesome5 name='arrow-left' size={20} color='white'/>
                         </TouchableOpacity>
                     )
@@ -367,6 +367,7 @@ export const InterdependenceChart = ({relation,data}) => {
             showGradient={true}       // Garde une couleur unie sur vos points
             centerColorForGradient="#007AFF"
             bubblesColor="#ffffff" //"#007AFF"     // Couleur de vos coordonnées
+            backgroundColor="#ffffff"
             
             // --- CONFIGURATION DE L'AJUSTEMENT (AUTO-FIT) ---
             width={800}   // Largeur utile de la grille du graphique
@@ -377,8 +378,8 @@ export const InterdependenceChart = ({relation,data}) => {
             xAxisThickness={1}
             yAxisColor="#333"
             xAxisColor="#333"
-            showGrid={true}
-            gridColor="#EAEAEA"
+            showGrid={false}
+            // gridColor="#EAEAEA"
             
             // Hauteur fixe du repère ordonné
             height={360}
