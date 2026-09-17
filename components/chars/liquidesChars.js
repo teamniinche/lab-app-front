@@ -12,7 +12,7 @@ import {primaryColor,enginesForDep} from '../../assets/constantes.js';
 const interval=new Interval();
 const filter=new Filters();
 function Y(val,index){const y=6+index;return y}
-const Texts=({text,focusedDep})=>{
+export const Texts=({text,focusedDep})=>{
     const texts=text.split('-');
     return <View style={{flexDirection:'column',justifyContent:'center',gap:4,alignItems:'center'}}>
             <Text style={{color:focusedDep===text?'white':'black',letterSpacing:2,fontSize:13,fontWeight:'bold'}}>{texts[0]}</Text>
