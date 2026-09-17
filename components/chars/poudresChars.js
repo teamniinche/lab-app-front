@@ -47,7 +47,7 @@ return <View style={{width:200,minHeigth:500,paddingHorizontal:10,paddingVertica
                         padding: 5
                 }}
       >
-            <LateralNav relation={relation} setRelation={(r)=>setRelation(r)}/>
+            {/* <LateralNav relation={relation} setRelation={(r)=>setRelation(r)}/>
             <View 
               style={{ 
                   backgroundColor: '#1A1A1A', 
@@ -56,9 +56,9 @@ return <View style={{width:200,minHeigth:500,paddingHorizontal:10,paddingVertica
                   padding:15 
                 }}
             >
-            {/* <Titre params={{dateStart:startedAt,dateEnd:endedAt,total:powderAnalysed?.length,literal:xLabel+'( '+yLabel+' )'}}/> */}
+            <Titre params={{dateStart:startedAt,dateEnd:endedAt,total:powderAnalysed?.length,literal:xLabel+'( '+yLabel+' )'}}/>
             <InterdependenceChart relation={relation} data={powderAnalysed}/>
-            </View>
+            </View> */}
       </ScrollView>
   )
 };
