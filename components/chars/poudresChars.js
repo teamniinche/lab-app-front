@@ -357,13 +357,14 @@ export const Replace=(sj,ar)=>{var SJ=sj;
   return SJ;
 }
 
-const isElisible=(a/*analyse*/)=>{
-
-  return a.matiereActive && a.densite;
+const isElisible=(a/*analyse*/,coordonnees)=>{
+const {abs,oord}=coordonnees;
+  return a[abs] && a[abs]!==0 && a[oord] && a[oord]!==0;
 }
 export const InterdependenceChart = ({relation,data}) => {
       const RELATION=relations.filter(rel=>rel.value===relation)[0]?.label || 'Abcisse(Oordonnée)';
-      const ANALYSES=data.filter(an=>isElisible(an));
+      const coordonnees=Replace(RELATION,[['Gros grains','gg'],['é','e'],['Matière active','matiere_active'],['(','|'],[')','|']]).split('|');
+      const ANALYSES=data.filter(an=>isElisible(an,{abs:coordonnees[1].toLowerCase(),oord:coordonnees[0].toLowerCase()}));
       const chartData = getChartData(relation, ANALYSES);
       const maxX=Math.max(...chartData.points.map(pt=> pt.x), 0)+5;
       const maxY=Math.max(...chartData.points.map(pt=> pt.y), 0)+5;

@@ -9,22 +9,21 @@ import { dbBaseRoot } from "./assets/constantes";
   // ======================================================== POUDRE ======================================
 export const relations = [
 
-  { label: "Gros grains( Matière active )", value: "GGMA" },
-  { label: "Gros grains( Humidité )", value: "GGH" },
-  { label: "Gros grains( Densité )", value: "GGD" },
+  { label: "Gros grains(Matière active)", value: "GGMA" },
+  { label: "Gros grains(Humidité)", value: "GGH" },
+  { label: "Gros grains(Densité)", value: "GGD" },
 
-  { label: "Humidité( Matière active )", value: "HMA" },
+  { label: "Humidité(Matière active)", value: "HMA" },
 
-  { label: "Densité( Matière active )", value: "DMA" },
-  { label: "Densité( Humidité )", value: "DH" },
+  { label: "Densité(Matière active)", value: "DMA" },
+  { label: "Densité(Humidité)", value: "DH" },
   
-  { label: "Alcalinité( Matière active )", value: "AlcaMA" },
-  { label: "Alcalinité( Gros grains) ", value: "AlcaGG" },
-  { label: "Alcalinité( Humidité )", value: "AlcaH" },
-  { label: "Alcalinité( Densité )", value: "AlcaD" },
+  { label: "Alcanité(Matière active)", value: "AlcaMA" },
+  { label: "Alcanité(Gros grains) ", value: "AlcaGG" },
+  { label: "Alcanité(Humidité)", value: "AlcaH" },
+  { label: "Alcanité(Densité)", value: "AlcaD" },
 
 ];
-
 
 // ===========================================================================================================
 const analyses = [
