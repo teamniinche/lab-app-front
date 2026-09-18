@@ -367,8 +367,8 @@ export const InterdependenceChart = ({relation,data}) => {
 
       return (
         <View> 
-          <Text style={{width:'auto',textAlign:'center',position:'absolute',top:150,left:10,transform: [{ rotate: '-90deg' }],whiteSpace:'nowrap',color:'white',fontWeight:'bold'}}>{splitRelation[0]}</Text>
-          <Text style={{width:'auto',textAlign:'center',position:'absolute',top:0,left:0,color:'white',fontWeight:'bold'}}>{splitRelation[1]}</Text>
+          <Text style={{width:'auto',textAlign:'center',position:'absolute',letterSpacing:1.5,top:-5,left:10,transform: [{ rotate: '-90deg' }],whiteSpace:'nowrap',color:'white',fontWeight:'bold'}}>{splitRelation[0]}</Text>
+          <Text style={{width:'auto',textAlign:'center',position:'absolute',letterSpacing:1.5,bottom:0,right:-5,color:'white',fontWeight:'bold'}}>{splitRelation[1]}</Text>
           <BubbleChart
             data={chartData.points}
             xNoOfSections={5}
