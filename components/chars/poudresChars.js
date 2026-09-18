@@ -147,7 +147,7 @@ export const getChartData = (relation, analyses) => {
 
           y: Number(item?.gg) || 0,
           r: 8 ,
-          label:"0"
+          label:(Number(item?.gg) || 0).toString()
 
         }))
 
@@ -169,7 +169,7 @@ export const getChartData = (relation, analyses) => {
 
           y: Number(item?.humidite) || 0,
           r: 8 ,
-          label:"0"
+          label:(Number(item?.humidite) || 0).toString()
 
         }))
 
@@ -191,7 +191,7 @@ export const getChartData = (relation, analyses) => {
 
           y: Number(item?.alcanite) || 0,
           r: 8 ,
-          label:"0"
+          label:(Number(item?.alcanite) || 0).toString()
 
         }))
 
@@ -213,7 +213,7 @@ export const getChartData = (relation, analyses) => {
 
           y: Number(item?.alcanite) || 0,
           r: 8 ,
-          label:"0"
+          label:(Number(item?.alcanite) || 0).toString()
 
         }))
 
@@ -235,7 +235,7 @@ export const getChartData = (relation, analyses) => {
 
           y: Number(item?.alcanite) || 0,
           r: 8 ,
-          label:"0"
+          label:(Number(item?.alcanite) || 0).toString()
 
         }))
 
@@ -257,7 +257,7 @@ export const getChartData = (relation, analyses) => {
 
           y: Number(item?.gg) || 0,
           r: 8 ,
-          label:"0"
+          label:(Number(item?.gg) || 0).toString()
 
         }))
 
@@ -279,7 +279,7 @@ export const getChartData = (relation, analyses) => {
 
           y: Number(item?.gg) || 0,
           r: 8 ,
-          label:"0"
+          label:(Number(item?.gg) || 0).toString()
 
         }))
 
@@ -301,7 +301,7 @@ export const getChartData = (relation, analyses) => {
 
           y: Number(item?.densite) || 0,
           r: 8 ,
-          label:"0"
+          label:(Number(item?.densite) || 0).toString()
 
         }))
 
@@ -323,7 +323,7 @@ export const getChartData = (relation, analyses) => {
 
           y: Number(item?.densite) || 0,
           r: 8 ,
-          label:"0"
+          label:(Number(item?.densite) || 0).toString()
 
         }))
 
@@ -345,7 +345,7 @@ export const getChartData = (relation, analyses) => {
 
           y: Number(item?.alcanite) || 0,
           r: 8 ,
-          label:"0"
+          label:(Number(item?.alcanite) || 0).toString()
 
         }))
 
