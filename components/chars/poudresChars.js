@@ -367,8 +367,7 @@ export const InterdependenceChart = ({relation,data}) => {
 
       return (
         <View> 
-          <Text style={{width:'auto',textAlign:'center',position:'absolute',letterSpacing:2,top:0,left:2,transform: [{ rotate: '-90deg' }],whiteSpace:'nowrap',color:'black'}}>{splitRelation[1]}</Text>
-          <Text style={{width:'auto',textAlign:'center',position:'absolute',letterSpacing:2,bottom:20,right:-4,color:'black'}}>{splitRelation[0]}</Text>
+          <Text style={{width:'auto',textAlign:'center',position:'absolute',letterSpacing:2,bottom:20,right:-2,color:'black'}}>{splitRelation[1]}</Text>
           <BubbleChart
             data={chartData.points}
             xNoOfSections={5}
@@ -394,6 +393,7 @@ export const InterdependenceChart = ({relation,data}) => {
             // Hauteur fixe du repère ordonné
             height={360}
           />
+        <Text style={{width:'auto',textAlign:'center',position:'absolute',letterSpacing:2,top:0,left:5,transform: [{ rotate: '-90deg' }],whiteSpace:'nowrap',color:'black'}}>{splitRelation[0]}</Text>
         </View>
       );
     };
