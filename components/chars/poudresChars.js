@@ -9,10 +9,10 @@ import {relations} from '../../iterables.js';
 const LateralNav=(props)=>{
   const {relation, setRelation} = props;
 return <View style={{width:200,minHeigth:500,paddingHorizontal:10,paddingVertical:20,paddingTop:5,marginRight:15,borderRadius:5,borderWidth:1,borderBottomWidth:0,borderColor:'grey',backgroundColor:'whitesmoke'}}>
-        <View style={{backgroundColor:'rgba(0,0,0,0.07)',borderRadius:4,paddingVertical:20,marginBottom:20,borderWidth:1,brderColor:'rgba(0,0,0,0.05)'}}>
+        <View style={{flexDirection:'column',justifyContent:'flex-start',alignItems:'center',backgroundColor:'rgba(0,0,0,0.07)',borderRadius:4,paddingVertical:20,marginBottom:20,borderWidth:1,brderColor:'rgba(0,0,0,0.05)'}}>
           <Texts focusedDep={null} text="Corrélations-Selectionnes une corrélation"/>
+          <RelationSelector value={relation} onChange={(r)=>setRelation(r)} />
         </View>
-        <RelationSelector value={relation} onChange={(r)=>setRelation(r)} />
         
       </View>
   }
@@ -352,15 +352,23 @@ export const getChartData = (relation, analyses) => {
   }
 
 };
+export const Replace=(sj,ar)=>{var SJ=sj;
+  for (const el of ar) {SJ=SJ.replace(el[0],el[1]);}
+  return SJ;
+}
 
 export const InterdependenceChart = ({relation,data}) => {
 
       const chartData = getChartData(relation, data);
       const maxX=Math.max(...chartData.points.map(pt=> pt.x), 0)+5;
       const maxY=Math.max(...chartData.points.map(pt=> pt.y), 0)+5;
+      const RELATION=relations.filter(rel=>rel.value===relation)[0]?.label || 'Abcisse(Oordonnée)';
+      const splitRelation=Replace(RELATION,[['(','|'],[')','|']]).split('|');
 
       return (
         <View> 
+          <Text style={{width:'auto',textAlign:'center',position:'absolute',top:150,left:10,transform: [{ rotate: '-90deg' }],whiteSpace:'nowrap',color:'white',fontWeight:'bold'}}>{splitRelation[0]}</Text>
+          <Text style={{width:'auto',textAlign:'center',position:'absolute',top:0,left:0,color:'white',fontWeight:'bold'}}>{splitRelation[1]}</Text>
           <BubbleChart
             data={chartData.points}
             xNoOfSections={5}
