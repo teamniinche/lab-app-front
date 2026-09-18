@@ -50,7 +50,7 @@ return <View style={{width:200,minHeigth:500,paddingHorizontal:10,paddingVertica
             <LateralNav relation={relation} setRelation={(r)=>setRelation(r)}/>
             <View 
               style={{ 
-                  backgroundColor: '#888', 
+                  backgroundColor: 'whitesmoke', 
                   borderRadius: 10,
                   width:900,
                   padding:15 
@@ -85,8 +85,9 @@ export const RelationSelector = ({ value, onChange }) => {
   );
 
   return (
-    <View>
+    <View style={{width:'80%',margin:'auto'}}>
       <Menu
+        style={{width:'100%',borderRadius:3}}
         visible={visible}
         onDismiss={() => setVisible(false)}
         anchor={
@@ -367,8 +368,8 @@ export const InterdependenceChart = ({relation,data}) => {
 
       return (
         <View> 
-          <Text style={{width:'auto',textAlign:'center',position:'absolute',letterSpacing:1.5,top:-5,left:10,transform: [{ rotate: '-90deg' }],whiteSpace:'nowrap',color:'white',fontWeight:'bold'}}>{splitRelation[0]}</Text>
-          <Text style={{width:'auto',textAlign:'center',position:'absolute',letterSpacing:1.5,bottom:0,right:-5,color:'white',fontWeight:'bold'}}>{splitRelation[1]}</Text>
+          <Text style={{width:'auto',textAlign:'center',position:'absolute',letterSpacing:1.5,top:-5,left:5,transform: [{ rotate: '-90deg' }],whiteSpace:'nowrap',color:'grey',fontWeight:'bold'}}>{splitRelation[1]}</Text>
+          <Text style={{width:'auto',textAlign:'center',position:'absolute',letterSpacing:1.5,bottom:14,right:-4,color:'grey',fontWeight:'bold'}}>{splitRelation[0]}</Text>
           <BubbleChart
             data={chartData.points}
             xNoOfSections={5}
