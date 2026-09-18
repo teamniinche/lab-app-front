@@ -56,7 +56,7 @@ return <View style={{width:200,minHeigth:500,paddingHorizontal:10,paddingVertica
                   padding:15 
                 }}
             >
-            <Titre params={{dateStart:startedAt,dateEnd:endedAt,total:powderAnalysed?.length,literal:xLabel+'( '+yLabel+' )'}}/>
+            <Titre params={{dateStart:startedAt,dateEnd:endedAt,total:powderAnalysed?.length,literal:yLabel+'( '+xLabel+' )'}}/>
             <InterdependenceChart relation={relation} data={powderAnalysed}/>
             </View>
       </ScrollView>
