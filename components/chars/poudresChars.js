@@ -85,7 +85,7 @@ export const RelationSelector = ({ value, onChange }) => {
   );
 
   return (
-    <View style={{width:'80%',margin:'auto'}}>
+    <View style={{width:'98%',margin:'auto',marginTop:20}}>
       <Menu
         visible={visible}
         onDismiss={() => setVisible(false)}
@@ -367,8 +367,8 @@ export const InterdependenceChart = ({relation,data}) => {
 
       return (
         <View> 
-          <Text style={{width:'auto',textAlign:'center',position:'absolute',letterSpacing:1.5,top:0,left:2,transform: [{ rotate: '-90deg' }],whiteSpace:'nowrap',color:'black',fontWeight:'bold'}}>{splitRelation[1]}</Text>
-          <Text style={{width:'auto',textAlign:'center',position:'absolute',letterSpacing:1.5,bottom:20,right:-4,color:'black',fontWeight:'bold'}}>{splitRelation[0]}</Text>
+          <Text style={{width:'auto',textAlign:'center',position:'absolute',letterSpacing:2,top:0,left:2,transform: [{ rotate: '-90deg' }],whiteSpace:'nowrap',color:'black'}}>{splitRelation[1]}</Text>
+          <Text style={{width:'auto',textAlign:'center',position:'absolute',letterSpacing:2,bottom:20,right:-4,color:'black'}}>{splitRelation[0]}</Text>
           <BubbleChart
             data={chartData.points}
             xNoOfSections={5}
