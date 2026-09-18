@@ -6,6 +6,17 @@ import { BubbleChart } from 'react-native-gifted-charts';
 import { FontAwesome5 } from '@expo/vector-icons';
 import {Texts,Titre} from './liquidesChars.js';
 import {relations} from '../../iterables.js';
+
+export const Replace=(sj,ar)=>{var SJ=sj;
+  for (const el of ar) {SJ=SJ.replace(el[0],el[1]);}
+  return SJ;
+}
+
+export const isElisible=(a/*analyse*/,coordonnees)=>{
+const {abs,oord}=coordonnees;
+  return a[abs] && a[abs]!==0 && a[oord] && a[oord]!==0;
+}
+
 const LateralNav=(props)=>{
   const {relation, setRelation} = props;
 return <View style={{width:200,minHeigth:500,paddingHorizontal:10,paddingVertical:20,paddingTop:5,marginRight:15,borderRadius:5,borderWidth:1,borderBottomWidth:0,borderColor:'grey',backgroundColor:'whitesmoke'}}>
@@ -25,6 +36,11 @@ return <View style={{width:200,minHeigth:500,paddingHorizontal:10,paddingVertica
       return {startedAt:startedAt,endedAt:endedAt,powderAnalysed:powderAnalysed};
     });
     const {xLabel,yLabel}=getChartData(relation,powderAnalysed);
+    const RELATION=relations.filter(rel=>rel.value===relation)[0]?.label || 'Abcisse(Oordonnée)';
+    const coordonnees=Replace(RELATION,[['Gros grains','gg'],['é','e'],['Matière active','matiere_active'],['(','|'],[')','|']]).split('|');
+    const splitRelation=Replace(RELATION,[['(','|'],[')','|']]).split('|');
+    const ANALYSES=powderAnalysed.filter(an=>isElisible(an,{abs:coordonnees[1].toLowerCase(),oord:coordonnees[0].toLowerCase()}));
+
     useLayoutEffect(()=>{
                 navigation.setOptions({
                     headerLeft:()=>(
@@ -56,8 +72,8 @@ return <View style={{width:200,minHeigth:500,paddingHorizontal:10,paddingVertica
                   padding:15 
                 }}
             >
-            <Titre params={{dateStart:startedAt,dateEnd:endedAt,total:powderAnalysed?.length,literal:yLabel+'( '+xLabel+' )'}}/>
-            <InterdependenceChart relation={relation} data={powderAnalysed}/>
+            <Titre params={{dateStart:startedAt,dateEnd:endedAt,total:'( élisibles )'+ANALYSES?.length,literal:yLabel+'( '+xLabel+' )'}}/>
+            <InterdependenceChart splitRelation={splitRelation} relation={relation} data={ANALYSES}/>
             </View>
       </ScrollView>
   )
@@ -352,23 +368,15 @@ export const getChartData = (relation, analyses) => {
   }
 
 };
-export const Replace=(sj,ar)=>{var SJ=sj;
-  for (const el of ar) {SJ=SJ.replace(el[0],el[1]);}
-  return SJ;
-}
 
-const isElisible=(a/*analyse*/,coordonnees)=>{
-const {abs,oord}=coordonnees;
-  return a[abs] && a[abs]!==0 && a[oord] && a[oord]!==0;
-}
-export const InterdependenceChart = ({relation,data}) => {
-      const RELATION=relations.filter(rel=>rel.value===relation)[0]?.label || 'Abcisse(Oordonnée)';
-      const coordonnees=Replace(RELATION,[['Gros grains','gg'],['é','e'],['Matière active','matiere_active'],['(','|'],[')','|']]).split('|');
-      const ANALYSES=data.filter(an=>isElisible(an,{abs:coordonnees[1].toLowerCase(),oord:coordonnees[0].toLowerCase()}));
-      const chartData = getChartData(relation, ANALYSES);
+export const InterdependenceChart = ({relation,data,splitRelation}) => {
+
+      // const RELATION=relations.filter(rel=>rel.value===relation)[0]?.label || 'Abcisse(Oordonnée)';
+      // const splitRelation=Replace(RELATION,[['(','|'],[')','|']]).split('|');
+
+      const chartData = getChartData(relation, data);
       const maxX=Math.max(...chartData.points.map(pt=> pt.x), 0)+5;
       const maxY=Math.max(...chartData.points.map(pt=> pt.y), 0)+5;
-      const splitRelation=Replace(RELATION,[['(','|'],[')','|']]).split('|');
 
       return (
         <View> 
