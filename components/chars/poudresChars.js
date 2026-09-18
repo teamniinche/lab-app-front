@@ -115,7 +115,7 @@ export const RelationSelector = ({ value, onChange }) => {
 };
 
 export const getChartData = (relation, analyses) => {
-// console.log(analyses);
+
   switch (relation) {
     case "GGMA":
 
@@ -129,7 +129,7 @@ export const getChartData = (relation, analyses) => {
 
           x: Number(item?.matiereActive) || 0,
 
-          y: Number(item?.grosGrains) || 0,
+          y: Number(item?.gg) || 0,
           r: 8 ,
           label:"0"
 
@@ -159,7 +159,7 @@ export const getChartData = (relation, analyses) => {
 
       };
 
-    // Alcalinité suivant matière active
+    // Alcanité suivant matière active
 
     case "AlcaMA":
 
@@ -167,13 +167,13 @@ export const getChartData = (relation, analyses) => {
 
         xLabel: "Matière active",
 
-        yLabel: "Alcalinité",
+        yLabel: "Alcanité",
 
         points: analyses.map(item => ({
 
           x: Number(item?.matiereActive) || 0,
 
-          y: Number(item?.alcalinite) || 0,
+          y: Number(item?.alcanite) || 0,
           r: 8 ,
           label:"0"
 
@@ -181,7 +181,7 @@ export const getChartData = (relation, analyses) => {
 
       };
 
-    // Alcalinité suivant gros grains
+    // Alcanité suivant gros grains
 
     case "AlcaGG":
 
@@ -189,13 +189,13 @@ export const getChartData = (relation, analyses) => {
 
         xLabel: "Gros grains",
 
-        yLabel: "Alcalinité",
+        yLabel: "Alcanité",
 
         points: analyses.map(item => ({
 
-          x: Number(item?.grosGrains) || 0,
+          x: Number(item?.gg) || 0,
 
-          y: Number(item?.alcalinite) || 0,
+          y: Number(item?.alcanite) || 0,
           r: 8 ,
           label:"0"
 
@@ -203,7 +203,7 @@ export const getChartData = (relation, analyses) => {
 
       };
 
-    // Alcalinité suivant humidité
+    // Alcanité suivant humidité
 
     case "AlcaH":
 
@@ -211,13 +211,13 @@ export const getChartData = (relation, analyses) => {
 
         xLabel: "Humidité",
 
-        yLabel: "Alcalinité",
+        yLabel: "Alcanité",
 
         points: analyses.map(item => ({
 
           x: Number(item?.humidite) || 0,
 
-          y: Number(item?.alcalinite) || 0,
+          y: Number(item?.alcanite) || 0,
           r: 8 ,
           label:"0"
 
@@ -239,7 +239,7 @@ export const getChartData = (relation, analyses) => {
 
           x: Number(item?.humidite) || 0,
 
-          y: Number(item?.grosGrains) || 0,
+          y: Number(item?.gg) || 0,
           r: 8 ,
           label:"0"
 
@@ -261,7 +261,7 @@ export const getChartData = (relation, analyses) => {
 
           x: Number(item?.densite) || 0,
 
-          y: Number(item?.grosGrains) || 0,
+          y: Number(item?.gg) || 0,
           r: 8 ,
           label:"0"
 
@@ -313,7 +313,7 @@ export const getChartData = (relation, analyses) => {
 
       };
 
-    // Alcalinité suivant densité
+    // Alcanité suivant densité
 
     case "AlcaD":
 
@@ -321,13 +321,13 @@ export const getChartData = (relation, analyses) => {
 
         xLabel: "Densité",
 
-        yLabel: "Alcalinité",
+        yLabel: "Alcanité",
 
         points: analyses.map(item => ({
 
           x: Number(item?.densite) || 0,
 
-          y: Number(item?.alcalinite) || 0,
+          y: Number(item?.alcanite) || 0,
           r: 8 ,
           label:"0"
 
@@ -357,12 +357,16 @@ export const Replace=(sj,ar)=>{var SJ=sj;
   return SJ;
 }
 
-export const InterdependenceChart = ({relation,data}) => {
+const isElisible=(a/*analyse*/)=>{
 
-      const chartData = getChartData(relation, data);
+  return a.matiereActive && a.densite;
+}
+export const InterdependenceChart = ({relation,data}) => {
+      const RELATION=relations.filter(rel=>rel.value===relation)[0]?.label || 'Abcisse(Oordonnée)';
+      const ANALYSES=data.filter(an=>isElisible(an));
+      const chartData = getChartData(relation, ANALYSES);
       const maxX=Math.max(...chartData.points.map(pt=> pt.x), 0)+5;
       const maxY=Math.max(...chartData.points.map(pt=> pt.y), 0)+5;
-      const RELATION=relations.filter(rel=>rel.value===relation)[0]?.label || 'Abcisse(Oordonnée)';
       const splitRelation=Replace(RELATION,[['(','|'],[')','|']]).split('|');
 
       return (
