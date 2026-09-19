@@ -485,16 +485,18 @@ function PieCharts({powderAnalysed}) {
       value: Number(prctge.toFixed(1)), // 🟢 S'assure que c'est un nombre pur
       text: `${key} (${prctge.toFixed(1)}%)`, // 🟢 Le .toFixed sert uniquement pour le texte d'affichage
       color: fullPalette[index], // 🟢 Sécurité avec le modulo %
+      
     };
   })
   // 3. 🟢 ON FILTRE APRÈS LE MAP pour éliminer proprement les lignes à 0%
   .filter(item => item.value > 0); 
+  console.log(pieData);
 
   return (
     <View style={{ alignItems: 'center',margin:'auto', marginVertical: 40 }}>
       <PieChart
         data={pieData}
-        radius={220}
+        radius={210}
         
         // --- ACTIVATION DES LABELS EXTÉRIEURS 🟢 ---
         showValuesAsLabels={true}     // Sort les labels à l'extérieur
@@ -505,6 +507,7 @@ function PieCharts({powderAnalysed}) {
         textColor="black"       // Couleur d'écriture à l'intérieur des parts
         textSize={12}           // Taille de la police
         fontWeight="bold"
+        textPosition={30}
         
         // --- LIGNES DE REPERE (POINTERS) ---
         extraRadiusForLabels={30}     // Éloignement du texte par rapport au cercle
