@@ -477,11 +477,11 @@ const Productions=()=>{
                 }}
             >
             <Titre params={{dateStart:startedAt,dateEnd:endedAt,total:powderAnalysed?.length,literal:''}}/>
-            <PieChart powderAnalysed={powderAnalysed}/>
+            <PieCharts powderAnalysed={powderAnalysed}/>
       </View>
 }
 
-function PieChart({powderAnalysed}) {
+function PieCharts({powderAnalysed}) {
     const LEN=powderAnalysed?.length;
     const powderByName=filter.filterByName(powderAnalysed);
 
