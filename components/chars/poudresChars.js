@@ -483,7 +483,7 @@ function PieCharts({powderAnalysed}) {
            // 2. On retourne TOUJOURS un objet valide avec une valeur numérique
     return { 
       value: Number(prctge.toFixed(1)), // 🟢 S'assure que c'est un nombre pur
-      text: `${Replace(key,[['sans sel','ssl'],['avec sel','asl'], ['export','exp']])}\n(${prctge.toFixed(1)}%)`, // 🟢 Le .toFixed sert uniquement pour le texte d'affichage
+      text: `${Replace(key,[['sans sel','ssl'],['avec sel','asl'], ['export','exp']])} (${prctge.toFixed(1)}%)`, // 🟢 Le .toFixed sert uniquement pour le texte d'affichage
       color: fullPalette[index], // 🟢 Sécurité avec le modulo %
       labelPosition:'mid',
       // labelComponent: () => (
