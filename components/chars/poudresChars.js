@@ -479,14 +479,14 @@ function PieCharts({powderAnalysed}) {
     const pieData=Object.entries(powderByName).map(([key,analises],index)=>{
           const len=analises?.length;
           // const name=analises[0]?.name;
-          const prctge=LEN!==0?((len/LEN)*100).toFixed(1).toString():'0';
+          const prctge=LEN!==0?((len/LEN)*100).toFixed(1):'0';
           return { 
             value: prctge,
-            text: key+'('+prctge+'%)',
+            text: key+'('+prctge.toString()+'%)',
             color:fullPalette[index],
           }
         });
-
+console.log(pieData)
   return (
     <View style={{ alignItems: 'center', marginVertical: 40 }}>
       <PieChart
