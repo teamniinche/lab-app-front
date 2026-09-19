@@ -479,12 +479,12 @@ function PieCharts({powderAnalysed}) {
     const pieData=Object.entries(powderByName).map(([key,analises],index)=>{
           const len=analises?.length;
           // const name=analises[0]?.name;
-          const prctge=LEN!==0?((len/LEN)*100).toFixed(1):0;
+          const prctge=LEN!==0?((len/LEN)*100):0;
            // 2. On retourne TOUJOURS un objet valide avec une valeur numérique
     return { 
-      value: Number(prctge), // 🟢 S'assure que c'est un nombre pur
+      value: Number(prctge.toFixed(1)), // 🟢 S'assure que c'est un nombre pur
       text: `${key} (${prctge.toFixed(1)}%)`, // 🟢 Le .toFixed sert uniquement pour le texte d'affichage
-      color: fullPalette[index % fullPalette.length], // 🟢 Sécurité avec le modulo %
+      color: fullPalette[index], // 🟢 Sécurité avec le modulo %
     };
   })
   // 3. 🟢 ON FILTRE APRÈS LE MAP pour éliminer proprement les lignes à 0%
