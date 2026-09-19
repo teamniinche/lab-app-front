@@ -480,13 +480,14 @@ function PieCharts({powderAnalysed}) {
           const len=analises?.length;
           // const name=analises[0]?.name;
           const prctge=LEN!==0?((len/LEN)*100).toFixed(1):0;
+          console.log(prctge);
           return prctge && prctge>0 && { 
             value: prctge,
             text: key+'('+prctge.toString()+'%)',
             color:fullPalette[index],
           }
         });
-console.log(pieData)
+
   return (
     <View style={{ alignItems: 'center', marginVertical: 40 }}>
       <PieChart
