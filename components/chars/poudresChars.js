@@ -483,19 +483,19 @@ function PieCharts({powderAnalysed}) {
            // 2. On retourne TOUJOURS un objet valide avec une valeur numérique
     return { 
       value: Number(prctge.toFixed(1)), // 🟢 S'assure que c'est un nombre pur
-      // text: `${key} (${prctge.toFixed(1)}%)`, // 🟢 Le .toFixed sert uniquement pour le texte d'affichage
+      text: `${key} (${prctge.toFixed(1)}%)`, // 🟢 Le .toFixed sert uniquement pour le texte d'affichage
       color: fullPalette[index], // 🟢 Sécurité avec le modulo %
-      labelComponent: () => (
-        <View style={{width:'auto',minWidth:100,flexDirection:'column',alignItems: 'center', justifyContent: 'center',backgroundColor:'white',borderRadius:10,paddingHorizontal:4}}>
-          {/* Vous pouvez styliser le texte comme vous le souhaitez ici */}
-          <Text style={{ color: '#333', fontSize: 10, fontWeight: 'bold',width:'auto' }}>
-            {key}
-          </Text>
-          <Text style={{ color: '#666', fontSize: 9,width:'auto' }}>
-            {prctge.toFixed(1)}%
-          </Text>
-        </View>
-      ),
+      // labelComponent: () => (
+      //   <View style={{width:'auto',minWidth:100,flexDirection:'column',alignItems: 'center', justifyContent: 'center',backgroundColor:'white',borderRadius:10,paddingHorizontal:4}}>
+      //     {/* Vous pouvez styliser le texte comme vous le souhaitez ici */}
+      //     <Text style={{ color: '#333', fontSize: 10, fontWeight: 'bold',width:'auto' }}>
+      //       {key}
+      //     </Text>
+      //     <Text style={{ color: '#666', fontSize: 9,width:'auto' }}>
+      //       {prctge.toFixed(1)}%
+      //     </Text>
+      //   </View>
+      // ),
       
     };
   })
@@ -509,15 +509,15 @@ function PieCharts({powderAnalysed}) {
         radius={210}
         
         // --- ACTIVATION DES LABELS EXTÉRIEURS 🟢 ---
-        showValuesAsLabels={true}     // Sort les labels à l'extérieur
-        labelsPosition="onBorder"    // Aligne les points de départ des lignes
+        // showValuesAsLabels={true}     // Sort les labels à l'extérieur
+        // labelsPosition="onBorder"    // Aligne les points de départ des lignes
         
         // --- PERSONNALISATION DU TEXTE ---
-        // showText={true}         // Force l'affichage des chaînes présentes dans "text"
-        // textColor="black"       // Couleur d'écriture à l'intérieur des parts
-        // textSize={12}           // Taille de la police
-        // fontWeight="bold"
-        // textPosition={20}
+        showText={true}         // Force l'affichage des chaînes présentes dans "text"
+        textColor="black"       // Couleur d'écriture à l'intérieur des parts
+        textSize={12}           // Taille de la police
+        fontWeight="bold"
+        textPosition={20}
         
         // --- LIGNES DE REPERE (POINTERS) ---
         extraRadiusForLabels={30}     // Éloignement du texte par rapport au cercle
