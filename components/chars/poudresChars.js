@@ -479,8 +479,8 @@ function PieCharts({powderAnalysed}) {
     const pieData=Object.entries(powderByName).map(([key,analises],index)=>{
           const len=analises?.length;
           // const name=analises[0]?.name;
-          const prctge=LEN!==0?((len/LEN)*100).toFixed(1):'0';
-          return { 
+          const prctge=LEN!==0?((len/LEN)*100).toFixed(1):0;
+          return prctge && prctge>0 && { 
             value: prctge,
             text: key+'('+prctge.toString()+'%)',
             color:fullPalette[index],
@@ -491,7 +491,7 @@ console.log(pieData)
     <View style={{ alignItems: 'center', marginVertical: 40 }}>
       <PieChart
         data={pieData}
-        radius={100}
+        radius={200}
         
         // --- ACTIVATION DES LABELS EXTÉRIEURS 🟢 ---
         showValuesAsLabels={true}     // Sort les labels à l'extérieur
