@@ -490,7 +490,7 @@ function PieCharts({powderAnalysed}) {
   })
   // 3. 🟢 ON FILTRE APRÈS LE MAP pour éliminer proprement les lignes à 0%
   .filter(item => item.value > 0); 
-  console.log(pieData);
+  alert(JSON.stringify(pieData));
 
   return (
     <View style={{ alignItems: 'center',margin:'auto', marginVertical: 40 }}>
