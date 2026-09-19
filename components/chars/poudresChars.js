@@ -443,7 +443,7 @@ const Productions=()=>{
                   padding:15 
                 }}
             >
-            <Titre params={{dateStart:startedAt,dateEnd:endedAt,total:powderAnalysed?.length,literal:''}}/>
+            <Titre params={{dateStart:startedAt,dateEnd:endedAt,total:powderAnalysed?.length,literal:'Proportions de production'}}/>
             <PieCharts powderAnalysed={powderAnalysed}/>
       </View>
 }
@@ -480,13 +480,15 @@ function PieCharts({powderAnalysed}) {
           const len=analises?.length;
           // const name=analises[0]?.name;
           const prctge=LEN!==0?((len/LEN)*100).toFixed(1):0;
-          console.log(prctge);
-          return prctge && prctge>0 && { 
-            value: prctge,
-            text: key+'('+prctge.toString()+'%)',
-            color:fullPalette[index],
-          }
-        });
+           // 2. On retourne TOUJOURS un objet valide avec une valeur numérique
+    return { 
+      value: Number(prctge), // 🟢 S'assure que c'est un nombre pur
+      text: `${key} (${prctge.toFixed(1)}%)`, // 🟢 Le .toFixed sert uniquement pour le texte d'affichage
+      color: fullPalette[index % fullPalette.length], // 🟢 Sécurité avec le modulo %
+    };
+  })
+  // 3. 🟢 ON FILTRE APRÈS LE MAP pour éliminer proprement les lignes à 0%
+  .filter(item => item.value > 0); 
 
   return (
     <View style={{ alignItems: 'center', marginVertical: 40 }}>
