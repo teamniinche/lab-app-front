@@ -1,4 +1,4 @@
-import { StyleSheet,Pressable,TouchableOpacity,View, Text,ScrollView } from 'react-native';
+import { StyleSheet,Pressable,TouchableOpacity,View,ScrollView } from 'react-native';
 import { FontAwesome5 } from '@expo/vector-icons';
 import Btn from '../buttons/btnWithinfo.js';
 import { useState,useLayoutEffect} from "react";
