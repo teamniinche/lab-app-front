@@ -491,18 +491,20 @@ function PieCharts({powderAnalysed}) {
   .filter(item => item.value > 0); 
 
   return (
-    <View style={{ alignItems: 'center', marginVertical: 40 }}>
+    <View style={{ alignItems: 'center',margin:'auto', marginVertical: 40 }}>
       <PieChart
         data={pieData}
-        radius={200}
+        radius={220}
         
         // --- ACTIVATION DES LABELS EXTÉRIEURS 🟢 ---
         showValuesAsLabels={true}     // Sort les labels à l'extérieur
         labelsPosition="onBorder"    // Aligne les points de départ des lignes
         
         // --- PERSONNALISATION DU TEXTE ---
-        textColor="#333"              // Couleur des labels externes
-        textSize={12}
+        showText={true}         // Force l'affichage des chaînes présentes dans "text"
+        textColor="black"       // Couleur d'écriture à l'intérieur des parts
+        textSize={12}           // Taille de la police
+        fontWeight="bold"
         
         // --- LIGNES DE REPERE (POINTERS) ---
         extraRadiusForLabels={30}     // Éloignement du texte par rapport au cercle
