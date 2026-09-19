@@ -485,12 +485,22 @@ function PieCharts({powderAnalysed}) {
       value: Number(prctge.toFixed(1)), // 🟢 S'assure que c'est un nombre pur
       text: `${key} (${prctge.toFixed(1)}%)`, // 🟢 Le .toFixed sert uniquement pour le texte d'affichage
       color: fullPalette[index], // 🟢 Sécurité avec le modulo %
+      pieCentricLabelComponent: () => (
+        <View style={{width:'auto',minWidth:100,flexDirection:'column',alignItems: 'center', justifyContent: 'center',backgroundColor:'white',borderRadius:10,paddingHorizontal:4}}>
+          {/* Vous pouvez styliser le texte comme vous le souhaitez ici */}
+          <Text style={{ color: '#333', fontSize: 10, fontWeight: 'bold',width:'auto' }}>
+            {key}
+          </Text>
+          <Text style={{ color: '#666', fontSize: 9,width:'auto' }}>
+            {prctge.toFixed(1)}%
+          </Text>
+        </View>
+      ),
       
     };
   })
   // 3. 🟢 ON FILTRE APRÈS LE MAP pour éliminer proprement les lignes à 0%
-  .filter(item => item.value > 0); 
-  alert(JSON.stringify(pieData));
+  .filter(item => item.value > 0);
 
   return (
     <View style={{ alignItems: 'center',margin:'auto', marginVertical: 40 }}>
