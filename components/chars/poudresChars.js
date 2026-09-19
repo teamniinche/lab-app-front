@@ -29,12 +29,6 @@ const graphes={
   // NonConformité:{component:'NonConformite',info:'Proportion de la non-conformité/produit'}
 }
 
-const COMPONENTSPOUDRE={
-  Correlations:<Correlations/>,
-  Productions:<Productions/>,
-  // NonConformite:<NonConformite/>
-}
-
 const GraphesNav=({render})=>{
     const initialTargeted=Object.keys(graphes)[0] || null;
     const [grap,setGrap]=useState(initialTargeted);
@@ -76,33 +70,6 @@ return <View style={{width:200,minHeigth:500,paddingHorizontal:10,paddingVertica
         
       </View>
   }
-
-  export default function PoudreCharts({navigation}){
-    const [Component,setComponent]=useState('Correlations');
-    useLayoutEffect(()=>{
-                  navigation.setOptions({
-                      headerLeft:()=>(
-                          <TouchableOpacity style={{width:40,margin:0,marginLeft:30,backgroundColor:'transparent',}} onPress={() => navigation.navigate('Accueil')}>
-                              <FontAwesome5 name='arrow-left' size={20} color='white'/>
-                          </TouchableOpacity>
-                      )
-                  });
-          },[]);
-    return <View
-                  style={{ 
-                          minWidth:1050,
-                          width:'100%',
-                          height:'auto',
-                          flexDirection:'column',
-                          justifyContent:'flex-start',
-                          alignItems:'flex-start',
-                          padding: 5
-                  }}
-            >
-              <GraphesNav render={(C)=>setComponent(C)}/>
-              {COMPONENTSPOUDRE[Component]}
-            </View>
-   }
 
 export const Correlations=()=>{
     const [relation, setRelation] = useState("GGMA");
@@ -518,7 +485,37 @@ function PieCharts({powderAnalysed}) {
     </View>
   );
 }
-
+const COMPONENTSPOUDRE={
+  Correlations:<Correlations/>,
+  Productions:<Productions/>,
+  // NonConformite:<NonConformite/>
+}
+export default function PoudreCharts({navigation}){
+    const [Component,setComponent]=useState('Correlations');
+    useLayoutEffect(()=>{
+                  navigation.setOptions({
+                      headerLeft:()=>(
+                          <TouchableOpacity style={{width:40,margin:0,marginLeft:30,backgroundColor:'transparent',}} onPress={() => navigation.navigate('Accueil')}>
+                              <FontAwesome5 name='arrow-left' size={20} color='white'/>
+                          </TouchableOpacity>
+                      )
+                  });
+          },[]);
+    return <View
+                  style={{ 
+                          minWidth:1050,
+                          width:'100%',
+                          height:'auto',
+                          flexDirection:'column',
+                          justifyContent:'flex-start',
+                          alignItems:'flex-start',
+                          padding: 5
+                  }}
+            >
+              <GraphesNav render={(C)=>setComponent(C)}/>
+              {COMPONENTSPOUDRE[Component]}
+            </View>
+   }
 
 const styles = StyleSheet.create({
     tooltipText: {
