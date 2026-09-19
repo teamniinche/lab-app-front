@@ -1,7 +1,6 @@
-import { StyleSheet,Pressable,TouchableOpacity,View,ScrollView } from 'react-native';
-import { FontAwesome5 } from '@expo/vector-icons';
-import Btn from '../buttons/btnWithinfo.js';
 import { useState,useLayoutEffect} from "react";
+import { StyleSheet,Pressable,TouchableOpacity,View,ScrollView } from 'react-native';
+import Btn from '../buttons/btnWithinfo.js';
 import {useSelector} from 'react-redux';
 import { Text, Menu, Button } from "react-native-paper";
 import { BubbleChart,PieChart } from 'react-native-gifted-charts';
