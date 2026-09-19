@@ -485,6 +485,7 @@ function PieCharts({powderAnalysed}) {
       value: Number(prctge.toFixed(1)), // 🟢 S'assure que c'est un nombre pur
       text: `${Replace(key,[['sans sel','ssl'],['avec sel','asl'], ['export','exp']])}\n(${prctge.toFixed(1)}%)`, // 🟢 Le .toFixed sert uniquement pour le texte d'affichage
       color: fullPalette[index], // 🟢 Sécurité avec le modulo %
+      labelPosition:'mid',
       // labelComponent: () => (
       //   <View style={{width:'auto',minWidth:100,flexDirection:'column',alignItems: 'center', justifyContent: 'center',backgroundColor:'white',borderRadius:10,paddingHorizontal:4}}>
       //     {/* Vous pouvez styliser le texte comme vous le souhaitez ici */}
