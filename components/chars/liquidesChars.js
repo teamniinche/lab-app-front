@@ -8,7 +8,7 @@ import Interval from '../../kernel/classes/graphes/datesInterval.js';
 import {colorFromName} from '../../assets/functions.js';
 import Btn from '../buttons/btnWithinfo.js';
 import Colors from '../../assets/colors.js';
-import {primaryColor,enginesForDep} from '../../assets/constantes.js';
+import {enginesForDep} from '../../assets/constantes.js';
 const interval=new Interval();
 const filter=new Filters();
 function Y(val,index){const y=6+index;return y}
@@ -48,7 +48,7 @@ const graphes={
   Productions:{component:'BarsChart',info:'Dans un département selectionné, donne les statistiques de production suivant le produit'},
   EvolutionParProduit:{component:'MultiLineCharts',info:"Dans un département selectionné, donne l'évolution de la production de chaque produit sur la période selectionnée"},
   ProductionsParSemaine:{component:'MultiStagesBarCharts',info:'Sur la période selectionnée,donne les statistiques de production de chaque semaine'},
-  Performances:{component:'PerformanceBarChart',info:'Comparaison des départements de production suivant le nombre de mélanges par mélange'}
+  Performances:{component:'PerformanceBarChart',info:'Comparaison des départements de production suivant le nombre de mélanges par mélangeur'}
 }
 const COMPONENTS={
   MultiLineCharts:<MultiLineCharts/>,
@@ -165,7 +165,7 @@ export function SingleLineChar() {
     const postedAnalyses=state.data.postedAnalyses;
     return {startedAt:startedAt,endedAt:endedAt,postedAnalyses:postedAnalyses};
   });
-  const {differentProducts,prodsWeeks}=interval.prodsByWeeks(postedAnalyses,startedAt,endedAt);
+  // const {differentProducts,prodsWeeks}=interval.prodsByWeeks(postedAnalyses,startedAt,endedAt);
 
   const data = Object.entries(prodsByWeeks).map(([key,val],index)=>{return { value: Y(val.count,index), label: key }});
   return (
