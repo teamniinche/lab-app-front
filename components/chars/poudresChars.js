@@ -95,7 +95,7 @@ export const Correlations=()=>{
                         justifyContent:'space-between',
                         alignItems:'flex-start',
                         padding: 5,
-                        marginTop:60
+                        marginTop:5
                 }}
       >
             <LateralNav relation={relation} setRelation={(r)=>setRelation(r)}/>
@@ -451,15 +451,39 @@ const Productions=()=>{
 function PieCharts({powderAnalysed}) {
     const LEN=powderAnalysed?.length;
     const powderByName=filter.filterByName(powderAnalysed);
+    const fullPalette = [
+  // --- Les Bleus & Cyans (5) ---
+  '#177AD5', // 1. Bleu Tech
+  '#ED6665', // 12. Corail doux
+  '#A8E6CF', // 8. Vert Pastel doux
+  '#F1C40F', // 9. Jaune Soleil
+  '#9B5DE5', // 14. Violet Électrique
+  '#2ECC71', // 6. Vert Menthe
+  '#E74C3C', // 13. Rouge Alerte
+  '#3498DB', // 2. Bleu Ciel vif
+  '#00CEC9', // 3. Turquoise soutenu
+  '#1ABC9C', // 5. Émeraude clair
+  
+  // --- Les Verts (3) ---
+  '#79D2DE', // 4. Cyan Lumineux
+  '#27AE60', // 7. Vert Labo
 
-    const pieData=Object.entries(powderByName).map(([key,analises])=>{
+  // --- Les Jaunes, Oranges & Rouges (5) ---
+  '#FFB84C', // 10. Orange Chaud
+  '#FD79A8',  // 15. Rose Baie
+  '#E67E22', // 11. Mandarine
+
+  // --- Les Violets & Roses (2) ---
+];
+
+    const pieData=Object.entries(powderByName).map(([key,analises],index)=>{
           const len=analises?.length;
           // const name=analises[0]?.name;
           const prctge=LEN!==0?((len/LEN)*100).toFixed(1).toString():'0';
           return { 
             value: prctge,
             text: key+'('+prctge+'%)',
-            color:generateRandomColor(),
+            color:fullPalette[index],
           }
         });
 
