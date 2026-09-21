@@ -684,6 +684,7 @@ export const CurrentProductedProvider=({children})=>{
         return {powderNormes,formulesNormes,focusedProduct,powderAnalysed,currentProducted,focusedListe};
     });
     //************************************************************************************************************
+    const [namesPowder,setNamesPowder]=useState([]);
 
     const [currentProductedPro,setCurrentProducted]=useState(currentProducted);//{} liste object des produits elus a la production en cours pris du Context
     const [focusedPro,setFocusedPro]=useState(focusedProduct);// {} Normes du produit ayant le focus
@@ -801,7 +802,7 @@ export const CurrentProductedProvider=({children})=>{
     },[focusedProduct]);
     // const currentProductedLen=Object.keys(currentProductedPro).length;
 
-    return <CurrentProductedContext.Provider value={{id2Update,setId2Update,targeted,setTargeted,entete,setEntete,directionTri,toPrint,setToPrint,toDisplayPrint, setToDisplayPrint, setDirectionTri,UpdateFocusedProdByName,setAction,toCreate,focusedList,setFocusedList,ListOfFocusedAndLastNumberTour,ListOfFocusedAndLastNumber,currentProductedLen,focusedPro,setFocusedPro,currentProductedPro,setCurrentProductedPro,keysAndRequirements,registred,setRegistred}}>
+    return <CurrentProductedContext.Provider value={{namesPowder,setNamesPowder,id2Update,setId2Update,targeted,setTargeted,entete,setEntete,directionTri,toPrint,setToPrint,toDisplayPrint, setToDisplayPrint, setDirectionTri,UpdateFocusedProdByName,setAction,toCreate,focusedList,setFocusedList,ListOfFocusedAndLastNumberTour,ListOfFocusedAndLastNumber,currentProductedLen,focusedPro,setFocusedPro,currentProductedPro,setCurrentProductedPro,keysAndRequirements,registred,setRegistred}}>
        {children}
     </CurrentProductedContext.Provider>
 }

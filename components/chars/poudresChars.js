@@ -8,6 +8,7 @@ import { FontAwesome5 } from '@expo/vector-icons';
 import FiltersP from '../../kernel/classes/formatTablesAnalysesPoudre.js';
 import {Texts,Titre} from './liquidesChars.js';
 import {relations} from '../../iterables.js';
+import { useCurrentProducted } from "../wrappers/contexts.js";
 const filter=new FiltersP();
 
 export const Replace=(sj,ar)=>{var SJ=sj;
@@ -19,10 +20,6 @@ export const isElisible=(a/*analyse*/,coordonnees)=>{
 const {abs,oord}=coordonnees;
   return a[abs] && a[abs]!==0 && a[oord] && a[oord]!==0;
 }
-
-const generateRandomColor = () => {
-  return '#' + Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0');
-};
 const graphes={
   Correlations:{component:'Correlations',info:'Corrélations entre les parametres physico-chimiques'},
   Productions:{component:'Productions',info:"Statistiques sur la production"},
@@ -68,6 +65,43 @@ return <View style={{width:200,minHeigth:500,paddingHorizontal:10,paddingVertica
           <RelationSelector value={relation} onChange={(r)=>setRelation(r)} />
         </View>
         
+      </View>
+  }
+
+const LateralProdNav=({pstdAnalyses,render})=>{
+    const {setNamesPowder}=useCurrentProducted();
+    const prodsByName=filter.filterByName(pstdAnalyses);
+    const [nam,setNam]=useState(Object.keys(prodsByName)[0] || null);
+    const [focusedNam,setFocusedNam]=useState(Object.keys(prodsByName)[0] || null);
+    function handleNamPress(items,k){
+      setFocusedNam(k);setNam(k);setNamesPowder(items);render('NonComformite');
+    }
+    const focusStyle={backgroundColor:'rgba(0,0,250,0.3)'};
+    const hoverStyle={backgroundColor:'rgba(0,0,250,0.08)'};
+return <View style={{width:200,minHeigth:500,paddingHorizontal:10,paddingVertical:20,paddingTop:5,marginRight:15,borderRadius:5,borderWidth:1,borderBottomWidth:0,borderColor:'grey',backgroundColor:'whitesmoke'}}>
+        {/* <Text style={{color:primaryColor,backgroundColor:'rgba(0,0,0,0.15)',borderRadius:4,paddingVertical:20,textAlign:'center',marginBottom:20,letterSpacing:2,fontSize:14,fontWeight:'bold'}}>Départements</Text> */}
+        <Text style={{color:'grey',backgroundColor:'rgba(0,0,0,0.06)',borderRadius:4,paddingVertical:20,textAlign:'center',marginBottom:20,letterSpacing:2,fontSize:14,borderWidth:1,brderColor:'rgba(0,0,0,0.05)'}}>Productions</Text>
+        <Pressable 
+              style={[{width:'100%',height:50,padding:5,borderRadius:4},nam==='prod' && hoverStyle,focusedNam==='prod' && focusStyle]} 
+              onPress={()=>render('Productions')}
+              onHoverIn={()=>setNam('prod')}
+              onHoverOut={()=>setNam(null)}
+          >
+            <Texts text='Productions-Tout' focusedDep={focusedNam}/>
+          </Pressable>
+        <Text style={{color:'grey',backgroundColor:'rgba(0,0,0,0.06)',borderRadius:4,paddingVertical:20,textAlign:'center',marginBottom:20,letterSpacing:2,fontSize:14,borderWidth:1,brderColor:'rgba(0,0,0,0.05)'}}>Produits</Text>
+        {Object.entries(prodsByName).sort((a,b)=>b[0].localeCompare(a[0])).map(([k,items])=>{
+          const t=k.split(' ')[0]+' '+k.split(' ')[1];
+          const T=Replace(k,[[t,t+'-']])
+          return <Pressable 
+              style={[{width:'100%',height:50,padding:5,borderRadius:4},nam===k && hoverStyle,focusedNam===k && focusStyle]} 
+              onPress={()=>handleNamPress(items,k)}
+              onHoverIn={()=>setNam(k)}
+              onHoverOut={()=>setNam(null)}
+          > 
+            <Texts text={T} focusedDep={focusedNam}/>
+          </Pressable>
+        })}
       </View>
   }
 
@@ -435,14 +469,16 @@ const Productions=()=>{
       const powderAnalysed=state.powderAnalysed.powderAnalysed;
       return {startedAt:startedAt,endedAt:endedAt,powderAnalysed:powderAnalysed};
     });
-  return <View 
+  return  <View style={styles.prodContainer}>
+  
+          {/* <View 
               style={{ 
                   backgroundColor: 'whitesmoke', 
                   borderRadius: 10,
                   width:900,
                   padding:15 
                 }}
-            >
+            > */}
             <Titre params={{dateStart:startedAt,dateEnd:endedAt,total:powderAnalysed?.length,literal:'Proportions de production'}}/>
             <PieCharts powderAnalysed={powderAnalysed}/>
       </View>
@@ -486,17 +522,6 @@ function PieCharts({powderAnalysed}) {
       text: `${Replace(key,[['sans sel','ssl'],['avec sel','asl'], ['export','exp']])} (${prctge.toFixed(1)}%)`, // 🟢 Le .toFixed sert uniquement pour le texte d'affichage
       color: fullPalette[index], // 🟢 Sécurité avec le modulo %
       labelPosition:'mid',
-      // labelComponent: () => (
-      //   <View style={{width:'auto',minWidth:100,flexDirection:'column',alignItems: 'center', justifyContent: 'center',backgroundColor:'white',borderRadius:10,paddingHorizontal:4}}>
-      //     {/* Vous pouvez styliser le texte comme vous le souhaitez ici */}
-      //     <Text style={{ color: '#333', fontSize: 10, fontWeight: 'bold',width:'auto' }}>
-      //       {key}
-      //     </Text>
-      //     <Text style={{ color: '#666', fontSize: 9,width:'auto' }}>
-      //       {prctge.toFixed(1)}%
-      //     </Text>
-      //   </View>
-      // ),
       
     };
   })
@@ -530,7 +555,7 @@ function PieCharts({powderAnalysed}) {
 }
 const COMPONENTSPOUDRE={
   Correlations:<Correlations/>,
-  Productions:<Productions/>,
+  Productions:<ProdPoudreCharts/>,
   // NonConformite:<NonConformite/>
 }
 export default function PoudreCharts({navigation}){
@@ -560,6 +585,69 @@ export default function PoudreCharts({navigation}){
             </View>
    }
 
+const COMPONENTSPROD={
+  Productions:<Productions/>,
+  NonConformite:<NonConformite/>
+};
+export  function ProdPoudreCharts(){
+    const [Component,setComponent]=useState('Productions');
+    return <ScrollView 
+                    horizontal={true}  
+                    style={{ 
+                            minWidth:1050,
+                            width:'100%',
+                            height:'auto',
+                            flexDirection:'row',
+                            justifyContent:'space-between',
+                            alignItems:'flex-start',
+                            padding: 5
+                    }}
+              >
+            <LateralProdNav pstdAnalyses={postedAnalyses} render={C=>setComponent(C)}/>
+              {COMPONENTSPROD[Component]}
+        </ScrollView>
+   }
+
+const NonConformite=()=>{
+    const {namesPowder}=useCurrentProducted();
+    const nonConformes=filter.findNotConformes(namesPowder);
+    const elisible=namesPowder.length!==undefined && namesPowder.length!==null && namesPowder.length!==0;
+    const prctageNc=elisible?(Number(nonConformes.length)/Number(namesPowder.length)).toFixed(1):0;
+    const pieData=[
+        { 
+          value: (100-prctageNc),
+          text: 'Conf. ',
+          color: 'rgba(0,240,0,0.4)',
+          labelPosition:'mid',
+          
+        },
+        { 
+          value: prctageNc,
+          text: 'Non Conf. ',
+          color: 'rgba(240,0,0,0.3)',
+          labelPosition:'mid',
+        }
+    ]
+
+  return (<View style={{ alignItems: 'center',margin:'auto', marginVertical: 40 }}>
+      <PieChart
+        data={pieData}
+        radius={210}
+        // --- PERSONNALISATION DU TEXTE ---
+        showText={true}         // Force l'affichage des chaînes présentes dans "text"
+        textColor="black"       // Couleur d'écriture à l'intérieur des parts
+        textSize={12}           // Taille de la police
+        fontWeight="bold"
+        textPosition={20}
+        
+        // --- LIGNES DE REPERE (POINTERS) ---
+        extraRadiusForLabels={30}     // Éloignement du texte par rapport au cercle
+        strokeWidth={2}               // Épaisseur de la ligne indicatrice
+        strokeColor="#666"            // Couleur de la ligne indicatrice
+      />
+    </View>
+  );
+}
 const styles = StyleSheet.create({
     tooltipText: {
     width:'auto',
@@ -597,7 +685,7 @@ const styles = StyleSheet.create({
     marginBottom: 24,
     color: '#2c3e50',
   },
-  chartContainer: {
+  prodContainer: {
     width:'auto',
     backgroundColor: '#ffffff',
     padding: 16,
