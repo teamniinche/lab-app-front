@@ -556,6 +556,11 @@ function PieCharts({powderAnalysed}) {
 
 export  function ProdPoudreCharts(){
     const [Component,setComponent]=useState('Productions');
+    const {/*startedAt,endedAt,*/powderAnalysed}=useSelector(state=>{
+      // const {startedAt,endedAt}=state.period.targetPeriod;
+      const powderAnalysed=state.powderAnalysed.powderAnalysed;
+      return {/*startedAt:startedAt,endedAt:endedAt,*/powderAnalysed:powderAnalysed};
+    });
     return <ScrollView 
                     horizontal={true}  
                     style={{ 
@@ -568,7 +573,7 @@ export  function ProdPoudreCharts(){
                             padding: 5
                     }}
               >
-            <LateralProdNav pstdAnalyses={postedAnalyses} render={C=>setComponent(C)}/>
+            <LateralProdNav pstdAnalyses={powderAnalysed} render={C=>setComponent(C)}/>
               {COMPONENTSPROD[Component]}
         </ScrollView>
    }
