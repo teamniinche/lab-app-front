@@ -613,7 +613,7 @@ export default function PoudreCharts({navigation}){
 
 const NonConformite=()=>{
     const {namesPowder}=useCurrentProducted();
-    const nonConformes=filter.findNotConformes(namesPowder);
+    const nonConformes=filter.findNotConformes(namesPowder) || [];console.log(nonConformes);
     const elisible = namesPowder && namesPowder.length > 0;
     
     // 1. Multiplier par 100 pour avoir un pourcentage (ex: 25 au lieu de 0.25)
