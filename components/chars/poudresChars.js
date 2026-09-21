@@ -611,52 +611,120 @@ export default function PoudreCharts({navigation}){
    }
 
 
-const NonConformite=()=>{
-    const {namesPowder}=useCurrentProducted();
-    const nonConformes=filter.findNotConformes(namesPowder) || [];
+// const NonConformite=()=>{
+//     const {namesPowder}=useCurrentProducted();
+//     const nonConformes=filter.findNotConformes(namesPowder) || [];console.log(nonConformes);
+//     const elisible = namesPowder && namesPowder.length > 0;
+    
+//     // 1. Multiplier par 100 pour avoir un pourcentage (ex: 25 au lieu de 0.25)
+//     // 2. Utiliser Math.round() ou parseFloat().toFixed() pour garder un TYPE NOMBRE
+//     const prctageNc = elisible 
+//         ? Math.round((nonConformes.length / namesPowder.length) * 100) 
+//         : 0;
+
+//     const pieData = [
+//         { 
+//           // Reçoit maintenant un vrai calcul numérique propre
+//           value: (100 - prctageNc),
+//           text: `Conf. ${(100 - prctageNc)}%`, // Optionnel : affiche le % dans le texte
+//           color: 'rgba(0,240,0,0.4)',
+//           labelPosition: 'mid',
+//         },
+//         { 
+//           value: prctageNc,
+//           text: `Non Conf. ${prctageNc}%`,
+//           color: 'rgba(240,0,0,0.3)',
+//           labelPosition: 'mid',
+//         }
+//     ];
+
+//   return (<View style={{ alignItems: 'center',margin:'auto', marginVertical: 40 }}>
+//       <PieChart
+//         data={pieData}
+//         radius={210}
+//         // --- PERSONNALISATION DU TEXTE ---
+//         showText={true}         // Force l'affichage des chaînes présentes dans "text"
+//         textColor="black"       // Couleur d'écriture à l'intérieur des parts
+//         textSize={12}           // Taille de la police
+//         fontWeight="bold"
+//         textPosition={20}
+        
+//         // --- LIGNES DE REPERE (POINTERS) ---
+//         extraRadiusForLabels={30}     // Éloignement du texte par rapport au cercle
+//         strokeWidth={2}               // Épaisseur de la ligne indicatrice
+//         strokeColor="#666"            // Couleur de la ligne indicatrice
+//       />
+//     </View>
+//   );
+// }
+
+const NonConformite = () => {
+    const { namesPowder } = useCurrentProducted();
+    
+    // Protection pour filter.findNotConformes si namesPowder n'est pas encore un tableau
+    const nonConformes = namesPowder && Array.isArray(namesPowder) 
+        ? filter.findNotConformes(namesPowder) 
+        : [];
+        
     const elisible = namesPowder && namesPowder.length > 0;
     
-    // 1. Multiplier par 100 pour avoir un pourcentage (ex: 25 au lieu de 0.25)
-    // 2. Utiliser Math.round() ou parseFloat().toFixed() pour garder un TYPE NOMBRE
-    // const prctageNc = elisible 
-    //     ? Math.round((nonConformes.length / namesPowder.length) * 100) 
-    //     : 0;
+    const prctageNc = elisible 
+        ? Math.round((nonConformes.length / namesPowder.length) * 100) 
+        : 0;
 
-    const pieData = [
-        { 
-          // Reçoit maintenant un vrai calcul numérique propre
-          value: 80,//(100 - prctageNc),
-          text: 'conf',//`Conf. ${(100 - prctageNc)}%`, // Optionnel : affiche le % dans le texte
+    // 🛑 CORRECTIF SÉCURITÉ : react-native-gifted-charts plante avec les pointeurs si une valeur vaut 0.
+    // On n'affiche pas la part si son pourcentage est à 0.
+    const pieData = [];
+    
+    if (100 - prctageNc > 0) {
+        pieData.push({ 
+          value: 100 - prctageNc,
+          text: `Conf. ${100 - prctageNc}%`,
           color: 'rgba(0,240,0,0.4)',
           labelPosition: 'mid',
-        },
-        { 
-          value: 20,//prctageNc,
-          text: 'nc',//`Non Conf. ${prctageNc}%`,
+        });
+    }
+    
+    if (prctageNc > 0) {
+        pieData.push({ 
+          value: prctageNc,
+          text: `Non Conf. ${prctageNc}%`,
           color: 'rgba(240,0,0,0.3)',
           labelPosition: 'mid',
-        }
-    ];
+        });
+    }
 
-  return (<View style={{ alignItems: 'center',margin:'auto', marginVertical: 40 }}>
-      <PieChart
-        data={pieData}
-        radius={210}
-        // --- PERSONNALISATION DU TEXTE ---
-        showText={true}         // Force l'affichage des chaînes présentes dans "text"
-        textColor="black"       // Couleur d'écriture à l'intérieur des parts
-        textSize={12}           // Taille de la police
-        fontWeight="bold"
-        textPosition={20}
-        
-        // --- LIGNES DE REPERE (POINTERS) ---
-        extraRadiusForLabels={30}     // Éloignement du texte par rapport au cercle
-        strokeWidth={2}               // Épaisseur de la ligne indicatrice
-        strokeColor="#666"            // Couleur de la ligne indicatrice
-      />
-    </View>
-  );
-}
+    // 🛑 CORRECTIF RENDU : Si aucune donnée ou si pieData est vide, on affiche un fallback
+    // pour éviter que le PieChart charge des valeurs invalides en SVG.
+    if (!elisible || pieData.length === 0) {
+        return (
+            <View style={{ alignItems: 'center', justifyContent: 'center', marginVertical: 40 }}>
+                <Text>Aucune donnée disponible</Text>
+            </View>
+        );
+    }
+
+    return (
+        <View style={{ alignItems: 'center', margin: 'auto', marginVertical: 40 }}>
+          <PieChart
+            data={pieData}
+            radius={210}
+            showText={true}         
+            textColor="black"       
+            textSize={12}           
+            fontWeight="bold"
+            // textPosition={20} // 💡 Astuce : Parfois source de conflits avec extraRadiusForLabels
+            
+            // --- LIGNES DE REPERE (POINTERS) ---
+            showValuesAsLabels={false} // Évite les conflits de calcul SVG interne
+            extraRadiusForLabels={30}     
+            strokeWidth={2}               
+            strokeColor="#666"            
+          />
+        </View>
+    );
+};
+
 const COMPONENTSPROD={
   Productions:<Productions/>,
   NonConformite:<NonConformite/>
