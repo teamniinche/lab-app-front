@@ -553,6 +553,26 @@ function PieCharts({powderAnalysed}) {
     </View>
   );
 }
+
+export  function ProdPoudreCharts(){
+    const [Component,setComponent]=useState('Productions');
+    return <ScrollView 
+                    horizontal={true}  
+                    style={{ 
+                            minWidth:1050,
+                            width:'100%',
+                            height:'auto',
+                            flexDirection:'row',
+                            justifyContent:'space-between',
+                            alignItems:'flex-start',
+                            padding: 5
+                    }}
+              >
+            <LateralProdNav pstdAnalyses={postedAnalyses} render={C=>setComponent(C)}/>
+              {COMPONENTSPROD[Component]}
+        </ScrollView>
+   }
+
 const COMPONENTSPOUDRE={
   Correlations:<Correlations/>,
   Productions:<ProdPoudreCharts/>,
@@ -585,28 +605,6 @@ export default function PoudreCharts({navigation}){
             </View>
    }
 
-const COMPONENTSPROD={
-  Productions:<Productions/>,
-  NonConformite:<NonConformite/>
-};
-export  function ProdPoudreCharts(){
-    const [Component,setComponent]=useState('Productions');
-    return <ScrollView 
-                    horizontal={true}  
-                    style={{ 
-                            minWidth:1050,
-                            width:'100%',
-                            height:'auto',
-                            flexDirection:'row',
-                            justifyContent:'space-between',
-                            alignItems:'flex-start',
-                            padding: 5
-                    }}
-              >
-            <LateralProdNav pstdAnalyses={postedAnalyses} render={C=>setComponent(C)}/>
-              {COMPONENTSPROD[Component]}
-        </ScrollView>
-   }
 
 const NonConformite=()=>{
     const {namesPowder}=useCurrentProducted();
@@ -648,6 +646,10 @@ const NonConformite=()=>{
     </View>
   );
 }
+const COMPONENTSPROD={
+  Productions:<Productions/>,
+  NonConformite:<NonConformite/>
+};
 const styles = StyleSheet.create({
     tooltipText: {
     width:'auto',
