@@ -73,7 +73,7 @@ const LateralProdNav=({pstdAnalyses,render})=>{
     const prodsByName=filter.filterByName(pstdAnalyses);
     const [nam,setNam]=useState(Object.keys(prodsByName)[0] || null);
     const [focusedNam,setFocusedNam]=useState(Object.keys(prodsByName)[0] || null);
-    function handleNamPress(items,k){
+    function handleNamPress(items,k){console.log(items);
       setFocusedNam(k);setNam(k);setNamesPowder(items);render('NonComformite');
     }
     const focusStyle={backgroundColor:'rgba(0,0,250,0.3)'};
@@ -83,7 +83,7 @@ return <View style={{width:200,minHeigth:500,paddingHorizontal:10,paddingVertica
         <Text style={{color:'grey',backgroundColor:'rgba(0,0,0,0.06)',borderRadius:4,paddingVertical:20,textAlign:'center',marginBottom:20,letterSpacing:2,fontSize:14,borderWidth:1,brderColor:'rgba(0,0,0,0.05)'}}>Productions</Text>
         <Pressable 
               style={[{width:'100%',height:50,padding:5,borderRadius:4},nam==='prod' && hoverStyle,focusedNam==='prod' && focusStyle]} 
-              onPress={()=>render('Productions')}
+              onPress={()=>{setFocusedNam('prod');render('Productions')}}
               onHoverIn={()=>setNam('prod')}
               onHoverOut={()=>setNam(null)}
           >
