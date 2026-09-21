@@ -614,23 +614,29 @@ export default function PoudreCharts({navigation}){
 const NonConformite=()=>{
     const {namesPowder}=useCurrentProducted();
     const nonConformes=filter.findNotConformes(namesPowder);
-    const elisible=namesPowder.length!==undefined && namesPowder.length!==null && namesPowder.length!==0;
-    const prctageNc=elisible?(Number(nonConformes.length)/Number(namesPowder.length)).toFixed(1):0;
-    const pieData=[
+    const elisible = namesPowder && namesPowder.length > 0;
+    
+    // 1. Multiplier par 100 pour avoir un pourcentage (ex: 25 au lieu de 0.25)
+    // 2. Utiliser Math.round() ou parseFloat().toFixed() pour garder un TYPE NOMBRE
+    const prctageNc = elisible 
+        ? Math.round((nonConformes.length / namesPowder.length) * 100) 
+        : 0;
+
+    const pieData = [
         { 
-          value: (100-prctageNc),
-          text: 'Conf. ',
+          // Reçoit maintenant un vrai calcul numérique propre
+          value: (100 - prctageNc),
+          text: `Conf. ${(100 - prctageNc)}%`, // Optionnel : affiche le % dans le texte
           color: 'rgba(0,240,0,0.4)',
-          labelPosition:'mid',
-          
+          labelPosition: 'mid',
         },
         { 
           value: prctageNc,
-          text: 'Non Conf. ',
+          text: `Non Conf. ${prctageNc}%`,
           color: 'rgba(240,0,0,0.3)',
-          labelPosition:'mid',
+          labelPosition: 'mid',
         }
-    ]
+    ];
 
   return (<View style={{ alignItems: 'center',margin:'auto', marginVertical: 40 }}>
       <PieChart
