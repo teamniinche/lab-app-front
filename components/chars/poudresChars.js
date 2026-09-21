@@ -613,26 +613,26 @@ export default function PoudreCharts({navigation}){
 
 const NonConformite=()=>{
     const {namesPowder}=useCurrentProducted();
-    const nonConformes=filter.findNotConformes(namesPowder) || [];console.log(nonConformes);
+    const nonConformes=filter.findNotConformes(namesPowder) || [];
     const elisible = namesPowder && namesPowder.length > 0;
     
     // 1. Multiplier par 100 pour avoir un pourcentage (ex: 25 au lieu de 0.25)
     // 2. Utiliser Math.round() ou parseFloat().toFixed() pour garder un TYPE NOMBRE
-    const prctageNc = elisible 
-        ? Math.round((nonConformes.length / namesPowder.length) * 100) 
-        : 0;
+    // const prctageNc = elisible 
+    //     ? Math.round((nonConformes.length / namesPowder.length) * 100) 
+    //     : 0;
 
     const pieData = [
         { 
           // Reçoit maintenant un vrai calcul numérique propre
-          value: (100 - prctageNc),
-          text: `Conf. ${(100 - prctageNc)}%`, // Optionnel : affiche le % dans le texte
+          value: 80,//(100 - prctageNc),
+          text: 'conf',//`Conf. ${(100 - prctageNc)}%`, // Optionnel : affiche le % dans le texte
           color: 'rgba(0,240,0,0.4)',
           labelPosition: 'mid',
         },
         { 
-          value: prctageNc,
-          text: `Non Conf. ${prctageNc}%`,
+          value: 20,//prctageNc,
+          text: 'nc',//`Non Conf. ${prctageNc}%`,
           color: 'rgba(240,0,0,0.3)',
           labelPosition: 'mid',
         }
