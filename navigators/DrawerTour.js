@@ -643,7 +643,7 @@ const PowderRow=({K,ky,ac,setK,item})=>{
                                 return <Text key={i} style={{ flex:1,color: isHovered && primaryColor,borderBottomWidth:1,borderColor:"rgba(0,0,0,0.095)",height:"100%",textAlign:"center",fontSize:isHovered?16:11,fontWeight:"bold",paddingVertical:2,paddingBottom:10}}>{isInHeadersKeys?rest[ky]:"..."}</Text>//isInHeadersKeys?vl[cle]:"..."
                             })
                     } */}
-                    {(id2Update/*!==null*/ && isMeToUpdate)?
+                    {(id2Update!==null && isMeToUpdate)?
                         <EditRow render={(vl)=>handleUpdateTour(vl)} inputRefs={[]} index={0} obj={obj} />
                         :
                         <Text key={0} style={{ flex:1,color: isHovered && primaryColor,borderBottomWidth:1,borderColor:"rgba(0,0,0,0.095)",height:"100%",textAlign:"center",fontSize:isHovered?16:14,fontWeight:"bold",paddingVertical:2,paddingBottom:10}}>{rest['densite']}</Text>
