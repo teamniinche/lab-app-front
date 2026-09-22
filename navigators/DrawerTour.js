@@ -643,10 +643,11 @@ const PowderRow=({K,ky,ac,setK,item})=>{
                                 return <Text key={i} style={{ flex:1,color: isHovered && primaryColor,borderBottomWidth:1,borderColor:"rgba(0,0,0,0.095)",height:"100%",textAlign:"center",fontSize:isHovered?16:11,fontWeight:"bold",paddingVertical:2,paddingBottom:10}}>{isInHeadersKeys?rest[ky]:"..."}</Text>//isInHeadersKeys?vl[cle]:"..."
                             })
                     } */}
-                    {(id2Update!==null && isMeToUpdate)?
-                    <EditRow render={(vl)=>handleUpdateTour(vl)} inputRefs={[]} index={0} obj={obj} />
-                    :
-                    <Text key={0} style={{ flex:1,color: isHovered && primaryColor,borderBottomWidth:1,borderColor:"rgba(0,0,0,0.095)",height:"100%",textAlign:"center",fontSize:isHovered?16:14,fontWeight:"bold",paddingVertical:2,paddingBottom:10}}>{rest['densite']}</Text>}
+                    {(id2Update/*!==null*/ && isMeToUpdate)?
+                        <EditRow render={(vl)=>handleUpdateTour(vl)} inputRefs={[]} index={0} obj={obj} />
+                        :
+                        <Text key={0} style={{ flex:1,color: isHovered && primaryColor,borderBottomWidth:1,borderColor:"rgba(0,0,0,0.095)",height:"100%",textAlign:"center",fontSize:isHovered?16:14,fontWeight:"bold",paddingVertical:2,paddingBottom:10}}>{rest['densite']}</Text>
+                    }
                     <View style={{...styles.row,marginBottom:2,marginRight:4,backgroundColor:isHovered?'rgba(0,0,0,0.06)':'whitesmoke',height:isHovered && 38,}}>
                         {isHovered && <Actions item={item} />}
                     </View>
@@ -717,15 +718,19 @@ const EditRow=({render,renderSave,keyOk,inputRefs,index,obj})=>{ // import de Dr
             if (obs === "") {resolve("ok");} else {reject("ko");}
         });
     };
+
     function handleCheckValidity(val){
         invalidOrSave(val)
         .then(rep=>{
             if(rep==="ok"){
-                render!==undefined && render(val);
+                render!==undefined && render(val);//y mettre ou dans ce render
+            }
+            else{
+                throw new Error("❌ there's error");
             }
         })
         .catch(function(error){
-            throw new error("❌ there's error");
+            alert(error.message);
         })
         
         
@@ -798,50 +803,7 @@ const LansaValue=({inputRefs,renderSave,keyOk,index,labelJoined,icon,value,rende
         right={<TextInput.Icon icon={value!==""?icon:"minus"} size={value===""?1:15} color={value===""?"grey":(icon==="check"?"green":"red")}/>}
     />
 }
-// =============================================================================
 
-// const Chariot=({oldCh,id})=>{ // import drawerPoudre
-//     const [ch,setCh]=useState(oldCh);
-//     const {setPop}=usePopup();
-//     const dispatch=useDispatch();
-//     const {ListOfFocusedAndLastNumberTour,setFocusedList,setRegistred}=useCurrentProducted();
-//     const powderAnalysed=useSelector(state=>state.powderAnalysed.powderAnalysed)
-
-//     function handleBlur(newCh){
-//         const updatedPowderAnalysed=powderAnalysed.filter(it=>Number(it.id)!==Number(id));
-//         const item=powderAnalysed.filter(it=>Number(it.id)===Number(id))[0];
-//         const newItem={...item,nChar:Number(newCh),UtilisateurId:1};
-
-//         const updteOwderAnalysed=[...updatedPowderAnalysed,newItem].sort((firstItem, secondItem) => firstItem.nChar - secondItem.nChar);
-//         const {list}=ListOfFocusedAndLastNumberTour(item,updteOwderAnalysed);
-//         setFocusedList(list);
-//         dispatch(storeFocusedListe(list));
-//         if(!item.id){setPop({show:true,message:"Erreur sur l'ID cible ! Peut-etre UNDEFINED | NULL .",code:'#880000'});return}
-//         fetch(dbBaseRoot+"poudre/analyses/updateChariot/"+item.id,
-//                        {method: 'PUT',headers: {'Content-Type': 'application/json'},
-//                         body:JSON.stringify(newItem)
-//                     })
-//                     .then(response=>response.json())
-//                     .then(data=>{
-//                         const {message,code,analyses}=data;
-//                         const {lansas}=analyses;
-//                         setRegistred(lansas.sort((firstItem, secondItem) => Number(firstItem.nChar) - Number(secondItem.nChar)));
-//                         dispatch(setPowderAnalysed(lansas.sort((firstItem, secondItem) => Number(firstItem.nChar)- Number(secondItem.nChar))));
-//                         const toPop=code==='green'?
-//                                 {show:true,message:"Chariot changé avec succes.",code:code}
-//                                 :
-//                                 {show:true,message:"Le numero de chariot n'a pas pu etre modifié :"+message,code:'#880000'}
-//                         setPop(toPop);
-//                     })
-//     }
-
-//     return <TextInput
-//         value={ch}
-//         onBlur={()=>handleBlur(Number(ch))}
-//         onChangeText={(CH)=>setCh(CH)}
-//         style={{flex: 1,textAlign: "left",maxWidth:30,width:20,borderWidth:0,backgroundColor:"none",color:'rgba(0,0,0,0.4)',maxHeight:20,height:20,cursor:"pointer",fontWeight:"bold",paddingHorizontal:0,paddingLeft:8,paddingVertical:2,fontSize:14,letterSpacing:2}}
-//     />
-// }
 
 const Actions=({item})=>{// import de DrawerPoudre
     const dispatch=useDispatch();
@@ -914,6 +876,7 @@ const Actions=({item})=>{// import de DrawerPoudre
             setPop({show:true,mesage:"Analyse "+item.id+" n'a pu etre supprimee !"+error,code:'#880000'});
         }
     }
+
     const confirmDelete=()=>{
         if(!deleteAllowed){setPop({show:true,message:"Vous n'avez pas la permission de supprimer une analyse !\nRapprochez-vous de votre responsable de departement.",code:'#88000'});return;}
         isWeb?(confirm("Etes-vous sur de  vouloir supprimer cet enregistrement ?")?handleDelete():null)
@@ -936,15 +899,9 @@ const Actions=({item})=>{// import de DrawerPoudre
 
   const handleUpdate=async ()=>{
     if(!updateAllowed){setPop({show:true,mesage:"Vous n'avez pas la permission de modifier une analyse !\nRapprochez-vous de votre responsable de departement.",code:'#880000'});return;}
-
-    //   const itemKey=name.split(" ").join("_").toLowerCase();
-    //   const itemNormes=powderNormes[itemKey];
-    //   setFocusedPro(itemNormes);
-    // UpdateFocusedProdByName(item);
     setId2Update(item.id)
     setItemToSave(item);
     setAction("update");
-
   }
 
   return <TouchableWithoutFeedback>
@@ -968,11 +925,9 @@ const Actions=({item})=>{// import de DrawerPoudre
             <Icon size={14} name="pencil" color={couleurs[updKey][7]}/>
         </Pressable>
         {true?<Pressable style={{...style.actions,marginLeft:100,}} disabled={!updateAllowed} onPress={handleUpdate}>
-            {/* <Icon size={14} name="pencil" color={couleurs[updKey][7]}/> */}
             <Text style={[style.addedbuttons,{backgroundColor:'rgba(150,0,0,0.08)'}]}>Isol</Text>
         </Pressable>:
         <Pressable style={{...style.actions,marginLeft:100,}} disabled={!updateAllowed} onPress={handleUpdate}>
-            {/* <Icon size={14} name="pencil" color={couleurs[updKey][7]}/> */}
             <Text style={[style.addedbuttons,{backgroundColor:'rgba(0,150,0,0.08)'}]}>Inject</Text>
         </Pressable>}
 
@@ -1002,32 +957,6 @@ const CarteProduct=({PRODUCT})=>{
 
     </View>
 }
-
-// =========================================================================
-
-
-
-// const LansaObservations=({obs})=>(obs!=="" && <Text style={style.lansaObservations}>{obs}</Text>);// import de DrawerPoudre
-
-// function InputIsValid({input,label,normes}){ // import de DrawerPoudre
-//     const {min,max}=normes;
-//     const labl=label.toUpperCase();
-//     if(Number.isNaN(Number(input))) return {icon:"alert",obs:"Input must be numeric"};
-//     switch(true){
-//         case input<min:
-//            return {icon:"close",obs:labl+" is low"};
-//            break;
-//         case input>max:
-//             return {icon:"close",obs:labl+" is high"};
-//            break;
-//         case (input>=min && input<=max):
-//             return {icon:"check",obs:""};
-//            break;
-//         default:       
-//             return {icon:"alert",obs:"Invalid input"};
-//     }
-// }
-
 
 const style=StyleSheet.create({
     carteMain:{maxWidth:210,height:160,borderWidth:2,borderRadius:8,borderColor:'#e7e0ec',backgroundColor:'#e7e0ec',padding:5,margin:10,flexDirection:'column',justifyContent:'center'},
