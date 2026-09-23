@@ -710,7 +710,7 @@ const EditRowUpdate=({keyOk,inputRefs,index})=>{ // import de DrawerPoudre
     const {handleCheckValidity,labelJoined,iconAndObs}=useItemToSave();
 
 
-    return <View style={{width:100,flexDirection:'row',justifyContent:'flex-start',alignItems:'center',marginHorizontal:"auto",gap:10}}>
+    return <View style={{flexDirection:'row',justifyContent:'flex-start',alignItems:'center',marginHorizontal:"auto",gap:10}}>
         <LansaValue
             inputRefs={inputRefs} keyOk={keyOk} 
             index={index} 
@@ -996,33 +996,33 @@ const style=StyleSheet.create({
         textAlign:"center",
         fontSize:15,
     },
-    // lansaObservations:{
+    lansaObservations:{
         
-    //     position:'absolute',
-    //     zIndex:1000,
-    //     left:155,
-    //     top:7,
-    //     backgroundColor:"rgba(250,0,0,0.5)",
-    //     color:"white",
-    //     fontStyle:"italic",
-    //     letterSpacing:1.5,
-    //     fontSize:10,
-    //     fontWeight:"bold",
-    //     width:"auto",
-    //     maxWidth:170,
+        position:'absolute',
+        zIndex:1000,
+        left:155,
+        top:7,
+        backgroundColor:"rgba(250,0,0,0.5)",
+        color:"white",
+        fontStyle:"italic",
+        letterSpacing:1.5,
+        fontSize:10,
+        fontWeight:"bold",
+        width:"auto",
+        maxWidth:170,
 
-    //     // maxWidth:65,
-    //     // backgroundColor:"rgba(0,0,0,0.15)",
-    //     borderWidth:1,
-    //     borderColor:"red",
-    //     borderRadius:8,
-    //     borderBottomLeftRadius:1,
-    //     // fontSize:9,
-    //     // fontWeight:"bold",
-    //     padding:10,
-    //     paddingVertical:5,
-    //     marginTop:-10
-    // },
+        // maxWidth:65,
+        // backgroundColor:"rgba(0,0,0,0.15)",
+        borderWidth:1,
+        borderColor:"red",
+        borderRadius:8,
+        borderBottomLeftRadius:1,
+        // fontSize:9,
+        // fontWeight:"bold",
+        padding:10,
+        paddingVertical:5,
+        marginTop:-10
+    },
     lansaObsrvations:{
         maxWidth:65,
         width:"auto",
