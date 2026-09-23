@@ -882,12 +882,13 @@ export const ItemToSaveProvider=({children})=>{
                 });
         };
     
-        function handleCheckValidity(ipt){
-            invalidOrSave(val)
+        function handleCheckValidity(val){
+            const entrie=val?val:ipt
+            invalidOrSave(entrie)
             .then(rep=>{
                 if(rep==="ok"){
                     // render!==undefined && render(val);//y mettre ou dans ce render
-                    handleUpdateT.cb(val);
+                    handleUpdateT.cb(entrie);
                 }
                 else{
                     throw new Error("❌ there's error");

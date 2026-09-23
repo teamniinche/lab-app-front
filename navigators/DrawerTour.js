@@ -804,7 +804,7 @@ const LansaValue=({inputRefs,labelJoined,renderSave,keyOk,index,icon,value,rende
         style={[style.lansaValue,{borderWidth:IamFocused && 2,borderColor:IamFocused && primaryColor}]}
         ref={inputDensityRef}
         onBlur={()=>renderValidity()}
-        onChangeText={(val)=>{setTextValue(val),setIpt(val);renderVal(val);handleLenOverFive(val)}}
+        onChangeText={(val)=>{setTextValue(val);setIpt(val);renderVal(val);handleLenOverFive(val)}}
         right={<TextInput.Icon icon={value!==""?icon:"minus"} size={value===""?1:15} color={value===""?"grey":(icon==="check"?"green":"red")}/>}
     />
 }
