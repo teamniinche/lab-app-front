@@ -905,7 +905,7 @@ export const ItemToSaveProvider=({children})=>{
 
     // =====================================================================================================
 
-    return <ItemToSaveContext.Provider value={{setIndex,INDEX,itemToSave,setItemToSave,pickItemToSave,errors,noErrors,labelJoined,handleCheckValidity,iconAndObs,handleUpdateT,setHandleUpdateT}}>
+    return <ItemToSaveContext.Provider value={{setIndex,INDEX,itemToSave,setIpt,setItemToSave,pickItemToSave,errors,noErrors,labelJoined,handleCheckValidity,iconAndObs,handleUpdateT,setHandleUpdateT}}>
        {children}
     </ItemToSaveContext.Provider>
 }
