@@ -919,12 +919,14 @@ const Actions=({item})=>{// import de DrawerPoudre
   return <TouchableWithoutFeedback>
     <View
       style={{
-        height:"auto",
-        width:150,
-        paddingVertical: 3,
-        borderRadius: 8,
-        backgroundColor:'white',
-        // ...Flex('row','center','center')
+            height:"auto",
+            maxWidth:150,
+            width:'auto',
+            paddingHorizontal:5,
+            paddingVertical: 3,
+            borderRadius: 8,
+            backgroundColor:'white',
+            // ...Flex('row','center','center')
         }}
     >
     {/* {
@@ -994,7 +996,34 @@ const style=StyleSheet.create({
         textAlign:"center",
         fontSize:15,
     },
-    lansaObservations:{
+    // lansaObservations:{
+        
+    //     position:'absolute',
+    //     zIndex:1000,
+    //     left:155,
+    //     top:7,
+    //     backgroundColor:"rgba(250,0,0,0.5)",
+    //     color:"white",
+    //     fontStyle:"italic",
+    //     letterSpacing:1.5,
+    //     fontSize:10,
+    //     fontWeight:"bold",
+    //     width:"auto",
+    //     maxWidth:170,
+
+    //     // maxWidth:65,
+    //     // backgroundColor:"rgba(0,0,0,0.15)",
+    //     borderWidth:1,
+    //     borderColor:"red",
+    //     borderRadius:8,
+    //     borderBottomLeftRadius:1,
+    //     // fontSize:9,
+    //     // fontWeight:"bold",
+    //     padding:10,
+    //     paddingVertical:5,
+    //     marginTop:-10
+    // },
+    lansaObsrvations:{
         maxWidth:65,
         width:"auto",
         backgroundColor:"rgba(0,0,0,0.15)",
