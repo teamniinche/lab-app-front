@@ -185,7 +185,6 @@ const AnalysedList=() => {
         const [analysed,setAnalysed]=useState([]);
         const {registred}=useCurrentProducted();
         function handleResearchChange(txt){
-            // alert(JSON.stringify(registred))
             const matchedAnalysed=powderAnalysed.filter(it=>(it.name.toLowerCase().includes(txt.toLowerCase()) || it.nChar.toString().includes(txt)));// registred a la place powderAnalysed
             setAnalysed(matchedAnalysed);
             // .sort((firstItem, secondItem) => firstItem.nChar - secondItem.nChar)
@@ -193,8 +192,6 @@ const AnalysedList=() => {
         useMemo(()=>{setAnalysed(focusedListe.filter(item=>isAlreadyAnalysed(item)))},[focusedListe]);// focusedListe du store etait import pour cette partie
         const {name,nom}=focusedListe[0]||{};
         const {nameToDisplay}=isFormule(focusedListe[0]||{})
-        // const AnalysedLen=analysed.length;
-        // const {GG,HUMIDITE,MATIERE_ACTIVE,ALCANITE}=Everages(analysed);
     return <View style={{flex:1,width:"55%",minHeight:700,backgroundColor:'white',flexDirection:'column',justifyContent:'flex-start',alignItems:'center',marginLeft:2}}>
             <View style={{width:"100%",height:75,backgroundColor:"#ddd",flexDirection:'row-reverse',justifyContent:'space-between',alignItems:'center',borderBottomWidth:2,borderColor:"black",paddingHorizontal:20,paddingRight:10,marginBottom:10}}>
                 <View style={{width:"65%",flexDirection:"row-reverse",justifyContent:"flex-start",alignItems:"center",gap:0}}>
@@ -228,29 +225,6 @@ const AnalysedList=() => {
                                         }
                           />
                     </View>
-                {/* <View 
-                style={{
-                        flex:1,
-                        maxHeight:60,
-                        width:"96%",
-                        paddingHorizontal:"2%",
-                        marginVertical:10,
-                        paddingVertical:8,
-                        flexDirection:"row",
-                        gap:40,
-                        position:"absolute",
-                        bottom:10,
-                        backgroundColor:"rgb(0,90,0)",
-                        borderBottomLeftRadius:8,
-                        borderBottomRightRadius:8,
-                        }}
-                >
-                    <Text style={{fontWeight:"bold",fontSize:18,textAlign:"center",width:"auto",color:"white"}}>Les moyennes </Text>
-                    <Text style={{fontWeight:"bold",fontSize:18,textAlign:"center",width:"auto",color:"white"}}>{"GG "+(GG/AnalysedLen).toFixed(2)}</Text>
-                    <Text style={{fontWeight:"bold",fontSize:18,textAlign:"center",width:"auto",color:"white"}}>{"HUM. "+(HUMIDITE/AnalysedLen).toFixed(2)}</Text>
-                    <Text style={{fontWeight:"bold",fontSize:18,textAlign:"center",width:"auto",color:"white"}}>{"MA "+(MATIERE_ACTIVE/AnalysedLen).toFixed(2)}</Text>
-                    <Text style={{fontWeight:"bold",fontSize:18,textAlign:"center",width:"auto",color:"white"}}>{"ALCA. "+(ALCANITE/AnalysedLen).toFixed(2)}</Text>
-                </View> */}
             </View>
                         {/* )
                   } */}
@@ -266,17 +240,14 @@ export const AnalysedListTour=() => {
          ou passer directement la valeur du redux dans l'objet du context pour que le context se met à jour automatiquement ]
           du redux et hot-reload sur UI ???? )*/
         const powderAnalysed=useSelector(state=>state.powderAnalysed.powderAnalysed); // const {powderAnalysed/*,focusedListe*/}=useSelector(state=>{
-        //     const powderAnalysed=state.powderAnalysed.powderAnalysed;
-        //     // const focusedListe=state.currentProducted.focusedListe;
-        //     return {powderAnalysed/*,focusedListe*/};
-        // })
+
         const [analysed,setAnalysed]=useState([]);
         const {registred,focusedList}=useCurrentProducted();
         
         useEffect/*useMemo*/(()=>{setAnalysed(focusedList.slice(-20))},[focusedList]);// focusedListe du store etait import pour cette partie
 
-        const {name,nom}=focusedList[0]||{};
-        const AnalysedLen=analysed.length;
+        // const {name,nom}=focusedList[0]||{};
+        // const AnalysedLen=analysed.length;
     return <View style={{flex:1,width:"100%",minHeight:400,borderWidth:1,borderColor:'grey',borderRadius:15,backgroundColor:'white',paddingVertical:20,flexDirection:'column',justifyContent:'flex-start',alignItems:'center',marginLeft:2,marginTop:40}}>
             
             <View style={{width:"100%",height:"auto",minHeight:400,maxHeight:400,paddingHorizontal:10,paddingVertical:0}}>
@@ -409,29 +380,6 @@ export const AnalysedListe=({product,rend}) => {// Pour Poudre-full
                                         }
                           />
                     </View>
-                {/* {product!==null && <View 
-                style={{
-                        flex:1,
-                        maxHeight:60,
-                        width:"96%",
-                        paddingHorizontal:"2%",
-                        marginVertical:10,
-                        paddingVertical:8,
-                        flexDirection:"row",
-                        gap:40,
-                        position:"absolute",
-                        bottom:10,
-                        backgroundColor:"rgb(0,90,0)",
-                        borderBottomLeftRadius:8,
-                        borderBottomRightRadius:8,
-                        }}
-                >
-                    <Text style={{fontWeight:"bold",fontSize:18,textAlign:"center",width:"auto",color:"white"}}>Les moyennes </Text>
-                    <Text style={{fontWeight:"bold",fontSize:18,textAlign:"center",width:"auto",color:"white"}}>{"GG "+(GG/AnalysedLen).toFixed(2)}</Text>
-                    <Text style={{fontWeight:"bold",fontSize:18,textAlign:"center",width:"auto",color:"white"}}>{"HUM. "+(HUMIDITE/AnalysedLen).toFixed(2)}</Text>
-                    <Text style={{fontWeight:"bold",fontSize:18,textAlign:"center",width:"auto",color:"white"}}>{"MA "+(MATIERE_ACTIVE/AnalysedLen).toFixed(2)}</Text>
-                    <Text style={{fontWeight:"bold",fontSize:18,textAlign:"center",width:"auto",color:"white"}}>{"ALCA. "+(ALCANITE/AnalysedLen).toFixed(2)}</Text>
-                </View>} */}
             </View>
                         {/* )
                   } */}
@@ -1047,37 +995,7 @@ return <View
             {tachesSplit.map((clr,i)=><Text key={i} style={{width:"auto",height:"100%",color:"grey",textAlign:"center",backgroundColor:colors[clr].color,paddingHorizontal:5}}>{colors[clr].nom}</Text>)}
         </View>
 </View>}
-// const ChariotRow=({inputRefs,obj})=>{
-//     const {key,value}=obj;
-//     const {focusedList}=useCurrentProducted();
-//     const chariots=Chariots(focusedList);
-//     const [iconAndObs,setIconAndObs]=useState({icon:"",obs:""});
-//     const {pickItemToSave}=useItemToSave();
-//     const [input,setInput]=useState("");
-//     function handleCheckValidity(val){
-//         const valFormat=Number.isNaN(Number(val))?val:Number(val); 
-//         const {icon,obs}=InputIsValid({input:valFormat,label:'nChar',normes:{min:1,max:999}});// utilise un formatage de val pour adapter les types
-//         setInput(val);
-//         setIconAndObs({icon,obs});
-//         pickItemToSave({"key":key,"value":val,"message":obs});
-//     }
-//     return <View style={{width:"100%",flexDirection:'row',justifyContent:'flex-start',alignItems:'center',marginHorizontal:"auto",gap:10}}>
-//         <Picker 
-//                     selectedValue={input}
-//                     mode="dropdown"
-//                     // onKeyPress={(e)=>handleKeyPress(e,0)} 
-//                     ref={(el) => (inputRefs.current[0] = el)}
-//                     onValueChange={(itemValue) => handleCheckValidity(itemValue)} 
-//                     style={style.input}
-//                 >
-//                     <Picker.Item key={0} label="Chariot" value={null} />
-//                     {chariots.map((option, index) => {
-//                     return <Picker.Item style={{textAlign:'center',}} key={index} label={option} value={option} />
-//                     })}
-//         </Picker>
-//         {input!=="" && <LansaObservations obs={iconAndObs.obs}/>}
-//     </View>
-// }
+
 const EditRow=({inputRefs,index,obj})=>{
     const {key,value}=obj;
     const lablJoined=key.split("_").join(" ").replace("max ","").replace("gg","Gros grains");

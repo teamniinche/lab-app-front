@@ -199,9 +199,9 @@ const ProductedTour=()=>{
             }, []);
 
         useMemo(()=>{setAnalysed(focusedListe?.slice(-20))},[focusedListe]);// focusedListe du store etait import pour cette partie
-        const {name,nom}=focusedListe[0]||{};
-        const {nameToDisplay}=isFormule(focusedListe[0]||{})
-        const AnalysedLen=analysed.length;
+        // const {name,nom}=focusedListe[0]||{};
+        // const {nameToDisplay}=isFormule(focusedListe[0]||{})
+        // const AnalysedLen=analysed.length;
         // const {GG,HUMIDITE,MATIERE_ACTIVE,ALCANITE}=Everages(analysed);
     return  <>
                 <View style={{flex:1,width:"100%",minHeight:50,backgroundColor:'#e7e0ec',flexDirection:"row",justifyContent:"space-between",alignItems:"center",borderTopLeftRadius:8,borderTopRightRadius:8}}>
@@ -215,7 +215,7 @@ const ProductedTour=()=>{
         ref={scrollViewRef}
         horizontal={false}
         // onContentSizeChange={() => scrollViewRef.current?.scrollToEnd({ animated: true })}
-        style={{width:"100%",maxHeight:400,padding:10/*,overflowY:"scroll",*/}}
+        style={{width:"100%",maxHeight:350,padding:10}}
     >
                           <FlatList
                                         data={analysed}
