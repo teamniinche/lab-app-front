@@ -920,8 +920,8 @@ const Actions=({item})=>{// import de DrawerPoudre
     <View
       style={{
             height:"auto",
-            maxWidth:150,
-            width:'auto',
+            width:150,
+            // width:'auto',
             paddingHorizontal:5,
             paddingVertical: 3,
             borderRadius: 8,
