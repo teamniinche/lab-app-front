@@ -1152,7 +1152,7 @@ export const LansaValue=({inputRefs,index,labelJoined,icon,value,renderValidity,
         onKeyPress={handleKeyPress} 
         onSubmitEditing={handleNext}
         onFocus={()=>setIndex(index)}
-        blurOnSubmit={false}
+        // blurOnSubmit={false}
         selectTextOnFocus="true"
         maxLength={5}
         label={label}

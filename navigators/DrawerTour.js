@@ -181,6 +181,7 @@ const ProductedTour=()=>{
         }
 
         useEffect(() => {
+            scrollViewRef.current?.scrollToEnd({ animated: true });
             function onCommentPoudreAdded(data){
                 setPop({show:true,status:'high',message:data,code:'green'});
             }
@@ -213,7 +214,7 @@ const ProductedTour=()=>{
     <ScrollView 
         ref={scrollViewRef}
         horizontal={false}
-        onContentSizeChange={() => scrollViewRef.current?.scrollToEnd({ animated: true })}
+        // onContentSizeChange={() => scrollViewRef.current?.scrollToEnd({ animated: true })}
         style={{width:"100%",maxHeight:400,padding:10/*,overflowY:"scroll",*/}}
     >
                           <FlatList
@@ -709,7 +710,10 @@ const EditRowUpdate=({keyOk,inputRefs,index})=>{ // import de DrawerPoudre
     const {handleCheckValidity,labelJoined,iconAndObs}=useItemToSave();
 
 
-    return <View style={{width:"100",flexDirection:'row',justifyContent:'flex-start',alignItems:'center',marginHorizontal:"auto",gap:10}}>
+    return <View style={
+        {width:"100%",flexDirection:'row',justifyContent:'flex-start',alignItems:'center',marginBottom:10,marginHorizontal:"auto",gap:10}
+        // {width:"100%",flexDirection:'row',justifyContent:'flex-start',alignItems:'center',marginHorizontal:"auto",gap:10}
+        }>
         <LansaValue
             inputRefs={inputRefs} keyOk={keyOk} 
             index={index} 
@@ -803,7 +807,7 @@ const LansaValue=({inputRefs,labelJoined,renderSave,keyOk,index,icon,value,rende
         value={textValue} 
         style={[style.lansaValue,{borderWidth:IamFocused && 2,borderColor:IamFocused && primaryColor}]}
         ref={inputDensityRef}
-        onBlur={()=>renderValidity()}
+        onBlur={()=>toCreate && renderValidity()}
         onChangeText={(val)=>{setTextValue(val);setIpt(val);renderVal(val);handleLenOverFive(val)}}
         right={<TextInput.Icon icon={value!==""?icon:"minus"} size={value===""?1:15} color={value===""?"grey":(icon==="check"?"green":"red")}/>}
     />
