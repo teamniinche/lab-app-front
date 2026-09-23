@@ -710,10 +710,7 @@ const EditRowUpdate=({keyOk,inputRefs,index})=>{ // import de DrawerPoudre
     const {handleCheckValidity,labelJoined,iconAndObs}=useItemToSave();
 
 
-    return <View style={
-        {width:"100%",flexDirection:'row',justifyContent:'flex-start',alignItems:'center',marginBottom:10,marginHorizontal:"auto",gap:10}
-        // {width:"100%",flexDirection:'row',justifyContent:'flex-start',alignItems:'center',marginHorizontal:"auto",gap:10}
-        }>
+    return <View style={{width:100,flexDirection:'row',justifyContent:'flex-start',alignItems:'center',marginHorizontal:"auto",gap:10}}>
         <LansaValue
             inputRefs={inputRefs} keyOk={keyOk} 
             index={index} 
