@@ -3,6 +3,7 @@ import { useSelector} from 'react-redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import NetInfo from '@react-native-community/netinfo';
 import WinDim from '../../assets/operatingData';
+import {InputIsValid} from '../../navigators/DrawerPoudre'
 const {isWeb}=WinDim;
 import { commentsFromObjectToArray } from '../../hooks/littleBiblio';
 import { Lansas,typesJavel } from '../../iterables';
@@ -859,7 +860,51 @@ export const ItemToSaveProvider=({children})=>{
     }
     const noErrors=errors.length===0;
 
-    return <ItemToSaveContext.Provider value={{setIndex,INDEX,itemToSave,setItemToSave,pickItemToSave,errors,noErrors}}>
+    // ==================================================== recemment ====================================
+        // const [obj,setObj]=useState({key:'densite',value:{normes:{min:0,max:500}}});
+        const {focusedPro}=useCurrentProducted();
+        const [handleUpdateT,setHandleUpdateT]=useState({cb:(v)=>null});
+        const [ipt,setIpt]=useState(null)
+        const [iconAndObs,setIconAndObs]=useState({icon:"",obs:""});
+        const obj={key:'densite',value:focusedPro.densite}
+        const {key,value}=obj;
+        const min=value?.normes?.min || 0;
+        const max=value?.normes?.max || 500;
+        const labelJoined=key;
+
+        const invalidOrSave = (val) => {
+            return new Promise((resolve, reject) => {
+                    const valFormat = Number.isNaN(Number(val)) ? val : Number(val); 
+                    const { icon, obs } = InputIsValid({ input: valFormat, label: labelJoined, normes: { min, max } });
+                    setIconAndObs({ icon, obs });
+                    pickItemToSave({"key":key,"value":val,"message":obs})
+                    if (obs === "") {resolve("ok");} else {reject("ko");}
+                });
+        };
+    
+        function handleCheckValidity(ipt){
+            invalidOrSave(val)
+            .then(rep=>{
+                if(rep==="ok"){
+                    // render!==undefined && render(val);//y mettre ou dans ce render
+                    handleUpdateT.cb(val);
+                }
+                else{
+                    throw new Error("❌ there's error");
+                }
+            })
+            .catch(function(error){
+                alert(error.message);
+            })
+            
+            
+        }
+    
+    // {labelJoined,handleCheckValidity,iconAndObs,handleUpdateT,setHandleUpdateT}
+
+    // =====================================================================================================
+
+    return <ItemToSaveContext.Provider value={{setIndex,INDEX,itemToSave,setItemToSave,pickItemToSave,errors,noErrors,labelJoined,handleCheckValidity,iconAndObs,handleUpdateT,setHandleUpdateT}}>
        {children}
     </ItemToSaveContext.Provider>
 }
