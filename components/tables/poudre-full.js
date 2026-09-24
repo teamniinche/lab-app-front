@@ -345,28 +345,7 @@ export const UPNavigator=({routeNheaders})=>{
         </CurrentProductedProvider>
     )}
 
-// export const UPNav=({routeNheaders})=>{
-//     return (
-//             <Stack.Navigator screenOptions={{headerShown: false,}}>
-//                 <Stack.Screen name="Accueil" children={() => <UPNavigator routeNheaders={routeNheaders}/>}/>
-//             </Stack.Navigator>
-//     )}
-
-const GraphesPoudre = ({navigation}) => {
-
-//     useLayoutEffect(()=>{
-//         navigation.setOptions({
-//             headerLeft:()=>(
-//                 <TouchableOpacity style={{width:40,margin:0,marginLeft:5,backgroundColor:'transparent',}} onPress={() => navigation.goBack()}>
-//                     {/* <FontAwesome5 name='arrow-left' size={20} color='white'/>
-//                     <TouchableOpacity onPress={() => navigation.goBack()}>
-//                     </TouchableOpacity> */}
-//   <Text style={{ color: 'white', fontSize: 16 }}>⬅</Text>
-//                 </TouchableOpacity>
-//             )
-//         })
-//     },[navigation])
-
+const GraphesPoudre = () => {
     return <View style={styles.graphes}>
                 <ScrollView style={{height:'100%',width:'100%',minWidth:700,}}>
                     <View style={styles.graphes_parent}>

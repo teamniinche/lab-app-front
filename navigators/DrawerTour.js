@@ -942,15 +942,17 @@ const Actions=({item})=>{// import de DrawerPoudre
         </Pressable>
         </>:
       <>
-        <Pressable style={{...style.actions,marginRight:45,}} disabled={!deleteAllowed} onPress={confirmDelete}>
-            <Icon size={14} name="trash" color={couleurs[delKey][8]}/>
-        </Pressable>
+        
         <Pressable style={{...style.actions,marginLeft:50,}} disabled={!updateAllowed} onPress={handleUpdate}>
             <Icon size={14} name="pencil" color={couleurs[updKey][7]}/>
         </Pressable>
-        {true?<Pressable style={{...style.actions,marginLeft:100,}} disabled={!updateAllowed} onPress={handleUpdate}>
+        {!item?.validation?.ok?<>
+        <Pressable style={{...style.actions,marginRight:45,}} disabled={!deleteAllowed} onPress={confirmDelete}>
+            <Icon size={14} name="trash" color={couleurs[delKey][8]}/>
+        </Pressable>
+        <Pressable style={{...style.actions,marginLeft:100,}} disabled={!updateAllowed} onPress={handleUpdate}>
             <Text style={[style.addedbuttons,{backgroundColor:'rgba(150,0,0,0.08)'}]}>Isol</Text>
-        </Pressable>:
+        </Pressable></>:
         <Pressable style={{...style.actions,marginLeft:100,}} disabled={!updateAllowed} onPress={handleUpdate}>
             <Text style={[style.addedbuttons,{backgroundColor:'rgba(0,150,0,0.08)'}]}>Inject</Text>
         </Pressable>}

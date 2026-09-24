@@ -483,17 +483,33 @@ export const useEverages=()=>useContext(EveragesContext);
             items.map(itm=>{
                 const elisible=true;
                 if(elisible){
-                    if(analtics[itm.name]===undefined){
-                        var itemInit={name:itm.name,count:1,matiere_active:{somme:Number(itm.matiere_active),count:1},alcanite:{somme:Number(itm.alcanite),count:1}};
-                        const gg=(itm.gg && itm.gg!==null)?{gg:{somme:Number(itm.gg),count:1}}:{};
-                        const humidite=(itm.humidite && itm.humidite!==null)?{humidite:{somme:Number(itm.humidite),count:1}}:{};
+                    // if(analtics[itm.name]===undefined){
+                        // const gg=(itm.gg && itm.gg!==null)?{gg:{somme:Number(itm.gg),count:1}}:{};
+                        // const humidite=(itm.humidite && itm.humidite!==null)?{humidite:{somme:Number(itm.humidite),count:1}}:{};
+                    if(!analtics[itm.name]){
+                            var itemInit={name:itm.name,count:1,matiere_active:{somme:Number(itm.matiere_active),count:1},alcanite:{somme:Number(itm.alcanite),count:1}};
+                        const gg=itm.gg?{gg:{somme:Number(itm.gg),count:1}}:{};
+                        const humidite=itm.humidite?{humidite:{somme:Number(itm.humidite),count:1}}:{};
                         analtics[itm.name]={...itemInit,...gg,...humidite};
                     }else{
                         var itemUpdate=analtics[itm.name];
                         const {count,matiere_active,alcanite,gg,humidite}=itemUpdate;
                         const phUpdate={matiere_active:{count:matiere_active.count+1,somme:matiere_active.somme+Number(itm.matiere_active)},alcanite:{count:alcanite.count+1,somme:alcanite.somme+Number(itm.alcanite)}};
-                        const g=(itm.gg && itm.gg!==null)?{gg:{somme:gg!==undefined?gg.somme+Number(itm.gg):Number(itm.gg),count:gg!==undefined?gg.count+1:1}}:{};
-                        const humid=(itm.humidite && itm.humidite!==null)?{humidite:{somme:humidite!==undefined?humidite.somme+Number(itm.humidite):Number(itm.humidite),count:humidite!==undefined?humidite.count+1:1}}:{};
+                        // const g=(itm.gg && itm.gg!==null)?{gg:{somme:gg!==undefined?gg.somme+Number(itm.gg):Number(itm.gg),count:gg!==undefined?gg.count+1:1}}:{};
+                        // const humid=(itm.humidite && itm.humidite!==null)?{humidite:{somme:humidite!==undefined?humidite.somme+Number(itm.humidite):Number(itm.humidite),count:humidite!==undefined?humidite.count+1:1}}:{};
+                        const g=itm.gg?{
+                            gg:{
+                                somme:gg?gg.somme+Number(itm.gg):Number(itm.gg),
+                                count:gg?gg.count+1:1
+                            }
+                        }:{};
+                        const humid=itm.humidite?{
+                            humidite:{
+                                somme:humidite?humidite.somme+Number(itm.humidite):Number(itm.humidite),
+                                count:humidite?humidite.count+1:1
+                            }
+                        }:{};
+
                         analtics[itm.name]={...itemUpdate,count:count+1,...phUpdate,...g,...humid};
                     };
                 }
@@ -503,7 +519,7 @@ export const useEverages=()=>useContext(EveragesContext);
 
         function format(obj){// {name,count,ph,matiere_active,viscosite}
             const {name,count,gg,matiere_active,alcanite,humidite}=obj;
-            const ggAverage=(gg.somme/gg.count).toFixed(2);
+            const ggAverage=gg!==undefined?(gg.somme/gg.count).toFixed(2):undefined;
             const maAverage=matiere_active!==undefined?(matiere_active.somme/matiere_active.count).toFixed(2):undefined;
             const alcaAverage=alcanite!==undefined?(alcanite.somme/alcanite.count).toFixed(2):undefined;
             const humidAverage=humidite!==undefined?(humidite.somme/humidite.count).toFixed(2):undefined;
