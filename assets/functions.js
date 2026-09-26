@@ -215,7 +215,7 @@ export function powdersAndCountsFormat(data){
             return { 
               name:n,
               totalCount:dt.length,
-              isolatedCount:dt.filter(d=>d.validation!==null && !d.validation?.ok).length
+              isolatedCount:dt.filter(d=>d.validation?.validation && !d.validation?.ok).length
             }
         })
         return counts
