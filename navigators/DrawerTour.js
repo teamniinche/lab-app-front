@@ -145,7 +145,7 @@ const AnalysedCards /**remplacé par productedTour */=() => {
             const focusedListe=state.currentProducted.focusedListe;
             return {powderAnalysed,focusedListe};
         })
-        const {registred,Everages}=useCurrentProducted();
+        // const {registred,Everages}=useCurrentProducted();
         const [analysed,setAnalysed]=useState([]);
         const [PRODUCTS,setProducts]=useState([]);
         function handleResearchChange(txt){
@@ -153,9 +153,9 @@ const AnalysedCards /**remplacé par productedTour */=() => {
             setAnalysed(matchedAnalysed);
         }
         useMemo(()=>{setAnalysed(focusedListe);setProducts(powdersAndCountsFormat(powderAnalysed))},[focusedListe]);// focusedListe du store etait import pour cette partie
-        const {name,nom}=focusedListe[0]||{};
-        const {nameToDisplay}=isFormule(focusedListe[0]||{})
-        const AnalysedLen=analysed.length;
+        // const {name,nom}=focusedListe[0]||{};
+        // const {nameToDisplay}=isFormule(focusedListe[0]||{})
+        // const AnalysedLen=analysed.length;
     return <View style={{flex:1,width:"100%",minHeight:740,backgroundColor:'#2c2c2c',marginLeft:2}}>
             <View style={{width:"100%",height:"auto",height:'100%',/*minHeight:500,maxHeight:740,*/flexDirection:'row',justifyContent:'flex-start',alignItems:'flex-start',flexWrap:'wrap',backgroundColor:'transparent',paddingHorizontal:20,paddingVertical:10}}>
                 {PRODUCTS.map((ITEM,index)=><CarteProduct key={index} PRODUCT={ITEM}/>)}
@@ -828,6 +828,44 @@ const Actions=({item})=>{// import de DrawerPoudre
     const updKey=updateAllowed?"allowed":"notAllowed";
     const {setItemToSave,itemToSave}=useItemToSave();
     const {name,id}=item;
+    function validationAction(action){
+        const act=action==='isolate'?'isoler chariot':'injecter chariot';
+        const validationAllowed=allowTo(act,targetUser?.privileges);
+        if(!validationAllowed){setPop({show:true,mesage:"Vous n'etes pas habileté à effectuer cette action !\nRapprochez-vous de votre superieur.",code:'#880000'});return;}
+        return fetch(dbBaseRoot+"poudre/validations/action",
+                    {
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${targetUser.token}`
+                        },
+                        body:{id:id,UtilisateurId:targetUser?.id,action:action}
+                    })
+                    .then(response=>response.json())
+                    .then(data=>{
+                        // console.log(data)
+                        const {code,message/*,analyses*/}=data;
+                        // const {lansas,formules}=analyses;
+                        // const ANALYSES=[...lansas,...formules];
+                        // const {list}=ListOfFocusedAndLastNumber(item,ANALYSES);
+                        // dispatch(setPowderAnalysed(ANALYSES.sort((firstItem, secondItem) => firstItem.nChar - secondItem.nChar)));
+                        // dispatch(storeFocusedListe(list));
+                         // mise a jour des data statement ==========================
+                            // Provider
+                        // if(code==="green"){
+                        //     setFocusedList(list);
+                        //     setRegistred(updatedPowderAnalysed);
+                        //         // store de redux
+                        //     dispatch(setPowderAnalysed(updatedPowderAnalysed));
+                        //     dispatch(storeFocusedListe(list));
+                        // }
+                        // const toPop=code==='green'?
+                        //         {show:true,message:"Analyse "+id+" avec succes.",code:code}
+                        //         :
+                        //         {show:true,message:"L'analyse "+id+" n'a pas pu etre supprimée :"+error.message,code:'#880000'}
+                        setPop({show:true,message:message,code:code});
+                    })
+    }
     const handleDelete=async ()=>{
         // if(!deleteAllowed){setPop({show:true,message:"Vous n'avez pas la permission de supprimer une analyse !\nRapprochez-vous de votre responsable de departement.",code:'#88000'});return;}
         try{
@@ -950,10 +988,10 @@ const Actions=({item})=>{// import de DrawerPoudre
         <Pressable style={{...style.actions,marginRight:45,}} disabled={!deleteAllowed} onPress={confirmDelete}>
             <Icon size={14} name="trash" color={couleurs[delKey][8]}/>
         </Pressable>
-        <Pressable style={{...style.actions,marginLeft:100,}} disabled={!updateAllowed} onPress={handleUpdate}>
+        <Pressable style={{...style.actions,marginLeft:100,}} disabled={!updateAllowed} onPress={()=>validationAction('isolate')}>
             <Text style={[style.addedbuttons,{backgroundColor:'rgba(150,0,0,0.08)'}]}>Isol</Text>
         </Pressable></>:
-        <Pressable style={{...style.actions,marginLeft:100,}} disabled={!updateAllowed} onPress={handleUpdate}>
+        <Pressable style={{...style.actions,marginLeft:100,}} disabled={!updateAllowed} onPress={()=>validationAction('inject')}>
             <Text style={[style.addedbuttons,{backgroundColor:'rgba(0,150,0,0.08)'}]}>Inject</Text>
         </Pressable>}
       </>

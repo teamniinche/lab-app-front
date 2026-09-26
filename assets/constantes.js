@@ -39,9 +39,9 @@ export const niv_privileges=['compt','operator','chef','respo','admin','super']
 export const niveaux_privileges={
     can_0:"ACCUEIL - lecture - impression",
     can_1:"ACCUEIL - lecture - impression",
-    can_2:"ACCUEIL - POUDRE - LIQUIDES - lecture - impression - consulter normes - enregistrer analyse - modifier analyse - commenter",
-    can_3:"ACCUEIL - POUDRE - LIQUIDES - lecture - impression - consulter normes - enregistrer analyse - modifier analyse - commenter -  définir l'équipe opérante - selectionner|deseclectionner les produits ne cours - valider une valeur incorrecte - supprimer analyse",
-    can_4:"ACCUEIL- RESPO - POUDRE - LIQUIDES - lecture - impression - consulter normes - commenter - modifier une norme|user - suprimer une norme|user - ajouter une norme|user - definir les privilèges d'un utilisateur - valider une valeur incorrecte",
+    can_2:"ACCUEIL - POUDRE - LIQUIDES - lecture - impression - isoler chariot - consulter normes - enregistrer analyse - modifier analyse - commenter",
+    can_3:"ACCUEIL - POUDRE - LIQUIDES - lecture - impression - isoler chariot - injecter chariot - consulter normes - enregistrer analyse - modifier analyse - commenter -  définir l'équipe opérante - selectionner|deseclectionner les produits ne cours - valider une valeur incorrecte - supprimer analyse",
+    can_4:"ACCUEIL- RESPO - POUDRE - LIQUIDES - lecture - impression - isoler chariot - injecter chariot - consulter normes - commenter - modifier une norme|user - suprimer une norme|user - ajouter une norme|user - definir les privilèges d'un utilisateur - valider une valeur incorrecte",
     can_5:"tout",
     can_6:"illimite"
 }

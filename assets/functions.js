@@ -199,7 +199,7 @@ export function powdersAndCountsFormat(data){
           // alert(JSON.stringify(itm?.validation))
           const nameKey=itm.name?.replace(" ","_").toLowerCase();
             if(!productsAndCounts[nameKey]){
-                productsAndCounts[nameKey]={name:itm?.name,totalCount:1,isolatedCount:itm?.validation?.ok?1:0};
+                productsAndCounts[nameKey]={name:itm?.name,totalCount:1,isolatedCount:(itm.validation && itm.validation?.ok)?1:0};
             }else{
                 productsAndCounts[nameKey]['totalCount']+=1;
                 if(itm?.validation?.ok){productsAndCounts[nameKey]['isolatedCount']+=1};
