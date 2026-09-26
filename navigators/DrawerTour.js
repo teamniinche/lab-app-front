@@ -491,6 +491,7 @@ const PowderRow=({K,ky,ac,setK,item})=>{
     const isHovered=K===identifier;
     const isMeToUpdate=id2Update===item.id;
     const hoveredStyle={backgroundColor:'rgba(0,0,255,0.1)',borderWidth:0.2,borderColor:primaryColor,borderRadius:5};
+    const isolateStyle={backgroundColor:'rgba(255,0,0,0.1)',borderWidth:0.1,borderColor:'rgba(255,0,0,0.15)',borderRadius:4};
 
     // const handleAddComment=()=>{
     //     const pseudo=toggle?"ndour":"Moneem";
@@ -624,7 +625,8 @@ const PowderRow=({K,ky,ac,setK,item})=>{
                             paddingVertical:2,
                             paddingHorizontal:4
                         },
-                        (isHovered || isIsolate) && hoveredStyle
+                        isHovered && hoveredStyle,
+                        isIsolate && isolateStyle
                     ]
                 }
 
@@ -994,7 +996,7 @@ const isIsolate=item.validation?.validation && !item.validation?.ok && Object.va
         <Pressable style={{...style.actions,marginLeft:100,}} disabled={!updateAllowed} onPress={()=>validationAction('isolate')}>
             <Text style={[style.addedbuttons,{backgroundColor:'rgba(150,0,0,0.08)'}]}>Isol</Text>
         </Pressable></>:<>
-        <Pressable style={{...style.actions,marginLeft:100,}} disabled={true} onPress={()=>null}>
+        <Pressable style={{...style.actions,marginLeft:5,}} disabled={true} onPress={()=>null}>
             <Text style={[style.addedbuttons,{backgroundColor:'rgba(0,150,0,0.08)',color:'red',fontWeight:'bold',fontSize:12}]}>isolé</Text>
         </Pressable>
         <Pressable style={{...style.actions,marginLeft:100,}} disabled={!updateAllowed} onPress={()=>validationAction('inject')}>
