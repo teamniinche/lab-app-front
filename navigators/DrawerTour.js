@@ -953,7 +953,7 @@ const Actions=({item})=>{// import de DrawerPoudre
     setItemToSave({});
     setAction("create");
   }
-
+const isIsolate=item.validation && !item.validation?.ok && Object.values(item.validation?.validation)[0].action==='isolate';
   return <TouchableWithoutFeedback>
     <View
       style={{
@@ -984,7 +984,7 @@ const Actions=({item})=>{// import de DrawerPoudre
         <Pressable style={{...style.actions,marginLeft:50,}} disabled={!updateAllowed} onPress={handleUpdate}>
             <Icon size={14} name="pencil" color={couleurs[updKey][7]}/>
         </Pressable>
-        {!item?.validation?.ok?<>
+        {!isIsolate?<>
         <Pressable style={{...style.actions,marginRight:45,}} disabled={!deleteAllowed} onPress={confirmDelete}>
             <Icon size={14} name="trash" color={couleurs[delKey][8]}/>
         </Pressable>
