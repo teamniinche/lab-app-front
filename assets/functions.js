@@ -210,13 +210,13 @@ export function powdersAndCountsForm(data){
 export function powdersAndCountsFormat(data){
         var productsAndCounts=[];
         data.map(itm=>{if(!productsAndCounts.includes(itm.name)){productsAndCounts.push(itm.name);}})
-        const counts=productsAndCounts.map(n=>
-          [
-            n,
-            data.map(d=>d.name===n && !d.validation || d.validation?.ok).length,
-            data.map(d=>d.name===n && d.validation && !d.validation?.ok).length
-          ]
-        )
+        const counts=productsAndCounts.map(n=>{
+            return { 
+              name:n,
+              totalCount:data.map(d=>d.name===n).length,
+              isolatedCount:data.map(d=>(d.name===n && d.validation && !d.validation?.ok)).length
+            }
+        })
         return counts
     }
 
