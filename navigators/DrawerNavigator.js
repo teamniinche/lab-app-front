@@ -36,7 +36,7 @@ export default function DrawerNavigator(){
                 gestureDirection:'horizontal',
                 headerTintColor: '#fff',
                 headerTitleAlign: 'left',
-                drawerLabelStyle: { fontSize: 18,letterSpacing:2, },
+                drawerLabelStyle: { fontSize: 18,letterSpacing:2},
                 headerRight:() => (<HeaderRight isLarge={isLarge} liq={true}/>)
             }}
             drawerContent={(props)=><CustomDrawerContent {...props}/>}
