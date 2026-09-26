@@ -607,6 +607,9 @@ const PowderRow=({K,ky,ac,setK,item})=>{
     useEffect(()=>{
         setHandleUpdateT({cb:handleUpdateTour})
     },[])
+
+    const isIsolate=item.validation?.validation && !item.validation?.ok && Object.values(item.validation?.validation)[0].action==='isolate';
+
     return <>
     <Errors visible={visible} isMissing={isMissing} missing={missing} render={()=>setVisible(false)}/>
     <TouchableOpacity 
@@ -654,7 +657,7 @@ const PowderRow=({K,ky,ac,setK,item})=>{
                         <Text key={0} style={{ flex:1,color: isHovered && primaryColor,borderBottomWidth:1,borderColor:"rgba(0,0,0,0.095)",height:"100%",textAlign:"center",fontSize:isHovered?16:14,fontWeight:"bold",paddingVertical:2,paddingBottom:10}}>{rest['densite']}</Text>
                     }
                     <View style={{...styles.row,marginBottom:2,marginRight:4,backgroundColor:isHovered?'rgba(0,0,0,0.06)':'whitesmoke',height:isHovered && 38,}}>
-                        {isHovered && <Actions item={item} />}
+                        {(isHovered || isIsolate) && <Actions item={item} />}
                     </View>
                 </View>
                 {//comments,handleAddComment,handleKeyPress,comment
@@ -863,7 +866,6 @@ const Actions=({item})=>{// import de DrawerPoudre
                         //         {show:true,message:"Analyse "+id+" avec succes.",code:code}
                         //         :
                         //         {show:true,message:"L'analyse "+id+" n'a pas pu etre supprimée :"+error.message,code:'#880000'}
-                        console.log(validation);
                         setPop({show:true,message:message,code:code});
                     })
     }
@@ -991,10 +993,13 @@ const isIsolate=item.validation?.validation && !item.validation?.ok && Object.va
         </Pressable>
         <Pressable style={{...style.actions,marginLeft:100,}} disabled={!updateAllowed} onPress={()=>validationAction('isolate')}>
             <Text style={[style.addedbuttons,{backgroundColor:'rgba(150,0,0,0.08)'}]}>Isol</Text>
-        </Pressable></>:
+        </Pressable></>:<>
+        <Pressable style={{...style.actions,marginLeft:100,}} disabled={true} onPress={()=>null}>
+            <Text style={[style.addedbuttons,{backgroundColor:'rgba(0,150,0,0.08)',color:'red',fontWeight:'bold',fontSize:12}]}>isolé</Text>
+        </Pressable>
         <Pressable style={{...style.actions,marginLeft:100,}} disabled={!updateAllowed} onPress={()=>validationAction('inject')}>
             <Text style={[style.addedbuttons,{backgroundColor:'rgba(0,150,0,0.08)'}]}>Inject</Text>
-        </Pressable>}
+        </Pressable></>}
       </>
     }
 
