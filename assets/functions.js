@@ -211,10 +211,11 @@ export function powdersAndCountsFormat(data){
         var names=[];
         data.map(itm=>{if(!names.includes(itm.name)){names.push(itm.name);}})
         const counts=names.map(n=>{
+            const dt=data.filter(d=>d.name===n);
             return { 
               name:n,
-              totalCount:data.filter(d=>d.name===n).length,
-              isolatedCount:data.filter(d=>(d.name===n && d.validation && !d.validation?.ok)).length
+              totalCount:dt.length,
+              isolatedCount:dt.filter(d=>d.validation!==null && !d.validation?.ok).length
             }
         })
         return counts
