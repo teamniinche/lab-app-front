@@ -962,8 +962,8 @@ const isIsolate=item.validation?.validation && !item.validation?.ok && Object.va
   return <TouchableWithoutFeedback>
     <View
       style={{
-            height:'90%',
-            // height:"auto",
+            minHeight:45,
+            height:"auto",
             width:150,
             // width:'auto',
             paddingHorizontal:5,
