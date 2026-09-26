@@ -954,7 +954,7 @@ const Actions=({item})=>{// import de DrawerPoudre
     setAction("create");
   }
   console.log(item);
-const isIsolate=item.validation && !item.validation?.ok && Object.values(item.validation?.validation)[0].action==='isolate';
+const isIsolate=item.validation?.validation && !item.validation?.ok && Object.values(item.validation?.validation)[0].action==='isolate';
   return <TouchableWithoutFeedback>
     <View
       style={{
