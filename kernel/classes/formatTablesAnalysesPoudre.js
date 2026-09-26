@@ -162,7 +162,7 @@ product_mois_date(elements){
         return groupedItems;
     }
     findNotConformes(elements){
-        const notConformes=this._formatElements(elements).filter(item=>item.validation?.ok);//!==null);
+        const notConformes=this._formatElements(elements).filter(item=>item.validation && !item.validation?.ok);//!==null);
         return notConformes;
     }
     groupedByMonth(elements){

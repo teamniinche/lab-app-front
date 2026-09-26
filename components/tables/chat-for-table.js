@@ -60,10 +60,11 @@ export const ClickableRow=(
   const [isCollapsed, setIsCollapsed] = useState(true);
   const [comment,setComment]=useState("");
   const [focusedIndex, setFocusedIndex] = useState(null);
-  const {targetUser,clooned} = useSelector((state) => {
-    const targetUser=state.user.targetUser
+  const {startedAt,endedAt,targetUser,clooned} = useSelector((state) => {
+    const {startedAt,endedAt}=state.period.targetPeriod;
+    const targetUser=state.user.targetUser;
     const clooned=state.actived.clooned;
-    return {targetUser,clooned};
+    return {startedAt,endedAt,targetUser,clooned};
   });
   const allowToComment=allowTo("commenter",targetUser?.privileges);
   const KEY=allowToComment?"allowed":"notAllowed";
