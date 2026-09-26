@@ -832,14 +832,14 @@ const Actions=({item})=>{// import de DrawerPoudre
         const act=action==='isolate'?'isoler chariot':'injecter chariot';
         const validationAllowed=allowTo(act,targetUser?.privileges);
         if(!validationAllowed){setPop({show:true,mesage:"Vous n'etes pas habileté à effectuer cette action !\nRapprochez-vous de votre superieur.",code:'#880000'});return;}
-        return fetch(dbBaseRoot+"poudre/validations/action",
+        fetch(dbBaseRoot+"poudre/validations/action",
                     {
                         method: 'PUT',
                         headers: {
                             'Content-Type': 'application/json',
                             'Authorization': `Bearer ${targetUser.token}`
                         },
-                        body:{id:id,UtilisateurId:targetUser?.id,action:action}
+                        body:JSON.stringify({id:id,UtilisateurId:targetUser?.id,action:action})
                     })
                     .then(response=>response.json())
                     .then(data=>{
