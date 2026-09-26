@@ -491,7 +491,7 @@ const PowderRow=({K,ky,ac,setK,item})=>{
     const isHovered=K===identifier;
     const isMeToUpdate=id2Update===item.id;
     const hoveredStyle={backgroundColor:'rgba(0,0,255,0.1)',borderWidth:0.2,borderColor:primaryColor,borderRadius:5};
-    const isolateStyle={backgroundColor:'rgba(255,0,0,0.1)',borderWidth:0.1,borderColor:'rgba(255,0,0,0.15)',borderRadius:4};
+    const isolateStyle={backgroundColor:'rgba(255,0,0,0.1)',borderWidth:0.1,borderColor:'rgba(255,0,0,0.2)',borderRadius:4};
 
     // const handleAddComment=()=>{
     //     const pseudo=toggle?"ndour":"Moneem";
