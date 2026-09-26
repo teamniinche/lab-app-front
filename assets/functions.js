@@ -193,19 +193,31 @@ export const cosmetiquesFormat=(results)=>{
         return productsAndCountsFormat;
     }
 
-export function powdersAndCountsFormat(data){
+export function powdersAndCountsForm(data){
         var productsAndCounts={};
         data.map(itm=>{
           // alert(JSON.stringify(itm?.validation))
           const nameKey=itm.name?.replace(" ","_").toLowerCase();
             if(!productsAndCounts[nameKey]){
-                productsAndCounts[nameKey]={name:itm?.name,totalCount:1,isolatedCount:(itm.validation && itm.validation?.ok)?1:0};
+                productsAndCounts[nameKey]={name:itm?.name,totalCount:1,isolatedCount:(itm.validation && !itm.validation?.ok)?1:0};
             }else{
                 productsAndCounts[nameKey]['totalCount']+=1;
-                if(itm?.validation?.ok){productsAndCounts[nameKey]['isolatedCount']+=1};
+                if(!itm?.validation?.ok){productsAndCounts[nameKey]['isolatedCount']+=1};
             }
         })
         return Object.values(productsAndCounts);
+    }
+export function powdersAndCountsFormat(data){
+        var productsAndCounts=[];
+        data.map(itm=>{if(!productsAndCounts.includes(itm.name)){productsAndCounts.push(itm.name);}})
+        const counts=productsAndCounts.map(n=>
+          [
+            n,
+            data.map(d=>d.name===n && !d.validation || d.validation?.ok).length,
+            data.map(d=>d.name===n && d.validation && !d.validation?.ok).length
+          ]
+        )
+        return counts
     }
 
 export function VALEURS(obj,valeurs){
