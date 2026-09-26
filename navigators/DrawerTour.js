@@ -844,7 +844,7 @@ const Actions=({item})=>{// import de DrawerPoudre
                     .then(response=>response.json())
                     .then(data=>{
                         // console.log(data)
-                        const {code,message/*,analyses*/}=data;
+                        const {code,message,validation/*,analyses*/}=data;
                         // const {lansas,formules}=analyses;
                         // const ANALYSES=[...lansas,...formules];
                         // const {list}=ListOfFocusedAndLastNumber(item,ANALYSES);
@@ -863,6 +863,7 @@ const Actions=({item})=>{// import de DrawerPoudre
                         //         {show:true,message:"Analyse "+id+" avec succes.",code:code}
                         //         :
                         //         {show:true,message:"L'analyse "+id+" n'a pas pu etre supprimée :"+error.message,code:'#880000'}
+                        console.log(JSON.stringify(validation))
                         setPop({show:true,message:message,code:code});
                     })
     }
@@ -953,7 +954,6 @@ const Actions=({item})=>{// import de DrawerPoudre
     setItemToSave({});
     setAction("create");
   }
-  console.log(item);
 const isIsolate=item.validation?.validation && !item.validation?.ok && Object.values(item.validation?.validation)[0].action==='isolate';
   return <TouchableWithoutFeedback>
     <View
