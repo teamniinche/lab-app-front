@@ -963,7 +963,7 @@ const isIsolate=item.validation?.validation && !item.validation?.ok && Object.va
     <View
       style={{
             height:'90%',
-            height:"auto",
+            // height:"auto",
             width:150,
             // width:'auto',
             paddingHorizontal:5,
