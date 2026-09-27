@@ -139,6 +139,15 @@ export const Tabs=() => {
         </View>
     </View>
 }
+
+function useStats(){
+    const [stats,setStat]=useState([]);
+    const setStats=(items)=>{
+        const stts=filterp.productStats(items);
+        setStat(stts);
+    }
+    return {stats,setStats};
+}
             // <AnalysedList /*entete de la liste de gauche et la liste  de gauche */ />A adapter a tour
 const AnalysedCards /**remplacé par productedTour */=() => {
         const [K,setK]=useState(null);
@@ -149,18 +158,19 @@ const AnalysedCards /**remplacé par productedTour */=() => {
         })
         // const {registred,Everages}=useCurrentProducted();
         const [analysed,setAnalysed]=useState([]);
-        const [PRODUCTS,setProducts]=useState([]);
-        function handleResearchChange(txt){
-            const matchedAnalysed=powderAnalysed.filter(it=>(it.name.toLowerCase().includes(txt.toLowerCase()) || it.nChar.toString().includes(txt)));// registred a la place powderAnalysed
-            setAnalysed(matchedAnalysed);
-        }
-        useMemo(()=>{setAnalysed(focusedListe);setProducts(filterp.productStats(powderAnalysed))},[focusedListe]);// focusedListe du store etait import pour cette partie
+        // const [PRODUCTS,setProducts]=useState([]);
+        const {stats,setStats}=useStats();
+        // function handleResearchChange(txt){
+        //     const matchedAnalysed=powderAnalysed.filter(it=>(it.name.toLowerCase().includes(txt.toLowerCase()) || it.nChar.toString().includes(txt)));// registred a la place powderAnalysed
+        //     setAnalysed(matchedAnalysed);
+        // }
+        useMemo(()=>{setAnalysed(focusedListe);setStats(powderAnalysed)},[focusedListe]);// focusedListe du store etait import pour cette partie
         // const {name,nom}=focusedListe[0]||{};
         // const {nameToDisplay}=isFormule(focusedListe[0]||{})
         // const AnalysedLen=analysed.length;
     return <View style={{flex:1,width:"100%",minHeight:740,backgroundColor:'#2c2c2c',marginLeft:2}}>
             <View style={{width:"100%",height:"auto",height:'100%',/*minHeight:500,maxHeight:740,*/flexDirection:'row',justifyContent:'flex-start',alignItems:'flex-start',flexWrap:'wrap',backgroundColor:'transparent',paddingHorizontal:20,paddingVertical:10}}>
-                {PRODUCTS.map((ITEM,index)=><CarteProduct key={index} PRODUCT={ITEM}/>)}
+                {stats.map((ITEM,index)=><CarteProduct key={index} PRODUCT={ITEM}/>)}
             </View>
         </View>
 }
