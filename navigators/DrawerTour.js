@@ -30,7 +30,7 @@ import { AddPoudreComment } from '../components/buttons/save';
 import { ViewOrImgBgPowderWrapper } from '../components/wrappers/viewOrImgWrapper';
 import { Comment } from '../components/tables/chat-for-table';
 import { AdjentDayInMs} from '../components/periode';
-import { isFormule,powdersAndCountsFormat,allowTo,IsEmptyObject} from '../assets/functions';
+import { isFormule,allowTo,IsEmptyObject} from '../assets/functions';
 import Colors from '../assets/colors';
 const {aujourdhui,demain}=Periodes();
 const {full}=routesAndHeadersPowder;
