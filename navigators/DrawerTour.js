@@ -848,14 +848,14 @@ const Actions=({item})=>{// import de DrawerPoudre
         const validationAllowed=allowTo(act,targetUser?.privileges);
         if(!validationAllowed){setPop({show:true,mesage:"Vous n'etes pas habileté à effectuer cette action !\nRapprochez-vous de votre superieur.",code:'#880000'});return;}
         // fetch(`${dbBaseRoot}poudre/validations/action?startedAt=${aujourdhui}&endedAt=${demain}`,
-        fetch(`${dbBaseRoot}poudre/validations/action?startedAt=${startedAt}&endedAt=${endedAt}`,
+        fetch(`${dbBaseRoot}poudre/validations/action`,
                     {
                         method: 'PUT',
                         headers: {
                             'Content-Type': 'application/json',
                             'Authorization': `Bearer ${targetUser.token}`
                         },
-                        body:JSON.stringify({id:id,UtilisateurId:targetUser?.id,action:action})
+                        body:JSON.stringify({id:id,UtilisateurId:targetUser?.id,action:action,startedAt:startedAt,endedAt:endedAt})
                     })
                     .then(response=>response.json())
                     .then(data=>{
