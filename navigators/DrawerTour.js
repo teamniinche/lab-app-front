@@ -863,10 +863,10 @@ const Actions=({item})=>{// import de DrawerPoudre
                         const {lansas,formules}=!IsEmptyObject(analyses || {})?analyses:{lansas:[],formules:[]};
                         try{
                             const ANALYSES=[...lansas,...formules];
+                            console.log(ANALYSES);
                             if(ANALYSES.length!==0){ // Ne rien mettre à jour si [...lansas,...formules] est empty
                                 // setRegistred(ANALYSES);
                                 dispatch(setPowderAnalysed(ANALYSES));
-                                console.log(ANALYSES);
                             }
                             setPop({show:true,message:message,code:code});
                         }catch(error){throw new Error("Mise à jour du data statement: "+error.message);}
