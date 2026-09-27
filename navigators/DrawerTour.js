@@ -997,7 +997,7 @@ const Actions=({item})=>{// import de DrawerPoudre
       <>
         
         
-        {!isIsolated(item)?<>
+        {!isIsolated?<>
         <Pressable style={{...style.actions,marginRight:5,}} disabled={!deleteAllowed} onPress={confirmDelete}>
             <Icon size={14} name="trash" color={couleurs[delKey][8]}/>
         </Pressable>
@@ -1006,7 +1006,7 @@ const Actions=({item})=>{// import de DrawerPoudre
         </Pressable>
         <Pressable style={{...style.actions,marginLeft:100,}} disabled={!updateAllowed} onPress={()=>validationAction('isolate')}>
             <Text style={[style.addedbuttons,{backgroundColor:'rgba(150,0,0,0.08)'}]}>Isol</Text>
-        </Pressable></>:!isInjected(item)?<>
+        </Pressable></>:!isInjected?<>
         <Pressable style={{...style.actions,marginLeft:5,}} disabled={true} onPress={()=>null}>
             <Text style={[style.addedbuttons,{backgroundColor:'rgba(0,150,0,0.08)',color:'red',fontWeight:'bold',fontSize:12}]}>isolé</Text>
         </Pressable>
