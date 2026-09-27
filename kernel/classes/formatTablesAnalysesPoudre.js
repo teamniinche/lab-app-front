@@ -203,6 +203,7 @@ product_mois_date(elements){
               toInject:Math.abs((isolated.length-injected.length))
             }
         })
+        console.log(stats);
         return stats;
     }
 
