@@ -665,7 +665,7 @@ const PowderRow=({K,ky,ac,setK,item})=>{
                         <Text key={0} style={{ flex:1,color: isHovered && primaryColor,borderBottomWidth:1,borderColor:"rgba(0,0,0,0.095)",height:"100%",textAlign:"center",fontSize:isHovered?16:14,fontWeight:"bold",paddingVertical:2,paddingBottom:10}}>{rest['densite']}</Text>
                     }
                     <View style={{...styles.row,marginBottom:2,marginRight:4,backgroundColor:isHovered?'rgba(0,0,0,0.06)':'whitesmoke',height:isHovered && 38,}}>
-                        {(isHovered || isToInject) && <Actions item={item} />}
+                        {((isHovered && !isInject) || isToInject) && <Actions item={item} />}
                     </View>
                 </View>
                 {//comments,handleAddComment,handleKeyPress,comment
