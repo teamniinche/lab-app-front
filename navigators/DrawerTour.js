@@ -495,7 +495,7 @@ const PowderRow=({K,ky,ac,setK,item})=>{
     const hoveredStyle={backgroundColor:'rgba(0,0,255,0.1)',borderWidth:0.2,borderColor:primaryColor,borderRadius:5};
     const isolateStyle={backgroundColor:'rgba(255,0,0,0.1)',borderWidth:0.1,borderColor:'rgba(255,0,0,0.2)',borderRadius:4};
     const injectStyle={backgroundColor:'rgba(255, 242, 0, 0.2)',borderWidth:0.1,borderColor:'rgba(255,0,0,0.1)',borderRadius:4};
-    const isIsolate=filterp.isIsolated(item);
+    // const isIsolate=filterp.isIsolated(item);
     const isInject=filterp.isInjected(item);
     const isToInject=filterp.isToInject(item);
     // const handleAddComment=()=>{
@@ -630,7 +630,7 @@ const PowderRow=({K,ky,ac,setK,item})=>{
                             paddingVertical:2,
                             paddingHorizontal:4
                         },
-                        isIsolate && isolateStyle,
+                        isToInject && isolateStyle,
                         isHovered && hoveredStyle,
                         isInject && injectStyle,
                     ]
