@@ -161,10 +161,50 @@ product_mois_date(elements){
         })
         return groupedItems;
     }
-    findNotConformes(elements){
-        const notConformes=this._formatElements(elements).filter(item=>item.validation?.validation && !item.validation?.ok);//!==null);
-        return notConformes;
+    
+    isIsolated(i){
+        return i.validation?.validation && Object.values(i.validation?.validation || {}).map(v=>v?.action).includes('îsolate');
     }
+    isInjected(j){
+        return j.validation?.validation && Object.values(j.validation?.validation || {}).map(v=>v?.action).includes('inject')
+    }
+    isToInject(k){
+        const actions=k.validation?.validation?Object.values(k.validation?.validation || {}).map(v=>v?.action):[];
+        return actions.includes('isolate') && !actions.includes('inject');
+    }
+    findNotConformes(elements){
+        return this._formatElements(elements).filter(item=>!item.validation?.ok);
+    }
+    findIsolated(elements){
+        return this._formatElements(elements).filter(item=>this.isIsolated(item));
+    }
+    findInjected(elements){
+        return this._formatElements(elements).filter(item=>this.isInjected(item));
+    }
+    findtoInject(elements){
+        return this.findIsolated(elements).filter(elem=>!this.isInjected(elem));
+    }
+    productStats(elements){
+        var names=[];
+        this._formatElements(elements).map(itm=>{if(!names.includes(itm.name)){names.push(itm.name);}})
+        const stats=names.map(n=>{
+            const dt=this._formatElements(elements).filter(d=>d.name===n);
+            const isolated=dt.filter(d=>this.isIsolated(d));
+            const injected=isolated.filter(d=>this.isInjected(d));
+            return { 
+              name:n,
+              totalCount:dt.length,
+              items:dt,
+              isolatedCount:isolated.length,
+              isolatedItems:isolated,
+              injectedCount:injected.length,
+              injectedItems:injected,
+              toInject:Math.abs((isolated.length-injected.length))
+            }
+        })
+        return stats;
+    }
+
     groupedByMonth(elements){
         var MOIS=[];
         var  groupedByMonth={};

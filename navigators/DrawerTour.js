@@ -11,15 +11,16 @@ import { useDispatch,useSelector } from 'react-redux';
 import socket from '../assets/socketService';
 import { dbBaseRoot,primaryColor,couleurs} from '../assets/constantes'; 
 import { Periodes } from '../components/periode';
-import { HeaderRight } from './DrawerNavigator';
-import { PowderHeaders } from '../components/tables/componentTable';
-import Pop,{NewAnalysed} from '../components/popup';
+// import { HeaderRight } from './DrawerNavigator';
+// import { PowderHeaders } from '../components/tables/componentTable';
+// import Pop,{NewAnalysed} from '../components/popup';
 import CustomPoudreDrawerContent from '../components/customPoudreDrawerContent';
 import {FormulesProvider,CurrentProductedProvider,useCurrentProducted,useFormules,ItemToSaveProvider, useItemToSave, usePopup } from '../components/wrappers/contexts';
-import { setFocusedProduct } from '../components/store/reducers/focusedProduct';
+// import { setFocusedProduct } from '../components/store/reducers/focusedProduct';
 import {InputIsValid,LansaObservations/*,LansaValue,Actions*/,Chariot,/*PowderRow,UpdateLansa,*/Errors,colors} from './DrawerPoudre';
 import { setPowderAnalysed } from '../components/store/reducers/powderAnalysesReducer';
 import { storeFocusedListe } from '../components/store/reducers/currentProducted';
+import FilterP from '../kernel/classes/formatTablesAnalysesPoudre';
 import { commentsFromObjectToArray,ReduceDateTime,Time } from '../hooks/littleBiblio';
 import PoudreAnalysedTab from './poudreTabNavigator';
 import WinDim from '../assets/operatingData';
@@ -33,8 +34,9 @@ import { isFormule,powdersAndCountsFormat,allowTo,IsEmptyObject} from '../assets
 import Colors from '../assets/colors';
 const {aujourdhui,demain}=Periodes();
 const {full}=routesAndHeadersPowder;
-const {api_url,headers}=full;
+// const {api_url,headers}=full;
 const {isLarge,isWeb}=WinDim;
+const filterp=new FilterP();
 function Flex(dir,jC,aI){
   return {
     display:'flex',
@@ -152,7 +154,7 @@ const AnalysedCards /**remplacé par productedTour */=() => {
             const matchedAnalysed=powderAnalysed.filter(it=>(it.name.toLowerCase().includes(txt.toLowerCase()) || it.nChar.toString().includes(txt)));// registred a la place powderAnalysed
             setAnalysed(matchedAnalysed);
         }
-        useMemo(()=>{setAnalysed(focusedListe);setProducts(powdersAndCountsFormat(powderAnalysed))},[focusedListe]);// focusedListe du store etait import pour cette partie
+        useMemo(()=>{setAnalysed(focusedListe);setProducts(filterp.productStats(powderAnalysed))},[focusedListe]);// focusedListe du store etait import pour cette partie
         // const {name,nom}=focusedListe[0]||{};
         // const {nameToDisplay}=isFormule(focusedListe[0]||{})
         // const AnalysedLen=analysed.length;
@@ -492,7 +494,10 @@ const PowderRow=({K,ky,ac,setK,item})=>{
     const isMeToUpdate=id2Update===item.id;
     const hoveredStyle={backgroundColor:'rgba(0,0,255,0.1)',borderWidth:0.2,borderColor:primaryColor,borderRadius:5};
     const isolateStyle={backgroundColor:'rgba(255,0,0,0.1)',borderWidth:0.1,borderColor:'rgba(255,0,0,0.2)',borderRadius:4};
-
+    const injectStyle={backgroundColor:'rgba(255, 242, 0, 0.2)',borderWidth:0.1,borderColor:'rgba(255,0,0,0.1)',borderRadius:4};
+    const isIsolate=filterp.isIsolated(item);
+    const isInject=filterp.isInjected(item);
+    const isToInject=filterp.isToInject(item);
     // const handleAddComment=()=>{
     //     const pseudo=toggle?"ndour":"Moneem";
     //     const commnts=[[comment,"Mamadou","Ndour",null,true,pseudo],...comments];
@@ -609,7 +614,7 @@ const PowderRow=({K,ky,ac,setK,item})=>{
         setHandleUpdateT({cb:handleUpdateTour})
     },[])
 
-    const isIsolate=item.validation?.validation && !item.validation?.ok && Object.values(item.validation?.validation)[0].action==='isolate';
+    // const isIsolate=item.validation?.validation && !item.validation?.ok && Object.values(item.validation?.validation)[0].action==='isolate';
 
     return <>
     <Errors visible={visible} isMissing={isMissing} missing={missing} render={()=>setVisible(false)}/>
@@ -625,8 +630,9 @@ const PowderRow=({K,ky,ac,setK,item})=>{
                             paddingVertical:2,
                             paddingHorizontal:4
                         },
+                        isIsolate && isolateStyle,
+                        isInject && injectStyle,
                         isHovered && hoveredStyle,
-                        isIsolate && isolateStyle
                     ]
                 }
 
@@ -659,7 +665,7 @@ const PowderRow=({K,ky,ac,setK,item})=>{
                         <Text key={0} style={{ flex:1,color: isHovered && primaryColor,borderBottomWidth:1,borderColor:"rgba(0,0,0,0.095)",height:"100%",textAlign:"center",fontSize:isHovered?16:14,fontWeight:"bold",paddingVertical:2,paddingBottom:10}}>{rest['densite']}</Text>
                     }
                     <View style={{...styles.row,marginBottom:2,marginRight:4,backgroundColor:isHovered?'rgba(0,0,0,0.06)':'whitesmoke',height:isHovered && 38,}}>
-                        {(isHovered || isIsolate) && <Actions item={item} />}
+                        {(isHovered || isToInject) && <Actions item={item} />}
                     </View>
                 </View>
                 {//comments,handleAddComment,handleKeyPress,comment
@@ -819,6 +825,9 @@ const LansaValue=({inputRefs,labelJoined,renderSave,keyOk,index,icon,value,rende
 const Actions=({item})=>{// import de DrawerPoudre
     const dispatch=useDispatch();
     const {setPop}=usePopup();
+    // const {isIsolated,isInjected}=require('../kernel/classes/formatTablesAnalysesPoudre');
+    const isIsolated=filterp.isIsolated(item);
+    const isInjected=filterp.isInjected(item);
     const {handleCheckValidity}=useItemToSave();
     const {setFocusedPro,id2Update,setId2Update,UpdateFocusedProdByName,setRegistred,setFocusedList,ListOfFocusedAndLastNumber,setAction,focusedPro}=useCurrentProducted();
     const {targetUser,powderNormes,powderAnalysed,focusedListe}=useSelector(state=>{
@@ -958,7 +967,7 @@ const Actions=({item})=>{// import de DrawerPoudre
     setItemToSave({});
     setAction("create");
   }
-const isIsolate=item.validation?.validation && !item.validation?.ok && Object.values(item.validation?.validation)[0].action==='isolate';
+// const isIsolate=item.validation?.validation && !item.validation?.ok && Object.values(item.validation?.validation)[0].action==='isolate';
   return <TouchableWithoutFeedback>
     <View
       style={{
@@ -987,22 +996,27 @@ const isIsolate=item.validation?.validation && !item.validation?.ok && Object.va
         </>:
       <>
         
+        
+        {!isIsolated(item)?<>
+        <Pressable style={{...style.actions,marginRight:5,}} disabled={!deleteAllowed} onPress={confirmDelete}>
+            <Icon size={14} name="trash" color={couleurs[delKey][8]}/>
+        </Pressable>
         <Pressable style={{...style.actions,marginLeft:50,}} disabled={!updateAllowed} onPress={handleUpdate}>
             <Icon size={14} name="pencil" color={couleurs[updKey][7]}/>
         </Pressable>
-        {!isIsolate?<>
-        <Pressable style={{...style.actions,marginRight:45,}} disabled={!deleteAllowed} onPress={confirmDelete}>
-            <Icon size={14} name="trash" color={couleurs[delKey][8]}/>
-        </Pressable>
         <Pressable style={{...style.actions,marginLeft:100,}} disabled={!updateAllowed} onPress={()=>validationAction('isolate')}>
             <Text style={[style.addedbuttons,{backgroundColor:'rgba(150,0,0,0.08)'}]}>Isol</Text>
-        </Pressable></>:<>
+        </Pressable></>:!isInjected(item)?<>
         <Pressable style={{...style.actions,marginLeft:5,}} disabled={true} onPress={()=>null}>
             <Text style={[style.addedbuttons,{backgroundColor:'rgba(0,150,0,0.08)',color:'red',fontWeight:'bold',fontSize:12}]}>isolé</Text>
         </Pressable>
         <Pressable style={{...style.actions,marginLeft:100,}} disabled={!updateAllowed} onPress={()=>validationAction('inject')}>
             <Text style={[style.addedbuttons,{backgroundColor:'rgba(0,150,0,0.08)'}]}>Inject</Text>
-        </Pressable></>}
+        </Pressable></>:
+        <Pressable style={{...style.actions,marginLeft:5,}} disabled={true} onPress={()=>null}>
+            <Text style={[style.addedbuttons,{backgroundColor:'rgba(0,150,0,0.08)',color:'yellow',fontWeight:'bold',fontSize:10}]}>injecté</Text>
+        </Pressable>
+        }
       </>
     }
 

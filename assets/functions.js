@@ -193,33 +193,33 @@ export const cosmetiquesFormat=(results)=>{
         return productsAndCountsFormat;
     }
 
-export function powdersAndCountsForm(data){
-        var productsAndCounts={};
-        data.map(itm=>{
-          // alert(JSON.stringify(itm?.validation))
-          const nameKey=itm.name?.replace(" ","_").toLowerCase();
-            if(!productsAndCounts[nameKey]){
-                productsAndCounts[nameKey]={name:itm?.name,totalCount:1,isolatedCount:(itm.validation && !itm.validation?.ok)?1:0};
-            }else{
-                productsAndCounts[nameKey]['totalCount']+=1;
-                if(!itm?.validation?.ok){productsAndCounts[nameKey]['isolatedCount']+=1};
-            }
-        })
-        return Object.values(productsAndCounts);
-    }
-export function powdersAndCountsFormat(data){
-        var names=[];
-        data.map(itm=>{if(!names.includes(itm.name)){names.push(itm.name);}})
-        const counts=names.map(n=>{
-            const dt=data.filter(d=>d.name===n);
-            return { 
-              name:n,
-              totalCount:dt.length,
-              isolatedCount:dt.filter(d=>d.validation?.validation && !d.validation?.ok).length
-            }
-        })
-        return counts
-    }
+// export function powdersAndCountsForm(data){
+//         var productsAndCounts={};
+//         data.map(itm=>{
+//           // alert(JSON.stringify(itm?.validation))
+//           const nameKey=itm.name?.replace(" ","_").toLowerCase();
+//             if(!productsAndCounts[nameKey]){
+//                 productsAndCounts[nameKey]={name:itm?.name,totalCount:1,isolatedCount:(itm.validation && !itm.validation?.ok)?1:0};
+//             }else{
+//                 productsAndCounts[nameKey]['totalCount']+=1;
+//                 if(!itm?.validation?.ok){productsAndCounts[nameKey]['isolatedCount']+=1};
+//             }
+//         })
+//         return Object.values(productsAndCounts);
+//     }
+// export function powdersAndCountsFormat(data){
+//         var names=[];
+//         data.map(itm=>{if(!names.includes(itm.name)){names.push(itm.name);}})
+//         const counts=names.map(n=>{
+//             const dt=data.filter(d=>d.name===n);
+//             return { 
+//               name:n,
+//               totalCount:dt.length,
+//               isolatedCount:dt.filter(d=>d.validation?.validation && !d.validation?.validation?.action==='îsolate').length
+//             }
+//         })
+//         return counts
+//     }
 
 export function VALEURS(obj,valeurs){
   const vals = Object.entries(obj).map(([key,v],index) =>
