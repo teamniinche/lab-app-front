@@ -168,6 +168,7 @@ product_mois_date(elements){
     isInjected(j){
         return j.validation?.validation && Object.values(j.validation?.validation || {}).map(v=>v?.action).includes('inject')
     }
+    isNotValidation(t){return !t.validation?.validation};
     isToInject(k){
         const actions=k.validation?.validation?Object.values(k.validation?.validation || {}).map(v=>v?.action):[];
         return actions.includes('isolate') && !actions.includes('inject');

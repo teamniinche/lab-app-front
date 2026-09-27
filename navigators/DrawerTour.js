@@ -828,6 +828,7 @@ const Actions=({item})=>{// import de DrawerPoudre
     // const {isIsolated,isInjected}=require('../kernel/classes/formatTablesAnalysesPoudre');
     const isIsolated=filterp.isIsolated(item);
     const isToInject=filterp.isToInject(item);
+    const isNotValidation=filterp.isNotValidation(item);
     const {handleCheckValidity}=useItemToSave();
     const {setFocusedPro,id2Update,setId2Update,UpdateFocusedProdByName,setRegistred,setFocusedList,ListOfFocusedAndLastNumber,setAction,focusedPro}=useCurrentProducted();
     const {startedAt,endedAt,targetUser,powderNormes,powderAnalysed,focusedListe}=useSelector(state=>{
@@ -1019,7 +1020,7 @@ const Actions=({item})=>{// import de DrawerPoudre
       <>
         
         
-        {!isIsolated?<>
+        {isNotValidation?<>
             <Pressable style={{...style.actions,marginRight:5,}} disabled={!deleteAllowed} onPress={confirmDelete}>
                 <Icon size={14} name="trash" color={couleurs[delKey][8]}/>
             </Pressable>
