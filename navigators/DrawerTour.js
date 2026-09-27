@@ -827,14 +827,15 @@ const Actions=({item})=>{// import de DrawerPoudre
     const {setPop}=usePopup();
     // const {isIsolated,isInjected}=require('../kernel/classes/formatTablesAnalysesPoudre');
     const isIsolated=filterp.isIsolated(item);
-    const isInjected=filterp.isInjected(item);
+    const isToInject=filterp.isToInject(item);
     const {handleCheckValidity}=useItemToSave();
     const {setFocusedPro,id2Update,setId2Update,UpdateFocusedProdByName,setRegistred,setFocusedList,ListOfFocusedAndLastNumber,setAction,focusedPro}=useCurrentProducted();
-    const {targetUser,powderNormes,powderAnalysed,focusedListe}=useSelector(state=>{
+    const {startedAt,endedAt,targetUser,powderNormes,powderAnalysed,focusedListe}=useSelector(state=>{
+        const {startedAt,endedAt}= state.period.targetPeriod;
         const powderNormes=state.powderNormes.powderNormes;
         const targetUser = state.user.targetUser;
         const {powderAnalysed,focusedListe}=state.powderAnalysed;
-        return {targetUser,powderNormes,powderAnalysed,focusedListe};
+        return {startedAt,endedAt,targetUser,powderNormes,powderAnalysed,focusedListe};
     });
     const deleteAllowed=allowTo("supprimer analyse",targetUser?.privileges);
     const updateAllowed=allowTo("modifier analyse",targetUser?.privileges);
@@ -846,7 +847,8 @@ const Actions=({item})=>{// import de DrawerPoudre
         const act=action==='isolate'?'isoler chariot':'injecter chariot';
         const validationAllowed=allowTo(act,targetUser?.privileges);
         if(!validationAllowed){setPop({show:true,mesage:"Vous n'etes pas habileté à effectuer cette action !\nRapprochez-vous de votre superieur.",code:'#880000'});return;}
-        fetch(dbBaseRoot+"poudre/validations/action",
+        // fetch(`${dbBaseRoot}poudre/validations/action?startedAt=${aujourdhui}&endedAt=${demain}`,
+        fetch(`${dbBaseRoot}poudre/validations/action?startedAt=${startedAt}&endedAt=${endedAt}`,
                     {
                         method: 'PUT',
                         headers: {
@@ -857,28 +859,48 @@ const Actions=({item})=>{// import de DrawerPoudre
                     })
                     .then(response=>response.json())
                     .then(data=>{
-                        // console.log(data)
-                        const {code,message,validation/*,analyses*/}=data;
-                        // const {lansas,formules}=analyses;
-                        // const ANALYSES=[...lansas,...formules];
-                        // const {list}=ListOfFocusedAndLastNumber(item,ANALYSES);
-                        // dispatch(setPowderAnalysed(ANALYSES.sort((firstItem, secondItem) => firstItem.nChar - secondItem.nChar)));
-                        // dispatch(storeFocusedListe(list));
-                         // mise a jour des data statement ==========================
-                            // Provider
-                        // if(code==="green"){
-                        //     setFocusedList(list);
-                        //     setRegistred(updatedPowderAnalysed);
-                        //         // store de redux
-                        //     dispatch(setPowderAnalysed(updatedPowderAnalysed));
-                        //     dispatch(storeFocusedListe(list));
-                        // }
-                        // const toPop=code==='green'?
-                        //         {show:true,message:"Analyse "+id+" avec succes.",code:code}
-                        //         :
-                        //         {show:true,message:"L'analyse "+id+" n'a pas pu etre supprimée :"+error.message,code:'#880000'}
-                        setPop({show:true,message:message,code:code});
+                        const {code,message,analyses}=data;
+                        const {lansas,formules}=!IsEmptyObject(analyses || {})?analyses:{lansas:[],formules:[]};
+                        try{
+                            const ANALYSES=[...lansas,...formules];
+                            if(ANALYSES.length!==0){ // Ne rien mettre à jour si [...lansas,...formules] est empty
+                                // setRegistred(ANALYSES);
+                                dispatch(setPowderAnalysed(ANALYSES));
+                                console.log(ANALYSES);
+                            }
+                            setPop({show:true,message:message,code:code});
+                        }catch(error){throw new Error("Mise à jour du data statement: "+error.message);}
+                        
+                        return lansas;
                     })
+                    .then(lansas=>{
+                        const ID=lansas.slice(-1)[0]?.id || null;// affecter la valeur null à ID si lansas = []. la defaukt value = 101 sera pris une fois dans l'API
+                        socket.emit('analysePoudreAdded',{startedAt:aujourdhui,endedAt:demain,code:'green',id:ID})
+                    })
+                    .catch((error)=>setPop({show:true,message:"Error :"+error.message,code:'#880000'}))
+                    // .then(data=>{
+                    //     // console.log(data)
+                    //     const {code,message,analyses}=data;
+                    //     // const {lansas,formules}=analyses;
+                    //     // const ANALYSES=[...lansas,...formules];
+                    //     // const {list}=ListOfFocusedAndLastNumber(item,ANALYSES);
+                    //     // dispatch(setPowderAnalysed(ANALYSES.sort((firstItem, secondItem) => firstItem.nChar - secondItem.nChar)));
+                    //     // dispatch(storeFocusedListe(list));
+                    //      // mise a jour des data statement ==========================
+                    //         // Provider
+                    //     // if(code==="green"){
+                    //     //     setFocusedList(list);
+                    //     //     setRegistred(updatedPowderAnalysed);
+                    //     //         // store de redux
+                    //     //     dispatch(setPowderAnalysed(updatedPowderAnalysed));
+                    //     //     dispatch(storeFocusedListe(list));
+                    //     // }
+                    //     // const toPop=code==='green'?
+                    //     //         {show:true,message:"Analyse "+id+" avec succes.",code:code}
+                    //     //         :
+                    //     //         {show:true,message:"L'analyse "+id+" n'a pas pu etre supprimée :"+error.message,code:'#880000'}
+                    //     setPop({show:true,message:message,code:code});
+                    // })
     }
     const handleDelete=async ()=>{
         // if(!deleteAllowed){setPop({show:true,message:"Vous n'avez pas la permission de supprimer une analyse !\nRapprochez-vous de votre responsable de departement.",code:'#88000'});return;}
@@ -998,21 +1020,25 @@ const Actions=({item})=>{// import de DrawerPoudre
         
         
         {!isIsolated?<>
-        <Pressable style={{...style.actions,marginRight:5,}} disabled={!deleteAllowed} onPress={confirmDelete}>
-            <Icon size={14} name="trash" color={couleurs[delKey][8]}/>
-        </Pressable>
-        <Pressable style={{...style.actions,marginLeft:50,}} disabled={!updateAllowed} onPress={handleUpdate}>
-            <Icon size={14} name="pencil" color={couleurs[updKey][7]}/>
-        </Pressable>
-        <Pressable style={{...style.actions,marginLeft:100,}} disabled={!updateAllowed} onPress={()=>validationAction('isolate')}>
-            <Text style={[style.addedbuttons,{backgroundColor:'rgba(150,0,0,0.08)'}]}>Isol</Text>
-        </Pressable></>:(isIsolated && !isInjected)?<>
-        <Pressable style={{...style.actions,marginLeft:5,}} disabled={true} onPress={()=>null}>
-            <Text style={[style.addedbuttons,{backgroundColor:'rgba(0,150,0,0.08)',color:'red',fontWeight:'bold',fontSize:12}]}>isolé</Text>
-        </Pressable>
-        <Pressable style={{...style.actions,marginLeft:100,}} disabled={!updateAllowed} onPress={()=>validationAction('inject')}>
-            <Text style={[style.addedbuttons,{backgroundColor:'rgba(0,150,0,0.08)'}]}>Inject</Text>
-        </Pressable></>:
+            <Pressable style={{...style.actions,marginRight:5,}} disabled={!deleteAllowed} onPress={confirmDelete}>
+                <Icon size={14} name="trash" color={couleurs[delKey][8]}/>
+            </Pressable>
+            <Pressable style={{...style.actions,marginLeft:50,}} disabled={!updateAllowed} onPress={handleUpdate}>
+                <Icon size={14} name="pencil" color={couleurs[updKey][7]}/>
+            </Pressable>
+            <Pressable style={{...style.actions,marginLeft:100,}} disabled={!updateAllowed} onPress={()=>validationAction('isolate')}>
+                <Text style={[style.addedbuttons,{backgroundColor:'rgba(150,0,0,0.08)'}]}>Isol</Text>
+            </Pressable>
+        </>
+        :isToInject?<>
+            <Pressable style={{...style.actions,marginLeft:5,}} disabled={true} onPress={()=>null}>
+                <Text style={[style.addedbuttons,{backgroundColor:'rgba(0,150,0,0.08)',color:'red',fontWeight:'bold',fontSize:12}]}>isolé</Text>
+            </Pressable>
+            <Pressable style={{...style.actions,marginLeft:100,}} disabled={!updateAllowed} onPress={()=>validationAction('inject')}>
+                <Text style={[style.addedbuttons,{backgroundColor:'rgba(0,150,0,0.08)'}]}>Inject</Text>
+            </Pressable>
+        </>
+        :
         <Pressable style={{...style.actions,marginLeft:5,}} disabled={true} onPress={()=>null}>
             <Text style={[style.addedbuttons,{backgroundColor:'rgba(0,150,0,0.08)',color:'yellow',fontWeight:'bold',fontSize:10}]}>injecté</Text>
         </Pressable>
