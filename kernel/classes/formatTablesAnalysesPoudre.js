@@ -185,13 +185,39 @@ product_mois_date(elements){
     findtoInject(elements){
         return this.findIsolated(elements).filter(elem=>!this.isInjected(elem));
     }
+    promise(elms,n){return new Promise((resolve,reject)=>{
+        const data=this._formatElements(elms).filter(d=>d.name===n);
+        if(data){
+            resolve({ok:true,data:data});
+        }else{
+            reject({ok:false,message:'❌ Décompte Error'});
+        }
+    })}
     productStats(elements){
         var names=[];
         this._formatElements(elements).map(itm=>{if(!names.includes(itm.name)){names.push(itm.name);}})
         const stats=names.map(n=>{
-            const dt=this._formatElements(elements).filter(d=>d.name===n);
-            const isolated=dt.filter(d=>this.isIsolated(d));
-            const injected=isolated.filter(d=>this.isInjected(d));
+            var dt=[];var isolated=[];var injected=[];
+            this.promise(elements,n)
+            .then(data=>{
+                if(data.ok){dt=data.data;
+                    return data.data.filter(d=>this.isIsolated(d));
+                };
+                throw new Error(data.message);
+            })
+            .then(isl=>{
+                isolated=isl;
+                return isl.isolated.filter(d=>this.isInjected(d));
+            })
+            .then(inj=>{
+                injected=inj;
+            })
+            .catch(function(error){
+                alert(error.message);
+                
+            })
+            // const isolated=dt.filter(d=>this.isIsolated(d));
+            // const injected=isolated.filter(d=>this.isInjected(d));
             return { 
               name:n,
               totalCount:dt.length,
