@@ -631,8 +631,8 @@ const PowderRow=({K,ky,ac,setK,item})=>{
                             paddingHorizontal:4
                         },
                         isIsolate && isolateStyle,
-                        isInject && injectStyle,
                         isHovered && hoveredStyle,
+                        isInject && injectStyle,
                     ]
                 }
 
