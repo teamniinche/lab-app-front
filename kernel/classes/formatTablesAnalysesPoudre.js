@@ -163,14 +163,14 @@ product_mois_date(elements){
     }
     
     isIsolated(i){
-        return i.validation?.validation && Object.values(i.validation?.validation || {}).map(v=>v?.action).includes('îsolate');
+        return i.validation.validation?Object.values(i.validation?.validation || {}).map(v=>v?.action).includes('îsolate'):false;
     }
     isInjected(j){
-        return j.validation?.validation && Object.values(j.validation?.validation || {}).map(v=>v?.action).includes('inject')
+        return j.validation.validation?Object.values(j.validation?.validation || {}).map(v=>v?.action).includes('inject'):false;
     }
-    isNotValidation(t){return !t.validation?.validation};
+    isNotValidation(t){return !t.validation.validation};
     isToInject(k){
-        const actions=k.validation?.validation?Object.values(k.validation?.validation || {}).map(v=>v?.action):[];
+        const actions=k.validation.validation?Object.values(k.validation.validation || {}).map(v=>v?.action):[];
         return actions.includes('isolate') && !actions.includes('inject');
     }
     findNotConformes(elements){
