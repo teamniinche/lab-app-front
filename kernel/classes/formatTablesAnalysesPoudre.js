@@ -196,10 +196,10 @@ product_mois_date(elements){
     productStats(elements){
         var names=[];
         this._formatElements(elements).map(itm=>{if(!names.includes(itm.name)){names.push(itm.name);}})
-        const stats=names.map(n=>{return (async function(){
+        const stats=names.map(n=>{
             const dt=this._formatElements(elements).filter(d=>d.name===n);
-            const isolated=await dt.filter(d=>this.isIsolated(d));
-            const injected=await isolated.filter(d=>this.isInjected(d));
+            const isolated=this._formatElements(elements).filter(d=>d.name===n && this.isIsolated(d));
+            const injected=this._formatElements(elements).filter(d=>d.name===n && this.isInjected(d));
             return { 
               name:n,
               totalCount:dt.length,
@@ -209,7 +209,7 @@ product_mois_date(elements){
               injectedCount:injected.length,
               injectedItems:injected,
               toInject:Math.abs((isolated.length-injected.length))
-            }})()
+            }
         })
         console.log(stats);
         return stats;
