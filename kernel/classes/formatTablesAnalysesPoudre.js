@@ -198,8 +198,11 @@ product_mois_date(elements){
         this._formatElements(elements).map(itm=>{if(!names.includes(itm.name)){names.push(itm.name);}})
         const stats=names.map(n=>{
             const dt=this._formatElements(elements).filter(d=>d.name===n);
-            const isolated=this._formatElements(elements).filter(d=>d.name===n && this.isIsolated(d));
-            const injected=this._formatElements(elements).filter(d=>d.name===n && this.isInjected(d));
+            const isolated=dt.filter(d=>this.isIsolated(d));
+            dt.map(d=>console.log(this.isIsolated(d)));
+            const injected=isolated.filter(d=>this.isInjected(d));
+            injected.map(d=>console.log(this.isInjected(d)));
+
             return { 
               name:n,
               totalCount:dt.length,
