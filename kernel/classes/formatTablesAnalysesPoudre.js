@@ -197,7 +197,7 @@ product_mois_date(elements){
         var names=[];
         this._formatElements(elements).map(itm=>{if(!names.includes(itm.name)){names.push(itm.name);}})
         const stats=names.map(n=>{return (async function(){
-            const dt=await this._formatElements(elements).filter(d=>d.name===n);
+            const dt=this._formatElements(elements).filter(d=>d.name===n);
             const isolated=await dt.filter(d=>this.isIsolated(d));
             const injected=await isolated.filter(d=>this.isInjected(d));
             return { 
