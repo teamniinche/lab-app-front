@@ -163,12 +163,10 @@ product_mois_date(elements){
     }
     
     isIsolated(i){
-        console.log('actions isolated ',Object.values(i.validation?.validation || {}).map(v=>v?.action).includes('isolate'));
         const b=i.validation.validation && Object.values(i.validation?.validation || {}).map(v=>v?.action).includes('îsolate');
         return b;
     }
     isInjected(j){
-        console.log('actions injected :',Object.values(j.validation?.validation || {}).map(v=>v?.action).includes('inject'))
         const b=j.validation.validation && Object.values(j.validation?.validation || {}).map(v=>v?.action).includes('inject');
         return b;
     }
@@ -203,9 +201,7 @@ product_mois_date(elements){
         const stats=names.map(n=>{
             const dt=this._formatElements(elements).filter(d=>d.name===n);
             const isolated=dt.filter(d=>this.isIsolated(d));
-            // dt.map(d=>console.log(d.name+' isolated',this.isIsolated(d)));
             const injected=isolated.filter(d=>this.isInjected(d));
-            // injected.map(d=>console.log(d?.name+' injected',this.isInjected(d)));
 
             return { 
               name:n,
@@ -218,7 +214,7 @@ product_mois_date(elements){
               toInject:Math.abs((isolated.length-injected.length))
             }
         })
-        // console.log(stats);
+        console.log(stats);
         return stats;
     }
 
