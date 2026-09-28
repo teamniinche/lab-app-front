@@ -199,9 +199,9 @@ product_mois_date(elements){
         const stats=names.map(n=>{
             const dt=this._formatElements(elements).filter(d=>d.name===n);
             const isolated=dt.filter(d=>this.isIsolated(d));
-            dt.map(d=>console.log(d+' isolated',this.isIsolated(d)));
+            dt.map(d=>console.log(d.name+' isolated',this.isIsolated(d)));
             const injected=isolated.filter(d=>this.isInjected(d));
-            injected.map(d=>console.log(d+' injected',this.isInjected(d)));
+            injected.map(d=>console.log(d?.name+' injected',this.isInjected(d)));
 
             return { 
               name:n,
