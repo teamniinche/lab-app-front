@@ -163,12 +163,10 @@ product_mois_date(elements){
     }
     
     isIsolated(i){
-        const b=i.validation.validation && Object.values(i.validation?.validation || {}).map(v=>v?.action).includes('îsolate');
-        return b;
+        return i.validation.validation && Object.values(i.validation?.validation || {}).map(v=>v?.action).includes('îsolate');
     }
     isInjected(j){
-        const b=j.validation.validation && Object.values(j.validation?.validation || {}).map(v=>v?.action).includes('inject');
-        return b;
+        return j.validation.validation && Object.values(j.validation?.validation || {}).map(v=>v?.action).includes('inject');
     }
     isNotValidation(t){return !t.validation.validation};
     isToInject(k){
@@ -200,8 +198,8 @@ product_mois_date(elements){
         this._formatElements(elements).map(itm=>{if(!names.includes(itm.name)){names.push(itm.name);}})
         const stats=names.map(n=>{
             const dt=this._formatElements(elements).filter(d=>d.name===n);
-            const isolated=dt.filter(d=>this.isIsolated(d));
-            const injected=isolated.filter(d=>this.isInjected(d));
+            const isolated=dt.filter(d=>d.validation.validation && Object.values(d.validation?.validation || {}).map(v=>v?.action).includes('îsolate'));
+            const injected=isolated.filter(d=>d.validation.validation && Object.values(d.validation?.validation || {}).map(v=>v?.action).includes('inject'));
 
             return { 
               name:n,
