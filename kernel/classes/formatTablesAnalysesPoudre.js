@@ -163,12 +163,14 @@ product_mois_date(elements){
     }
     
     isIsolated(i){
-        console.log('actions isolated ',Object.values(i.validation?.validation || {}).map(v=>v?.action))
-        return i.validation.validation?Object.values(i.validation?.validation || {}).map(v=>v?.action).includes('îsolate'):false;
+        console.log('actions isolated ',Object.values(i.validation?.validation || {}).map(v=>v?.action).includes('isolate'));
+        const b=i.validation.validation && Object.values(i.validation?.validation || {}).map(v=>v?.action).includes('îsolate');
+        return b;
     }
     isInjected(j){
-        console.log('actions injected :',Object.values(j.validation?.validation || {}).map(v=>v?.action))
-        return j.validation.validation?Object.values(j.validation?.validation || {}).map(v=>v?.action).includes('inject'):false;
+        console.log('actions injected :',Object.values(j.validation?.validation || {}).map(v=>v?.action).includes('inject'))
+        const b=j.validation.validation && Object.values(j.validation?.validation || {}).map(v=>v?.action).includes('inject');
+        return b;
     }
     isNotValidation(t){return !t.validation.validation};
     isToInject(k){
