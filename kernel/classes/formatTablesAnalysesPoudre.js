@@ -163,14 +163,14 @@ product_mois_date(elements){
     }
     
     isIsolated(i){
-        return i.validation.validation && Object.values(i.validation?.validation || {}).map(v=>v?.action).includes('îsolate');
+        return i.validation?.validation && Object.values(i.validation?.validation || {}).map(v=>v?.action).includes('isolate');
     }
     isInjected(j){
-        return j.validation.validation && Object.values(j.validation?.validation || {}).map(v=>v?.action).includes('inject');
+        return j.validation?.validation && Object.values(j.validation?.validation || {}).map(v=>v?.action).includes('inject');
     }
-    isNotValidation(t){return !t.validation.validation};
+    isNotValidation(t){return !t.validation?.validation};
     isToInject(k){
-        const actions=k.validation.validation?Object.values(k.validation.validation || {}).map(v=>v?.action):[];
+        const actions=k.validation?.validation?Object.values(k.validation?.validation || {}).map(v=>v?.action):[];
         return actions.includes('isolate') && !actions.includes('inject');
     }
     findNotConformes(elements){
@@ -198,8 +198,8 @@ product_mois_date(elements){
         this._formatElements(elements).map(itm=>{if(!names.includes(itm.name)){names.push(itm.name);}})
         const stats=names.map(n=>{
             const dt=this._formatElements(elements).filter(d=>d.name===n);
-            const isolated=dt.filter(d=>d.validation.validation && Object.values(d.validation?.validation || {}).map(v=>v?.action).includes('îsolate'));
-            const injected=isolated.filter(d=>d.validation.validation && Object.values(d.validation?.validation || {}).map(v=>v?.action).includes('inject'));
+            const isolated=dt.filter(d=>this.isIsolated(d));
+            const injected=isolated.filter(d=>this.isInjected(d));
 
             return { 
               name:n,
@@ -212,7 +212,6 @@ product_mois_date(elements){
               toInject:Math.abs((isolated.length-injected.length))
             }
         })
-        console.log(stats);
         return stats;
     }
 
