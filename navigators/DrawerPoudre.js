@@ -932,7 +932,7 @@ const PoudreWorkSpace=() => {
     return <View style={{minWidth:"80%",paddingVertical:40}}>
         {currentProductedLen!==0 && <View style={{width:"100%",height:"auto",maxHeight:540,/*minHeight:750,*/ borderRadius:10,backgroundColor:'rgba(255,255,255,0.4)',justifyContent:'flex-start',alignItems:'center',paddingHorizontal:30,paddingVertical:15,paddingBottom:40,gap:15}}>
             {taches!==undefined && <HeaderOfEdit name={nameToDisplay} couleur={couleur} taches={taches} />}
-            <Errors visible={visible} isMissing={isMissing} missing={missing} render={(b)=>{b && handleEnregistrerPress;setVisible(false)}}/>
+            <Errors visible={visible} isMissing={isMissing} missing={missing} render={(b)=>{b && handleEnregistrerPress();setVisible(false)}}/>
             <ScrollView horizontal={false} style={{width:"100%"}}>
                 {Object.entries({'nChar':{normes:{min:1,max:999}},...rest}).map(([key,value],i)=><EditRow 
                     inputRefs={inputRefs} 
