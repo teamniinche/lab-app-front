@@ -210,29 +210,35 @@ product_mois_date(elements){
             const injected=isolated.filter(d=>this.isInjected(d));
             const toInject=isolated.filter(d=>this.isToInject(d));
             const totalCount=productElements.length;
+            const ncnisoCount=nc.length-isolated.length;
             return { 
-              name:productElements[0]?.name,
-              totalCount:totalCount,
-              items:productElements,
+                // tout : du calcul seulement
+                name:productElements[0]?.name,
+                totalCount:totalCount,
+                items:productElements,
+                // du calcul seulement
+                ncCount:nc.length,
+                ncItems:nc,
+                ncPrctge:this.prctage(nc.length,totalCount),
+              //================= du calcul & du graphe =============================
+                    // + confromes (1)
+                injectedCount:injected.length, //(2)
+                injectedItems:injected,
+                injectedPrctge:this.prctage(injected.length,totalCount),
 
-              isolatedCount:isolated.length,
-              isolatedItems:isolated,
-              isolatedPrctge:this.prctage(isolated.length,totalCount),
+                toInject:toInject.length, // (3)
+                toInjectItems:toInject,
+                toInjectPrctge:this.prctage(toInject.length,totalCount),
 
-              ncCount:nc.length,
-              ncItems:nc,
-              ncPrctge:this.prctage(nc.length,totalCount),
+                ncnisoCount:ncnisoCount, // (4)
+                ncnisoPrctge:this.prctage(ncnisoCount,totalCount),
+                    // donc 4 parts potentielles du graphe
+                //==================================================================
+                // isolated = toInject + injected : du calcul seulement
+                isolatedCount:isolated.length,
+                isolatedItems:isolated,
+                isolatedPrctge:this.prctage(isolated.length,totalCount),
 
-              injectedCount:injected.length,
-              injectedItems:injected,
-              injectedPrctge:this.prctage(injected.length,totalCount),
-
-              toInject:toInject.length,
-              toInjectItems:toInject,
-              toInjectPrctge:this.prctage(toInject.length,totalCount),
-
-              ncnisoCount:Math.abs(nc.length-isolated.length),
-              ncnisoPrctge:this.prctage((nc.length-isolated.length),totalCount),
             //   toInject:Math.abs((isolated.length-injected.length))
             }
     }

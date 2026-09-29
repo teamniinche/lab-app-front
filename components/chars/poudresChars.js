@@ -643,28 +643,29 @@ const NonConformite=()=>{
           // Reçoit maintenant un vrai calcul numérique propre
           value: (100 - ncPrctge),
           text: `Conf. ${(100 - ncPrctge)}%`, // Optionnel : affiche le % dans le texte
-          color: 'rgba(0,240,0,0.4)',
+          color: '#00f00066',
           labelPosition: 'mid',
         },
         { 
           value: injectedPrctge,
           text: `inj. ${injectedPrctge}%`,
-          colors:'#fbff00',
+          color:'#fbff00',
           labelPosition: 'mid',
         },
         { 
           value: toInjectPrctge,
-          text: `to inj. ${toInjectPrctge}%`,
-          colors:'#ff6600',
+          text: `to inj. ${toInjectPrctge}%`, 
+          color:'#ff6600',
           labelPosition: 'mid',
         },
         { 
           value: ncnisoPrctge,
           text: `Non Conf. ${ncnisoPrctge}%`,
-          color: 'rgba(240,0,0,0.3)',
+          color: '#f0000080',
           labelPosition: 'mid',
         }
     ];
+    console.log(pieData);
 
   return (<View style={{ alignItems: 'center',margin:'auto', marginVertical: 40 }}>
       <PieChart
