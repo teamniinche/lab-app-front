@@ -75,7 +75,7 @@ export const Errors = ({visible,render,isMissing,missing}) => {
             </Dialog.Content>
             <Dialog.Actions>
               <Button onPress={()=>render()}>Annuler</Button>
-              {noTypeError && <Button onPress={()=>null}>Continuer</Button>}
+              {noTypeError && <Button onPress={()=>null}>Enregistrer quand meme</Button>}
             </Dialog.Actions>
           </Dialog>
         </Portal>

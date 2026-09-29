@@ -832,7 +832,7 @@ export const ItemToSaveProvider=({children})=>{
     const [errorsObject,setErrorsObject]=useState({});
     const [errors,setErrors]=useState([]);
     const [INDEX,setINDEX]=useState(null);
-    const notTypeErrorLength=errors.map(er=>er.toLowerCase().includes('low') || er.toLowerCase().includes('high')).length;
+    const notTypeErrorLength=errors.filter(er=>er.toLowerCase().includes('low') || er.toLowerCase().includes('high')).length;
     const noTypeError=errors.length===notTypeErrorLength;
     const Libelle=(K)=>{
         const k=K.replace("max_","").replace("gg","gros grains")
