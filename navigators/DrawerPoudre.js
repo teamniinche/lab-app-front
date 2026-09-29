@@ -64,9 +64,11 @@ export const colors={
 }
 
 export const Errors = ({visible,render,isMissing,missing}) => {
-    const {errors,noErrors,noTypeError}=useItemToSave();
+    const {errors,noErrors}=useItemToSave();
     const Errors=(isMissing && noErrors)?missing:errors;
     const errorsLen=Errors.length;
+    const notTypeErrorLength=errors.filter(er=>er.toLowerCase().includes('low') || er.toLowerCase().includes('high')).length;
+    const noTypeError=errorsLen===notTypeErrorLength;
     return  <Portal>
           <Dialog style={{maxWidth:700,minWidth:400,marginHorizontal:"auto"}} visible={visible} onDismiss={()=>render()}>
             <Dialog.Title style={{fontSize:15,color:"red",textAlign:"center",fontWeight:"bold",borderBottomWidth:1,borderBottomColor:"rgba(0,0,0,0.1)"}}>{errorsLen+" invalid input"+(errorsLen>1?"s":"")}</Dialog.Title>
