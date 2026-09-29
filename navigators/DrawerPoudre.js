@@ -64,7 +64,7 @@ export const colors={
 }
 
 export const Errors = ({visible,render,isMissing,missing}) => {
-    const {errors,noErrors}=useItemToSave();
+    const {errors,noErrors,noTypeError}=useItemToSave();
     const Errors=(isMissing && noErrors)?missing:errors;
     const errorsLen=Errors.length;
     return  <Portal>
@@ -74,7 +74,8 @@ export const Errors = ({visible,render,isMissing,missing}) => {
               {Errors.map((er,i)=><Text variant="bodyMedium" key={i} style={{marginBottom:20}}>{"🚨 "+er}</Text>)}
             </Dialog.Content>
             <Dialog.Actions>
-              <Button onPress={()=>render()}>OK</Button>
+              <Button onPress={()=>render()}>Annuler</Button>
+              {noTypeError && <Button onPress={()=>null}>Continuer</Button>}
             </Dialog.Actions>
           </Dialog>
         </Portal>
