@@ -174,7 +174,7 @@ product_mois_date(elements){
         return actions.includes('isolate') && !actions.includes('inject');
     }
     isNotConforme(t){
-        return !t.item.validation?.ok;
+        return !t.item?.validation?.ok;
     }
     findNotConformes(elements){
         return this._formatElements(elements).filter(item=>this.isNotConforme(item));
