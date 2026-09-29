@@ -64,7 +64,7 @@ export const colors={
 }
 
 export const Errors = ({visible,render,isMissing,missing}) => {
-    const {errors,noErrors}=useItemToSave();
+    const {errors,noErrors,setAuthTrue}=useItemToSave();
     const Errors=(isMissing && noErrors)?missing:errors;
     const errorsLen=Errors.length;
     const notTypeErrorLength=errors.filter(er=>er.toLowerCase().includes('low') || er.toLowerCase().includes('high')).length;
@@ -77,7 +77,7 @@ export const Errors = ({visible,render,isMissing,missing}) => {
             </Dialog.Content>
             <Dialog.Actions>
               <Button onPress={()=>render()}>Annuler</Button>
-              {noTypeError && <Button onPress={()=>null}>Enregistrer quand meme</Button>}
+              {noTypeError && <Button onPress={()=>setAuthTrue(true)}>Enregistrer quand mème</Button>}
             </Dialog.Actions>
           </Dialog>
         </Portal>
@@ -756,7 +756,7 @@ const PoudreWorkSpace=() => {
     // alert(JSON.stringify(currentProducted))
     const {toCreate,setAction,ListOfFocusedAndLastNumber,focusedList,currentProductedPro,currentProductedLen,setFocusedList,setFocusedPro,focusedPro,keysAndRequirements,registred,setRegistred}=useCurrentProducted();
     const chariots=Chariots(focusedList);
-    const {noErrors,errors,itemToSave}=useItemToSave();
+    const {noErrors,errors,itemToSave,setAuthTrue,authTrue}=useItemToSave();
     // const numChariot=itemToSave?.nChar;
     const numIdentifier=itemToSave?.identifier;
     const {nom,name,couleur,taches,format,parfum,percarbonate,mousses,densite,compression,...Rest}=focusedPro;
@@ -793,7 +793,7 @@ const PoudreWorkSpace=() => {
         if(!enregistrerAllowed){setPop({show:true,mesage:"Vous n'avez pas la permission d'enregistrer une analyse !",code:'#880000'});
             return;
         }
-        if(!noErrors){
+        if(!noErrors || authTrue){
             setVisible(true);
         }else{
             // const observations=errors.reduce((acc,er)=>acc+'JOIN'+er)||"";
@@ -846,6 +846,7 @@ const PoudreWorkSpace=() => {
                                 setRegistred(ANALYSES);
                                 dispatch(setPowderAnalysed(ANALYSES));
                                 setPop({show:true,message:"Analyse ajoutée avec succes.",code:code});
+                                setAuthTrue(false); // autoriser enregistrer malgré des valeurs hors normes
                             }catch(error){throw new Error("L'analyse n'a pas pu etre ajoutée: "+error.message);}
                         }else{
                             throw new Error("L'analyse n'a pas pu etre ajoutée: "+message);
@@ -901,6 +902,7 @@ const PoudreWorkSpace=() => {
                                 setRegistred(ANALYSES.sort((firstItem, secondItem) => Number(firstItem.nChar) - Number(secondItem.nChar)));
                                 dispatch(setPowderAnalysed(ANALYSES.sort((firstItem, secondItem) => Number(firstItem.nChar)- Number(secondItem.nChar))));
                                 setPop({show:true,message:"Analyse modifiée avec succes.",code:code});
+                                setAuthTrue(false); // autoriser enregistrer malgré des valeurs hors normes
                                 // const toPop=code==='green'?
                                 //         {show:true,message:"Analyse modifiée avec succes.",code:code}
                                 //         :{show:true,message:"L'analyse n'a pas pu etre modifiée: "+message,code:'#880000'}
@@ -926,6 +928,8 @@ const PoudreWorkSpace=() => {
             }
         }
     }
+
+    useEffect(()=>{authTrue && handleEnregistrerPress;},[authTrue]); // Accepter d'enregistrer malgré qu'il y'ait des inputs numeriques hors normes
     
     return <View style={{minWidth:"80%",paddingVertical:40}}>
         {currentProductedLen!==0 && <View style={{width:"100%",height:"auto",maxHeight:540,/*minHeight:750,*/ borderRadius:10,backgroundColor:'rgba(255,255,255,0.4)',justifyContent:'flex-start',alignItems:'center',paddingHorizontal:30,paddingVertical:15,paddingBottom:40,gap:15}}>
