@@ -613,26 +613,54 @@ export default function PoudreCharts({navigation}){
 
 const NonConformite=()=>{
     const {namesPowder}=useCurrentProducted();
-    const nonConformes=filter.findNotConformes(namesPowder) || [];console.log(nonConformes);
-    const elisible = namesPowder && namesPowder.length > 0;
-    
-    // 1. Multiplier par 100 pour avoir un pourcentage (ex: 25 au lieu de 0.25)
-    // 2. Utiliser Math.round() ou parseFloat().toFixed() pour garder un TYPE NOMBRE
-    const prctageNc = elisible 
-        ? Math.round((nonConformes.length / namesPowder.length) * 100) 
-        : 0;
+    // const nonConformes=filter.findNotConformes(namesPowder) || [];
+    // const elisible = namesPowder && namesPowder.length > 0;
+    // const prctageNc = elisible 
+    //     ? Math.round((nonConformes.length / namesPowder.length) * 100) 
+    //     : 0;
+
+    const { 
+      ncPrctge,
+      injectedPrctge,
+      toInjectPrctge,
+      ncnisoPrctge,
+              // name,totalCount,items,
+
+              // isolatedCount,isolatedItems,
+              // isolatedPrctge,
+
+              // ncCount,ncItems,
+
+              // injectedCount,injectedItems,
+
+              // toInject,toInjectItems,
+
+              // ncnisoCount,
+            }=filter.productStat(namesPowder);
 
     const pieData = [
         { 
           // Reçoit maintenant un vrai calcul numérique propre
-          value: (100 - prctageNc),
-          text: `Conf. ${(100 - prctageNc)}%`, // Optionnel : affiche le % dans le texte
+          value: (100 - ncPrctge),
+          text: `Conf. ${(100 - ncPrctge)}%`, // Optionnel : affiche le % dans le texte
           color: 'rgba(0,240,0,0.4)',
           labelPosition: 'mid',
         },
         { 
-          value: prctageNc,
-          text: `Non Conf. ${prctageNc}%`,
+          value: injectedPrctge,
+          text: `inj. ${injectedPrctge}%`,
+          colors:'#fbff00',
+          labelPosition: 'mid',
+        },
+        { 
+          value: toInjectPrctge,
+          text: `to inj. ${toInjectPrctge}%`,
+          colors:'#ff6600',
+          labelPosition: 'mid',
+        },
+        { 
+          value: ncnisoPrctge,
+          text: `Non Conf. ${ncnisoPrctge}%`,
           color: 'rgba(240,0,0,0.3)',
           labelPosition: 'mid',
         }

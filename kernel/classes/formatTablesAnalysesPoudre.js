@@ -173,8 +173,11 @@ product_mois_date(elements){
         const actions=k.validation?.validation?Object.values(k.validation?.validation || {}).map(v=>v?.action):[];
         return actions.includes('isolate') && !actions.includes('inject');
     }
+    isNotConforme(t){
+        return !t.item.validation?.ok;
+    }
     findNotConformes(elements){
-        return this._formatElements(elements).filter(item=>!item.validation?.ok);
+        return this._formatElements(elements).filter(item=>this.isNotConforme(item));
     }
     findIsolated(elements){
         return this._formatElements(elements).filter(item=>this.isIsolated(item));
@@ -193,24 +196,69 @@ product_mois_date(elements){
     //         reject({ok:false,message:'❌ Décompte Error'});
     //     }
     // })}
+    prctage(numerateur,denominateur){
+        const isDenominateur = denominateur && denominateur > 0;
+        const pourcentage = isDenominateur 
+        ? Math.round((numerateur / denominateur) * 100) 
+        : 0;
+
+        return pourcentage;
+    }
+    productStat(productElements){
+            const nc=productElements.filter(d=>this.isNotConforme(d));
+            const isolated=nc.filter(d=>this.isIsolated(d));
+            const injected=isolated.filter(d=>this.isInjected(d));
+            const toInject=isolated.filter(d=>this.isToInject(d));
+            const totalCount=productElements.length;
+            return { 
+              name:productElements[0]?.name,
+              totalCount:totalCount,
+              items:productElements,
+
+              isolatedCount:isolated.length,
+              isolatedItems:isolated,
+              isolatedPrctge:this.prctage(isolated.length,totalCount),
+
+              ncCount:nc.length,
+              ncItems:nc,
+              ncPrctge:this.prctage(nc.length,totalCount),
+
+              injectedCount:injected.length,
+              injectedItems:injected,
+              injectedPrctge:this.prctage(injected.length,totalCount),
+
+              toInject:toInject.length,
+              toInjectItems:toInject,
+              toInjectPrctge:this.prctage(toInject.length,totalCount),
+
+              ncnisoCount:Math.abs(nc.length-isolated.length),
+              ncnisoPrctge:this.prctage((nc.length-isolated.length),totalCount),
+            //   toInject:Math.abs((isolated.length-injected.length))
+            }
+    }
     productStats(elements){
         var names=[];
         this._formatElements(elements).map(itm=>{if(!names.includes(itm.name)){names.push(itm.name);}})
         const stats=names.map(n=>{
             const dt=this._formatElements(elements).filter(d=>d.name===n);
-            const isolated=dt.filter(d=>this.isIsolated(d));
-            const injected=isolated.filter(d=>this.isInjected(d));
+            const productStat=this.productStat(dt);
+            return productStat;
+            // const nc=dt.filter(d=>this.isNotConforme(d));
+            // const isolated=nc.filter(d=>this.isIsolated(d));
+            // const injected=isolated.filter(d=>this.isInjected(d));
 
-            return { 
-              name:n,
-              totalCount:dt.length,
-              items:dt,
-              isolatedCount:isolated.length,
-              isolatedItems:isolated,
-              injectedCount:injected.length,
-              injectedItems:injected,
-              toInject:Math.abs((isolated.length-injected.length))
-            }
+            // return { 
+            //   name:n,
+            //   totalCount:dt.length,
+            //   items:dt,
+            //   isolatedCount:isolated.length,
+            //   ncCount:nc.length,
+            //   ncItems:nc,
+            //   isolatedItems:isolated,
+            //   injectedCount:injected.length,
+            //   injectedItems:injected,
+            //   toInject:Math.abs((isolated.length-injected.length))
+            // }
         })
         return stats;
     }
