@@ -793,7 +793,7 @@ const PoudreWorkSpace=() => {
         if(!enregistrerAllowed){setPop({show:true,mesage:"Vous n'avez pas la permission d'enregistrer une analyse !",code:'#880000'});
             return;
         }
-        if(!noErrors || authTrue){
+        if(!noErrors && !authTrue){
             setVisible(true);
         }else{
             // const observations=errors.reduce((acc,er)=>acc+'JOIN'+er)||"";
