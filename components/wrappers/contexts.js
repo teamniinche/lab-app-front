@@ -832,7 +832,6 @@ export const ItemToSaveProvider=({children})=>{
     const [errorsObject,setErrorsObject]=useState({});
     const [errors,setErrors]=useState([]);
     const [INDEX,setINDEX]=useState(null);
-    const [authTrue,setAuthTrue]=useState(false);
     const Libelle=(K)=>{
         const k=K.replace("max_","").replace("gg","gros grains")
         const libelle=k.toUpperCase();
@@ -922,7 +921,7 @@ export const ItemToSaveProvider=({children})=>{
 
     // =====================================================================================================
 
-    return <ItemToSaveContext.Provider value={{authTrue,setAuthTrue,setIndex,INDEX,itemToSave,setIpt,setItemToSave,pickItemToSave,errors,noErrors,labelJoined,handleCheckValidity,iconAndObs,handleUpdateT,setHandleUpdateT}}>
+    return <ItemToSaveContext.Provider value={{setIndex,INDEX,itemToSave,setIpt,setItemToSave,pickItemToSave,errors,noErrors,labelJoined,handleCheckValidity,iconAndObs,handleUpdateT,setHandleUpdateT}}>
        {children}
     </ItemToSaveContext.Provider>
 }
