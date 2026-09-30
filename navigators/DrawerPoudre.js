@@ -76,8 +76,8 @@ export const Errors = ({visible,render,isMissing,missing}) => {
               {Errors.map((er,i)=><Text variant="bodyMedium" key={i} style={{marginBottom:20}}>{"🚨 "+er}</Text>)}
             </Dialog.Content>
             <Dialog.Actions>
-              <Button onPress={()=>render(false)}>Annuler</Button>
-              {noTypeError && <Button onPress={()=>render(true)}>Enregistrer quand mème</Button>}
+              <Button onPress={()=>render()}>Annuler</Button>
+              {noTypeError && <Button onPress={()=>{save();render()}}>Enregistrer quand mème</Button>}
             </Dialog.Actions>
           </Dialog>
         </Portal>
@@ -927,17 +927,17 @@ const PoudreWorkSpace=() => {
         }
     }
 
-    function enregistrer(b){
-        b && handleEnregistrerPress;
-        setVisible(false)
-    }
+    // function enregistrer(b){
+    //     b && handleEnregistrerPress;
+    //     setVisible(false)
+    // }
 
     // useEffect(()=>{authTrue && handleEnregistrerPress;},[authTrue]); // Accepter d'enregistrer malgré qu'il y'ait des inputs numeriques hors normes
     
     return <View style={{minWidth:"80%",paddingVertical:40}}>
         {currentProductedLen!==0 && <View style={{width:"100%",height:"auto",maxHeight:540,/*minHeight:750,*/ borderRadius:10,backgroundColor:'rgba(255,255,255,0.4)',justifyContent:'flex-start',alignItems:'center',paddingHorizontal:30,paddingVertical:15,paddingBottom:40,gap:15}}>
             {taches!==undefined && <HeaderOfEdit name={nameToDisplay} couleur={couleur} taches={taches} />}
-            <Errors visible={visible} isMissing={isMissing} missing={missing} render={(b)=>enregistrer(b)}/>
+            <Errors visible={visible} isMissing={isMissing} missing={missing} render={()=>setVisible(false)} save={handleEnregistrerPress}/>
             <ScrollView horizontal={false} style={{width:"100%"}}>
                 {Object.entries({'nChar':{normes:{min:1,max:999}},...rest}).map(([key,value],i)=><EditRow 
                     inputRefs={inputRefs} 
