@@ -63,21 +63,21 @@ export const colors={
 
 }
 
-export const Errors = ({save,visible,render,isMissing,missing}) => {
+export const Errors = ({visible,render,isMissing,missing}) => {
     const {errors,noErrors}=useItemToSave();
     const Errors=(isMissing && noErrors)?missing:errors;
     const errorsLen=Errors.length;
     const notTypeErrorLength=errors.filter(er=>er.toLowerCase().includes('low') || er.toLowerCase().includes('high')).length;
     const noTypeError=errorsLen===notTypeErrorLength;
     return  <Portal>
-          <Dialog style={{maxWidth:700,minWidth:400,marginHorizontal:"auto"}} visible={visible} onDismiss={()=>render()}>
+          <Dialog style={{maxWidth:700,minWidth:400,marginHorizontal:"auto"}} visible={visible} onDismiss={()=>render(false)}>
             <Dialog.Title style={{fontSize:15,color:"red",textAlign:"center",fontWeight:"bold",borderBottomWidth:1,borderBottomColor:"rgba(0,0,0,0.1)"}}>{errorsLen+" invalid input"+(errorsLen>1?"s":"")}</Dialog.Title>
             <Dialog.Content style={{maxWidth:700,minWidth:400,margin:"auto"}}>
               {Errors.map((er,i)=><Text variant="bodyMedium" key={i} style={{marginBottom:20}}>{"🚨 "+er}</Text>)}
             </Dialog.Content>
             <Dialog.Actions>
               <Button onPress={()=>render()}>Annuler</Button>
-              {noTypeError && <Button onPress={()=>{save();render()}}>Enregistrer quand mème</Button>}
+              {noTypeError && <Button onPress={()=>render(true)}>Enregistrer quand mème</Button>}
             </Dialog.Actions>
           </Dialog>
         </Portal>
@@ -937,7 +937,7 @@ const PoudreWorkSpace=() => {
     return <View style={{minWidth:"80%",paddingVertical:40}}>
         {currentProductedLen!==0 && <View style={{width:"100%",height:"auto",maxHeight:540,/*minHeight:750,*/ borderRadius:10,backgroundColor:'rgba(255,255,255,0.4)',justifyContent:'flex-start',alignItems:'center',paddingHorizontal:30,paddingVertical:15,paddingBottom:40,gap:15}}>
             {taches!==undefined && <HeaderOfEdit name={nameToDisplay} couleur={couleur} taches={taches} />}
-            <Errors visible={visible} isMissing={isMissing} missing={missing} render={()=>{handleEnregistrerPress();setVisible(false)}}/>
+            <Errors visible={visible} isMissing={isMissing} missing={missing} render={(b)=>{b && handleEnregistrerPress();setVisible(false)}}/>
             <ScrollView horizontal={false} style={{width:"100%"}}>
                 {Object.entries({'nChar':{normes:{min:1,max:999}},...rest}).map(([key,value],i)=><EditRow 
                     inputRefs={inputRefs} 
