@@ -796,8 +796,8 @@ const PoudreWorkSpace=() => {
         if(!noErrors){
             setVisible(true);
         }else{
-            const observations=errors?errors.reduce((acc,er)=>acc+'JOIN'+er):"";
-            // const observations="";
+            // const observations=errors?errors.reduce((acc,er)=>acc+'JOIN'+er):"";
+            const observations="";
             const missings=missingRequiredKeys();
             if(missings.length!==0){
                 setMissing(missings);
