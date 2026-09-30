@@ -63,7 +63,7 @@ export const colors={
 
 }
 
-export const Errors = ({visible,render,isMissing,missing}) => {
+export const Errors = ({save,visible,render,isMissing,missing}) => {
     const {errors,noErrors}=useItemToSave();
     const Errors=(isMissing && noErrors)?missing:errors;
     const errorsLen=Errors.length;
