@@ -1059,10 +1059,10 @@ export const LansaValue=({inputRefs,index,labelJoined,icon,value,renderValidity,
     // const currentProducted=useSelector(state=>state.currentProducted.currentProducted);
     // const currentProductedLen=currentProducted.length;
     useEffect(()=>{
+        alert(JSON.stringify(itemToSave));
         if(!toCreate || toCreate.toString().includes('falsy')){
             const valeur=itemToSave?.name && itemToSave[LABEL];
-            setTextValue(valeur); 
-            // alert(JSON.stringify(itemToSave))
+            setTextValue(valeur);
         }else{
             setTextValue("");
             setItemToSave({});
