@@ -1049,23 +1049,21 @@ const EditRow=({inputRefs,index,obj})=>{
 
 export const LansaValue=({inputRefs,index,labelJoined,icon,value,renderValidity,renderVal})=>{
     const label=labelJoined.charAt(0).toUpperCase()+labelJoined.slice(1);
-    const LABEL=label.replace("Gros grains","gg").replace("Matiere active","matiere_active").toLowerCase()
+    // const LABEL=label.replace("Gros grains","gg").replace("Matiere active","matiere_active").toLowerCase()
     const {currentProductedLen,focusedPro,toCreate}=useCurrentProducted();
     const {itemToSave,setItemToSave,setIndex,INDEX}=useItemToSave();
 
-    const DEFAULTVALUETEXT=(LABEL && itemToSave?.name && itemToSave[LABEL]) || ""; // pour gerer l'input au clic sur row pour update
-    const [textValue,setTextValue]=useState(DEFAULTVALUETEXT);
+    // const DEFAULTVALUETEXT=(LABEL && itemToSave?.name && itemToSave[LABEL]) || ""; // pour gerer l'input au clic sur row pour update
+    const [textValue,setTextValue]=useState("");
     const IamFocused=index===INDEX;
     // const currentProducted=useSelector(state=>state.currentProducted.currentProducted);
     // const currentProductedLen=currentProducted.length;
     useEffect(()=>{
         if(!toCreate || toCreate.toString().includes('falsy')){
             const Label=label.replace("Gros grains","gg").replace("Matiere active","matiere_active").toLowerCase()
-
             const valeur=itemToSave?.name && itemToSave[Label];
-            alert(valeur);
-            alert(JSON.stringify(itemToSave));
-            setTextValue(valeur);
+            const val=valeur===null?"":valeur;
+            setTextValue(val);
         }else{
             setTextValue("");
             setItemToSave({});
