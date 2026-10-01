@@ -260,7 +260,7 @@ export const AnalysedListTour=() => {
                                 ref={scrollViewRef}
                                 horizontal={false}
                                 onContentSizeChange={() => scrollViewRef.current?.scrollToEnd({ animated: true })}
-                                style={{width:"100%",maxHeight:300,padding:10/*,overflowY:"scroll",*/}}
+                                style={{width:"100%",maxHeight:300,padding:10}}
                             >
                           <FlatList
                                         data={analysed}
@@ -362,7 +362,7 @@ export const AnalysedListe=({product,rend}) => {// Pour Poudre-full
                 <PowderHeaders donnees={analysed} headers={headers} render={(anlyss)=>setAnalysed(anlyss)}/>
                 {/* {loading ? (<ActivityIndicator size="large" color="#0000ff" />
                         ) : ( */}
-                    <View style={{width:"100%",height:"auto",maxHeight:740,marginBottom:70,overflowY:"scroll",}}>
+                    <View style={{width:"100%",height:"auto",maxHeight:740,marginBottom:70/*,overflowY:"scroll",*//* etait responsable du double scroll */}}>
                           <FlatList
                                         data={analysed}
                                         keyExtractor={(item,i) =>(item.nChar?.toString()+i.toString())}
@@ -800,7 +800,6 @@ const PoudreWorkSpace=() => {
             const observations="";
             const missings=missingRequiredKeys();
             if(missings.length!==0){
-                alert('missings')
                 setMissing(missings);
                 setIsMissing(true);
                 setVisible(true); 
@@ -882,7 +881,6 @@ const PoudreWorkSpace=() => {
                     setFocusedList([...list,{...rest,...itemToSave,observations:observations,UtilisateurId:targetUser?.id}].sort((firstItem, secondItem) => Number(firstItem.nChar )- Number(secondItem.nChar)));
                     dispatch(storeFocusedListe([...list,builtItem].sort((firstItem, secondItem) => Number(firstItem.nChar) - Number(secondItem.nChar))));
                     // alert(JSON.stringify(builtItem))
-                alert('just before fetch update')
                     fetch(dbBaseRoot+"poudre/analyses/update/"+itemToSave.id,
                     {
                         method: 'PUT',
@@ -896,7 +894,7 @@ const PoudreWorkSpace=() => {
                     .then(data=>{
                         const {code,message,analyses}=data;
 
-                        if(code!=='red'){
+                        if(code && code!=='red'){
                             try{
                                 const {lansas,formules}=!IsEmptyObject(analyses || {})?analyses:{lansas:[],formules:[]};
                                 const ANALYSES=[...lansas,...formules];
@@ -1066,7 +1064,7 @@ export const LansaValue=({inputRefs,index,labelJoined,icon,value,renderValidity,
             setTextValue("");
             setItemToSave({});
         }
-    },[toCreate])
+    },[toCreate,itemToSave])// ajout de itemToSave pour charger les bonnes données à tout clic
 
     function handleLenOverFive(val){if (val.length === 5) {const nextInput = inputRefs.current[index + 1];if (nextInput) {nextInput.focus();}}}
     const handleNext = () => {const nextInput = inputRefs.current[index + 1]; if (nextInput) {nextInput.focus();}};

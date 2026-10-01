@@ -862,12 +862,8 @@ export const ItemToSaveProvider=({children})=>{
     const pickItemToSave=(prop)=>{
         const {key,value,message}=prop;
         const keyFormat=key.replace("max_","");
-        // const libelle=Libelle(key);
-        // const msg=message.replace("Input",libelle+" value");
-        // const ers=[...errors,msg];
         const item={...itemToSave,[keyFormat]:value};
         buildErrors({value,key,message});
-        // setErrors(ers);
         setItemToSave(item);
     }
 
@@ -877,7 +873,6 @@ export const ItemToSaveProvider=({children})=>{
     const noErrors=errors.length===0;
 
     // ==================================================== recemment ====================================
-        // const [obj,setObj]=useState({key:'densite',value:{normes:{min:0,max:500}}});
         const {focusedPro}=useCurrentProducted();
         const [handleUpdateT,setHandleUpdateT]=useState({cb:(v)=>null});
         const [ipt,setIpt]=useState(null)
