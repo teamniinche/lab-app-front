@@ -1059,9 +1059,12 @@ export const LansaValue=({inputRefs,index,labelJoined,icon,value,renderValidity,
     // const currentProducted=useSelector(state=>state.currentProducted.currentProducted);
     // const currentProductedLen=currentProducted.length;
     useEffect(()=>{
-        alert(JSON.stringify(itemToSave));
         if(!toCreate || toCreate.toString().includes('falsy')){
-            const valeur=itemToSave?.name && itemToSave[LABEL];
+            const Label=label.replace("Gros grains","gg").replace("Matiere active","matiere_active").toLowerCase()
+
+            const valeur=itemToSave?.name && itemToSave[Label];
+            alert(valeur);
+            alert(JSON.stringify(itemToSave));
             setTextValue(valeur);
         }else{
             setTextValue("");
