@@ -789,11 +789,11 @@ const PoudreWorkSpace=() => {
     //     setFocusedPro(currentProducted_0);
     // },[]);
 // console.log(focusedPro)
-    function handleEnregistrerPress(){
+    function handleEnregistrerPress(b){
         if(!enregistrerAllowed){setPop({show:true,mesage:"Vous n'avez pas la permission d'enregistrer une analyse !",code:'#880000'});
             return;
         }
-        if(!noErrors){
+        if(!noErrors && !b){
             setVisible(true);
         }else{
             // const observations=errors?errors.reduce((acc,er)=>acc+'JOIN'+er):"";
@@ -937,7 +937,7 @@ const PoudreWorkSpace=() => {
     return <View style={{minWidth:"80%",paddingVertical:40}}>
         {currentProductedLen!==0 && <View style={{width:"100%",height:"auto",maxHeight:540,/*minHeight:750,*/ borderRadius:10,backgroundColor:'rgba(255,255,255,0.4)',justifyContent:'flex-start',alignItems:'center',paddingHorizontal:30,paddingVertical:15,paddingBottom:40,gap:15}}>
             {taches!==undefined && <HeaderOfEdit name={nameToDisplay} couleur={couleur} taches={taches} />}
-            <Errors visible={visible} isMissing={isMissing} missing={missing} render={(b)=>{if(b){alert('that in');handleEnregistrerPress();};setVisible(false)}}/>
+            <Errors visible={visible} isMissing={isMissing} missing={missing} render={(b)=>{if(b){handleEnregistrerPress(true)};setVisible(false)}}/>
             <ScrollView horizontal={false} style={{width:"100%"}}>
                 {Object.entries({'nChar':{normes:{min:1,max:999}},...rest}).map(([key,value],i)=><EditRow 
                     inputRefs={inputRefs} 
@@ -956,7 +956,7 @@ const PoudreWorkSpace=() => {
                                 paddingHorizontal:40,
                                 paddingVertical:10,
                             }}
-                onPress={()=>handleEnregistrerPress()}
+                onPress={()=>handleEnregistrerPress(false)}
             >
                 <Text style={{color:"white",fontWeight:"bold",textAlign:"center",width:"center"}}>{"Enregistrer"+(!toCreate?" les modifications":"")}</Text>
             </TouchableOpacity>}
