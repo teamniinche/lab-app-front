@@ -793,21 +793,17 @@ const PoudreWorkSpace=() => {
         if(!enregistrerAllowed){setPop({show:true,mesage:"Vous n'avez pas la permission d'enregistrer une analyse !",code:'#880000'});
             return;
         }
-        alert('before')
         if(!noErrors && !b){
             setVisible(true);
         }else{
-            alert('else')
             // const observations=errors?errors.reduce((acc,er)=>acc+'JOIN'+er):"";
             const observations="";
             const missings=missingRequiredKeys();
             if(missings.length!==0){
-                alert('missings')
                 setMissing(missings);
                 setIsMissing(true);
                 setVisible(true); 
             }else{
-                alert('no missings create')
                 var saveObject={};
                 if(toCreate && !toCreate.toString().includes('falsy')){
                     // ====================== build des non requis ==================================
@@ -870,7 +866,6 @@ const PoudreWorkSpace=() => {
                     // dispatch(setPowderAnalysed(enregistre));
                    
                 }else{
-                    alert('no missings update')
                     // alert(JSON.stringify(id))
                     // ====================== build des non requis ==================================
                     const notRequired=Object.entries(focusedPro).filter(([ky,vl])=>!Object.keys(itemToSave).includes(ky.replace("max_","")));
@@ -886,6 +881,7 @@ const PoudreWorkSpace=() => {
                     setFocusedList([...list,{...rest,...itemToSave,observations:observations,UtilisateurId:targetUser?.id}].sort((firstItem, secondItem) => Number(firstItem.nChar )- Number(secondItem.nChar)));
                     dispatch(storeFocusedListe([...list,builtItem].sort((firstItem, secondItem) => Number(firstItem.nChar) - Number(secondItem.nChar))));
                     // alert(JSON.stringify(builtItem))
+                alert('just before fetch update')
                     fetch(dbBaseRoot+"poudre/analyses/update/"+itemToSave.id,
                     {
                         method: 'PUT',
