@@ -313,6 +313,7 @@ const keyOk=noErrors && missingLength===0 && toCreate;
             }else{
                 var saveObject={};
                 if(toCreate){
+                    alert('create');
                     // ====================== build du item a enregistre ============================
                     const {list,freeChariot}=ListOfFocusedAndLastNumberTour(focusedProduct,powderAnalysed);
                     // const {list,freeChariot}=ListOfFocusedAndLastNumber(focusedPro,registred);// registred  et focusedPro a la place de focusedProduct a la place powderAnalysed 1
@@ -798,7 +799,8 @@ const LansaValue=({inputRefs,labelJoined,renderSave,keyOk,index,icon,value,rende
     useEffect(()=>{
         if(!toCreate){
             const valeur=itemToSave?.name && itemToSave[label.replace("Gros grains","gg").replace("Matiere active","matiere_active").toLowerCase()];
-            setTextValue(valeur); 
+            const val=valeur===null?"":valeur;
+            setTextValue(val); 
         }else{
             setTextValue("");
             setItemToSave({});
