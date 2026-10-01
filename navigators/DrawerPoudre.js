@@ -800,6 +800,7 @@ const PoudreWorkSpace=() => {
             const observations="";
             const missings=missingRequiredKeys();
             if(missings.length!==0){
+                alert('missings')
                 setMissing(missings);
                 setIsMissing(true);
                 setVisible(true); 
