@@ -1048,23 +1048,26 @@ const EditRow=({inputRefs,index,obj})=>{
 }
 
 export const LansaValue=({inputRefs,index,labelJoined,icon,value,renderValidity,renderVal})=>{
+    const label=labelJoined.charAt(0).toUpperCase()+labelJoined.slice(1);
+    const LABEL=label.replace("Gros grains","gg").replace("Matiere active","matiere_active").toLowerCase()
     const {currentProductedLen,focusedPro,toCreate}=useCurrentProducted();
     const {itemToSave,setItemToSave,setIndex,INDEX}=useItemToSave();
-    const [textValue,setTextValue]=useState("");
+
+    const DEFAULTVALUETEXT=(LABEL && itemToSave?.name && itemToSave[LABEL]) || ""; // pour gerer l'input au clic sur row pour update
+    const [textValue,setTextValue]=useState(DEFAULTVALUETEXT);
     const IamFocused=index===INDEX;
     // const currentProducted=useSelector(state=>state.currentProducted.currentProducted);
     // const currentProductedLen=currentProducted.length;
-    const label=labelJoined.charAt(0).toUpperCase()+labelJoined.slice(1);
     useEffect(()=>{
         if(!toCreate || toCreate.toString().includes('falsy')){
-            const valeur=itemToSave?.name && itemToSave[label.replace("Gros grains","gg").replace("Matiere active","matiere_active").toLowerCase()];
+            const valeur=itemToSave?.name && itemToSave[LABEL];
             setTextValue(valeur); 
             // alert(JSON.stringify(itemToSave))
         }else{
             setTextValue("");
             setItemToSave({});
         }
-    },[toCreate,itemToSave])// ajout de itemToSave pour charger les bonnes données à tout clic
+    },[toCreate])
 
     function handleLenOverFive(val){if (val.length === 5) {const nextInput = inputRefs.current[index + 1];if (nextInput) {nextInput.focus();}}}
     const handleNext = () => {const nextInput = inputRefs.current[index + 1]; if (nextInput) {nextInput.focus();}};
