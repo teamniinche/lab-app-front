@@ -306,6 +306,7 @@ const keyOk=noErrors && missingLength===0 && toCreate;
             }else{
                 var saveObject={};
                 if(toCreate){
+                    console.log("1:","create")
                     // ====================== build du item a enregistre ============================
                     const {list,freeChariot}=ListOfFocusedAndLastNumberTour(focusedProduct,powderAnalysed);
                     // const {list,freeChariot}=ListOfFocusedAndLastNumber(focusedPro,registred);// registred  et focusedPro a la place de focusedProduct a la place powderAnalysed 1
@@ -316,6 +317,7 @@ const keyOk=noErrors && missingLength===0 && toCreate;
                     // ===================== Envoi aux memoires bdd & Context & store =====================
                     setFocusedList([...list,buildItem]);
                     dispatch(storeFocusedListe([...list,buildItem]));
+                    console.log("2:","just before fetch add")
 
                     fetch(dbBaseRoot+"poudre/analyses/add",
                     {
@@ -330,7 +332,11 @@ const keyOk=noErrors && missingLength===0 && toCreate;
                     .then(data=>{
                         const {code,message,analyses}=data;
                         const {lansas,formules}=!IsEmptyObject(analyses || {})?analyses:{lansas:[],formules:[]};
+                    console.log("3:"," add just then")
+
                         try{
+                    console.log("4:"," add in try")
+
                             const ANALYSES=[...lansas,...formules];
                             if(ANALYSES.length!==0){ // Ne rien mettre à jour si [...lansas,...formules] est empty
                                 setRegistred(ANALYSES);
@@ -341,6 +347,8 @@ const keyOk=noErrors && missingLength===0 && toCreate;
                         return lansas;
                     })
                     .then(lansas=>{
+                    console.log("5:","add then2")
+
                         const ID=lansas.slice(-1)[0]?.id || null;// affecter la valeur null à ID si lansas = []. la defaukt value = 101 sera pris une fois dans l'API
                         socket.emit('analysePoudreAdded',{startedAt:aujourdhui,endedAt:demain,code:'green',id:ID})
                     })
@@ -354,8 +362,12 @@ const keyOk=noErrors && missingLength===0 && toCreate;
                     const builtItem={...itemToSave,name:focusedProduct.name,observations:observations,categorie:"local",UtilisateurId:1};
                     const enregistre=[...registredWithoutTheFocused,builtItem];// 2
                     // ===================== Envoi aux memoires Context & store =====================
+                    console.log("1:","update")
+
                     setFocusedList([...list,{...itemToSave,name:focusedProduct.name,observations:observations,UtilisateurId:1}].sort((firstItem, secondItem) => Number(firstItem.nChar )- Number(secondItem.nChar)));
                     dispatch(storeFocusedListe([...list,builtItem].sort((firstItem, secondItem) => Number(firstItem.nChar) - Number(secondItem.nChar))));
+                    console.log("2:","update just before fetch")
+                    
                     fetch(dbBaseRoot+"poudre/analyses/updateTour/"+itemToSave.id,
                        {
                             method: 'PUT',
@@ -367,8 +379,11 @@ const keyOk=noErrors && missingLength===0 && toCreate;
                         })
                     .then(response=>response.json())
                     .then(data=>{
+                    console.log("3:","update then1")
                         
                         try{
+                    console.log("4:","update try")
+
                             const {lansas,formules}=!IsEmptyObject(analyses || {})?analyses:{lansas:[],formules:[]};
                             const ANALYSES=[...lansas,...formules];
                             setRegistred(ANALYSES.sort((firstItem, secondItem) => Number(firstItem.nChar) - Number(secondItem.nChar)));
