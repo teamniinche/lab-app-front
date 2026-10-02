@@ -434,7 +434,6 @@ const keyOk=noErrors && missingLength===0 && toCreate;
         // CAS COMMANDE A : CRÉATION D'UNE ANALYSE
         // ==========================================
         if (toCreate) {
-            console.log("1:", "create");
             
             const { list, freeChariot } = ListOfFocusedAndLastNumberTour(focusedProduct, powderAnalysed);
             const identifier = freeChariot.toString() + "_" + AdjentDayInMs(new Date(), 0).toString();
@@ -452,8 +451,6 @@ const keyOk=noErrors && missingLength===0 && toCreate;
             // Mise à jour optimiste immédiate de l'interface
             setFocusedList([...list, buildItem]);
             dispatch(storeFocusedListe([...list, buildItem]));
-            
-            console.log("2:", "just before fetch add");
 
             const response = await fetch(dbBaseRoot + "poudre/analyses/add", {
                 method: 'POST',
@@ -465,7 +462,6 @@ const keyOk=noErrors && missingLength===0 && toCreate;
             });
 
             const data = await response.json();
-            console.log("3 (Add Response):", data);
 
             if (data.code === "red") {
                 throw new Error(data.message || "Refus de l'API lors de l'ajout.");
@@ -482,7 +478,6 @@ const keyOk=noErrors && missingLength===0 && toCreate;
             }
 
             // Émission temps réel via Socket.io
-            console.log("4: Envoi socket add");
             const ID = data.analyse?.id || lansas.slice(-1)[0]?.id || null;
             socket.emit('analysePoudreAdded', { startedAt: aujourdhui, endedAt: demain, code: 'green', id: ID });
             
@@ -492,8 +487,6 @@ const keyOk=noErrors && missingLength===0 && toCreate;
         // CAS COMMANDE B : MISE À JOUR D'UNE ANALYSE
         // ==========================================
         } else {
-            console.log("1:", "update");
-
             const registredWithoutTheFocused = registred.filter(tem => tem.identifier !== numIdentifier);
             const { list } = ListOfFocusedAndLastNumberTour(focusedPro, registredWithoutTheFocused);
             
@@ -515,8 +508,6 @@ const keyOk=noErrors && missingLength===0 && toCreate;
             // Mise à jour optimiste de l'interface
             setFocusedList(sortedList);
             dispatch(storeFocusedListe(sortedStoreList));
-            
-            console.log("2:", "update just before fetch");
 
             const response = await fetch(dbBaseRoot + "poudre/analyses/updateTour/" + itemToSave.id, {
                 method: 'PUT',
@@ -528,7 +519,6 @@ const keyOk=noErrors && missingLength===0 && toCreate;
             });
 
             const data = await response.json();
-            console.log("3 (Update Response):", data);
 
             if (data.code === "red") {
                 throw new Error(data.message || "Refus de l'API lors de la modification.");
@@ -551,7 +541,6 @@ const keyOk=noErrors && missingLength===0 && toCreate;
         }
 
     } catch (error) {
-        console.error("Erreur interceptée lors du traitement de l'analyse :", error);
         setPop({ 
             show: true, 
             message: "Erreur technique : " + error.message, 
