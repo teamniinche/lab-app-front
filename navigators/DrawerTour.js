@@ -290,117 +290,275 @@ const missingLength=missings.length;
 const keyOk=noErrors && missingLength===0 && toCreate;
 
 
-    const handleEnregistrerPress=()=>{
-        if(!enregistrerAllowed){setPop({show:true,mesage:"Vous n'avez pas la permission d'enregistrer une analyse !",code:'#880000'});
-            return;
-        }
-        if(!noErrors){
-            setVisible(true);
-        }else{
-            // const observations=errors.reduce((acc,er)=>acc+'JOIN'+er)||"";
-            const observations="";
-            if(missingLength!==0){
-                setMissing(missings);
-                setIsMissing(true);
-                setVisible(true);
-            }else{
-                var saveObject={};
-                if(toCreate){
-                    console.log("1:","create")
-                    // ====================== build du item a enregistre ============================
-                    const {list,freeChariot}=ListOfFocusedAndLastNumberTour(focusedProduct,powderAnalysed);
-                    // const {list,freeChariot}=ListOfFocusedAndLastNumber(focusedPro,registred);// registred  et focusedPro a la place de focusedProduct a la place powderAnalysed 1
-                    const identifier=freeChariot.toString()+"_"+AdjentDayInMs(new Date(),0).toString();
-                    // const {densite,silicate,sel,...rest}=saveObject;// pour retirer la densite ,le silicate et le sel
-                    const buildItem={...itemToSave,name:focusedProduct.name,identifier:identifier,nChar:parseFloat(freeChariot),observations:observations,categorie:"local",UtilisateurId:1};
-                    // const enregistre=[...registred,buildItem];// 2
-                    // ===================== Envoi aux memoires bdd & Context & store =====================
-                    setFocusedList([...list,buildItem]);
-                    dispatch(storeFocusedListe([...list,buildItem]));
-                    console.log("2:","just before fetch add")
+    // const handleEnregistrerPress=()=>{
+    //     if(!enregistrerAllowed){setPop({show:true,mesage:"Vous n'avez pas la permission d'enregistrer une analyse !",code:'#880000'});
+    //         return;
+    //     }
+    //     if(!noErrors){
+    //         setVisible(true);
+    //     }else{
+    //         // const observations=errors.reduce((acc,er)=>acc+'JOIN'+er)||"";
+    //         const observations="";
+    //         if(missingLength!==0){
+    //             setMissing(missings);
+    //             setIsMissing(true);
+    //             setVisible(true);
+    //         }else{
+    //             var saveObject={};
+    //             if(toCreate){
+    //                 console.log("1:","create")
+    //                 // ====================== build du item a enregistre ============================
+    //                 const {list,freeChariot}=ListOfFocusedAndLastNumberTour(focusedProduct,powderAnalysed);
+    //                 // const {list,freeChariot}=ListOfFocusedAndLastNumber(focusedPro,registred);// registred  et focusedPro a la place de focusedProduct a la place powderAnalysed 1
+    //                 const identifier=freeChariot.toString()+"_"+AdjentDayInMs(new Date(),0).toString();
+    //                 // const {densite,silicate,sel,...rest}=saveObject;// pour retirer la densite ,le silicate et le sel
+    //                 const buildItem={...itemToSave,name:focusedProduct.name,identifier:identifier,nChar:parseFloat(freeChariot),observations:observations,categorie:"local",UtilisateurId:1};
+    //                 // const enregistre=[...registred,buildItem];// 2
+    //                 // ===================== Envoi aux memoires bdd & Context & store =====================
+    //                 setFocusedList([...list,buildItem]);
+    //                 dispatch(storeFocusedListe([...list,buildItem]));
+    //                 console.log("2:","just before fetch add")
 
-                    fetch(dbBaseRoot+"poudre/analyses/add",
-                    {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'Authorization': `Bearer ${targetUser.token}`
-                        },
-                        body:JSON.stringify(buildItem)
-                    })
-                    .then(response=>response.json())
-                    .then(data=>{
-                        const {code,message,analyses}=data;
-                        const {lansas,formules}=!IsEmptyObject(analyses || {})?analyses:{lansas:[],formules:[]};
-                    console.log("3:",data)
+    //                 fetch(dbBaseRoot+"poudre/analyses/add",
+    //                 {
+    //                     method: 'POST',
+    //                     headers: {
+    //                         'Content-Type': 'application/json',
+    //                         'Authorization': `Bearer ${targetUser.token}`
+    //                     },
+    //                     body:JSON.stringify(buildItem)
+    //                 })
+    //                 .then(response=>response.json())
+    //                 .then(data=>{
+    //                     const {code,message,analyses}=data;
+    //                     const {lansas,formules}=!IsEmptyObject(analyses || {})?analyses:{lansas:[],formules:[]};
+    //                 console.log("3:",data)
 
-                        try{
-                    console.log("4:"," add in try")
+    //                     try{
+    //                 console.log("4:"," add in try")
 
-                            const ANALYSES=[...lansas,...formules];
-                            if(ANALYSES.length!==0){ // Ne rien mettre à jour si [...lansas,...formules] est empty
-                                setRegistred(ANALYSES);
-                                dispatch(setPowderAnalysed(ANALYSES));
-                            }
-                        }catch(error){throw new Error("L'analyse n'a pas pu etre ajoutée: "+error.message);}
+    //                         const ANALYSES=[...lansas,...formules];
+    //                         if(ANALYSES.length!==0){ // Ne rien mettre à jour si [...lansas,...formules] est empty
+    //                             setRegistred(ANALYSES);
+    //                             dispatch(setPowderAnalysed(ANALYSES));
+    //                         }
+    //                     }catch(error){throw new Error("L'analyse n'a pas pu etre ajoutée: "+error.message);}
                         
-                        return lansas;
-                    })
-                    .then(lansas=>{
-                    console.log("5:",lansas)
+    //                     return lansas;
+    //                 })
+    //                 .then(lansas=>{
+    //                 console.log("5:",lansas)
 
-                        const ID=lansas.slice(-1)[0]?.id || null;// affecter la valeur null à ID si lansas = []. la defaukt value = 101 sera pris une fois dans l'API
-                        socket.emit('analysePoudreAdded',{startedAt:aujourdhui,endedAt:demain,code:'green',id:ID})
-                    })
-                    .catch((error)=>setPop({show:true,message:"Error :"+error.message,code:'#880000'}))
+    //                     const ID=lansas.slice(-1)[0]?.id || null;// affecter la valeur null à ID si lansas = []. la defaukt value = 101 sera pris une fois dans l'API
+    //                     socket.emit('analysePoudreAdded',{startedAt:aujourdhui,endedAt:demain,code:'green',id:ID})
+    //                 })
+    //                 .catch((error)=>setPop({show:true,message:"Error :"+error.message,code:'#880000'}))
                         
-                        // alert(error.message))
+    //                     // alert(error.message))
                    
-                }else{
-                    const registredWithoutTheFocused=registred.filter(tem=>tem.identifier!==numIdentifier);// pour identifier on utilise l'identifiant unique qui est une combinaison du nChar et de la date de creation pour eviter les problemes de chariots identiques
-                    const {list}=ListOfFocusedAndLastNumberTour(focusedPro,registredWithoutTheFocused); // registred  et focusedPro a la place de focusedProduct a la place powderAnalysed 1
-                    const builtItem={...itemToSave,name:focusedProduct.name,observations:observations,categorie:"local",UtilisateurId:1};
-                    const enregistre=[...registredWithoutTheFocused,builtItem];// 2
-                    // ===================== Envoi aux memoires Context & store =====================
-                    console.log("1:","update")
+    //             }else{
+    //                 const registredWithoutTheFocused=registred.filter(tem=>tem.identifier!==numIdentifier);// pour identifier on utilise l'identifiant unique qui est une combinaison du nChar et de la date de creation pour eviter les problemes de chariots identiques
+    //                 const {list}=ListOfFocusedAndLastNumberTour(focusedPro,registredWithoutTheFocused); // registred  et focusedPro a la place de focusedProduct a la place powderAnalysed 1
+    //                 const builtItem={...itemToSave,name:focusedProduct.name,observations:observations,categorie:"local",UtilisateurId:1};
+    //                 const enregistre=[...registredWithoutTheFocused,builtItem];// 2
+    //                 // ===================== Envoi aux memoires Context & store =====================
+    //                 console.log("1:","update")
 
-                    setFocusedList([...list,{...itemToSave,name:focusedProduct.name,observations:observations,UtilisateurId:1}].sort((firstItem, secondItem) => Number(firstItem.nChar )- Number(secondItem.nChar)));
-                    dispatch(storeFocusedListe([...list,builtItem].sort((firstItem, secondItem) => Number(firstItem.nChar) - Number(secondItem.nChar))));
-                    console.log("2:","update just before fetch")
+    //                 setFocusedList([...list,{...itemToSave,name:focusedProduct.name,observations:observations,UtilisateurId:1}].sort((firstItem, secondItem) => Number(firstItem.nChar )- Number(secondItem.nChar)));
+    //                 dispatch(storeFocusedListe([...list,builtItem].sort((firstItem, secondItem) => Number(firstItem.nChar) - Number(secondItem.nChar))));
+    //                 console.log("2:","update just before fetch")
                     
-                    fetch(dbBaseRoot+"poudre/analyses/updateTour/"+itemToSave.id,
-                       {
-                            method: 'PUT',
-                            headers: {
-                                'Content-Type': 'application/json',
-                                'Authorization': `Bearer ${targetUser.token}`
-                            },
-                            body:JSON.stringify(builtItem)
-                        })
-                    .then(response=>response.json())
-                    .then(data=>{
-                    console.log("3:","update then1")
+    //                 fetch(dbBaseRoot+"poudre/analyses/updateTour/"+itemToSave.id,
+    //                    {
+    //                         method: 'PUT',
+    //                         headers: {
+    //                             'Content-Type': 'application/json',
+    //                             'Authorization': `Bearer ${targetUser.token}`
+    //                         },
+    //                         body:JSON.stringify(builtItem)
+    //                     })
+    //                 .then(response=>response.json())
+    //                 .then(data=>{
+    //                 console.log("3:","update then1")
                         
-                        try{
-                    console.log("4:","update try")
+    //                     try{
+    //                 console.log("4:","update try")
 
-                            const {lansas,formules}=!IsEmptyObject(analyses || {})?analyses:{lansas:[],formules:[]};
-                            const ANALYSES=[...lansas,...formules];
-                            setRegistred(ANALYSES.sort((firstItem, secondItem) => Number(firstItem.nChar) - Number(secondItem.nChar)));
-                            dispatch(setPowderAnalysed(ANALYSES.sort((firstItem, secondItem) => Number(firstItem.nChar)- Number(secondItem.nChar))));
-                        }catch(error){throw new Error("L'analyse n'a pas pu etre modifiée: "+error.message);}
+    //                         const {lansas,formules}=!IsEmptyObject(analyses || {})?analyses:{lansas:[],formules:[]};
+    //                         const ANALYSES=[...lansas,...formules];
+    //                         setRegistred(ANALYSES.sort((firstItem, secondItem) => Number(firstItem.nChar) - Number(secondItem.nChar)));
+    //                         dispatch(setPowderAnalysed(ANALYSES.sort((firstItem, secondItem) => Number(firstItem.nChar)- Number(secondItem.nChar))));
+    //                     }catch(error){throw new Error("L'analyse n'a pas pu etre modifiée: "+error.message);}
 
-                        // const toPop=code==='green'?
-                        //         {show:true,message:"Analyse modifiée avec succes.",code:code}
-                        //         :
-                        //         {show:true,message:"L'analyse n'a pas pu etre modifiée: "+error.message,code:'#880000'}
-                        // setPop(toPop);
-                    });
-                    setAction("create");
-                }
-            }
-        }
+    //                     // const toPop=code==='green'?
+    //                     //         {show:true,message:"Analyse modifiée avec succes.",code:code}
+    //                     //         :
+    //                     //         {show:true,message:"L'analyse n'a pas pu etre modifiée: "+error.message,code:'#880000'}
+    //                     // setPop(toPop);
+    //                 });
+    //                 setAction("create");
+    //             }
+    //         }
+    //     }
+    // }
+
+    const handleEnregistrerPress = async () => {
+    // 1. Contrôle strict des permissions de sécurité
+    if (!enregistrerAllowed) {
+        setPop({ 
+            show: true, 
+            message: "Vous n'avez pas la permission d'enregistrer une analyse !", 
+            code: '#880000' 
+        });
+        return;
     }
+
+    // 2. Validation des erreurs de formulaire
+    if (!noErrors) {
+        setVisible(true);
+        return;
+    }
+
+    // 3. Validation des paramètres obligatoires manquants
+    if (missingLength !== 0) {
+        setMissing(missings);
+        setIsMissing(true);
+        setVisible(true);
+        return;
+    }
+
+    const observations = "";
+    
+    try {
+        // ==========================================
+        // CAS COMMANDE A : CRÉATION D'UNE ANALYSE
+        // ==========================================
+        if (toCreate) {
+            console.log("1:", "create");
+            
+            const { list, freeChariot } = ListOfFocusedAndLastNumberTour(focusedProduct, powderAnalysed);
+            const identifier = freeChariot.toString() + "_" + AdjentDayInMs(new Date(), 0).toString();
+            
+            const buildItem = { 
+                ...itemToSave, 
+                name: focusedProduct.name, 
+                identifier: identifier, 
+                nChar: parseFloat(freeChariot), 
+                observations: observations, 
+                categorie: "local", 
+                UtilisateurId: 1 
+            };
+
+            // Mise à jour optimiste immédiate de l'interface
+            setFocusedList([...list, buildItem]);
+            dispatch(storeFocusedListe([...list, buildItem]));
+            
+            console.log("2:", "just before fetch add");
+
+            const response = await fetch(dbBaseRoot + "poudre/analyses/add", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${targetUser.token}`
+                },
+                body: JSON.stringify(buildItem)
+            });
+
+            const data = await response.json();
+            console.log("3 (Add Response):", data);
+
+            if (data.code === "red") {
+                throw new Error(data.message || "Refus de l'API lors de l'ajout.");
+            }
+
+            const analysesData = data.analyses || {};
+            const lansas = analysesData.lansas || [];
+            const formules = analysesData.formules || [];
+            const ANALYSES = [...lansas, ...formules];
+
+            if (ANALYSES.length !== 0) {
+                setRegistred(ANALYSES);
+                dispatch(setPowderAnalysed(ANALYSES));
+            }
+
+            // Émission temps réel via Socket.io
+            console.log("4: Envoi socket add");
+            const ID = data.analyse?.id || lansas.slice(-1)[0]?.id || null;
+            socket.emit('analysePoudreAdded', { startedAt: aujourdhui, endedAt: demain, code: 'green', id: ID });
+            
+            setPop({ show: true, message: "Analyse enregistrée avec succès.", code: 'green' });
+
+        // ==========================================
+        // CAS COMMANDE B : MISE À JOUR D'UNE ANALYSE
+        // ==========================================
+        } else {
+            console.log("1:", "update");
+
+            const registredWithoutTheFocused = registred.filter(tem => tem.identifier !== numIdentifier);
+            const { list } = ListOfFocusedAndLastNumberTour(focusedPro, registredWithoutTheFocused);
+            
+            const builtItem = { 
+                ...itemToSave, 
+                name: focusedProduct.name, 
+                observations: observations, 
+                categorie: "local", 
+                UtilisateurId: 1 
+            };
+
+            // Tri par numéro de Chariot (nChar) pour garder l'affichage ordonné
+            const sortedList = [...list, { ...itemToSave, name: focusedProduct.name, observations: observations, UtilisateurId: 1 }]
+                .sort((a, b) => Number(a.nChar) - Number(b.nChar));
+                
+            const sortedStoreList = [...list, builtItem]
+                .sort((a, b) => Number(a.nChar) - Number(b.nChar));
+
+            // Mise à jour optimiste de l'interface
+            setFocusedList(sortedList);
+            dispatch(storeFocusedListe(sortedStoreList));
+            
+            console.log("2:", "update just before fetch");
+
+            const response = await fetch(dbBaseRoot + "poudre/analyses/updateTour/" + itemToSave.id, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${targetUser.token}`
+                },
+                body: JSON.stringify(builtItem)
+            });
+
+            const data = await response.json();
+            console.log("3 (Update Response):", data);
+
+            if (data.code === "red") {
+                throw new Error(data.message || "Refus de l'API lors de la modification.");
+            }
+
+            // CORRECTION CRITIQUE : Extraction sécurisée de 'analyses' depuis la réponse 'data'
+            const analysesData = data.analyses || {};
+            const lansas = analysesData.lansas || [];
+            const formules = analysesData.formules || [];
+            
+            const ANALYSES = [...lansas, ...formules].sort((a, b) => Number(a.nChar) - Number(b.nChar));
+
+            if (ANALYSES.length !== 0) {
+                setRegistred(ANALYSES);
+                dispatch(setPowderAnalysed(ANALYSES));
+            }
+
+            setAction("create"); // Réinitialise l'état du formulaire en mode création
+            setPop({ show: true, message: "Analyse modifiée avec succès.", code: 'green' });
+        }
+
+    } catch (error) {
+        console.error("Erreur interceptée lors du traitement de l'analyse :", error);
+        setPop({ 
+            show: true, 
+            message: "Erreur technique : " + error.message, 
+            code: '#880000' 
+        });
+    }
+};
     return <View style={{width:"96%",margin:'2%',padding:0}}>
        
         {/* {currentProductedLen!==0 &&  */}
@@ -439,7 +597,10 @@ const keyOk=noErrors && missingLength===0 && toCreate;
 }
 
 
-// ============================ WorkSpace =====================================
+
+
+
+
 const HeaderOfEdit=({inputRefs,name,couleur,taches})=>{
 const {toCreate}=useCurrentProducted();
 const tachesSplit=taches?.split("-")|| [];
