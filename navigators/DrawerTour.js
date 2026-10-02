@@ -250,31 +250,24 @@ const ProductedTour=()=>{
 
 const PoudreWorkSpace=() => {
     const dispatch=useDispatch();
-    const {setPop,setNewAna}=usePopup();
+    const {setPop}=usePopup();
     const inputRefs = useRef([]);
-    const {startedAt,endedAt}= useSelector(state => state.period.targetPeriod);
-    const {targetUser,focusedProduct,powderAnalysed,currentProducted}=useSelector(state=>{
+    // const {startedAt,endedAt}= useSelector(state => state.period.targetPeriod);
+    const {targetUser,focusedProduct,powderAnalysed}=useSelector(state=>{
         const targetUser = state.user.targetUser;
         const powderAnalysed=state.powderAnalysed.powderAnalysed;
         const focusedProduct=state.focusedProduct.focusedProduct;
-        const currentProducted=state.currentProducted.currentProducted;
-        return {targetUser,focusedProduct,powderAnalysed,currentProducted};
+        return {targetUser,focusedProduct,powderAnalysed};
     });
 
     const enregistrerAllowed=allowTo("enregistrer analyse",targetUser?.privileges);
     const CLE=enregistrerAllowed?"allowed":"notAllowed";
-    // alert(JSON.stringify(currentProducted))
-    const {toCreate,setAction,ListOfFocusedAndLastNumberTour,currentProductedPro,currentProductedLen,setFocusedList,setFocusedPro,focusedPro,keysAndRequirements,registred,setRegistred}=useCurrentProducted();
+    const {toCreate,setAction,ListOfFocusedAndLastNumberTour,setFocusedList,focusedPro,registred,setRegistred}=useCurrentProducted();
     const {freeChariot}=ListOfFocusedAndLastNumberTour(focusedProduct,powderAnalysed);
-    const {noErrors,errors,itemToSave}=useItemToSave();
-    // const numChariot=itemToSave?.nChar;
+    const {noErrors,itemToSave}=useItemToSave();
     const numIdentifier=itemToSave?.identifier;
     const {name,densite,nom,couleur,taches,format,parfum,percarbonate,mousses,max_gg,max_humidite,alcanite,matiere_active,compression,...Rest}=focusedPro;
-    
-    const {estFormule,nameToDisplay}=isFormule(focusedPro);
     const {silicate,sel,...REST}=Rest;
-    const rest=toCreate?REST:Rest;
-    // alert(JSON.stringify(rest))
     const [visible,setVisible]=useState(false);
     const [isMissing,setIsMissing]=useState(false);
     const [missing,setMissing]=useState({});
@@ -313,15 +306,13 @@ const keyOk=noErrors && missingLength===0 && toCreate;
             }else{
                 var saveObject={};
                 if(toCreate){
-                    alert('create');
                     // ====================== build du item a enregistre ============================
                     const {list,freeChariot}=ListOfFocusedAndLastNumberTour(focusedProduct,powderAnalysed);
                     // const {list,freeChariot}=ListOfFocusedAndLastNumber(focusedPro,registred);// registred  et focusedPro a la place de focusedProduct a la place powderAnalysed 1
                     const identifier=freeChariot.toString()+"_"+AdjentDayInMs(new Date(),0).toString();
                     // const {densite,silicate,sel,...rest}=saveObject;// pour retirer la densite ,le silicate et le sel
                     const buildItem={...itemToSave,name:focusedProduct.name,identifier:identifier,nChar:parseFloat(freeChariot),observations:observations,categorie:"local",UtilisateurId:1};
-                    // alert(JSON.stringify(buildItem))
-                    const enregistre=[...registred,buildItem];// 2
+                    // const enregistre=[...registred,buildItem];// 2
                     // ===================== Envoi aux memoires bdd & Context & store =====================
                     setFocusedList([...list,buildItem]);
                     dispatch(storeFocusedListe([...list,buildItem]));
@@ -348,11 +339,6 @@ const keyOk=noErrors && missingLength===0 && toCreate;
                         }catch(error){throw new Error("L'analyse n'a pas pu etre ajoutée: "+error.message);}
                         
                         return lansas;
-                        // const toPop=code==='green'?
-                        //         {show:true,message:"Analyse enregistrée avec succes.",code:code}
-                        //         :
-                        //         {show:true,message:"L'analyse n'a pas pu etre enregistrée :"+error.message,code:'#880000'}
-                        // setPop(toPop);
                     })
                     .then(lansas=>{
                         const ID=lansas.slice(-1)[0]?.id || null;// affecter la valeur null à ID si lansas = []. la defaukt value = 101 sera pris une fois dans l'API

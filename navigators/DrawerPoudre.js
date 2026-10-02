@@ -753,11 +753,9 @@ const PoudreWorkSpace=() => {
     });
     const enregistrerAllowed=allowTo("enregistrer analyse",targetUser?.privileges);
     const CLE=enregistrerAllowed?"allowed":"notAllowed";
-    // alert(JSON.stringify(currentProducted))
     const {toCreate,setAction,ListOfFocusedAndLastNumber,focusedList,currentProductedPro,currentProductedLen,setFocusedList,setFocusedPro,focusedPro,keysAndRequirements,registred,setRegistred}=useCurrentProducted();
     const chariots=Chariots(focusedList);
     const {noErrors,errors,itemToSave}=useItemToSave();
-    // const numChariot=itemToSave?.nChar;
     const numIdentifier=itemToSave?.identifier;
     const {nom,name,couleur,taches,format,parfum,percarbonate,mousses,densite,compression,...Rest}=focusedPro;
     const {estFormule,nameToDisplay}=isFormule(focusedPro);
@@ -779,16 +777,6 @@ const PoudreWorkSpace=() => {
         return missings;
     };
 
-    // useMemo(()=>{setFocusedPro(focusedProduct);},[focusedProduct]);// pour mettre a jour focused chaque fois que le focused du store est mis a jour a partir de ce component
-    // useLayoutEffect(()=>{ // pour charger le focused initial apres initialisation
-
-    //     const currentProductedValues=Object.values(currentProductedPro);
-    //     const currentProductedLen=currentProductedValues.length;
-    //     const currentProducted_0=currentProductedLen!==0?currentProductedValues[0]:{};
-    //     // setCurrentProductedPro()
-    //     setFocusedPro(currentProducted_0);
-    // },[]);
-// console.log(focusedPro)
     function handleEnregistrerPress(b){
         if(!enregistrerAllowed){setPop({show:true,mesage:"Vous n'avez pas la permission d'enregistrer une analyse !",code:'#880000'});
             return;
@@ -1049,15 +1037,11 @@ const EditRow=({inputRefs,index,obj})=>{
 
 export const LansaValue=({inputRefs,index,labelJoined,icon,value,renderValidity,renderVal})=>{
     const label=labelJoined.charAt(0).toUpperCase()+labelJoined.slice(1);
-    // const LABEL=label.replace("Gros grains","gg").replace("Matiere active","matiere_active").toLowerCase()
     const {currentProductedLen,focusedPro,toCreate}=useCurrentProducted();
     const {itemToSave,setItemToSave,setIndex,INDEX}=useItemToSave();
 
-    // const DEFAULTVALUETEXT=(LABEL && itemToSave?.name && itemToSave[LABEL]) || ""; // pour gerer l'input au clic sur row pour update
     const [textValue,setTextValue]=useState("");
     const IamFocused=index===INDEX;
-    // const currentProducted=useSelector(state=>state.currentProducted.currentProducted);
-    // const currentProductedLen=currentProducted.length;
     useEffect(()=>{
         if(!toCreate || toCreate.toString().includes('falsy')){
             const Label=label.replace("Gros grains","gg").replace("Matiere active","matiere_active").toLowerCase()
