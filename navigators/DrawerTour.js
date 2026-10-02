@@ -347,7 +347,7 @@ const keyOk=noErrors && missingLength===0 && toCreate;
                         return lansas;
                     })
                     .then(lansas=>{
-                    console.log("5:","add then2")
+                    console.log("5:",lansas)
 
                         const ID=lansas.slice(-1)[0]?.id || null;// affecter la valeur null à ID si lansas = []. la defaukt value = 101 sera pris une fois dans l'API
                         socket.emit('analysePoudreAdded',{startedAt:aujourdhui,endedAt:demain,code:'green',id:ID})
