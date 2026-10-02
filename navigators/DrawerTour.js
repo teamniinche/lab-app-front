@@ -332,7 +332,7 @@ const keyOk=noErrors && missingLength===0 && toCreate;
                     .then(data=>{
                         const {code,message,analyses}=data;
                         const {lansas,formules}=!IsEmptyObject(analyses || {})?analyses:{lansas:[],formules:[]};
-                    console.log("3:"," add just then")
+                    console.log("3:",data)
 
                         try{
                     console.log("4:"," add in try")
