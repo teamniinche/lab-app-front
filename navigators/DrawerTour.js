@@ -403,7 +403,7 @@ const keyOk=noErrors && missingLength===0 && toCreate;
     //     }
     // }
 
-    const handleEnregistrerPress = async () => {
+    const handleEnregistrerPress = async (bypass=false) => {
     // 1. Contrôle strict des permissions de sécurité
     if (!enregistrerAllowed) {
         setPop({ 
@@ -944,7 +944,18 @@ const EditRow=({render,renderSave,keyOk,inputRefs,index,obj})=>{ // import de Dr
 
     // =====================================================
 
-    return <View style={{width:"100",flexDirection:'row',justifyContent:'flex-start',alignItems:'center',marginHorizontal:"auto",gap:10}}>
+    return <View style={
+        {
+            position:'relative',
+            width:"100%",
+            flexDirection:'row',
+            justifyContent:'flex-start',
+            alignItems:'center',
+            marginHorizontal:"auto",
+            gap:10
+        }
+        
+    }>
         <LansaValue /*render={()=>render()}*/ renderSave={renderSave} inputRefs={inputRefs} keyOk={keyOk} index={index} value={input} labelJoined={labelJoined} icon={iconAndObs.icon} renderValidity={()=>handleCheckValidity(input)} renderVal={(val)=>setInput(val)}/>
         {input!=="" && <LansaObservations obs={iconAndObs.obs}/>}
     </View>

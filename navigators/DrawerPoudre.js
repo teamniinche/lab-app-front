@@ -1010,7 +1010,18 @@ const EditRow=({inputRefs,index,obj})=>{
         setIconAndObs({icon,obs});
         pickItemToSave({"key":key,"value":val,"message":obs});
     }
-    return <View style={{width:"100%",flexDirection:'row',justifyContent:'flex-start',alignItems:'center',marginBottom:10,marginHorizontal:"auto",gap:10}}>
+    return <View style={
+        {
+            position:'relative',
+            width:"100%",
+            flexDirection:'row',
+            justifyContent:'flex-start',
+            alignItems:'center',
+            marginBottom:10,
+            marginHorizontal:"auto",
+            gap:10
+        }
+    }>
         {index===0?<UniversalCombobox 
             inputRefs={inputRefs} 
             index={index} 
@@ -1174,7 +1185,7 @@ const handleBlur=()=>{
     <View style={style.lansaValue}>
       
       <TextInput
-        style={[style.lansaValue,{borderWidth:IamFocused && 2,borderColor:IamFocused && primaryColor}]}
+        style={[style.lansaValueL,{borderWidth:IamFocused && 2,borderColor:IamFocused && primaryColor}]}
         placeholder="Chariot..."
         value={inputValue}
         onFocus={() => {setIndex(index);setShowDropdown(true)}}
