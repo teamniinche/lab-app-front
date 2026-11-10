@@ -451,6 +451,7 @@ const keyOk=noErrors && missingLength===0 && toCreate;
 
             // Mise à jour optimiste immédiate de l'interface
             setFocusedList([...list, buildItem]);
+            alert(JSON.stringify([...list, buildItem]));
             dispatch(storeFocusedListe([...list, buildItem]));
 
             const response = await fetch(dbBaseRoot + "poudre/analyses/add", {
@@ -921,7 +922,7 @@ const EditRow=({render,renderSave,keyOk,inputRefs,index,obj})=>{ // import de Dr
         });
     };
 /*     ============ ICI NI RENDER EST ACTIF NI RENDERSAVE ==========================
-    1) RENDER : onBlur de LansaValue par renderValidity=>handleCheckValidity de EditRow, paase la main à render si defined => ici undefined
+    1) RENDER : onBlur de LansaValue par renderValidity=>handleCheckValidity de EditRow, passe la main à render si defined => ici undefined
     2) RENDERSAVE : renderSave undefined de LansaValue,traverse d'EditRow à PoudreWorkSpace pour appeler handleEnregistrerPress: Donc s'il ne restait que lui, handleEnregistrerPress ne serait jamais appellé.
 */
     function handleCheckValidity(val){/* Passe la main à handleUpdateT.cb(entrie) par le render(val)
