@@ -415,7 +415,7 @@ const keyOk=noErrors && missingLength===0 && toCreate;
     }
 
     // 2. Validation des erreurs de formulaire
-    if (!noErrors) {
+    if (!noErrors && !bypass) {
         setVisible(true);
         return;
     }
@@ -555,7 +555,7 @@ const keyOk=noErrors && missingLength===0 && toCreate;
         {/* {currentProductedLen!==0 &&  */}
         <View style={{width:"100%",height:"auto",/*minHeight:750,*/ borderRadius:10,backgroundColor:'rgba(255,255,255,0.6)',justifyContent:'flex-start',borderWidth:4,borderColor:'#dddddd',alignItems:'center'/*,paddingHorizontal:10,paddingVertical:8*/,gap:15}}>
             {/* {taches!==undefined && <HeaderOfEdit name={nameToDisplay} couleur={couleur} taches={taches} />} */}
-            <Errors visible={visible} isMissing={isMissing} missing={missing} render={()=>setVisible(false)}/>
+            <Errors visible={visible} isMissing={isMissing} missing={missing} render={(b)=>{setVisible(false);b&&handleEnregistrerPress(b)}}/>
             <ProductedTour/>
             <View style={{flexDirection:'row',justifyContent:'flex-start',padding:'3%',borderTopWidth:2,borderTopColor:'#dddddd',borderRadius:8,gap:5,width:'100%'}}>
                 <Text style={[style.lansaValue,{fontSize:15,paddingHorizontal:10,fontWeight:'bold',textAlign:'center',alignContent:'center'}]}>{name}</Text>
@@ -1270,6 +1270,14 @@ const style=StyleSheet.create({
         textAlign:"center",
         fontSize:15,
     },
+    /*lansaValueL:{
+        minWidth:"100%",
+        // minWidth:"90%",
+        borderWidth:1,
+        borderRadius:5,
+        textAlign:"center",
+        fontSize:15,
+    },
     lansaObservations:{
         
         position:'absolute',
@@ -1310,7 +1318,7 @@ const style=StyleSheet.create({
         padding:10,
         paddingVertical:5,
         marginTop:-10
-    },
+    },*/
     actions:{
         position:'absolute',
         zIndex:1000,

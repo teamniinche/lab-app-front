@@ -36,6 +36,7 @@ import { EveragesProvider,PopupProvider,EveragesPowderProvider,
 import { store, persistor } from './components/store/store.js';
 import {themes} from './assets/colors.js';
 import { storeFocusedListe } from './components/store/reducers/currentProducted.js';
+import { setPowderAnalysed } from './components/store/reducers/powderAnalysesReducer.js';
 // NAVIGATORS & COMPONENTS
 import LiquidesNavigator from "./navigators/liquidesNavigator.js";
 // import PoudreNavigator from "./navigators/poudreNavigator.js";

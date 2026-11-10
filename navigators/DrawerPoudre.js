@@ -76,7 +76,7 @@ export const Errors = ({visible,render,isMissing,missing}) => {
               {Errors.map((er,i)=><Text variant="bodyMedium" key={i} style={{marginBottom:20}}>{"🚨 "+er}</Text>)}
             </Dialog.Content>
             <Dialog.Actions>
-              <Button onPress={()=>render()}>Annuler</Button>
+              <Button onPress={()=>render(false)}>Annuler</Button>
               {noTypeError && <Button onPress={()=>render(true)}>Enregistrer quand mème</Button>}
             </Dialog.Actions>
           </Dialog>
@@ -1073,7 +1073,7 @@ export const LansaValue=({inputRefs,index,labelJoined,icon,value,renderValidity,
         maxLength={5}
         label={label}
         value={textValue} 
-        style={[style.lansaValue,{borderWidth:IamFocused && 2,borderColor:IamFocused && primaryColor}]}
+        style={[style.lansaValueL,{borderWidth:IamFocused && 2,borderColor:IamFocused && primaryColor}]}
         ref={(el) => (inputRefs.current[index] = el)}
         onBlur={()=>renderValidity()}
         onChangeText={(val)=>{setTextValue(val);renderVal(val);handleLenOverFive(val)}}
@@ -1221,7 +1221,7 @@ const handleBlur=()=>{
 }
 
 const style=StyleSheet.create({
-    lansaValue:{
+    lansaValueL:{
         minWidth:"100%",
         // minWidth:"90%",
         borderWidth:1,
