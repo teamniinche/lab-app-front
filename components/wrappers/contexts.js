@@ -874,10 +874,15 @@ export const ItemToSaveProvider=({children})=>{
 
     // ==================================================== recemment ====================================
         const {focusedPro}=useCurrentProducted();
-        const [handleUpdateT,setHandleUpdateT]=useState({cb:(v)=>null});
-        const [ipt,setIpt]=useState(null)
+        const [handleUpdateT,setHandleUpdateT]=useState({cb:(v)=>null});/*enregistre une fonction polymorphe de la mise à jour effective
+                                                            ()=>null est juste un par defaut.
+                                                            Elle forcement definie avant d'engager le traitement  sur la valeur en question 
+                                                        */
+        const [ipt,setIpt]=useState(null); /*responsable du stakage uniquement,
+                                            passe la main à handleCheckValidity(), responsable du traitement
+                                        */
         const [iconAndObs,setIconAndObs]=useState({icon:"",obs:""});
-        const obj={key:'densite',value:focusedPro.densite}
+        const obj={key:'densite',value:focusedPro.densite};
         const {key,value}=obj;
         const min=value?.normes?.min || 0;
         const max=value?.normes?.max || 500;
@@ -893,20 +898,23 @@ export const ItemToSaveProvider=({children})=>{
                 });
         };
     
-        function handleCheckValidity(val){
-            const entrie=val?val:ipt
-            invalidOrSave(entrie)
+        function handleCheckValidity(val){/* cette fonction,responsable du traitement et appelée de 2 manieres:
+                                                avec param (val) | sans param () .
+                                                Prend la main de renderValidity() du component DrawerPoudre/EditRow()  
+                                            */
+            const entrie=val?val:ipt// si avec param ,on prend cette val SINON on prend la valeur de ipt
+            invalidOrSave(entrie) // on teste la conformite de la valeur retenue( si conforme => 'ok' sinon 'ko' par la fonction async invalidOrSave)
             .then(rep=>{
                 if(rep==="ok"){
                     // render!==undefined && render(val);//y mettre ou dans ce render
-                    handleUpdateT.cb(entrie);
+                    handleUpdateT.cb(entrie); // ??? à verifier si elle est definie au prealable du traitement
                 }
                 else{
                     throw new Error("❌ there's error");
                 }
             })
             .catch(function(error){
-                alert(error.message);
+                console.log(error.message);
             })
             
             

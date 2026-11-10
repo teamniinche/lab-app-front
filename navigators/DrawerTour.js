@@ -178,21 +178,25 @@ const ProductedTour=()=>{
         const [K,setK]=useState(null);
         const {setPop,setNewAna}=usePopup();
         const scrollViewRef = useRef(null);
-        const {powderAnalysed,focusedListe}=useSelector(state=>{
+        const {
+            powderAnalysed, //liste generale persistée par redux des produits d'aujourdhui
+            focusedListe  //liste des produits du lansa persisté par redux selectionné sur la tabNav
+        }=useSelector(state=>{
             const powderAnalysed=state.powderAnalysed.powderAnalysed;
             const focusedListe=state.currentProducted.focusedListe;
             return {powderAnalysed,focusedListe};
         })
-        const [analysed,setAnalysed]=useState([]);
-        const {registred,Everages}=useCurrentProducted();
-        function handleResearchChange(txt){
-            // alert(JSON.stringify(registred))
+        const [
+            analysed, // Liste de travail niveau component seulement (useState de react)
+            setAnalysed]=useState([]);
+        useMemo(()=>{setAnalysed(focusedListe?.slice(-20))},[focusedListe]);// focusedListe du store etait import pour cette partie
+            
+        //const {registred,Everages}=useCurrentProducted();
+        /*function handleResearchChange(txt){
             const matchedAnalysed=powderAnalysed.filter(it=>(it.name.toLowerCase().includes(txt.toLowerCase()) || it.nChar.toString().includes(txt)));// registred a la place powderAnalysed
             setAnalysed(matchedAnalysed.slice(20));
-            // .sort((firstItem, secondItem) => firstItem.nChar - secondItem.nChar)
-        }
-
-        useEffect(() => {
+        }*/
+        useEffect(() => {// a propos du socket seulement
             scrollViewRef.current?.scrollToEnd({ animated: true });
             function onCommentPoudreAdded(data){
                 setPop({show:true,status:'high',message:data,code:'green'});
@@ -210,11 +214,8 @@ const ProductedTour=()=>{
                 };
             }, []);
 
-        useMemo(()=>{setAnalysed(focusedListe?.slice(-20))},[focusedListe]);// focusedListe du store etait import pour cette partie
-        // const {name,nom}=focusedListe[0]||{};
-        // const {nameToDisplay}=isFormule(focusedListe[0]||{})
-        // const AnalysedLen=analysed.length;
-        // const {GG,HUMIDITE,MATIERE_ACTIVE,ALCANITE}=Everages(analysed);
+
+        
     return  <>
                 <View style={{flex:1,width:"100%",minHeight:50,backgroundColor:'#e7e0ec',flexDirection:"row",justifyContent:"space-between",alignItems:"center",borderTopLeftRadius:8,borderTopRightRadius:8}}>
                     <Text style={{flex: 1,textAlign: "left",maxWidth:130,minWidth:100,borderWidth:0,backgroundColor:"none",color:'rgba(0,0,0,0.4)',maxHeight:20,height:20,cursor:"pointer",fontWeight:"bold",paddingHorizontal:0,paddingLeft:8,paddingVertical:2,fontSize:14,letterSpacing:2}}
@@ -291,7 +292,7 @@ const keyOk=noErrors && missingLength===0 && toCreate;
 
 
     // const handleEnregistrerPress=()=>{
-    //     if(!enregistrerAllowed){setPop({show:true,mesage:"Vous n'avez pas la permission d'enregistrer une analyse !",code:'#880000'});
+    //     if(!enregistrerAllowed){setPop({show:true,message:"Vous n'avez pas la permission d'enregistrer une analyse !",code:'#880000'});
     //         return;
     //     }
     //     if(!noErrors){
@@ -722,7 +723,7 @@ const PowderRow=({K,ky,ac,setK,item})=>{
    
 
       function handleUpdateTour(vl){
-        if(!enregistrerAllowed){setPop({show:true,mesage:"Vous n'avez pas la permission d'enregistrer une analyse !",code:'#880000'});
+        if(!enregistrerAllowed){setPop({show:true,message:"Vous n'avez pas la permission d'enregistrer une analyse !",code:'#880000'});
             return;
         }
         if(!noErrors){
@@ -762,7 +763,7 @@ const PowderRow=({K,ky,ac,setK,item})=>{
                         const toPop=code==='green'?
                                 {show:true,message:"Analyse modifiée avec succes.",code:code}
                                 :
-                                {show:true,message:"L'analyse n'a pas pu etre modifiée: "+error.message,code:'#880000'}
+                                {show:true,message:"L'analyse n'a pas pu etre modifiée: "+message,code:'#880000'}
                         setPop(toPop);
                         setId2Update(null);
                         setAction("create");
@@ -774,7 +775,9 @@ const PowderRow=({K,ky,ac,setK,item})=>{
 
     useEffect(()=>{
         setHandleUpdateT({cb:handleUpdateTour})
-    },[])
+    },[noErrors, registred, numIdentifier, focusedPro, itemToSave, focusedProduct])
+
+    
 
     // const isIsolate=item.validation?.validation && !item.validation?.ok && Object.values(item.validation?.validation)[0].action==='isolate';
 
@@ -822,7 +825,7 @@ const PowderRow=({K,ky,ac,setK,item})=>{
                             })
                     } */}
                     {(id2Update!==null && isMeToUpdate)?
-                        <EditRowUpdate /*render={(vl)=>handleUpdateTour(vl)}*/ inputRefs={[]} index={0} />
+                        <EditRowUpdate inputRefs={[]} index={0} />
                         :
                         <Text key={0} style={{ flex:1,color: isHovered && primaryColor,borderBottomWidth:1,borderColor:"rgba(0,0,0,0.095)",height:"100%",textAlign:"center",fontSize:isHovered?16:14,fontWeight:"bold",paddingVertical:2,paddingBottom:10}}>{rest['densite']}</Text>
                     }
@@ -906,7 +909,9 @@ const EditRow=({render,renderSave,keyOk,inputRefs,index,obj})=>{ // import de Dr
     const uniquePropriete=["max_gg","max_humidite"];
     const min=uniquePropriete.includes(key)?0:(value?.normes?.min || 0);
     const max=uniquePropriete.includes(key)?value?.normes:(value?.normes?.max || 1000);
-    const invalidOrSave = (val) => {
+
+    //=============== MEME QUE COTE CONTEXTS
+    const invalidOrSave = (val) => {// sert à handleCheckValidity
     return new Promise((resolve, reject) => {
             const valFormat = Number.isNaN(Number(val)) ? val : Number(val); 
             const { icon, obs } = InputIsValid({ input: valFormat, label: labelJoined, normes: { min, max } });
@@ -915,23 +920,29 @@ const EditRow=({render,renderSave,keyOk,inputRefs,index,obj})=>{ // import de Dr
             if (obs === "") {resolve("ok");} else {reject("ko");}
         });
     };
-
-    function handleCheckValidity(val){
+/*     ============ ICI NI RENDER EST ACTIF NI RENDERSAVE ==========================
+    1) RENDER : onBlur de LansaValue par renderValidity=>handleCheckValidity de EditRow, paase la main à render si defined => ici undefined
+    2) RENDERSAVE : renderSave undefined de LansaValue,traverse d'EditRow à PoudreWorkSpace pour appeler handleEnregistrerPress: Donc s'il ne restait que lui, handleEnregistrerPress ne serait jamais appellé.
+*/
+    function handleCheckValidity(val){/* Passe la main à handleUpdateT.cb(entrie) par le render(val)
+                                        pour etre au meme niveau que le handleCheckValidity() de CONTEXTS
+                                    */
         invalidOrSave(val)
         .then(rep=>{
             if(rep==="ok"){
-                render!==undefined && render(val);//y mettre ou dans ce render
+                render!==undefined && render(val);//!==undefined que dans page labo(DrawerPoudre):y mettre ou dans ce render
             }
             else{
                 throw new Error("❌ there's error");
             }
         })
         .catch(function(error){
-            alert(error.message);
-        })
-        
-        
+            console.log(error.message);
+        })   
     }
+
+    // =====================================================
+
     return <View style={{width:"100",flexDirection:'row',justifyContent:'flex-start',alignItems:'center',marginHorizontal:"auto",gap:10}}>
         <LansaValue /*render={()=>render()}*/ renderSave={renderSave} inputRefs={inputRefs} keyOk={keyOk} index={index} value={input} labelJoined={labelJoined} icon={iconAndObs.icon} renderValidity={()=>handleCheckValidity(input)} renderVal={(val)=>setInput(val)}/>
         {input!=="" && <LansaObservations obs={iconAndObs.obs}/>}
@@ -978,8 +989,17 @@ const LansaValue=({inputRefs,labelJoined,renderSave,keyOk,index,icon,value,rende
         value={textValue} 
         style={[style.lansaValue,{borderWidth:IamFocused && 2,borderColor:IamFocused && primaryColor}]}
         ref={inputDensityRef}
+
         onBlur={()=>renderValidity()}
-        onChangeText={(val)=>{setTextValue(val);setIpt(val);renderVal(val);handleLenOverFive(val)}}
+        onChangeText={(val)=>{ // ALIMENTATIONS DES STATE AU FUR ET A MESURE QU'ON SAISI
+                setTextValue(val);  // NIV0 alimente le STATE local(niveau fonctionnel)
+                renderVal(val);     // NIV1 sert les sous-composant du composant-parent
+                setIpt(val);        // NIV2 alimente le state COTE CONTEXTS (responsable de la mise à jour auto de la page)
+
+                handleLenOverFive(val) // NIV-1 gestion du focus seulement
+            }
+        }
+
         right={<TextInput.Icon icon={value!==""?icon:"minus"} size={value===""?1:15} color={value===""?"grey":(icon==="check"?"green":"red")}/>}
     />
 }
@@ -1010,7 +1030,7 @@ const Actions=({item})=>{// import de DrawerPoudre
     function validationAction(action){
         const act=action==='isolate'?'isoler chariot':'injecter chariot';
         const validationAllowed=allowTo(act,targetUser?.privileges);
-        if(!validationAllowed){setPop({show:true,mesage:"Vous n'etes pas habileté à effectuer cette action !\nRapprochez-vous de votre superieur.",code:'#880000'});return;}
+        if(!validationAllowed){setPop({show:true,message:"Vous n'etes pas habileté à effectuer cette action !\nRapprochez-vous de votre superieur.",code:'#880000'});return;}
         // fetch(`${dbBaseRoot}poudre/validations/action?startedAt=${aujourdhui}&endedAt=${demain}`,
         fetch(`${dbBaseRoot}poudre/validations/action`,
                     {
@@ -1118,7 +1138,7 @@ const Actions=({item})=>{// import de DrawerPoudre
             // dispatch(postAnalyses(null));
             // render(itms);
         }catch(error){
-            setPop({show:true,mesage:"Analyse "+item.id+" n'a pu etre supprimee !"+error,code:'#880000'});
+            setPop({show:true,message:"Analyse "+item.id+" n'a pu etre supprimee !"+error,code:'#880000'});
         }
     }
 
@@ -1143,7 +1163,7 @@ const Actions=({item})=>{// import de DrawerPoudre
         )}
 
   const handleUpdate=async ()=>{
-    if(!updateAllowed){setPop({show:true,mesage:"Vous n'avez pas la permission de modifier une analyse !\nRapprochez-vous de votre responsable de departement.",code:'#880000'});return;}
+    if(!updateAllowed){setPop({show:true,message:"Vous n'avez pas la permission de modifier une analyse !\nRapprochez-vous de votre responsable de departement.",code:'#880000'});return;}
     setId2Update(item.id)
     setItemToSave(item);
     setAction("update");

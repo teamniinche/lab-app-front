@@ -108,7 +108,11 @@ const MainNavigator=()=>{// Pour rester dans le context du store
   const {setPop,setNewAna}=usePopup();
   const {ListOfFocusedAndLastNumber}=useCurrentProducted();
   const navigationRef=useRef();
-  const {targetUser}=useSelector(state=>state.user);
+  const {targetUser,storeFocusedListe}=useSelector(state=>{
+    const targetUser=state.user;
+    const storeFocusedListe=state.CurrentProducted.storeFocusedListe;
+    return {targetUser,storeFocusedListe};
+  });
   const department=targetUser?.depart_affecte;
   const {poudreAllowed,tourAllowed,liquidesAllowed,javelAllowed}=useMemo(()=>{
     const poudreAllowed=allowTo("POUDRE",targetUser?.privileges) && department==='Laboratoire central';
