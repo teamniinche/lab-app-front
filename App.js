@@ -22,7 +22,7 @@ import { NavigationContainer,getPathFromState} from "@react-navigation/native";
 import { Provider as PaperProvider,Portal} from 'react-native-paper';
 import { PersistGate } from 'redux-persist/integration/react';
 import socket from './assets/socketService.js';
-import NetInfo from '@react-native-community/netinfo';
+//import NetInfo from '@react-native-community/netinfo';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ErrorBoundary } from 'react-error-boundary';
 import Slider from "@react-native-community/slider";
@@ -35,6 +35,7 @@ import { EveragesProvider,PopupProvider,EveragesPowderProvider,
   CurrentJavelProductedProvider,usePopup,useCurrentProducted,CurrentProductedProvider,NetInfoProvider,useNetInfo} from './components/wrappers/contexts.js';
 import { store, persistor } from './components/store/store.js';
 import {themes} from './assets/colors.js';
+import { storeFocusedListe } from './components/store/reducers/currentProducted.js';
 // NAVIGATORS & COMPONENTS
 import LiquidesNavigator from "./navigators/liquidesNavigator.js";
 // import PoudreNavigator from "./navigators/poudreNavigator.js";
@@ -108,11 +109,7 @@ const MainNavigator=()=>{// Pour rester dans le context du store
   const {setPop,setNewAna}=usePopup();
   const {ListOfFocusedAndLastNumber}=useCurrentProducted();
   const navigationRef=useRef();
-  const {targetUser,storeFocusedListe}=useSelector(state=>{
-    const targetUser=state.user;
-    const storeFocusedListe=state.CurrentProducted.storeFocusedListe;
-    return {targetUser,storeFocusedListe};
-  });
+  const {targetUser}=useSelector(state=>state.user);
   const department=targetUser?.depart_affecte;
   const {poudreAllowed,tourAllowed,liquidesAllowed,javelAllowed}=useMemo(()=>{
     const poudreAllowed=allowTo("POUDRE",targetUser?.privileges) && department==='Laboratoire central';
@@ -349,7 +346,7 @@ const Viscosimetre=()=>{
       setWidth(0);
     }
     if(val==="ENTER"){
-      console.log(((Number(value)/8000)*txtWidth).toFixed(0));
+      alert(((Number(value)/8000)*txtWidth).toFixed(0));
     }
     if(typeof(val)==="number"){
       setValue(prev=>prev+(val.toString()));
