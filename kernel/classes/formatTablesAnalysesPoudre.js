@@ -68,7 +68,7 @@ async _init(){try{//{API_URL,startedAt,endedAt,product}
     // //     // this.mois_date_dep_engine()                       //ok
     // );
     // return this._analyses;
-    }catch(error){alert(error.message);}
+    }catch(error){console.log(error.message);}
 }
 
 // periode -> departement -> Machine
@@ -120,7 +120,7 @@ product_mois_date(elements){
 
 // ====================== FONCTIONS UTILITAIRES ==============================================
     _formatElements(elements){
-        if (!elements){alert('null or undefined'); return []};
+        if (!elements){console.log('null or undefined'); return []};
         return Array.isArray(elements)?elements:Object.entries(elements);
     }
     _DateString=(dateTimeString)=>{

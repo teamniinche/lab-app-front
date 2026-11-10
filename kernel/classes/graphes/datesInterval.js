@@ -34,7 +34,7 @@ class Interval{
 
 // ====================== FONCTIONS UTILITAIRES ==============================================
     _formatElements(elements){
-        if (!elements){alert('null or undefined'); return []};
+        if (!elements){console.log('null or undefined'); return []};
         return Array.isArray(elements)?elements:Object.entries(elements);
     }
 

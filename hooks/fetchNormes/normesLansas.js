@@ -9,5 +9,5 @@ export default async function getNormesLansas() {
                     const data = dt.data;
                     return data;
                 }catch(error){
-                    alert(error.message)
+                    console.log(error.message)
                 }}

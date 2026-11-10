@@ -189,9 +189,9 @@ export default function CustomJavelDrawerContent() {
 const AddItem=({type,libelle})=>{
   const targetUser=useSelector(state => state.user.targetUser);
    const {setWrapperShow,setItemStored}=useJavelFormules();
-  const handlePress=()=>{
+  /*const handlePress=()=>{
     return alert(type)
-  }
+  }*/
   const handleEditPress=()=>{
     if(!allowTo("ajouter une norme",targetUser?.privileges)){
         alert("Vous n'êtes pas habileté à ajouter une norme.\nC'est du ressort exclusif de responsable de departement !");
@@ -210,9 +210,9 @@ const AddItem=({type,libelle})=>{
 const AddFormule=({type,libelle})=>{
   const targetUser=useSelector(state => state.user.targetUser);
    const {setFWrapperShow}=useJavelFormules();
-  const handlePress=()=>{
+ /* const handlePress=()=>{
     return alert(type)
-  }
+  }*/
   const handleEditPress=()=>{
     if(!allowTo("ajouter une norme",targetUser?.privileges)){
         alert("Vous n'êtes pas habileté à ajouter une norme.\nC'est du ressort exclusif de responsable de departement !");

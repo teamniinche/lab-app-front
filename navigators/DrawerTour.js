@@ -451,7 +451,7 @@ const keyOk=noErrors && missingLength===0 && toCreate;
 
             // Mise à jour optimiste immédiate de l'interface
             setFocusedList([...list, buildItem]);
-            alert(JSON.stringify([...list, buildItem]));
+            //alert(JSON.stringify([...list, buildItem]));
             dispatch(storeFocusedListe([...list, buildItem]));
 
             const response = await fetch(dbBaseRoot + "poudre/analyses/add", {
@@ -892,7 +892,7 @@ const EditRowUpdate=({keyOk,inputRefs,index})=>{ // import de DrawerPoudre
             inputRefs={inputRefs} keyOk={keyOk} 
             index={index} 
             value={input} 
-            labelJoined={labelJoined} 
+            labelJoined={labelJoined}
             icon={iconAndObs.icon} 
             renderValidity={()=>handleCheckValidity(input)}
             renderVal={(val)=>setInput(val)}

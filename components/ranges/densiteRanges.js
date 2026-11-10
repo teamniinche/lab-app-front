@@ -70,7 +70,7 @@ const DensiteRange = ({item}) => {
       setWidth(0);
     }
     if(vl==="ENTER"){
-      alert(((Number(value)/8000)*txtWidth).toFixed(0));
+      console.log(((Number(value)/8000)*txtWidth).toFixed(0));
     }
     if(typeof(vl)==="number" && entire==="0"){
       setValue(prev=>prev.toString()+vl.toString());

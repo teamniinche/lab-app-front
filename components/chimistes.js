@@ -19,7 +19,7 @@ export const Chimistes=({navigation})=>{
         }).then((response)=>response.json())
         .then((data)=>{setUsers(data)})//alert(JSON.stringify(data));
         .catch (function(error){
-                alert("Erreur lors de la récupération des utilisateurs :", error);
+                console.log("Erreur lors de la récupération des utilisateurs :", error);
             }
         )
     },[])

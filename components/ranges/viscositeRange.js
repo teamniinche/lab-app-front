@@ -71,7 +71,7 @@ const ViscoRange = ({item}) => {
       setWidth(0);
     }
     if(vl==="ENTER"){
-      alert(((Number(value)/8000)*txtWidth).toFixed(0));
+      console.log(((Number(value)/8000)*txtWidth).toFixed(0));
     }
     if(typeof(vl)==="number" && String(value).length<maxLength){
       setValue(prev=>prev.toString()+vl.toString());

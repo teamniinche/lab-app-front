@@ -349,7 +349,7 @@ const Viscosimetre=()=>{
       setWidth(0);
     }
     if(val==="ENTER"){
-      alert(((Number(value)/8000)*txtWidth).toFixed(0));
+      console.log(((Number(value)/8000)*txtWidth).toFixed(0));
     }
     if(typeof(val)==="number"){
       setValue(prev=>prev+(val.toString()));
