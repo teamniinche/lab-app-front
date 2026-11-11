@@ -217,7 +217,7 @@ const ProductedTour=()=>{
         const [
             analysed, // Liste de travail niveau component seulement (useState de react)
             setAnalysed]=useState([]);
-        useMemo(()=>{setAnalysed(focusedListe?.slice(-20))},[focusedListe]);// focusedListe du store etait import pour cette partie
+        useMemo(()=>{setAnalysed(focusedListe?.slice(-20))},[focusedListe,powderAnalysed]);// focusedListe du store etait import pour cette partie
             
         //const {registred,Everages}=useCurrentProducted();
         /*function handleResearchChange(txt){
