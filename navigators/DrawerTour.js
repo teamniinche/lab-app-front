@@ -987,7 +987,7 @@ const EditRow=({render,renderSave,keyOk,inputRefs,index,obj})=>{ // import de Dr
     return <View style={
         {
             position:'relative',
-            width:"60%",
+            width:180,
             flexDirection:'row',
             justifyContent:'flex-start',
             alignItems:'center',
