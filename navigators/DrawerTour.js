@@ -559,7 +559,7 @@ const keyOk=noErrors && missingLength===0 && toCreate;
             <ProductedTour/>
             <View style={{flexDirection:'row',justifyContent:'flex-start',padding:'3%',borderTopWidth:2,borderTopColor:'#dddddd',borderRadius:8,gap:5,width:'100%'}}>
                 <Text style={[style.lansaValue,{fontSize:15,paddingHorizontal:10,fontWeight:'bold',textAlign:'center',alignContent:'center'}]}>{name}</Text>
-                {Object.entries({chariot:{defaut:freeChariot,normes:{min:1,max:2000}},densite:densite}).map(([key,value],i)=><EditRow keyOk={keyOk} renderSave={()=>handleEnregistrerPress()} inputRefs={inputRefs} index={i} key={i} obj={{key:key,value:value}}/>)}
+                {Object.entries({chariot:{defaut:freeChariot,normes:{min:1,max:2000}},densite:densite}).map(([key,value],i)=><EditRow keyOk={keyOk} renderSave={()=>handleEnregistrerPress(false)} inputRefs={inputRefs} index={i} key={i} obj={{key:key,value:value}}/>)}
                  <TouchableOpacity 
                     disabled={!enregistrerAllowed}
                                     style={{
@@ -887,7 +887,13 @@ const EditRowUpdate=({keyOk,inputRefs,index})=>{ // import de DrawerPoudre
     const {handleCheckValidity,labelJoined,iconAndObs}=useItemToSave();
 
 
-    return <View style={{flexDirection:'row',justifyContent:'flex-start',alignItems:'center',marginHorizontal:"auto",gap:10}}>
+    return <View style={{
+            flexDirection:'row',
+            justifyContent:'flex-start',
+            alignItems:'center',
+            marginHorizontal:"auto",
+            gap:10
+        }}>
         <LansaValue
             inputRefs={inputRefs} keyOk={keyOk} 
             index={index} 
@@ -946,8 +952,7 @@ const EditRow=({render,renderSave,keyOk,inputRefs,index,obj})=>{ // import de Dr
 
     return <View style={
         {
-            position:'relative',
-            width:"100%",
+            width:"100",
             flexDirection:'row',
             justifyContent:'flex-start',
             alignItems:'center',

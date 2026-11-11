@@ -1182,7 +1182,7 @@ const handleBlur=()=>{
 
   return (
     // 1. LE CONTENEUR PRINCIPAL DOIT ÊTRE EN EN RELATIF
-    <View style={style.lansaValue}>
+    <View style={style.lansaValueL}>
       
       <TextInput
         style={[style.lansaValueL,{borderWidth:IamFocused && 2,borderColor:IamFocused && primaryColor}]}
