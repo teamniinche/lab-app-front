@@ -47,6 +47,9 @@ function Flex(dir,jC,aI){
 }
 
 const hotReloadData = (data,bool) => {
+    const dispatch=useDispatch();
+    const {setRegistred}=useCurrentProducted();
+
     return new Promise((resolve, reject) => {
         try {
             const analysesData = data.analyses || {};
@@ -431,8 +434,9 @@ const keyOk=noErrors && missingLength===0 && toCreate;
     //     }
     // }
 
-    const handleEnregistrerPress = async (bypass=false) => {
+    const handleEnregistrerPress = async (bypass) => {
     // 1. Contrôle strict des permissions de sécurité
+    const BYPASS=(bypass && bypass!==null && bypass!==undefined)?bypass:false;
     if (!enregistrerAllowed) {
         setPop({ 
             show: true, 
@@ -443,7 +447,7 @@ const keyOk=noErrors && missingLength===0 && toCreate;
     }
 
     // 2. Validation des erreurs de formulaire
-    if (!noErrors && !bypass) {
+    if (!noErrors && !BYPASS) {
         setVisible(true);
         return;
     }
@@ -602,7 +606,7 @@ const keyOk=noErrors && missingLength===0 && toCreate;
                                         paddingHorizontal:5,
                                         paddingVertical:15,
                                     }}
-                        onPress={handleEnregistrerPress}
+                        onPress={()=>handleEnregistrerPress()}
                     >
                         <Text style={{color:"white",fontWeight:"bold",textAlign:"center"}}>Save</Text>
                     </TouchableOpacity>
@@ -987,7 +991,6 @@ const EditRow=({render,renderSave,keyOk,inputRefs,index,obj})=>{ // import de Dr
     return <View style={
         {
             position:'relative',
-            width:180,
             flexDirection:'row',
             justifyContent:'flex-start',
             alignItems:'center',
