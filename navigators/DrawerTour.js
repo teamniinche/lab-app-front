@@ -45,6 +45,34 @@ function Flex(dir,jC,aI){
     alignItems:aI,
   }
 }
+
+const hotReloadData = (data,bool) => {
+    return new Promise((resolve, reject) => {
+        try {
+            const analysesData = data.analyses || {};
+            const lansas = analysesData.lansas || [];
+            const formules = analysesData.formules || [];
+            const ANALYSESNOTFILTRED = [...lansas, ...formules];
+            const ANALYSESFILTRED = [...lansas, ...formules].sort((a, b) => Number(a.nChar) - Number(b.nChar));
+            const ANALYSES=bool?ANALYSESFILTRED:ANALYSESNOTFILTRED;
+
+            if (ANALYSES.length !== 0) {
+                setRegistred(ANALYSES);
+                dispatch(setPowderAnalysed(ANALYSES));
+                
+                // On résout la promesse en retournant les données traitées
+                resolve({success:true,lansas:lansas,formules:formules}); 
+            } else {
+                // Optionnel : résoudre avec un tableau vide ou rejeter selon votre besoin métier
+                resolve({success:true,lansas:[],formules:[]}); 
+            }
+        } catch (error) {
+            // Sécurité si 'data' est indéfini ou provoque un plantage
+            reject(error); 
+        }
+    });
+};
+
 const Drawer = createDrawerNavigator();
 
 const UpdateLansa = ({visible,item}) => {// import de DrawerPoudre
@@ -469,7 +497,7 @@ const keyOk=noErrors && missingLength===0 && toCreate;
                 throw new Error(data.message || "Refus de l'API lors de l'ajout.");
             }
 
-            const analysesData = data.analyses || {};
+           /* const analysesData = data.analyses || {};
             const lansas = analysesData.lansas || [];
             const formules = analysesData.formules || [];
             const ANALYSES = [...lansas, ...formules];
@@ -477,8 +505,10 @@ const keyOk=noErrors && missingLength===0 && toCreate;
             if (ANALYSES.length !== 0) {
                 setRegistred(ANALYSES);
                 dispatch(setPowderAnalysed(ANALYSES));
-            }
+            }*/
 
+            const reloadedData= await hotReloadData(data,false);
+            const lansas=reloadedData.success?reloadedData.lansas:[];
             // Émission temps réel via Socket.io
             const ID = data.analyse?.id || lansas.slice(-1)[0]?.id || null;
             socket.emit('analysePoudreAdded', { startedAt: aujourdhui, endedAt: demain, code: 'green', id: ID });
@@ -527,7 +557,7 @@ const keyOk=noErrors && missingLength===0 && toCreate;
             }
 
             // CORRECTION CRITIQUE : Extraction sécurisée de 'analyses' depuis la réponse 'data'
-            const analysesData = data.analyses || {};
+            /*const analysesData = data.analyses || {};
             const lansas = analysesData.lansas || [];
             const formules = analysesData.formules || [];
             
@@ -536,7 +566,8 @@ const keyOk=noErrors && missingLength===0 && toCreate;
             if (ANALYSES.length !== 0) {
                 setRegistred(ANALYSES);
                 dispatch(setPowderAnalysed(ANALYSES));
-            }
+            }*/
+           const reloadedData=await hotReloadData(data,true);
 
             setAction("create"); // Réinitialise l'état du formulaire en mode création
             setPop({ show: true, message: "Analyse modifiée avec succès.", code: 'green' });
@@ -559,7 +590,7 @@ const keyOk=noErrors && missingLength===0 && toCreate;
             <ProductedTour/>
             <View style={{flexDirection:'row',justifyContent:'flex-start',padding:'3%',borderTopWidth:2,borderTopColor:'#dddddd',borderRadius:8,gap:5,width:'100%'}}>
                 <Text style={[style.lansaValue,{fontSize:15,paddingHorizontal:10,fontWeight:'bold',textAlign:'center',alignContent:'center'}]}>{name}</Text>
-                {Object.entries({chariot:{defaut:freeChariot,normes:{min:1,max:2000}},densite:densite}).map(([key,value],i)=><EditRow keyOk={keyOk} renderSave={()=>handleEnregistrerPress(false)} inputRefs={inputRefs} index={i} key={i} obj={{key:key,value:value}}/>)}
+                {Object.entries({chariot:{defaut:freeChariot,normes:{min:1,max:2000}},densite:densite}).map(([key,value],i)=><EditRow keyOk={keyOk} renderSave={()=>handleEnregistrerPress()} inputRefs={inputRefs} index={i} key={i} obj={{key:key,value:value}}/>)}
                  <TouchableOpacity 
                     disabled={!enregistrerAllowed}
                                     style={{
@@ -658,10 +689,12 @@ const PowderRow=({K,ky,ac,setK,item})=>{
     const isMeToUpdate=id2Update===item.id;
     const hoveredStyle={backgroundColor:'rgba(0,0,255,0.1)',borderWidth:0.2,borderColor:primaryColor,borderRadius:5};
     const isolateStyle={backgroundColor:'rgba(255,0,0,0.1)',borderWidth:0.1,borderColor:'rgba(255,0,0,0.2)',borderRadius:4};
+    const invalidStyle={backgroundColor:'rgba(255,0,0,0.4)',borderWidth:0.1,borderColor:'rgba(255,0,0,0.4)',borderRadius:2};
     const injectStyle={backgroundColor:'rgba(255, 242, 0, 0.2)',borderWidth:0.1,borderColor:'rgba(255,0,0,0.1)',borderRadius:4};
     // const isIsolate=filterp.isIsolated(item);
     const isInject=filterp.isInjected(item);
     const isToInject=filterp.isToInject(item);
+    const isInvalid=filterp.isInvalid(item);
     // const handleAddComment=()=>{
     //     const pseudo=toggle?"ndour":"Moneem";
     //     const commnts=[[comment,"Mamadou","Ndour",null,true,pseudo],...comments];
@@ -796,6 +829,7 @@ const PowderRow=({K,ky,ac,setK,item})=>{
                             paddingVertical:2,
                             paddingHorizontal:4
                         },
+                        isInvalid && invalidStyle,
                         isToInject && isolateStyle,
                         isHovered && hoveredStyle,
                         isInject && injectStyle,
@@ -952,10 +986,12 @@ const EditRow=({render,renderSave,keyOk,inputRefs,index,obj})=>{ // import de Dr
 
     return <View style={
         {
-            width:"100",
+            position:'relative',
+            width:"60%",
             flexDirection:'row',
             justifyContent:'flex-start',
             alignItems:'center',
+            marginBottom:10,
             marginHorizontal:"auto",
             gap:10
         }
@@ -1060,13 +1096,14 @@ const Actions=({item})=>{// import de DrawerPoudre
                     })
                     .then(response=>response.json())
                     .then(data=>{
+                        console.log(data);
                         const {code,message,analyses}=data;
                         const {lansas,formules}=!IsEmptyObject(analyses || {})?analyses:{lansas:[],formules:[]};
                         try{
                             const ANALYSES=[...lansas,...formules];
                             console.log(ANALYSES);
                             if(ANALYSES.length!==0){ // Ne rien mettre à jour si [...lansas,...formules] est empty
-                                // setRegistred(ANALYSES);
+                                setRegistred(ANALYSES);
                                 dispatch(setPowderAnalysed(ANALYSES));
                             }
                             setPop({show:true,message:message,code:code});

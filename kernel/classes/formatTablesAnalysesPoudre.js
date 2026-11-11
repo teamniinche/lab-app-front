@@ -176,6 +176,15 @@ product_mois_date(elements){
     isNotConforme(t){
         return !t.item?.validation?.ok;
     }
+
+    /**
+     * analyse non conforme et aucune action n'est encore decidée la dessus.
+     * @param {*} analyse t 
+     * @returns boolean
+     */
+    isInvalid(t){
+        return this.isNotConforme(t) && !this.isIsolated;
+    }
     findNotConformes(elements){
         return this._formatElements(elements).filter(item=>this.isNotConforme(item));
     }
