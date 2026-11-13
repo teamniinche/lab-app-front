@@ -46,9 +46,7 @@ function Flex(dir,jC,aI){
   }
 }
 
-const hotReloadData = (data,bool) => {
-    const dispatch=useDispatch();
-    const {setRegistred}=useCurrentProducted();
+const hotReloadData = (dispatch,setRegistred,data,bool) => {
 
     return new Promise((resolve, reject) => {
         try {
@@ -511,7 +509,7 @@ const keyOk=noErrors && missingLength===0 && toCreate;
                 dispatch(setPowderAnalysed(ANALYSES));
             }*/
 
-            const reloadedData= await hotReloadData(data,false);
+            const reloadedData= await hotReloadData(dispatch,setRegistred,data,false);
             const lansas=reloadedData.success?reloadedData.lansas:[];
             // Émission temps réel via Socket.io
             const ID = data.analyse?.id || lansas.slice(-1)[0]?.id || null;
@@ -571,7 +569,7 @@ const keyOk=noErrors && missingLength===0 && toCreate;
                 setRegistred(ANALYSES);
                 dispatch(setPowderAnalysed(ANALYSES));
             }*/
-           const reloadedData=await hotReloadData(data,true);
+           const reloadedData=await hotReloadData(dispatch,setRegistred,data,true);
 
             setAction("create"); // Réinitialise l'état du formulaire en mode création
             setPop({ show: true, message: "Analyse modifiée avec succès.", code: 'green' });
