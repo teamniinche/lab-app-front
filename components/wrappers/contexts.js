@@ -862,7 +862,7 @@ export const ItemToSaveProvider=({children})=>{
     const pickItemToSave=(prop)=>{
         const {key,value,message}=prop;
         const keyFormat=key.replace("max_","");
-        const item={...itemToSave,[keyFormat]:value};
+        const item={...itemToSave,[keyFormat]:value,observations:message};
         buildErrors({value,key,message});
         setItemToSave(item);
     }

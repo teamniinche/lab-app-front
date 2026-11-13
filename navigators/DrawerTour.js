@@ -458,7 +458,7 @@ const keyOk=noErrors && missingLength===0 && toCreate;
         return;
     }
 
-    const observations = "";
+    //const observations = "";
     
     try {
         // ==========================================
@@ -474,7 +474,7 @@ const keyOk=noErrors && missingLength===0 && toCreate;
                 name: focusedProduct.name, 
                 identifier: identifier, 
                 nChar: parseFloat(freeChariot), 
-                observations: observations, 
+                //observations: observations, 
                 categorie: "local", 
                 UtilisateurId: 1 
             };
@@ -527,13 +527,13 @@ const keyOk=noErrors && missingLength===0 && toCreate;
             const builtItem = { 
                 ...itemToSave, 
                 name: focusedProduct.name, 
-                observations: observations, 
+                //observations: observations, 
                 categorie: "local", 
                 UtilisateurId: 1 
             };
 
             // Tri par numéro de Chariot (nChar) pour garder l'affichage ordonné
-            const sortedList = [...list, { ...itemToSave, name: focusedProduct.name, observations: observations, UtilisateurId: 1 }]
+            const sortedList = [...list, { ...itemToSave, name: focusedProduct.name, /*observations: observations,*/ UtilisateurId: 1 }]
                 .sort((a, b) => Number(a.nChar) - Number(b.nChar));
                 
             const sortedStoreList = [...list, builtItem]
@@ -765,7 +765,7 @@ const PowderRow=({K,ky,ac,setK,item})=>{
         if(!noErrors){
             setVisible(true);
         }else{
-            const observations="";
+            //const observations="";
             const missings=missingRequiredKeys();
             if(missings.length!==0){
                 setMissing(missings);
@@ -775,10 +775,10 @@ const PowderRow=({K,ky,ac,setK,item})=>{
                 // var saveObject={};
                     const registredWithoutTheFocused=registred.filter(tem=>tem.identifier!==numIdentifier);// pour identifier on utilise l'identifiant unique qui est une combinaison du nChar et de la date de creation pour eviter les problemes de chariots identiques
                     const {list}=ListOfFocusedAndLastNumberTour(focusedPro,registredWithoutTheFocused); // registred  et focusedPro a la place de focusedProduct a la place powderAnalysed 1
-                    const builtItem={...itemToSave,densite:vl,name:focusedProduct.name,observations:observations,categorie:"local",UtilisateurId:1};
+                    const builtItem={...itemToSave,densite:vl,name:focusedProduct.name,/*observations:observations,*/categorie:"local",UtilisateurId:1};
                     // const enregistre=[...registredWithoutTheFocused,builtItem];// 2
                     // ===================== Envoi aux memoires Context & store =====================
-                    setFocusedList([...list,{...itemToSave,densite:vl,name:focusedProduct.name,observations:observations,UtilisateurId:1}].sort((firstItem, secondItem) => Number(firstItem.nChar )- Number(secondItem.nChar)));
+                    setFocusedList([...list,{...itemToSave,densite:vl,name:focusedProduct.name,/*observations:observations,*/UtilisateurId:1}].sort((firstItem, secondItem) => Number(firstItem.nChar )- Number(secondItem.nChar)));
                     dispatch(storeFocusedListe([...list,builtItem].sort((firstItem, secondItem) => Number(firstItem.nChar) - Number(secondItem.nChar))));
                     fetch(dbBaseRoot+"poudre/analyses/updateTour/"+itemToSave.id,
                     {
