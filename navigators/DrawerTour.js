@@ -58,7 +58,7 @@ const hotReloadData = (dispatch,setRegistred,data,bool) => {
             const ANALYSES=bool?ANALYSESFILTRED:ANALYSESNOTFILTRED;
 
             if (ANALYSES.length !== 0) {
-                console.log(ANALYSES);
+                console.log('hotReloadData: ',ANALYSES);
                 setRegistred(ANALYSES);
                 dispatch(setPowderAnalysed(ANALYSES));
                 
@@ -219,7 +219,7 @@ const ProductedTour=()=>{
         const [
             analysed, // Liste de travail niveau component seulement (useState de react)
             setAnalysed]=useState([]);
-        useMemo(()=>{setAnalysed(focusedListe?.slice(-20))},[focusedListe,powderAnalysed]);// focusedListe du store etait import pour cette partie
+        useMemo(()=>{setAnalysed(focusedListe?.slice(-20));console.log('from ProductedTourUseMemo: ',focusedListe?.slice(-5))},[focusedListe,powderAnalysed]);// focusedListe du store etait import pour cette partie
             
         //const {registred,Everages}=useCurrentProducted();
         /*function handleResearchChange(txt){
@@ -433,7 +433,7 @@ const keyOk=noErrors && missingLength===0 && toCreate;
     //     }
     // }
 
-    const handleEnregistrerPress = async (bypass) => {
+const handleEnregistrerPress = async (bypass) => {
     // 1. Contrôle strict des permissions de sécurité
     const BYPASS=(bypass && bypass!==null && bypass!==undefined)?bypass:false;
     if (!enregistrerAllowed) {
@@ -499,7 +499,7 @@ const keyOk=noErrors && missingLength===0 && toCreate;
             if (data.code === "red") {
                 throw new Error(data.message || "Refus de l'API lors de l'ajout.");
             }
-
+            console.log('from enregisterButton: ',data.analyses.lansas.slice(-10))
            /* const analysesData = data.analyses || {};
             const lansas = analysesData.lansas || [];
             const formules = analysesData.formules || [];
