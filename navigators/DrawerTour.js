@@ -58,6 +58,7 @@ const hotReloadData = (dispatch,setRegistred,data,bool) => {
             const ANALYSES=bool?ANALYSESFILTRED:ANALYSESNOTFILTRED;
 
             if (ANALYSES.length !== 0) {
+                console.log(ANALYSES);
                 setRegistred(ANALYSES);
                 dispatch(setPowderAnalysed(ANALYSES));
                 
