@@ -183,7 +183,7 @@ product_mois_date(elements){
      * @returns boolean
      */
     isInvalid(t){
-        return this.isNotConforme(t) && !this.isIsolated;
+        return this.isNotConforme(t) && !this.isIsolated(t);
     }
     findNotConformes(elements){
         return this._formatElements(elements).filter(item=>this.isNotConforme(item));
