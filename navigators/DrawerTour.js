@@ -499,7 +499,7 @@ const handleEnregistrerPress = async (bypass) => {
             if (data.code === "red") {
                 throw new Error(data.message || "Refus de l'API lors de l'ajout.");
             }
-            //console.log('from enregisterButton: ',data.analyses.lansas.slice(-10))
+            console.log('from enregisterButton: ',{obs:data.obs,data5:data.analyses.lansas.slice(-10)})
            /* const analysesData = data.analyses || {};
             const lansas = analysesData.lansas || [];
             const formules = analysesData.formules || [];
