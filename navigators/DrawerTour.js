@@ -61,7 +61,6 @@ const hotReloadData = (dispatch,setRegistred,data,bool) => {
                 //console.log('hotReloadData: ',ANALYSES);
                 setRegistred(ANALYSES);
                 dispatch(setPowderAnalysed(ANALYSES));
-                console.log('lansas downloaded :', data.lansas);
                 // On résout la promesse en retournant les données traitées
                 resolve({success:true,lansas:lansas,formules:formules}); 
             } else {
@@ -499,7 +498,7 @@ const handleEnregistrerPress = async (bypass) => {
             if (data.code === "red") {
                 throw new Error(data.message || "Refus de l'API lors de l'ajout.");
             }
-            console.log('from enregisterButton: ',{managedObs:data.managedObs,obs:data.obs,data5:data.analyses.lansas.slice(-10)})
+            console.log('from enregisterButton: ',{data5:data.analyses.lansas.slice(-10)})
            /* const analysesData = data.analyses || {};
             const lansas = analysesData.lansas || [];
             const formules = analysesData.formules || [];
