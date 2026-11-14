@@ -61,7 +61,7 @@ const hotReloadData = (dispatch,setRegistred,data,bool) => {
                 //console.log('hotReloadData: ',ANALYSES);
                 setRegistred(ANALYSES);
                 dispatch(setPowderAnalysed(ANALYSES));
-                
+                console.log('lansas downloaded :',data.lansas);
                 // On résout la promesse en retournant les données traitées
                 resolve({success:true,lansas:lansas,formules:formules}); 
             } else {
