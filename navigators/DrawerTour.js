@@ -57,6 +57,8 @@ const hotReloadData = (dispatch,setRegistred,data,bool) => {
             const ANALYSESFILTRED = [...lansas, ...formules].sort((a, b) => Number(a.nChar) - Number(b.nChar));
             const ANALYSES=bool?ANALYSESFILTRED:ANALYSESNOTFILTRED;
 
+            
+
             if (ANALYSES.length !== 0) {
                 //console.log('hotReloadData: ',ANALYSES);
                 setRegistred(ANALYSES);
@@ -444,7 +446,7 @@ const handleEnregistrerPress = async (bypass) => {
         return;
     }
 
-    
+
     // 2. Validation des erreurs de formulaire
     if (!noErrors && !BYPASS) {
         setVisible(true);
@@ -758,7 +760,7 @@ const PowderRow=({K,ky,ac,setK,item})=>{
     // ============================================================================================
    
 
-      function handleUpdateTour(vl){
+      async function handleUpdateTour(vl){
         if(!enregistrerAllowed){setPop({show:true,message:"Vous n'avez pas la permission d'enregistrer une analyse !",code:'#880000'});
             return;
         }
@@ -772,6 +774,7 @@ const PowderRow=({K,ky,ac,setK,item})=>{
                 setIsMissing(true);
                 setVisible(true);
             }else{
+                try{
                 // var saveObject={};
                     const registredWithoutTheFocused=registred.filter(tem=>tem.identifier!==numIdentifier);// pour identifier on utilise l'identifiant unique qui est une combinaison du nChar et de la date de creation pour eviter les problemes de chariots identiques
                     const {list}=ListOfFocusedAndLastNumberTour(focusedPro,registredWithoutTheFocused); // registred  et focusedPro a la place de focusedProduct a la place powderAnalysed 1
@@ -780,31 +783,70 @@ const PowderRow=({K,ky,ac,setK,item})=>{
                     // ===================== Envoi aux memoires Context & store =====================
                     setFocusedList([...list,{...itemToSave,densite:vl,name:focusedProduct.name,/*observations:observations,*/UtilisateurId:1}].sort((firstItem, secondItem) => Number(firstItem.nChar )- Number(secondItem.nChar)));
                     dispatch(storeFocusedListe([...list,builtItem].sort((firstItem, secondItem) => Number(firstItem.nChar) - Number(secondItem.nChar))));
+                    
+
+                    /*
                     fetch(dbBaseRoot+"poudre/analyses/updateTour/"+itemToSave.id,
-                    {
-                        method: 'PUT',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'Authorization': `Bearer ${targetUser.token}`
-                        },
-                        body:JSON.stringify(builtItem)
-                    })
-                    .then(response=>response.json())
-                    .then(data=>{
-                        const {code,message,analyses}=data;
-                        const {lansas,formules}=analyses;
-                        const ANALYSES=[...lansas,...formules];
-                        setRegistred(ANALYSES.sort((firstItem, secondItem) => Number(firstItem.nChar) - Number(secondItem.nChar)));
-                        dispatch(setPowderAnalysed(ANALYSES.sort((firstItem, secondItem) => Number(firstItem.nChar)- Number(secondItem.nChar))));
-                        const toPop=code==='green'?
-                                {show:true,message:"Analyse modifiée avec succes.",code:code}
-                                :
-                                {show:true,message:"L'analyse n'a pas pu etre modifiée: "+message,code:'#880000'}
-                        setPop(toPop);
-                        setId2Update(null);
-                        setAction("create");
-                    })
-                   
+                        {
+                            method: 'PUT',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Authorization': `Bearer ${targetUser.token}`
+                            },
+                            body:JSON.stringify(builtItem)
+                        })
+                        .then(response=>response.json())
+                        .then(data=>{
+
+                            const {code,message,analyses}=data;
+                            const {lansas,formules}=analyses;
+                            const ANALYSES=[...lansas,...formules];
+                            setRegistred(ANALYSES.sort((firstItem, secondItem) => Number(firstItem.nChar) - Number(secondItem.nChar)));
+                            dispatch(setPowderAnalysed(ANALYSES.sort((firstItem, secondItem) => Number(firstItem.nChar) - Number(secondItem.nChar))));
+                            
+                            const toPop=code==='green'?
+                                    {show:true,message:"Analyse modifiée avec succes.",code:code}
+                                    :
+                                    {show:true,message:"L'analyse n'a pas pu etre modifiée: "+message,code:'#880000'}
+                            setPop(toPop);
+                            setId2Update(null);
+                            setAction("create");
+                        })
+                    */
+
+                    
+                    const response = await fetch(dbBaseRoot+"poudre/analyses/updateTour/"+itemToSave.id,
+                            {
+                                method: 'PUT',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    'Authorization': `Bearer ${targetUser.token}`
+                                },
+                                body:JSON.stringify(builtItem)
+                            });
+
+                    const data = await response.json();
+
+                    if (data.code === "red") {
+                        throw new Error(data.message || "Refus de l'API lors de l'ajout.");
+                    }
+
+                    const reloadedData= await hotReloadData(dispatch,setRegistred,data,false);
+                    
+                    const toPop=code==='green'?
+                                        {show:true,message:"Analyse modifiée avec succes.",code:code}
+                                        :
+                                        {show:true,message:"L'analyse n'a pas pu etre modifiée: "+message,code:'#880000'}
+                    setPop(toPop);
+                    setId2Update(null);
+                    setAction("create");
+                } catch (error) {
+                    setPop({ 
+                        show: true, 
+                        message: "Erreur technique : " + error.message, 
+                        code: '#880000' 
+                    });
+                }
             }
         }
     }
@@ -1063,12 +1105,22 @@ const Actions=({item})=>{// import de DrawerPoudre
     const dispatch=useDispatch();
     const {setPop}=usePopup();
     // const {isIsolated,isInjected}=require('../kernel/classes/formatTablesAnalysesPoudre');
-    const isIsolated=filterp.isIsolated(item);
+    //const isIsolated=filterp.isIsolated(item);
     const isToInject=filterp.isToInject(item);
     const isNotValidation=filterp.isNotValidation(item);
     const {handleCheckValidity}=useItemToSave();
-    const {setFocusedPro,id2Update,setId2Update,UpdateFocusedProdByName,setRegistred,setFocusedList,ListOfFocusedAndLastNumber,setAction,focusedPro}=useCurrentProducted();
-    const {startedAt,endedAt,targetUser,powderNormes,powderAnalysed,focusedListe}=useSelector(state=>{
+    const {
+        id2Update,setId2Update,setRegistred,setFocusedList,ListOfFocusedAndLastNumber,setAction
+        /*,setFocusedPro,
+        UpdateFocusedProdByName,
+        focusedPro*/
+    }=useCurrentProducted();
+    const {
+        startedAt,endedAt,targetUser,
+        powderAnalysed
+        /*,powderNormes,
+        focusedListe*/
+    }=useSelector(state=>{
         const {startedAt,endedAt}= state.period.targetPeriod;
         const powderNormes=state.powderNormes.powderNormes;
         const targetUser = state.user.targetUser;
@@ -1217,17 +1269,17 @@ const Actions=({item})=>{// import de DrawerPoudre
           {cancelable:true}
         )}
 
-  const handleUpdate=async ()=>{
-    if(!updateAllowed){setPop({show:true,message:"Vous n'avez pas la permission de modifier une analyse !\nRapprochez-vous de votre responsable de departement.",code:'#880000'});return;}
-    setId2Update(item.id)
-    setItemToSave(item);
-    setAction("update");
-  }
-  const handleCancel=()=>{
-    setId2Update(null)
-    setItemToSave({});
-    setAction("create");
-  }
+    const handleUpdate=async ()=>{
+        if(!updateAllowed){setPop({show:true,message:"Vous n'avez pas la permission de modifier une analyse !\nRapprochez-vous de votre responsable de departement.",code:'#880000'});return;}
+        setId2Update(item.id)
+        setItemToSave(item);
+        setAction("update");
+    }
+    const handleCancel=()=>{
+        setId2Update(null)
+        setItemToSave({});
+        setAction("create");
+    }
 // const isIsolate=item.validation?.validation && !item.validation?.ok && Object.values(item.validation?.validation)[0].action==='isolate';
   return <TouchableWithoutFeedback>
     <View
@@ -1248,12 +1300,13 @@ const Actions=({item})=>{// import de DrawerPoudre
 
     {
       (id2Update && id2Update===item?.id)?
-      <><Pressable style={{...style.actions,marginRight:45,}} onPress={handleCancel}>
-            <Icon size={14} name="times" color={couleurs[delKey][8]}/>
-        </Pressable>
-        <Pressable style={{...style.actions,marginLeft:50,}} disabled={!updateAllowed} onPress={handleCheckValidity}>
-            <Icon size={14} name="save" color={couleurs[updKey][7]}/>
-        </Pressable>
+        <>
+            <Pressable style={{...style.actions,marginRight:45,}} onPress={handleCancel}>
+                <Icon size={14} name="times" color={couleurs[delKey][8]}/>
+            </Pressable>
+            <Pressable style={{...style.actions,marginLeft:50,}} disabled={!updateAllowed} onPress={handleCheckValidity}>
+                <Icon size={14} name="save" color={couleurs[updKey][7]}/>
+            </Pressable>
         </>:
       <>
         
