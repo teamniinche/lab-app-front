@@ -444,6 +444,7 @@ const handleEnregistrerPress = async (bypass) => {
         return;
     }
 
+    
     // 2. Validation des erreurs de formulaire
     if (!noErrors && !BYPASS) {
         setVisible(true);
