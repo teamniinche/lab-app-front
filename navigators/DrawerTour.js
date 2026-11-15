@@ -832,7 +832,6 @@ const PowderRow=({K,ky,ac,setK,item})=>{
                     }
 
                     const reloadedData= await hotReloadData(dispatch,setRegistred,data,false);
-                    
                     const toPop=code==='green'?
                                         {show:true,message:"Analyse modifiée avec succes.",code:data.code}
                                         :
